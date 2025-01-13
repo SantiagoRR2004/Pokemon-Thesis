@@ -1,4 +1,5 @@
 from poke_env import ShowdownServerConfiguration, AccountConfiguration
+
 # from poke_env.player import RandomPlayer
 # from poke_env.player.baselines import SimpleHeuristicsPlayer
 from MyRandomPlayer import RandomPlayer
@@ -6,15 +7,16 @@ import asyncio
 import appSecrets
 
 
-
 async def main():
     # We create a random player
-    account_config = AccountConfiguration(appSecrets.getShowdownUsername(), appSecrets.getShowdownPassword())
+    account_config = AccountConfiguration(
+        appSecrets.getShowdownUsername(), appSecrets.getShowdownPassword()
+    )
 
     player = RandomPlayer(
         account_configuration=account_config,
         server_configuration=ShowdownServerConfiguration,
-        battle_format = "gen9randombattle",
+        battle_format="gen9randombattle",
     )
 
     # # Sending challenges to 'your_username'

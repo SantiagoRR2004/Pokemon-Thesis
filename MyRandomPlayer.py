@@ -57,7 +57,7 @@ class RandomPlayer(Player):
             BattleOrder: The move to be executed
         """
         available_orders = [BattleOrder(move) for move in battle.available_moves]
-        #print(battle.opponent_team)
+        # print(battle.opponent_team)
 
         if self.enablePrint:
             moves = "\t".join(
