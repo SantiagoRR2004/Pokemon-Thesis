@@ -20,6 +20,24 @@
       "problemMatcher": []
     },
     {
+      "label": "Download Showdown Server",
+      "type": "shell",
+      "command": "bash downloadServer.sh",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "focus": false,
+        "panel": "new"
+      },
+      "runOptions": {
+        "runOn": "folderOpen" // Run this task when the folder is opened
+      },
+      "problemMatcher": []
+    },
+    {
       "label": "Install Python Extension",
       "type": "shell",
       "command": "code --install-extension ms-python.python",
