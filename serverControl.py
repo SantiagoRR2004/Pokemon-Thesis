@@ -36,13 +36,7 @@ def startServer() -> None:
     downloadPokemonShowdown()
 
     # We start the server
-    server_command = [
-        "node",
-        "pokemon-showdown/pokemon-showdown",
-        "start",
-        "--no-security",
-    ]
-    serverProcess = subprocess.Popen(server_command)
+    serverProcess = subprocess.Popen(["bash", "startServer.sh"])
 
     atexit.register(endProcess, serverProcess)
 
