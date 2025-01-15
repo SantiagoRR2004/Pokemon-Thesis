@@ -32,6 +32,10 @@ def startServer() -> None:
     Returns:
         - None
     """
+    # Fist we check that everything is installed
+    downloadPokemonShowdown()
+
+    # We start the server
     server_command = [
         "node",
         "pokemon-showdown/pokemon-showdown",
@@ -41,3 +45,22 @@ def startServer() -> None:
     serverProcess = subprocess.Popen(server_command)
 
     atexit.register(endProcess, serverProcess)
+
+
+def downloadPokemonShowdown() -> None:
+    """
+    Downloads the Pokemon Showdown server.
+
+    Args:
+        - None
+
+    Returns:
+        - None
+    """
+    try:
+        result = subprocess.run(
+            ["bash", "downloadServer.sh"], capture_output=True, text=True, check=True
+        )
+        print(result.stdout.strip())
+    except subprocess.CalledProcessError as e:
+        raise Exception(e.stderr)
