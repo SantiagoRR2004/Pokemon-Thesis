@@ -2,7 +2,7 @@ from poke_env import ShowdownServerConfiguration, AccountConfiguration
 
 # from poke_env.player import RandomPlayer
 # from poke_env.player.baselines import SimpleHeuristicsPlayer
-from MyRandomPlayer import RandomPlayer
+from MyRandomPlayer import CustomRandomPlayer
 import asyncio
 import appSecrets
 
@@ -13,7 +13,7 @@ async def main():
         appSecrets.getShowdownUsername(), appSecrets.getShowdownPassword()
     )
 
-    player = RandomPlayer(
+    player = CustomRandomPlayer(
         account_configuration=account_config,
         server_configuration=ShowdownServerConfiguration,
         battle_format="gen9randombattle",

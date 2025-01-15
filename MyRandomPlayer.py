@@ -6,7 +6,7 @@ from poke_env.environment.double_battle import DoubleBattle
 import random
 
 
-class RandomPlayer(Player):
+class CustomRandomPlayer(Player):
     """
     This class defines a random player baseline
 
