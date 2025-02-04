@@ -1,6 +1,33 @@
-from MyRandomPlayer import CustomRandomPlayer
+from MyAIPlayer import AIPlayer
 import serverControl
 import asyncio
+import neat
+from MyRandomPlayer import CustomRandomPlayer
+
+
+def playGame(
+    neuralNetwork1: neat.nn.FeedForwardNetwork,
+    neuraNetwork2: neat.nn.FeedForwardNetwork,
+) -> int:
+    """
+    This is the function that checks if a neural network is better than another one
+
+    Args:
+        neuralNetwork1 (neat.nn.FeedForwardNetwork): The first neural network
+        neuraNetwork2 (neat.nn.FeedForwardNetwork): The second neural network
+
+    Returns:
+        int: 1 if the first neural network is better, 0 otherwise
+    """
+    player1 = AIPlayer(battle_format="gen9randombattle", network=neuralNetwork1)
+    player2 = AIPlayer(network=neuraNetwork2)
+
+    asyncio.run(player1.battle_against(player2, n_battles=1))
+
+    if player1.n_won_battles > player2.n_won_battles:
+        return 1
+    else:
+        return 0
 
 
 async def main():
@@ -15,7 +42,7 @@ async def main():
 
     # The battle_against method initiates a battle between two players.
     # Here we are using asynchronous programming (await) to start the battle.
-    await player.battle_against(second_player, n_battles=200)
+    await player.battle_against(second_player, n_battles=1)
 
     # We can now print the results of the battles
     print(
