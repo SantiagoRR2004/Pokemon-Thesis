@@ -2,7 +2,6 @@ from MyAIPlayer import AIPlayer
 import serverControl
 import asyncio
 import neat
-from MyRandomPlayer import CustomRandomPlayer
 
 
 async def playGame(
@@ -30,28 +29,65 @@ async def playGame(
         return 0
 
 
-async def main():
+async def evaluate_genomes(genomes, config):
+    """
+    Evaluates all genomes in the population by playing them against each other.
+    """
+    for genome_id, genome in genomes:
+        genome.fitness = 0  # Initialize fitness score
+
+    # Play games between random pairs of genomes
+    for i in range(len(genomes)):
+        for j in range(i + 1, len(genomes)):  # Ensure each pair plays only once
+            genome_id1, genome1 = genomes[i]
+            genome_id2, genome2 = genomes[j]
+
+            # Create NEAT neural networks from genomes
+            net1 = neat.nn.FeedForwardNetwork.create(genome1, config)
+            net2 = neat.nn.FeedForwardNetwork.create(genome2, config)
+
+            # Play a game
+            result = await playGame(net1, net2)
+
+            # Assign fitness points
+            if result == 1:
+                genome1.fitness += 1  # Winning network gets a point
+            else:
+                genome2.fitness += 1  # Losing network gets a point
+
+
+def evaluate_genomes_wrapper(genomes, config):
+    # We need to run the async function inside an event loop
+    return asyncio.run(evaluate_genomes(genomes, config))
+
+
+def run_neat(config_path):
+    config = neat.Config(
+        neat.DefaultGenome,
+        neat.DefaultReproduction,
+        neat.DefaultSpeciesSet,
+        neat.DefaultStagnation,
+        config_path,
+    )
+
+    population = neat.Population(config)
+
+    # Add statistics reporters
+    population.add_reporter(neat.StdOutReporter(True))
+    stats = neat.StatisticsReporter()
+    population.add_reporter(stats)
+
+    # Run NEAT
+    winner = population.run(evaluate_genomes_wrapper, 1)  # Run for x generations
+
+    print("\nBest genome:\n{}".format(winner))
+
+
+def main():
     serverControl.startServer()
 
-    # We create a random player
-    player = CustomRandomPlayer(
-        battle_format="gen9randombattle",
-    )
-
-    second_player = CustomRandomPlayer()
-
-    # The battle_against method initiates a battle between two players.
-    # Here we are using asynchronous programming (await) to start the battle.
-    await player.battle_against(second_player, n_battles=1)
-
-    # We can now print the results of the battles
-    print(
-        f"Player {player.username} won {player.n_won_battles} out of {player.n_finished_battles} played"
-    )
-    print(
-        f"Player {second_player.username} won {second_player.n_won_battles} out of {second_player.n_finished_battles} played"
-    )
+    run_neat("config-feedforward")
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
