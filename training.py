@@ -4,6 +4,7 @@ import asyncio
 import neat
 import warnings
 import logging
+import os
 
 
 async def playGame(
@@ -95,5 +96,13 @@ def main():
 
 
 if __name__ == "__main__":
+
+    if os.name == "nt":
+        # For Windows
+        os.system("cls")
+    else:
+        # For Linux/macOS
+        os.system("clear")
+
     logging.getLogger().setLevel(logging.ERROR)
     main()
