@@ -5,7 +5,7 @@ import neat
 from MyRandomPlayer import CustomRandomPlayer
 
 
-def playGame(
+async def playGame(
     neuralNetwork1: neat.nn.FeedForwardNetwork,
     neuraNetwork2: neat.nn.FeedForwardNetwork,
 ) -> int:
@@ -22,7 +22,7 @@ def playGame(
     player1 = AIPlayer(battle_format="gen9randombattle", network=neuralNetwork1)
     player2 = AIPlayer(network=neuraNetwork2)
 
-    asyncio.run(player1.battle_against(player2, n_battles=1))
+    await player1.battle_against(player2, n_battles=1)
 
     if player1.n_won_battles > player2.n_won_battles:
         return 1
