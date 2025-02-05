@@ -47,7 +47,7 @@ class AIPlayer(Player):
 
         return self.translateOutputs(outputs, battle)
 
-    def getInputs(battle: AbstractBattle) -> list[float]:
+    def getInputs(self, battle: AbstractBattle) -> list[float]:
         """
         This method will return the inputs for the neural network
 
@@ -57,9 +57,11 @@ class AIPlayer(Player):
         Returns:
             list: The inputs for the neural network
         """
-        pass
+        return [np.random.random()]
 
-    def translateOutputs(outputs: list[float], battle: AbstractBattle) -> BattleOrder:
+    def translateOutputs(
+        self, outputs: list[float], battle: AbstractBattle
+    ) -> BattleOrder:
         """
         This method will translate the outputs of the neural network into a BattleOrder
 
@@ -100,6 +102,8 @@ class AIPlayer(Player):
 
         # We use the probabilities to choose the move
         chosenIndex = np.random.choice(len(validOutputs), p=validOutputs)
+
+        return np.random.choice(validOrders)
 
         # We return the chosen order
         return validOrders[chosenIndex]
