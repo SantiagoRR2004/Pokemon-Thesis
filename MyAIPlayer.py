@@ -80,6 +80,10 @@ class AIPlayer(Player):
             BattleOrder(switch) for switch in battle.available_switches
         ]
 
+        # If there a no posssible we return the default order
+        if not validOrders:
+            return self.choose_default_move()
+
         return np.random.choice(validOrders)
 
         currentPokemon = battle.active_pokemon
