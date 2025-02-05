@@ -2,6 +2,7 @@ from poke_env.environment import AbstractBattle
 from poke_env.player.battle_order import BattleOrder
 from poke_env.player.player import Player
 import neat
+import numpy as np
 
 
 class AIPlayer(Player):
@@ -44,7 +45,7 @@ class AIPlayer(Player):
 
         outputs = self.neuralNetwork.activate(inputs)
 
-        return self.translateOutputs(outputs)
+        return self.translateOutputs(outputs, battle)
 
     def getInputs(battle: AbstractBattle) -> list[float]:
         """
@@ -58,9 +59,13 @@ class AIPlayer(Player):
         """
         pass
 
-    def translateOutputs(outputs: list[float]) -> BattleOrder:
+    def translateOutputs(outputs: list[float], battle: AbstractBattle) -> BattleOrder:
         """
         This method will translate the outputs of the neural network into a BattleOrder
+
+        For now we are going to have 10 outputs. 4 will be for the move and 6
+        to switch to a different pokemon. We don't take into account tera
+        for now.
 
         Args:
             outputs (list[float]): The outputs of the neural network
@@ -68,4 +73,33 @@ class AIPlayer(Player):
         Returns:
             BattleOrder: The move to be executed
         """
-        pass
+        # All the moves plus all the switches
+        validOrders = [BattleOrder(move) for move in battle.available_moves] + [
+            BattleOrder(switch) for switch in battle.available_switches
+        ]
+
+        currentPokemon = battle.active_pokemon
+        allMoves = list(currentPokemon.moves.values())
+
+        validMoves: list[bool] = [m in battle.available_moves for m in allMoves]
+
+        # The full team
+        fullTeam = list(battle.team.values())
+
+        # The order of the team is always the same
+        validSwitches: list[bool] = [p in battle.available_switches for p in fullTeam]
+
+        # We eliminate all the impossible outputs
+        validOutputs = np.array(
+            [o for o, flag in zip(outputs, validMoves + validSwitches) if flag]
+        )
+
+        # We normalize the outputs
+        validOutputs /= np.sum(validOutputs)
+        ## CHECK IF SOFTMAX IS BETTER
+
+        # We use the probabilities to choose the move
+        chosenIndex = np.random.choice(len(validOutputs), p=validOutputs)
+
+        # We return the chosen order
+        return validOrders[chosenIndex]
