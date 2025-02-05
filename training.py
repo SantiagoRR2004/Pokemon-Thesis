@@ -2,6 +2,8 @@ from MyAIPlayer import AIPlayer
 import serverControl
 import asyncio
 import neat
+import warnings
+import logging
 
 
 async def playGame(
@@ -21,7 +23,10 @@ async def playGame(
     player1 = AIPlayer(battle_format="gen9randombattle", network=neuralNetwork1)
     player2 = AIPlayer(network=neuraNetwork2)
 
-    await player1.battle_against(player2, n_battles=1)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+
+        await player1.battle_against(player2, n_battles=1)
 
     if player1.n_won_battles > player2.n_won_battles:
         return 1
@@ -90,4 +95,5 @@ def main():
 
 
 if __name__ == "__main__":
+    logging.getLogger().setLevel(logging.ERROR)
     main()
