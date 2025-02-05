@@ -80,6 +80,8 @@ class AIPlayer(Player):
             BattleOrder(switch) for switch in battle.available_switches
         ]
 
+        return np.random.choice(validOrders)
+
         currentPokemon = battle.active_pokemon
         allMoves = list(currentPokemon.moves.values())
 
@@ -102,8 +104,6 @@ class AIPlayer(Player):
 
         # We use the probabilities to choose the move
         chosenIndex = np.random.choice(len(validOutputs), p=validOutputs)
-
-        return np.random.choice(validOrders)
 
         # We return the chosen order
         return validOrders[chosenIndex]
