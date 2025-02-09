@@ -84,8 +84,6 @@ class AIPlayer(Player):
         if not validOrders:
             return self.choose_default_move()
 
-        return np.random.choice(validOrders)
-
         currentPokemon = battle.active_pokemon
         allMoves = list(currentPokemon.moves.values())
 
@@ -101,6 +99,11 @@ class AIPlayer(Player):
         validOutputs = np.array(
             [o for o, flag in zip(outputs, validMoves + validSwitches) if flag]
         )
+
+        # We haven't found any valid outputs
+        if validOutputs.size == 0:
+            # This probably means the pokemon must struggle and can't switch
+            return self.choose_default_move()
 
         # We normalize the outputs
         validOutputs /= np.sum(validOutputs)
