@@ -106,8 +106,13 @@ class AIPlayer(Player):
             return self.choose_default_move()
 
         # We normalize the outputs
-        validOutputs /= np.sum(validOutputs)
-        ## CHECK IF SOFTMAX IS BETTER
+        total = np.sum(validOutputs)
+        if total == 0:
+            # Softmax would be slower and there are no negative values
+            # The minimum would be zero
+            validOutputs = np.ones_like(validOutputs) / len(validOutputs)
+        else:
+            validOutputs /= total
 
         # We use the probabilities to choose the move
         chosenIndex = np.random.choice(len(validOutputs), p=validOutputs)
