@@ -51,13 +51,22 @@ class AIPlayer(Player):
         """
         This method will return the inputs for the neural network
 
+        We have a very simple inputs for now.
+        The HP fraction of the pokemon we always know
+
         Args:
             battle (AbstractBattle): The current battle
 
         Returns:
             list: The inputs for the neural network
         """
-        return [np.random.random()]
+        inputs = []
+
+        for pokemon in battle.team.values():
+            # We add the HP fraction of our pokemon
+            inputs.append(pokemon.current_hp_fraction)
+
+        return inputs
 
     def translateOutputs(
         self, outputs: list[float], battle: AbstractBattle
