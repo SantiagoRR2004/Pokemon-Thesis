@@ -1,6 +1,7 @@
 from poke_env.environment import AbstractBattle
 from poke_env.player.battle_order import BattleOrder
 from poke_env.player.player import Player
+import pokemonFeatureEncoder
 import neat
 import numpy as np
 
@@ -10,6 +11,8 @@ class AIPlayer(Player):
     This will only be made
     to work with gen9randombattle
     """
+
+    encoder = pokemonFeatureEncoder.PokemonFeatureEncoder()
 
     def __init__(self, *args, network: neat.nn.FeedForwardNetwork, **kwargs) -> None:
         """
