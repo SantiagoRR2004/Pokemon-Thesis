@@ -2,7 +2,7 @@
 This is a class to ignore the error
 messages that come from poke_env.
 
-I am no able to ignore all the messages
+I am not able to ignore all the messages
 
 To use this just import this file
 """

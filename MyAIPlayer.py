@@ -66,6 +66,8 @@ class AIPlayer(Player):
             # We add the HP fraction of our pokemon
             inputs.append(pokemon.current_hp_fraction)
 
+        inputs += [0] * (6 - len(battle.team))
+
         return inputs
 
     def translateOutputs(
