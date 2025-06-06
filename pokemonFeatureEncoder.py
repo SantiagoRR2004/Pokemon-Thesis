@@ -7,14 +7,15 @@ class PokemonFeatureEncoder:
     """
     This class is to transform
     strings into integer values
+
+    The important functions are:
+        - encodeForm(form: str) -> int:
     """
 
     def __init__(self) -> None:
         currentDirectory = os.path.dirname(os.path.abspath(__file__))
-        pokedexPath = os.path.join(
-            currentDirectory, "pokemon-showdown", "data", "pokedex.ts"
-        )
-        data = self.extractDict(pokedexPath)
+        self.dataPath = os.path.join(currentDirectory, "pokemon-showdown", "data")
+        self.preparePokemonForms()
 
     def extractDict(self, path: str) -> dict:
         """
@@ -51,6 +52,47 @@ class PokemonFeatureEncoder:
         content = re.sub(r":\s*\'([^\']*)\'", r': "\1"', content)
 
         return json.loads(content)
+
+    def preparePokemonForms(self) -> None:
+        """
+        Prepares the Pokemon forms by extracting them from the TypeScript file.
+
+        This method reads the `pokedex.ts` file, extracts the Pokemon data,
+        and creates a mapping of Pokemon forms to unique integer encodings.
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        pokedexPath = os.path.join(self.dataPath, "pokedex.ts")
+
+        data = self.extractDict(pokedexPath)
+
+        # Eliminate the ones with negative numbers
+        validPokemon = {
+            pokemon: pokemonDetails
+            for pokemon, pokemonDetails in data.items()
+            if pokemonDetails["num"] > 0
+        }
+
+        self.NUM_UNIQUE_FORMS = len(validPokemon)
+
+        self.formEncoder = {pokemon: i for i, pokemon in enumerate(validPokemon.keys())}
+
+    def encodeForm(self, form: str) -> int:
+        """
+        Encodes a Pokemon form into an integer.
+
+        Args:
+            form (str): The Pokemon form to encode.
+
+        Returns:
+            int: The encoded integer value of the form.
+            If the form is not found, returns -1.
+        """
+        return self.formEncoder.get(form, -1)
 
 
 if __name__ == "__main__":
