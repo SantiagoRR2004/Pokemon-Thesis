@@ -1,4 +1,4 @@
-from poke_env.environment import AbstractBattle
+from poke_env.environment import AbstractBattle, Pokemon
 from poke_env.player.battle_order import BattleOrder
 from poke_env.player.player import Player
 import pokemonFeatureEncoder
@@ -29,9 +29,6 @@ class AIPlayer(Player):
 
         super().__init__(*args, **kwargs)
         self.neuralNetwork = network
-
-    enablePrint = False
-    separator = "-" * 80
 
     def choose_move(self, battle: AbstractBattle) -> BattleOrder:
         """
@@ -66,12 +63,39 @@ class AIPlayer(Player):
         inputs = []
 
         for pokemon in battle.team.values():
-            # We add the HP fraction of our pokemon
-            inputs.append(pokemon.current_hp_fraction)
+            inputs += self.encodePokemon(pokemon)
 
-        inputs += [0] * (6 - len(battle.team))
+        inputs += [0, 0] * (6 - len(battle.team))
 
         return inputs
+
+    def encodePokemon(self, pokemon: Pokemon) -> list[float]:
+        """
+        This method will encode a pokemon into a feature vector
+
+        The feature vector will have:
+            - The form of the pokemon (encoded as an integer)
+            - The HP fraction of the pokemon
+
+        Args:
+            - pokemon (Pokemon): The pokemon to be encoded
+
+        Returns:
+            - list[float]: The feature vector of the pokemon
+        """
+        featureVector = []
+
+        # The HP fraction of the pokemon
+        featureVector.append(pokemon.current_hp_fraction)
+
+        # The form of the pokemon
+        form = self.encoder.encodeForm(pokemon.species)
+        if form == -1:
+            # It was a cosmetic form
+            form = self.encoder.encodeForm(pokemon.base_species)
+        featureVector.append(form)
+
+        return featureVector
 
     def translateOutputs(
         self, outputs: list[float], battle: AbstractBattle
