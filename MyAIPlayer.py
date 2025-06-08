@@ -14,7 +14,7 @@ class AIPlayer(Player):
 
     encoder = pokemonFeatureEncoder.PokemonFeatureEncoder()
 
-    N_F_POKEMON = 2
+    N_F_POKEMON = 1 + 18 + 1
     N_F_TOTAL = (1 + N_F_POKEMON) * 12
 
     def __init__(self, *args, network: neat.nn.FeedForwardNetwork, **kwargs) -> None:
@@ -85,6 +85,7 @@ class AIPlayer(Player):
 
         The feature vector will have:
             - The form of the pokemon (encoded as an integer)
+            - The types of the pokemon (encoded as a list of 18 integers)
             - The HP fraction of the pokemon
 
         Args:
@@ -95,15 +96,21 @@ class AIPlayer(Player):
         """
         featureVector = []
 
-        # The HP fraction of the pokemon
-        featureVector.append(pokemon.current_hp_fraction)
-
         # The form of the pokemon
         form = self.encoder.encodeForm(pokemon.species)
         if form == -1:
             # It was a cosmetic form
             form = self.encoder.encodeForm(pokemon.base_species)
         featureVector.append(form)
+
+        # The original type of the pokemon
+        types = [0] * 18
+        for t in pokemon.original_types:
+            types[t.value - 1] = 1
+        featureVector += types
+
+        # The HP fraction of the pokemon
+        featureVector.append(pokemon.current_hp_fraction)
 
         return featureVector
 
