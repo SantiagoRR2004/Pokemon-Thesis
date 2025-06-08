@@ -15,7 +15,7 @@ class AIPlayer(Player):
     encoder = pokemonFeatureEncoder.PokemonFeatureEncoder()
 
     N_F_POKEMON = 2
-    N_F_TOTAL = N_F_POKEMON * 6
+    N_F_TOTAL = (1 + N_F_POKEMON) * 6
 
     def __init__(self, *args, network: neat.nn.FeedForwardNetwork, **kwargs) -> None:
         """
@@ -54,8 +54,8 @@ class AIPlayer(Player):
         """
         This method will return the inputs for the neural network
 
-        We have a very simple inputs for now.
-        The HP fraction of the pokemon we always know
+        For each pokemon we have a presence indicator
+        and then the encoding of the pokemon.
 
         Args:
             battle (AbstractBattle): The current battle
@@ -66,9 +66,9 @@ class AIPlayer(Player):
         inputs = []
 
         for pokemon in battle.team.values():
-            inputs += self.encodePokemon(pokemon)
+            inputs += [1] + self.encodePokemon(pokemon)
 
-        inputs += (6 - len(battle.team)) * [0.0] * self.N_F_POKEMON
+        inputs += (6 - len(battle.team)) * ([0] + [0.0] * self.N_F_POKEMON)
 
         return inputs
 
