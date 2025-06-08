@@ -14,7 +14,7 @@ class AIPlayer(Player):
 
     encoder = pokemonFeatureEncoder.PokemonFeatureEncoder()
 
-    N_F_POKEMON = 1 + 18 + 1
+    N_F_POKEMON = 1 + 18 + 18 + 1 + 1 + 18 + 1
     N_F_TOTAL = (1 + N_F_POKEMON) * 12
 
     def __init__(self, *args, network: neat.nn.FeedForwardNetwork, **kwargs) -> None:
@@ -85,7 +85,11 @@ class AIPlayer(Player):
 
         The feature vector will have:
             - The form of the pokemon (encoded as an integer)
-            - The types of the pokemon (encoded as a list of 18 integers)
+            - The original types of the pokemon (encoded as a list of 18 integers)
+            - The current types of the pokemon (encoded as a list of 18 integers)
+            - If the pokemon has already tera'd (encoded as an integer)
+            - If the tera type is known (encoded as an integer)
+            - The tera type of the pokemon (encoded as a list of 18 integers)
             - The HP fraction of the pokemon
 
         Args:
@@ -108,6 +112,24 @@ class AIPlayer(Player):
         for t in pokemon.original_types:
             types[t.value - 1] = 1
         featureVector += types
+
+        # The current pokemon type
+        cTypes = [0] * 18
+        for t in pokemon.types:
+            cTypes[t.value - 1] = 1
+        featureVector += cTypes
+
+        # If the pokemon has already tera'd
+        featureVector.append(int(pokemon.is_terastallized))
+
+        # If the tera type is known
+        if pokemon.tera_type:
+            tTypes = [0] * 18
+            tTypes[pokemon.tera_type.value - 1] = 1
+            featureVector += [1] + tTypes
+        else:
+            # If the tera type is not known we add a zero
+            featureVector += [0] + ([0] * 18)
 
         # The HP fraction of the pokemon
         featureVector.append(pokemon.current_hp_fraction)
