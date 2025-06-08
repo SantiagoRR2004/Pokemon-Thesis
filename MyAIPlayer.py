@@ -15,7 +15,7 @@ class AIPlayer(Player):
     encoder = pokemonFeatureEncoder.PokemonFeatureEncoder()
 
     N_F_POKEMON = 2
-    N_F_TOTAL = (1 + N_F_POKEMON) * 6
+    N_F_TOTAL = (1 + N_F_POKEMON) * 12
 
     def __init__(self, *args, network: neat.nn.FeedForwardNetwork, **kwargs) -> None:
         """
@@ -65,10 +65,17 @@ class AIPlayer(Player):
         """
         inputs = []
 
+        # First our team
         for pokemon in battle.team.values():
             inputs += [1] + self.encodePokemon(pokemon)
-
+        # Fill with zeros if unknown pokemon
         inputs += (6 - len(battle.team)) * ([0] + [0.0] * self.N_F_POKEMON)
+
+        # The opponent's team
+        for pokemon in battle.opponent_team.values():
+            inputs += [1] + self.encodePokemon(pokemon)
+        # Fill with zeros if unknown pokemon
+        inputs += (6 - len(battle.opponent_team)) * ([0] + [0.0] * self.N_F_POKEMON)
 
         return inputs
 
