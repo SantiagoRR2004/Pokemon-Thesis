@@ -10,6 +10,9 @@ async def main():
     with open("randomTeam1.txt", "r") as f:
         random_team1 = f.read()
 
+    with open("randomTeam2.txt", "r") as f:
+        random_team2 = f.read()
+
     # We create a random player
     player = RandomPlayer(
         battle_format="gen9anythinggoes",
@@ -19,7 +22,7 @@ async def main():
     # We create another random player
     second_player = RandomPlayer(
         battle_format="gen9anythinggoes",
-        team=random_team1,
+        team=random_team2,
     )
 
     # The battle_against method initiates a battle between two players.
