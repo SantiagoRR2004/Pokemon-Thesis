@@ -18,6 +18,8 @@ class AIPlayer(Player):
     N_F_POKEMON = 1 + N_F_TYPES + 1
     N_F_TOTAL = (1 + N_F_POKEMON) * 12
 
+    N_OUTPUTS = 14  # 8 moves + 6 switches
+
     def __init__(self, *args, network: neat.nn.FeedForwardNetwork, **kwargs) -> None:
         """
         This is the constructor of the class
@@ -153,9 +155,10 @@ class AIPlayer(Player):
         """
         This method will translate the outputs of the neural network into a BattleOrder
 
-        For now we are going to have 10 outputs. 4 will be for the move and 6
-        to switch to a different pokemon. We don't take into account tera
-        for now.
+        There should be 14 outputs:
+            - 8 for the moves of the current pokemon
+                - Alternating between not teraing and teraing
+            - 6 for the switches of the team
 
         Args:
             outputs (list[float]): The outputs of the neural network
@@ -164,11 +167,14 @@ class AIPlayer(Player):
             BattleOrder: The move to be executed
         """
         # All the moves plus all the switches
-        validOrders = [BattleOrder(move) for move in battle.available_moves] + [
-            BattleOrder(switch) for switch in battle.available_switches
-        ]
+        validOrders = []
+        for move in battle.available_moves:
+            validOrders.append(BattleOrder(move))
+            if battle.can_tera:
+                validOrders.append(BattleOrder(move, terastallize=True))
+        validOrders += [BattleOrder(switch) for switch in battle.available_switches]
 
-        # If there a no posssible we return the default order
+        # If there a no posssible we return the default move
         if not validOrders:
             return self.choose_default_move()
 
@@ -176,6 +182,14 @@ class AIPlayer(Player):
         allMoves = list(currentPokemon.moves.values())
 
         validMoves: list[bool] = [m in battle.available_moves for m in allMoves]
+
+        # We check if the pokemon can tera
+        if battle.can_tera:
+            # Duplicate each valid moves to include the tera option
+            validMoves = [m for m in validMoves for _ in range(2)]
+        else:
+            # Add a False
+            validMoves = [item for m in validMoves for item in (m, False)]
 
         # The full team
         fullTeam = list(battle.team.values())
