@@ -12,11 +12,13 @@ class PokemonFeatureEncoder:
         - encodeForm(form: str) -> int:
         - encodeAbility(ability: str) -> int:
         - encodeItem(item: str) -> int:
+        - encodeMove(move: str) -> int:
     """
 
     NUM_UNIQUE_FORMS: int
     NUM_UNIQUE_ABILITIES: int
     NUM_UNIQUE_ITEMS: int
+    NUM_UNIQUE_MOVES: int
 
     def __init__(self) -> None:
         currentDirectory = os.path.dirname(os.path.abspath(__file__))
@@ -24,6 +26,7 @@ class PokemonFeatureEncoder:
         self.preparePokemonForms()
         self.prepareAbilities()
         self.prepareItems()
+        self.prepareMoves()
 
     def removeFunctions(self, text: str) -> str:
 
@@ -107,6 +110,9 @@ class PokemonFeatureEncoder:
         # Eliminate JavaScript functions
         content = self.removeFunctions(content)
 
+        # Eliminate: onRestart: () => null,
+        content = re.sub(r",\s*onRestart\s*:\s*\(\)\s*=>\s*null\s*", "", content)
+
         # Add quotes around unquoted keys
         content = re.sub(r"([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)\s*:", r'\1"\2":', content)
 
@@ -116,8 +122,9 @@ class PokemonFeatureEncoder:
         # Remove trailing commas before } or ]
         content = re.sub(r",(\s*[}\]])", r"\1", content)
 
-        # Replace single-quoted values with double quotes only when they are after a colon
-        content = re.sub(r":\s*\'([^\']*)\'", r': "\1"', content)
+        # Replace single-quoted values with double quotes only when they are around a colon
+        content = re.sub(r":\s*\'([^\']*)\'", r': "\1"', content)  # After
+        content = re.sub(r"\'([^\']*)\'\s*:", r'"\1":', content)  # Before
 
         return json.loads(content)
 
@@ -246,9 +253,51 @@ class PokemonFeatureEncoder:
         """
         return self.itemEncoder.get(item, -1)
 
+    def prepareMoves(self) -> None:
+        """
+        Prepares the moves by extracting them from the TypeScript file.
+
+        This method reads the `moves.ts` file, extracts the moves data,
+        and creates a mapping of moves to unique integer encodings.
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        movesPath = os.path.join(self.dataPath, "moves.ts")
+
+        data = self.extractDict(movesPath)
+
+        # Eliminate the ones with negative numbers
+        validMoves = {
+            move: moveDetails
+            for move, moveDetails in data.items()
+            if moveDetails["num"] > 0
+        }
+
+        self.NUM_UNIQUE_MOVES = len(validMoves)
+
+        self.moveEncoder = {move: i for i, move in enumerate(validMoves.keys())}
+
+    def encodeMove(self, move: str) -> int:
+        """
+        Encodes a Pokemon move into an integer.
+
+        Args:
+            move (str): The Pokemon move to encode.
+
+        Returns:
+            int: The encoded integer value of the move.
+            If the move is not found, returns -1.
+        """
+        return self.moveEncoder.get(move, -1)
+
 
 if __name__ == "__main__":
     encoder = PokemonFeatureEncoder()
     print(f"Number of unique forms: {encoder.NUM_UNIQUE_FORMS}")
     print(f"Number of unique abilities: {encoder.NUM_UNIQUE_ABILITIES}")
     print(f"Number of unique items: {encoder.NUM_UNIQUE_ITEMS}")
+    print(f"Number of unique moves: {encoder.NUM_UNIQUE_MOVES}")
