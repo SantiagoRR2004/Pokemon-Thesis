@@ -10,12 +10,17 @@ class PokemonFeatureEncoder:
 
     The important functions are:
         - encodeForm(form: str) -> int:
+        - encodeAbility(ability: str) -> int:
     """
+
+    NUM_UNIQUE_FORMS: int
+    NUM_UNIQUE_ABILITIES: int
 
     def __init__(self) -> None:
         currentDirectory = os.path.dirname(os.path.abspath(__file__))
         self.dataPath = os.path.join(currentDirectory, "pokemon-showdown", "data")
         self.preparePokemonForms()
+        self.prepareAbilities()
 
     def removeFunctions(self, text: str) -> str:
 
@@ -154,7 +159,51 @@ class PokemonFeatureEncoder:
         """
         return self.formEncoder.get(form, -1)
 
+    def prepareAbilities(self) -> None:
+        """
+        Prepares the abilities by extracting them from the TypeScript file.
+
+        This method reads the `abilities.ts` file, extracts the abilities data,
+        and creates a mapping of abilities to unique integer encodings.
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        abilitiesPath = os.path.join(self.dataPath, "abilities.ts")
+
+        data = self.extractDict(abilitiesPath)
+
+        # Eliminate the ones with negative numbers
+        validAbilities = {
+            ability: abilityDetails
+            for ability, abilityDetails in data.items()
+            if abilityDetails["num"] > 0
+        }
+
+        self.NUM_UNIQUE_ABILITIES = len(validAbilities)
+
+        self.abilityEncoder = {
+            ability: i for i, ability in enumerate(validAbilities.keys())
+        }
+
+    def encodeAbility(self, ability: str) -> int:
+        """
+        Encodes a Pokemon ability into an integer.
+
+        Args:
+            ability (str): The Pokemon ability to encode.
+
+        Returns:
+            int: The encoded integer value of the ability.
+            If the ability is not found, returns -1.
+        """
+        return self.abilityEncoder.get(ability, -1)
+
 
 if __name__ == "__main__":
     encoder = PokemonFeatureEncoder()
     print(f"Number of unique forms: {encoder.NUM_UNIQUE_FORMS}")
+    print(f"Number of unique abilities: {encoder.NUM_UNIQUE_ABILITIES}")
