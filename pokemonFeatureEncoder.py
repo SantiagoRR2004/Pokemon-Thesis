@@ -11,16 +11,19 @@ class PokemonFeatureEncoder:
     The important functions are:
         - encodeForm(form: str) -> int:
         - encodeAbility(ability: str) -> int:
+        - encodeItem(item: str) -> int:
     """
 
     NUM_UNIQUE_FORMS: int
     NUM_UNIQUE_ABILITIES: int
+    NUM_UNIQUE_ITEMS: int
 
     def __init__(self) -> None:
         currentDirectory = os.path.dirname(os.path.abspath(__file__))
         self.dataPath = os.path.join(currentDirectory, "pokemon-showdown", "data")
         self.preparePokemonForms()
         self.prepareAbilities()
+        self.prepareItems()
 
     def removeFunctions(self, text: str) -> str:
 
@@ -202,8 +205,50 @@ class PokemonFeatureEncoder:
         """
         return self.abilityEncoder.get(ability, -1)
 
+    def prepareItems(self) -> None:
+        """
+        Prepares the items by extracting them from the TypeScript file.
+
+        This method reads the `items.ts` file, extracts the items data,
+        and creates a mapping of items to unique integer encodings.
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        itemsPath = os.path.join(self.dataPath, "items.ts")
+
+        data = self.extractDict(itemsPath)
+
+        # Eliminate the ones with negative numbers
+        validItems = {
+            item: itemDetails
+            for item, itemDetails in data.items()
+            if itemDetails["num"] > 0
+        }
+
+        self.NUM_UNIQUE_ITEMS = len(validItems)
+
+        self.itemEncoder = {item: i for i, item in enumerate(validItems.keys())}
+
+    def encodeItem(self, item: str) -> int:
+        """
+        Encodes a Pokemon item into an integer.
+
+        Args:
+            item (str): The Pokemon item to encode.
+
+        Returns:
+            int: The encoded integer value of the item.
+            If the item is not found, returns -1.
+        """
+        return self.itemEncoder.get(item, -1)
+
 
 if __name__ == "__main__":
     encoder = PokemonFeatureEncoder()
     print(f"Number of unique forms: {encoder.NUM_UNIQUE_FORMS}")
     print(f"Number of unique abilities: {encoder.NUM_UNIQUE_ABILITIES}")
+    print(f"Number of unique items: {encoder.NUM_UNIQUE_ITEMS}")
