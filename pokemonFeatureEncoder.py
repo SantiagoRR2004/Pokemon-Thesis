@@ -30,14 +30,26 @@ class PokemonFeatureEncoder:
         with open(path) as f:
             content = f.read()
 
+        # Remove multicomment blocks /* */
+        content = re.sub(r"/\*.*?\*/", "", content, flags=re.DOTALL)
+
+        # Remove comments
+        content = re.sub(r"//.*?$", "", content, flags=re.MULTILINE).rstrip()
+
+        # Remove multiple tabulators or spaces
+        content = re.sub(r"[ \t]{2,}", " ", content)
+
+        # Remove multiple newlines
+        content = re.sub(r"\n{2,}", "\n", content)
+
+        # Strip leading and trailing whitespace
+        content = content.strip()
+
         # Remove the first and last lines
         content = content.splitlines()[1:-1]
 
         # Rejoin and add dict brackets
         content = "{" + "\n".join(content) + "}"
-
-        # Remove comments
-        content = re.sub(r"//.*?$", "", content, flags=re.MULTILINE).rstrip()
 
         # Add quotes around unquoted keys
         content = re.sub(r"([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)\s*:", r'\1"\2":', content)
@@ -97,3 +109,4 @@ class PokemonFeatureEncoder:
 
 if __name__ == "__main__":
     encoder = PokemonFeatureEncoder()
+    print(f"Number of unique forms: {encoder.NUM_UNIQUE_FORMS}")
