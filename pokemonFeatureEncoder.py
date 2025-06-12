@@ -17,6 +17,51 @@ class PokemonFeatureEncoder:
         self.dataPath = os.path.join(currentDirectory, "pokemon-showdown", "data")
         self.preparePokemonForms()
 
+    def removeFunctions(self, text: str) -> str:
+
+        # Pattern to find function declaration start: name(params){
+        startPattern = re.compile(r"\w+\s*\([^)]*\)\s*\{")
+
+        i = 0
+        result = []
+        while i < len(text):
+            match = startPattern.search(text, i)
+            if not match:
+                # No more functions, append rest and break
+                result.append(text[i:])
+                break
+
+            start, bracePos = match.start(), match.end() - 1
+
+            # Append text before function start
+            result.append(text[i:start])
+
+            # Now find the matching closing brace for this function
+            braceCount = 1
+            j = bracePos + 1
+            while j < len(text) and braceCount > 0:
+                if text[j] == "{":
+                    braceCount += 1
+                elif text[j] == "}":
+                    braceCount -= 1
+                j += 1
+
+            # j is now the position after the matching closing brace
+
+            # Skip any whitespace to check next non-whitespace char
+            k = j
+            while k < len(text) and text[k].isspace():
+                k += 1
+
+            # If the next non-whitespace char is a comma, skip it too
+            if k < len(text) and text[k] == ",":
+                j = k + 1
+
+            # Skip the function (and possible trailing comma)
+            i = j
+
+        return "".join(result)
+
     def extractDict(self, path: str) -> dict:
         """
         Extracts a dictionary from a typeScript file.
@@ -50,6 +95,9 @@ class PokemonFeatureEncoder:
 
         # Rejoin and add dict brackets
         content = "{" + "\n".join(content) + "}"
+
+        # Eliminate JavaScript functions
+        content = self.removeFunctions(content)
 
         # Add quotes around unquoted keys
         content = re.sub(r"([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)\s*:", r'\1"\2":', content)
