@@ -43,51 +43,59 @@ async def main():
     # We create another random player
     second_player = RandomPlayer(battle_format="gen9anythinggoes", team=random_team2)
 
-    await player.battle_against(second_player, n_battles=5)
+    for _ in range(10):
 
-    loss = 0
-    gamma = 0.99  # discount factor (the far future is very important)
-    initialEpisode = 0
+        # Reset the player for new epochs
+        player.reset()
 
-    for battle in player.battles.values():
-        nEpisodes = battle.turn
-        finalReward = 1000 if battle.won else -1000
+        # Reset the battle counters
+        player.reset_battles()
+        second_player.reset_battles()
 
-        # Reward sequence
-        rewards = [1] * (nEpisodes - 1) + [finalReward]
+        # Run n_battles (epochs)
+        await player.battle_against(second_player, n_battles=5)
 
-        # Compute discounted returns
-        discountedRewards = []
-        cumulative = 0
-        for r in reversed(rewards):
-            cumulative = r + gamma * cumulative
-            discountedRewards.insert(0, cumulative)
+        loss = 0
+        gamma = 0.99  # discount factor (the far future is very important)
+        initialEpisode = 0
 
-        # Calculate the loss
-        for log_prob, G in zip(
-            player.log_probs[initialEpisode:nEpisodes], discountedRewards
-        ):
-            loss += -log_prob * G
+        for battle in player.battles.values():
+            nEpisodes = battle.turn
+            finalReward = 1000 if battle.won else -1000
 
-        initialEpisode = nEpisodes
+            # Reward sequence
+            rewards = [1] * (nEpisodes - 1) + [finalReward]
 
-    # Normalize the loss
-    loss /= len(player.battles)
+            # Compute discounted returns
+            discountedRewards = []
+            cumulative = 0
+            for r in reversed(rewards):
+                cumulative = r + gamma * cumulative
+                discountedRewards.insert(0, cumulative)
 
-    # Backpropagation step
-    optimizer.zero_grad()
-    loss.backward()
-    optimizer.step()
+            # Calculate the loss
+            for log_prob, G in zip(
+                player.log_probs[initialEpisode:nEpisodes], discountedRewards
+            ):
+                loss += -log_prob * G
 
-    # We can now print the results of the battles
-    print(
-        f"Player {player.username} won {player.n_won_battles} out of {player.n_finished_battles} played"
-    )
-    print(
-        f"Player {second_player.username} won {second_player.n_won_battles} out of {second_player.n_finished_battles} played"
-    )
+            initialEpisode = nEpisodes
 
-    input()
+        # Normalize the loss
+        loss /= len(player.battles)
+
+        # Backpropagation step
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        # We can now print the results of the battles
+        print(
+            f"Player {player.username} won {player.n_won_battles} out of {player.n_finished_battles} played"
+        )
+        print(
+            f"Player {second_player.username} won {second_player.n_won_battles} out of {second_player.n_finished_battles} played"
+        )
 
 
 if __name__ == "__main__":
