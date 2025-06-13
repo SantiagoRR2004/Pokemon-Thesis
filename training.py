@@ -1,7 +1,24 @@
-from poke_env.player import RandomPlayer
+from MyAIPlayer import AIPlayer
+import torch
+import torch.nn as nn
 import serverControl
 import asyncio
 import os
+
+
+class NeuralNetwork(nn.Module):
+    def __init__(self):
+        super(NeuralNetwork, self).__init__()
+        self.fc1 = nn.Linear(AIPlayer.N_F_TOTAL, 128)
+        self.fc2 = nn.Linear(128, 64)
+        self.fc3 = nn.Linear(64, AIPlayer.N_OUTPUTS)
+
+    def forward(self, x):
+        x = torch.relu(self.fc1(x))
+        x = torch.relu(self.fc2(x))
+        x = self.fc3(x)
+        x = torch.softmax(x, dim=-1)  # Apply softmax to get probabilities
+        return x
 
 
 async def main():
@@ -14,15 +31,13 @@ async def main():
         random_team2 = f.read()
 
     # We create a random player
-    player = RandomPlayer(
-        battle_format="gen9anythinggoes",
-        team=random_team1,
+    player = AIPlayer(
+        battle_format="gen9anythinggoes", team=random_team1, network=NeuralNetwork()
     )
 
     # We create another random player
-    second_player = RandomPlayer(
-        battle_format="gen9anythinggoes",
-        team=random_team2,
+    second_player = AIPlayer(
+        battle_format="gen9anythinggoes", team=random_team2, network=NeuralNetwork()
     )
 
     # The battle_against method initiates a battle between two players.
