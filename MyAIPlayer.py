@@ -36,6 +36,18 @@ class AIPlayer(Player):
 
         super().__init__(*args, **kwargs)
         self.neuralNetwork = network
+        self.reset()
+
+    def reset(self) -> None:
+        """
+        Reset the internal lists for training
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
         self.log_probs = []
 
     def choose_move(self, battle: AbstractBattle) -> BattleOrder:
