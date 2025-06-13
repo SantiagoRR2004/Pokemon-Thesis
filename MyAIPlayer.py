@@ -15,7 +15,7 @@ class AIPlayer(Player):
     encoder = pokemonFeatureEncoder.PokemonFeatureEncoder()
 
     N_F_TYPES = 20  # Tera stellar and Pawmot
-    N_F_POKEMON = 1 + N_F_TYPES + 1
+    N_F_POKEMON = 1 + N_F_TYPES + 1 + 1 + 1 + 4
     N_F_TOTAL = (1 + N_F_POKEMON) * 12
 
     N_OUTPUTS = 14  # 8 moves + 6 switches
@@ -89,7 +89,11 @@ class AIPlayer(Player):
         The feature vector will have:
             - The form of the pokemon (encoded as an integer)
             - The original types of the pokemon (encoded as a list of {self.N_F_TYPES} integers)
+            - The ability of the pokemon (encoded as an integer)
+            - The item of the pokemon (encoded as an integer)
             - The HP fraction of the pokemon
+            - The 4 moves of the pokemon:
+                - The name of the move (encoded as an integer)
 
         Args:
             - pokemon (Pokemon): The pokemon to be encoded
@@ -112,8 +116,23 @@ class AIPlayer(Player):
             types[t.value - 1] = 1
         featureVector += types
 
+        # Add the ability
+        featureVector.append(self.encoder.encodeAbility(pokemon.ability))
+
+        # Add the item
+        featureVector.append(self.encoder.encodeItem(pokemon.item))
+
         # The HP fraction of the pokemon
         featureVector.append(pokemon.current_hp_fraction)
+
+        # The moves
+        moves = []
+        for move in pokemon.moves.values():
+            # We encode the move
+            moves.append(self.encoder.encodeMove(move.id))
+        # We fill with zeros if the pokemon has less than 4 moves
+        moves += [0] * (4 - len(moves))
+        featureVector += moves
 
         return featureVector
 
