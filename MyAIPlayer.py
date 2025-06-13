@@ -36,6 +36,7 @@ class AIPlayer(Player):
 
         super().__init__(*args, **kwargs)
         self.neuralNetwork = network
+        self.log_probs = []
 
     def choose_move(self, battle: AbstractBattle) -> BattleOrder:
         """
@@ -50,9 +51,30 @@ class AIPlayer(Player):
 
         inputs = torch.tensor(self.getInputs(battle))
 
-        outputs = self.neuralNetwork.forward(inputs).detach().numpy()
+        # Raw network outputs
+        logits = self.neuralNetwork(inputs)
 
-        return self.translateOutputs(outputs, battle)
+        mask, moves = self.translateOutputs(battle)
+
+        if not any(mask):
+            log_prob = torch.tensor(0.0)
+            self.log_probs.append(log_prob)
+            return self.choose_default_move()
+
+        # We apply the mask to the logits
+        masked_logits = logits.clone()
+        masked_logits[~mask] = float("-inf")
+
+        # We apply softmax to get probabilities
+        probs = torch.softmax(masked_logits, dim=0)
+
+        # We sample an action from the distribution
+        dist = torch.distributions.Categorical(probs)
+        action = dist.sample()
+        log_prob = dist.log_prob(action)
+        self.log_probs.append(log_prob)
+
+        return moves[action.item()]
 
     def getInputs(self, battle: AbstractBattle) -> list[float]:
         """
@@ -170,10 +192,10 @@ class AIPlayer(Player):
         return featureVector
 
     def translateOutputs(
-        self, outputs: list[float], battle: AbstractBattle
-    ) -> BattleOrder:
+        self, battle: AbstractBattle
+    ) -> tuple[torch.Tensor, list[BattleOrder]]:
         """
-        This method will translate the outputs of the neural network into a BattleOrder
+        This method will return the moves and switches that can be made
 
         There should be 14 outputs:
             - 8 for the moves of the current pokemon
@@ -181,63 +203,28 @@ class AIPlayer(Player):
             - 6 for the switches of the team
 
         Args:
-            outputs (list[float]): The outputs of the neural network
+            - battle (AbstractBattle): The current battle
 
         Returns:
-            BattleOrder: The move to be executed
+            - tuple[torch.Tensor, list[BattleOrder]]:
+                - A tensor of booleans indicating which moves and switches are valid
+                - A list of BattleOrder objects corresponding to the moves and switches
         """
         # All the moves plus all the switches
+        allOrders = []
         validOrders = []
-        for move in battle.available_moves:
-            validOrders.append(BattleOrder(move))
-            if battle.can_tera:
-                validOrders.append(BattleOrder(move, terastallize=True))
-        validOrders += [BattleOrder(switch) for switch in battle.available_switches]
 
-        # If there a no posssible we return the default move
-        if not validOrders:
-            return self.choose_default_move()
+        # First we add the moves of the active pokemon
+        for move in battle.active_pokemon.moves.values():
+            allOrders.append(BattleOrder(move))
+            validOrders.append(move in battle.available_moves)
 
-        currentPokemon = battle.active_pokemon
-        allMoves = list(currentPokemon.moves.values())
+            allOrders.append(BattleOrder(move, terastallize=True))
+            validOrders.append(move in battle.available_moves and bool(battle.can_tera))
 
-        validMoves: list[bool] = [m in battle.available_moves for m in allMoves]
+        # Then we add the switches
+        for pokemon in battle.team.values():
+            allOrders.append(BattleOrder(pokemon))
+            validOrders.append(pokemon in battle.available_switches)
 
-        # We check if the pokemon can tera
-        if battle.can_tera:
-            # Duplicate each valid moves to include the tera option
-            validMoves = [m for m in validMoves for _ in range(2)]
-        else:
-            # Add a False
-            validMoves = [item for m in validMoves for item in (m, False)]
-
-        # The full team
-        fullTeam = list(battle.team.values())
-
-        # The order of the team is always the same
-        validSwitches: list[bool] = [p in battle.available_switches for p in fullTeam]
-
-        # We eliminate all the impossible outputs
-        validOutputs = np.array(
-            [o for o, flag in zip(outputs, validMoves + validSwitches) if flag]
-        )
-
-        # We haven't found any valid outputs
-        if validOutputs.size == 0:
-            # This probably means the pokemon must struggle and can't switch
-            return self.choose_default_move()
-
-        # We normalize the outputs
-        total = np.sum(validOutputs)
-        if total == 0:
-            # Softmax would be slower and there are no negative values
-            # The minimum would be zero
-            validOutputs = np.ones_like(validOutputs) / len(validOutputs)
-        else:
-            validOutputs /= total
-
-        # We use the probabilities to choose the move
-        chosenIndex = np.random.choice(len(validOutputs), p=validOutputs)
-
-        # We return the chosen order
-        return validOrders[chosenIndex]
+        return torch.tensor(validOrders, dtype=torch.bool), allOrders
