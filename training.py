@@ -1,6 +1,8 @@
 from MyAIPlayer import AIPlayer
+from poke_env.player import RandomPlayer
 import torch
 import torch.nn as nn
+import torch.optim as optim
 import serverControl
 import asyncio
 import os
@@ -30,19 +32,52 @@ async def main():
     with open("randomTeam2.txt", "r") as f:
         random_team2 = f.read()
 
+    model = NeuralNetwork()
+    optimizer = optim.Adam(model.parameters(), lr=1e-3)
+
     # We create a random player
     player = AIPlayer(
-        battle_format="gen9anythinggoes", team=random_team1, network=NeuralNetwork()
+        battle_format="gen9anythinggoes", team=random_team1, network=model
     )
 
     # We create another random player
-    second_player = AIPlayer(
-        battle_format="gen9anythinggoes", team=random_team2, network=NeuralNetwork()
-    )
+    second_player = RandomPlayer(battle_format="gen9anythinggoes", team=random_team2)
 
-    # The battle_against method initiates a battle between two players.
-    # Here we are using asynchronous programming (await) to start the battle.
-    await player.battle_against(second_player, n_battles=1)
+    await player.battle_against(second_player, n_battles=5)
+
+    loss = 0
+    gamma = 0.99  # discount factor (the far future is very important)
+    initialEpisode = 0
+
+    for battle in player.battles.values():
+        nEpisodes = battle.turn
+        finalReward = 1000 if battle.won else -1000
+
+        # Reward sequence
+        rewards = [1] * (nEpisodes - 1) + [finalReward]
+
+        # Compute discounted returns
+        discountedRewards = []
+        cumulative = 0
+        for r in reversed(rewards):
+            cumulative = r + gamma * cumulative
+            discountedRewards.insert(0, cumulative)
+
+        # Calculate the loss
+        for log_prob, G in zip(
+            player.log_probs[initialEpisode:nEpisodes], discountedRewards
+        ):
+            loss += -log_prob * G
+
+        initialEpisode = nEpisodes
+
+    # Normalize the loss
+    loss /= len(player.battles)
+
+    # Backpropagation step
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
 
     # We can now print the results of the battles
     print(
