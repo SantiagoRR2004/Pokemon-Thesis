@@ -2,8 +2,9 @@ from poke_env.environment import AbstractBattle, Pokemon
 from poke_env.player.battle_order import BattleOrder
 from poke_env.player.player import Player
 import pokemonFeatureEncoder
-import neat
+import torch.nn as nn
 import numpy as np
+import torch
 
 
 class AIPlayer(Player):
@@ -20,13 +21,13 @@ class AIPlayer(Player):
 
     N_OUTPUTS = 14  # 8 moves + 6 switches
 
-    def __init__(self, *args, network: neat.nn.FeedForwardNetwork, **kwargs) -> None:
+    def __init__(self, *args, network: nn.Module, **kwargs) -> None:
         """
         This is the constructor of the class
 
         Args:
             *args:
-            - network (neat.nn.FeedForwardNetwork): The neural network that will be used to make decisions
+            - network (nn.Module): The neural network that will be used to make decisions
             **kwargs:
 
         Returns:
@@ -47,9 +48,9 @@ class AIPlayer(Player):
             BattleOrder: The move to be executed
         """
 
-        inputs = self.getInputs(battle)
+        inputs = torch.tensor(self.getInputs(battle))
 
-        outputs = self.neuralNetwork.activate(inputs)
+        outputs = self.neuralNetwork.forward(inputs).detach().numpy()
 
         return self.translateOutputs(outputs, battle)
 
