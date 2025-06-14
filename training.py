@@ -1,5 +1,6 @@
 from MyAIPlayer import AIPlayer
 from poke_env.player import RandomPlayer
+import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -43,7 +44,9 @@ async def main():
     # We create another random player
     second_player = RandomPlayer(battle_format="gen9anythinggoes", team=random_team2)
 
-    for _ in range(10):
+    victoryPercentage = []
+
+    for _ in range(50):
 
         # Reset the player for new epochs
         player.reset()
@@ -53,7 +56,7 @@ async def main():
         second_player.reset_battles()
 
         # Run n_battles (epochs)
-        await player.battle_against(second_player, n_battles=5)
+        await player.battle_against(second_player, n_battles=32)
 
         loss = 0
         gamma = 0.99  # discount factor (the far future is very important)
@@ -89,13 +92,19 @@ async def main():
         loss.backward()
         optimizer.step()
 
+        percentage = player.n_won_battles / player.n_finished_battles
+
         # We can now print the results of the battles
-        print(
-            f"Player {player.username} won {player.n_won_battles} out of {player.n_finished_battles} played"
-        )
-        print(
-            f"Player {second_player.username} won {second_player.n_won_battles} out of {second_player.n_finished_battles} played"
-        )
+        print(f"Player {player.username} won {percentage*100:.2f}% of battles")
+
+        victoryPercentage.append(percentage)
+
+    # Plot the victory percentage
+    plt.plot(victoryPercentage)
+    plt.xlabel("Batches")
+    plt.ylabel("Victory Percentage")
+    plt.title("Victory Percentage Over Batches")
+    plt.show()
 
 
 if __name__ == "__main__":
