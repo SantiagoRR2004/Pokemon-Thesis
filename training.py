@@ -46,7 +46,7 @@ async def main():
 
     victoryPercentage = []
 
-    for _ in range(50):
+    for _ in range(10):
 
         # Reset the player for new epochs
         player.reset()
@@ -75,6 +75,12 @@ async def main():
             for r in reversed(rewards):
                 cumulative = r + gamma * cumulative
                 discountedRewards.insert(0, cumulative)
+
+            # Normalize the discounted rewards
+            discountedRewards = torch.tensor(discountedRewards, dtype=torch.float32)
+            discountedRewards = (discountedRewards - discountedRewards.mean()) / (
+                discountedRewards.std() + 1e-8
+            )
 
             # Calculate the loss
             for log_prob, G in zip(
