@@ -102,6 +102,8 @@ async def main():
 
         for battle in player.battles.values():
             nEpisodes = battle.turn
+            actorLossBattle = 0
+            criticLossBattle = 0
             finalReward = 1000 if battle.won else -1000
 
             # Reward sequence
@@ -128,16 +130,18 @@ async def main():
                 player.values[battle.battle_tag],
             ):
                 advantage = G - V.item()
-                actorLoss += -log_prob * advantage
+                actorLossBattle += -log_prob * advantage
 
             for G, V in zip(discountedRewards, player.values[battle.battle_tag]):
-                criticLoss += (V - G).pow(2)
+                criticLossBattle += (V - G).pow(2)
 
-            # Normalize the critic loss by the episode
-            criticLoss /= len(discountedRewards)
+            # Normalize the loss by the episodes
+            actorLoss += actorLossBattle / nEpisodes
+            criticLoss += criticLossBattle / nEpisodes
 
-        # Normalize the actor loss by the number of battles
+        # Normalize the loss by the number of battles
         actorLoss /= len(player.battles)
+        criticLoss /= len(player.battles)
 
         # Backpropagation step
         optimizer.zero_grad()
