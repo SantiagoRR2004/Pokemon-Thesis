@@ -73,6 +73,8 @@ async def main():
     victoryPercentage = []
     actorLosses = []
     criticLosses = []
+    averageRewards = []
+    averageCriticRewards = []
 
     for batch in range(nBatches):
 
@@ -88,6 +90,8 @@ async def main():
 
         actorLoss = 0
         criticLoss = 0
+        averageRewardsBatch = 0
+        averageCriticRewardsBatch = 0
         gamma = 0.99  # discount factor (the far future is very important)
 
         for battle in player.battles.values():
@@ -108,6 +112,11 @@ async def main():
             discountedRewards = torch.tensor(discountedRewards, dtype=torch.float32)
             discountedRewards = (discountedRewards - discountedRewards.mean()) / (
                 discountedRewards.std() + 1e-8
+            )
+
+            averageRewardsBatch += discountedRewards.mean().item()
+            averageCriticRewardsBatch += (
+                torch.stack(player.values[battle.battle_tag]).mean().item()
             )
 
             # Calculate the loss using actor-critic
@@ -142,14 +151,23 @@ async def main():
 
         # We can now print the results of the battles
         print(f"{batch+1:0{len(str(nBatches))}d}/{nBatches}", end=" ")
-        print(f"Player {player.username} won {percentage*100:.2f}% of battles", end=" ")
         print(
-            f"Actor Loss: {actorLoss.item():.4f}, Critic Loss: {criticLoss.item():.4f}"
+            f"Player {player.username} won {percentage*100:.2f}% of battles.", end=" "
+        )
+        print(
+            f"Actor Loss: {actorLoss.item():>10.4f}, Critic Loss: {criticLoss.item():>10.4f}",
+            end=" ",
+        )
+        print(
+            f"Average Rewards: {averageRewardsBatch / len(player.battles):>9.4f}, "
+            f"Average Critic Rewards: {averageCriticRewardsBatch / len(player.battles):>9.4f}"
         )
 
         victoryPercentage.append(percentage)
         actorLosses.append(actorLoss.item())
         criticLosses.append(criticLoss.item())
+        averageRewards.append(averageRewardsBatch / len(player.battles))
+        averageCriticRewards.append(averageCriticRewardsBatch / len(player.battles))
 
     # Plot the victory percentage
     plt.plot(victoryPercentage)
@@ -169,6 +187,16 @@ async def main():
     plt.xlabel("Batches")
     plt.ylabel("Critic Loss")
     plt.title("Critic Loss Over Batches")
+
+    # Plot the average rewards
+    plt.figure()
+    plt.plot(averageRewards, label="Average Rewards")
+    plt.plot(averageCriticRewards, label="Average Critic Rewards")
+    plt.xlabel("Batches")
+    plt.ylabel("Average Rewards")
+    plt.title("Average Rewards Over Batches")
+    plt.legend()
+
     plt.show()
 
 
