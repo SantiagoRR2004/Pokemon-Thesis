@@ -36,6 +36,7 @@ async def main():
     model = NeuralNetwork()
     optimizer = optim.Adam(model.parameters(), lr=1e-3)
     nEpisodes = 32
+    nBatches = 10
 
     # We create a random player
     player = AIPlayer(
@@ -55,7 +56,7 @@ async def main():
     victoryPercentage = []
     losses = []
 
-    for batch in range(10):
+    for batch in range(nBatches):
 
         # Reset the player for new Episodes
         player.reset()
@@ -108,7 +109,7 @@ async def main():
 
         # We can now print the results of the battles
         print(
-            f"{batch+1:02d} Player {player.username} won {percentage*100:.2f}% of battles"
+            f"{batch+1:0{len(str(nBatches))}d}/{nBatches} Player {player.username} won {percentage*100:.2f}% of battles. Loss: {loss.item():.4f}"
         )
 
         victoryPercentage.append(percentage)
