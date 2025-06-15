@@ -71,7 +71,8 @@ async def main():
     )
 
     victoryPercentage = []
-    losses = []
+    actorLosses = []
+    criticLosses = []
 
     for batch in range(nBatches):
 
@@ -121,9 +122,10 @@ async def main():
             for G, V in zip(discountedRewards, player.values[battle.battle_tag]):
                 criticLoss += (V - G).pow(2)
 
+            # Normalize the critic loss by the episode
             criticLoss /= len(discountedRewards)
 
-        # Normalize the loss
+        # Normalize the actor loss by the number of battles
         actorLoss /= len(player.battles)
 
         # Backpropagation step
@@ -139,12 +141,15 @@ async def main():
         percentage = player.n_won_battles / player.n_finished_battles
 
         # We can now print the results of the battles
+        print(f"{batch+1:0{len(str(nBatches))}d}/{nBatches}", end=" ")
+        print(f"Player {player.username} won {percentage*100:.2f}% of battles", end=" ")
         print(
-            f"{batch+1:0{len(str(nBatches))}d}/{nBatches} Player {player.username} won {percentage*100:.2f}% of battles. Loss: {actorLoss.item():.4f}"
+            f"Actor Loss: {actorLoss.item():.4f}, Critic Loss: {criticLoss.item():.4f}"
         )
 
         victoryPercentage.append(percentage)
-        losses.append(actorLoss.item())
+        actorLosses.append(actorLoss.item())
+        criticLosses.append(criticLoss.item())
 
     # Plot the victory percentage
     plt.plot(victoryPercentage)
@@ -154,10 +159,16 @@ async def main():
 
     # Plot the losses
     plt.figure()
-    plt.plot(losses)
+    plt.plot(actorLosses)
     plt.xlabel("Batches")
-    plt.ylabel("Loss")
-    plt.title("Loss Over Batches")
+    plt.ylabel("Actor Loss")
+    plt.title("Actor Loss Over Batches")
+
+    plt.figure()
+    plt.plot(criticLosses)
+    plt.xlabel("Batches")
+    plt.ylabel("Critic Loss")
+    plt.title("Critic Loss Over Batches")
     plt.show()
 
 
