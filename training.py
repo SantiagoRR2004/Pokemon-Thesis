@@ -101,13 +101,13 @@ async def main():
         gamma = 0.99  # discount factor (the far future is very important)
 
         for battle in player.battles.values():
-            nEpisodes = battle.turn
+            nSteps = battle.turn
             actorLossBattle = 0
             criticLossBattle = 0
             finalReward = 1000 if battle.won else -1000
 
             # Reward sequence
-            rewards = [1] * (nEpisodes - 1) + [finalReward]
+            rewards = [1] * (nSteps - 1) + [finalReward]
 
             # Compute discounted returns
             discountedRewards = []
@@ -136,8 +136,8 @@ async def main():
                 criticLossBattle += (V - G).pow(2)
 
             # Normalize the loss by the episodes
-            actorLoss += actorLossBattle / nEpisodes
-            criticLoss += criticLossBattle / nEpisodes
+            actorLoss += actorLossBattle / nSteps
+            criticLoss += criticLossBattle / nSteps
 
         # Normalize the loss by the number of battles
         actorLoss /= len(player.battles)
@@ -180,6 +180,7 @@ async def main():
     plt.xlabel("Batches")
     plt.ylabel("Victory Percentage")
     plt.title("Victory Percentage Over Batches")
+    plt.savefig("victory_percentage.png")
 
     # Plot the losses
     plt.figure()
@@ -187,12 +188,14 @@ async def main():
     plt.xlabel("Batches")
     plt.ylabel("Actor Loss")
     plt.title("Actor Loss Over Batches")
+    plt.savefig("actor_loss.png")
 
     plt.figure()
     plt.plot(criticLosses)
     plt.xlabel("Batches")
     plt.ylabel("Critic Loss")
     plt.title("Critic Loss Over Batches")
+    plt.savefig("critic_loss.png")
 
     # Plot the average rewards
     plt.figure()
@@ -202,6 +205,7 @@ async def main():
     plt.ylabel("Average Rewards")
     plt.title("Average Rewards Over Batches")
     plt.legend()
+    plt.savefig("average_rewards.png")
 
     plt.show()
 
