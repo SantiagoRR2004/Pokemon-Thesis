@@ -108,13 +108,9 @@ async def main():
                 cumulative = r + gamma * cumulative
                 discountedRewards.insert(0, cumulative)
 
-            # Normalize the discounted rewards
-            discountedRewards = torch.tensor(discountedRewards, dtype=torch.float32)
-            discountedRewards = (discountedRewards - discountedRewards.mean()) / (
-                discountedRewards.std() + 1e-8
+            averageRewardsBatch += (
+                torch.tensor(discountedRewards, dtype=torch.float32).mean().item()
             )
-
-            averageRewardsBatch += discountedRewards.mean().item()
             averageCriticRewardsBatch += (
                 torch.stack(player.values[battle.battle_tag]).mean().item()
             )
