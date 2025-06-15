@@ -35,14 +35,22 @@ async def main():
 
     model = NeuralNetwork()
     optimizer = optim.Adam(model.parameters(), lr=1e-3)
+    nEpisodes = 32
 
     # We create a random player
     player = AIPlayer(
-        battle_format="gen9anythinggoes", team=random_team1, network=model
+        battle_format="gen9anythinggoes",
+        team=random_team1,
+        network=model,
+        max_concurrent_battles=nEpisodes,
     )
 
     # We create another random player
-    second_player = RandomPlayer(battle_format="gen9anythinggoes", team=random_team2)
+    second_player = RandomPlayer(
+        battle_format="gen9anythinggoes",
+        team=random_team2,
+        max_concurrent_battles=nEpisodes,
+    )
 
     victoryPercentage = []
 
@@ -55,8 +63,8 @@ async def main():
         player.reset_battles()
         second_player.reset_battles()
 
-        # Run n_battles (epochs)
-        await player.battle_against(second_player, n_battles=32)
+        # Run n_battles (Episodes)
+        await player.battle_against(second_player, n_battles=nEpisodes)
 
         loss = 0
         gamma = 0.99  # discount factor (the far future is very important)

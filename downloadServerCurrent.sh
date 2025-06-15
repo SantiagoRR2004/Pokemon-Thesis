@@ -17,6 +17,9 @@ update_repo() {
     else
         echo "config-example.js not found. Skipping config copy."
     fi
+
+    # Configure the server
+    ../serverConfiguration.sh config/config.js
 }
 
 # Check if the directory exists
@@ -41,8 +44,5 @@ else
     echo "Directory '$DIR_NAME' does not exist. Cloning repository..."
     git clone "$REPO_URL"
     cd "$DIR_NAME" || exit
-    echo "Running npm install..."
-    npm install
-    echo "Copying config-example.js to config.js..."
-    cp config/config-example.js config/config.js
+    update_repo
 fi

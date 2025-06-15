@@ -28,6 +28,9 @@ update_repo() {
     else
         echo "config-example.js not found. Skipping config copy."
     fi
+
+    # Configure the server
+    ../serverConfiguration.sh config/config.js
 }
 
 # Check if the directory exists
