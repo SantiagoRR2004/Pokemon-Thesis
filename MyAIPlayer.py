@@ -3,7 +3,6 @@ from poke_env.player.battle_order import BattleOrder
 from poke_env.player.player import Player
 import pokemonFeatureEncoder
 import torch.nn as nn
-import numpy as np
 import torch
 
 
@@ -21,13 +20,16 @@ class AIPlayer(Player):
 
     N_OUTPUTS = 14  # 8 moves + 6 switches
 
-    def __init__(self, *args, network: nn.Module, **kwargs) -> None:
+    def __init__(
+        self, *args, network: nn.Module, critic: nn.Module = None, **kwargs
+    ) -> None:
         """
         This is the constructor of the class
 
         Args:
             *args:
             - network (nn.Module): The neural network that will be used to make decisions
+            - critic (nn.Module): The critic network for value estimation (optional)
             **kwargs:
 
         Returns:
@@ -36,6 +38,7 @@ class AIPlayer(Player):
 
         super().__init__(*args, **kwargs)
         self.neuralNetwork = network
+        self.criticNetwork = critic
         self.reset()
 
     def reset(self) -> None:
@@ -49,6 +52,7 @@ class AIPlayer(Player):
             - None
         """
         self.log_probs = {}
+        self.values = {}
 
     def choose_move(self, battle: AbstractBattle) -> BattleOrder:
         """
@@ -71,6 +75,10 @@ class AIPlayer(Player):
         if not any(mask):
             log_prob = torch.tensor(0.0)
             self.log_probs.setdefault(battle.battle_tag, []).append(log_prob)
+            if self.criticNetwork is not None:
+                self.values.setdefault(battle.battle_tag, []).append(
+                    self.criticNetwork(inputs)
+                )
             return self.choose_default_move()
 
         # We apply the mask to the logits
@@ -85,6 +93,11 @@ class AIPlayer(Player):
         action = dist.sample()
         log_prob = dist.log_prob(action)
         self.log_probs.setdefault(battle.battle_tag, []).append(log_prob)
+
+        if self.criticNetwork is not None:
+            self.values.setdefault(battle.battle_tag, []).append(
+                self.criticNetwork(inputs)
+            )
 
         return moves[action.item()]
 
@@ -111,7 +124,11 @@ class AIPlayer(Player):
         inputs = []
 
         # Which pokemon is active
-        inputs.append(list(battle.team.values()).index(battle.active_pokemon))
+        try:
+            index = list(battle.team.values()).index(battle.active_pokemon) + 1
+        except ValueError:
+            index = 0
+        inputs.append(index)
 
         # First our team
         for pokemon in battle.team.values():
@@ -120,9 +137,16 @@ class AIPlayer(Player):
         inputs += (6 - len(battle.team)) * ([0] + [0.0] * self.N_F_POKEMON)
 
         # Which opponent's pokemon is active
-        inputs.append(
-            list(battle.opponent_team.values()).index(battle.opponent_active_pokemon)
-        )
+        try:
+            index = (
+                list(battle.opponent_team.values()).index(
+                    battle.opponent_active_pokemon
+                )
+                + 1
+            )
+        except ValueError:
+            index = 0
+        inputs.append(index)
 
         # The opponent's team
         for pokemon in battle.opponent_team.values():

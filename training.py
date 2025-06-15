@@ -24,6 +24,20 @@ class NeuralNetwork(nn.Module):
         return x
 
 
+class CriticNetwork(nn.Module):
+    def __init__(self):
+        super(CriticNetwork, self).__init__()
+        self.fc1 = nn.Linear(AIPlayer.N_F_TOTAL, 128)
+        self.fc2 = nn.Linear(128, 64)
+        self.fc3 = nn.Linear(64, 1)  # Output a single value for the state value
+
+    def forward(self, x):
+        x = torch.relu(self.fc1(x))
+        x = torch.relu(self.fc2(x))
+        x = self.fc3(x)
+        return x
+
+
 async def main():
     serverControl.startServer()
 
@@ -34,7 +48,9 @@ async def main():
         random_team2 = f.read()
 
     model = NeuralNetwork()
+    critic = CriticNetwork()
     optimizer = optim.Adam(model.parameters(), lr=1e-3)
+    criticOptimizer = optim.Adam(critic.parameters(), lr=1e-3)
     nEpisodes = 32
     nBatches = 10
 
@@ -43,6 +59,7 @@ async def main():
         battle_format="gen9anythinggoes",
         team=random_team1,
         network=model,
+        critic=critic,
         max_concurrent_battles=nEpisodes,
     )
 
@@ -68,7 +85,8 @@ async def main():
         # Run n_battles (Episodes)
         await player.battle_against(second_player, n_battles=nEpisodes)
 
-        loss = 0
+        actorLoss = 0
+        criticLoss = 0
         gamma = 0.99  # discount factor (the far future is very important)
 
         for battle in player.battles.values():
@@ -91,29 +109,42 @@ async def main():
                 discountedRewards.std() + 1e-8
             )
 
-            # Calculate the loss
-            for log_prob, G in zip(
-                player.log_probs[battle.battle_tag], discountedRewards
+            # Calculate the loss using actor-critic
+            for log_prob, G, V in zip(
+                player.log_probs[battle.battle_tag],
+                discountedRewards,
+                player.values[battle.battle_tag],
             ):
-                loss += -log_prob * G
+                advantage = G - V.item()
+                actorLoss += -log_prob * advantage
+
+            for G, V in zip(discountedRewards, player.values[battle.battle_tag]):
+                criticLoss += (V - G).pow(2)
+
+            criticLoss /= len(discountedRewards)
 
         # Normalize the loss
-        loss /= len(player.battles)
+        actorLoss /= len(player.battles)
 
         # Backpropagation step
         optimizer.zero_grad()
-        loss.backward()
+        actorLoss.backward()
         optimizer.step()
+
+        # Update the critic network
+        criticOptimizer.zero_grad()
+        criticLoss.backward()
+        criticOptimizer.step()
 
         percentage = player.n_won_battles / player.n_finished_battles
 
         # We can now print the results of the battles
         print(
-            f"{batch+1:0{len(str(nBatches))}d}/{nBatches} Player {player.username} won {percentage*100:.2f}% of battles. Loss: {loss.item():.4f}"
+            f"{batch+1:0{len(str(nBatches))}d}/{nBatches} Player {player.username} won {percentage*100:.2f}% of battles. Loss: {actorLoss.item():.4f}"
         )
 
         victoryPercentage.append(percentage)
-        losses.append(loss.item())
+        losses.append(actorLoss.item())
 
     # Plot the victory percentage
     plt.plot(victoryPercentage)
