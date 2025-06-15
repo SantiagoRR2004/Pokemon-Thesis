@@ -53,10 +53,11 @@ async def main():
     )
 
     victoryPercentage = []
+    losses = []
 
-    for _ in range(10):
+    for batch in range(10):
 
-        # Reset the player for new epochs
+        # Reset the player for new Episodes
         player.reset()
 
         # Reset the battle counters
@@ -109,15 +110,25 @@ async def main():
         percentage = player.n_won_battles / player.n_finished_battles
 
         # We can now print the results of the battles
-        print(f"Player {player.username} won {percentage*100:.2f}% of battles")
+        print(
+            f"{batch+1:02d} Player {player.username} won {percentage*100:.2f}% of battles"
+        )
 
         victoryPercentage.append(percentage)
+        losses.append(loss.item())
 
     # Plot the victory percentage
     plt.plot(victoryPercentage)
     plt.xlabel("Batches")
     plt.ylabel("Victory Percentage")
     plt.title("Victory Percentage Over Batches")
+
+    # Plot the losses
+    plt.figure()
+    plt.plot(losses)
+    plt.xlabel("Batches")
+    plt.ylabel("Loss")
+    plt.title("Loss Over Batches")
     plt.show()
 
 
