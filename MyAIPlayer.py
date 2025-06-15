@@ -16,8 +16,8 @@ class AIPlayer(Player):
     encoder = pokemonFeatureEncoder.PokemonFeatureEncoder()
 
     N_F_TYPES = 20  # Tera stellar and Pawmot
-    N_F_POKEMON = 1 + N_F_TYPES + 1 + 1 + 1 + 4
-    N_F_TOTAL = (1 + N_F_POKEMON) * 12
+    N_F_POKEMON = 1 + 1 + 1 + 1 + 4
+    N_F_TOTAL = 2 + (1 + N_F_POKEMON) * 12
 
     N_OUTPUTS = 14  # 8 moves + 6 switches
 
@@ -92,8 +92,15 @@ class AIPlayer(Player):
         """
         This method will return the inputs for the neural network
 
-        For each pokemon we have a presence indicator
-        and then the encoding of the pokemon.
+        The feature vector will have:
+            - The index of the active pokemon in the team
+            - The player's team (1 + {self.N_F_POKEMON} features per pokemon):
+                - Presence indicator (1 if the pokemon is present, 0 otherwise)
+                - The encoding of the pokemon (see encodePokemon)
+            - The index of the opponent's active pokemon in the opponent's team
+            - The opponent's team (1 + {self.N_F_POKEMON} features per pokemon):
+                - Presence indicator (1 if the pokemon is present, 0 otherwise)
+                - The encoding of the pokemon (see encodePokemon)
 
         Args:
             battle (AbstractBattle): The current battle
@@ -103,11 +110,19 @@ class AIPlayer(Player):
         """
         inputs = []
 
+        # Which pokemon is active
+        inputs.append(list(battle.team.values()).index(battle.active_pokemon))
+
         # First our team
         for pokemon in battle.team.values():
             inputs += [1] + self.encodePokemon(pokemon)
         # Fill with zeros if unknown pokemon
         inputs += (6 - len(battle.team)) * ([0] + [0.0] * self.N_F_POKEMON)
+
+        # Which opponent's pokemon is active
+        inputs.append(
+            list(battle.opponent_team.values()).index(battle.opponent_active_pokemon)
+        )
 
         # The opponent's team
         for pokemon in battle.opponent_team.values():
@@ -123,7 +138,6 @@ class AIPlayer(Player):
 
         The feature vector will have:
             - The form of the pokemon (encoded as an integer)
-            - The original types of the pokemon (encoded as a list of {self.N_F_TYPES} integers)
             - The ability of the pokemon (encoded as an integer)
             - The item of the pokemon (encoded as an integer)
             - The HP fraction of the pokemon
@@ -144,12 +158,6 @@ class AIPlayer(Player):
             # It was a cosmetic form
             form = self.encoder.encodeForm(pokemon.base_species)
         featureVector.append(form)
-
-        # The original type of the pokemon
-        types = [0] * self.N_F_TYPES
-        for t in pokemon.original_types:
-            types[t.value - 1] = 1
-        featureVector += types
 
         # Add the ability
         featureVector.append(self.encoder.encodeAbility(pokemon.ability))
@@ -176,12 +184,19 @@ class AIPlayer(Player):
         This stores the thing that are not yet in encodePokemon
 
         The feature vector will have:
+            - The original type of the pokemon (encoded as a list of {self.N_F_TYPES} integers)
             - The current types of the pokemon (encoded as a list of {self.N_F_TYPES} integers)
             - If the pokemon has already tera'd (encoded as an integer)
             - If the tera type is known (encoded as an integer)
             - The tera type of the pokemon (encoded as a list of {self.N_F_TYPES} integers)
         """
         featureVector = []
+
+        # The original type of the pokemon
+        types = [0] * self.N_F_TYPES
+        for t in pokemon.original_types:
+            types[t.value - 1] = 1
+        featureVector += types
 
         # The current pokemon type
         cTypes = [0] * self.N_F_TYPES
