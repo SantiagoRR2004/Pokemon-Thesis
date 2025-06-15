@@ -48,7 +48,7 @@ class AIPlayer(Player):
         Returns:
             - None
         """
-        self.log_probs = []
+        self.log_probs = {}
 
     def choose_move(self, battle: AbstractBattle) -> BattleOrder:
         """
@@ -70,7 +70,7 @@ class AIPlayer(Player):
 
         if not any(mask):
             log_prob = torch.tensor(0.0)
-            self.log_probs.append(log_prob)
+            self.log_probs.setdefault(battle.battle_tag, []).append(log_prob)
             return self.choose_default_move()
 
         # We apply the mask to the logits
@@ -84,7 +84,7 @@ class AIPlayer(Player):
         dist = torch.distributions.Categorical(probs)
         action = dist.sample()
         log_prob = dist.log_prob(action)
-        self.log_probs.append(log_prob)
+        self.log_probs.setdefault(battle.battle_tag, []).append(log_prob)
 
         return moves[action.item()]
 

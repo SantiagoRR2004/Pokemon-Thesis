@@ -69,7 +69,6 @@ async def main():
 
         loss = 0
         gamma = 0.99  # discount factor (the far future is very important)
-        initialEpisode = 0
 
         for battle in player.battles.values():
             nEpisodes = battle.turn
@@ -93,11 +92,9 @@ async def main():
 
             # Calculate the loss
             for log_prob, G in zip(
-                player.log_probs[initialEpisode:nEpisodes], discountedRewards
+                player.log_probs[battle.battle_tag], discountedRewards
             ):
                 loss += -log_prob * G
-
-            initialEpisode = nEpisodes
 
         # Normalize the loss
         loss /= len(player.battles)
