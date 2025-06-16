@@ -278,4 +278,8 @@ class AIPlayer(Player):
             allOrders.append(BattleOrder(pokemon))
             validOrders.append(pokemon in battle.available_switches)
 
+        # If there are not enough outputs, we fill with False
+        validOrders += [False] * (self.N_OUTPUTS - len(validOrders))
+        allOrders += [self.choose_default_move()] * (self.N_OUTPUTS - len(allOrders))
+
         return torch.tensor(validOrders, dtype=torch.bool), allOrders
