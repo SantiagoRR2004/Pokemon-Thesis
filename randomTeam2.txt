@@ -1,68 +1,61 @@
-Iron Jugulis @ Powerherb
-Ability: Quark Drive
-Level: 78
+Minun @ Life Orb  
+Ability: Volt Absorb  
+Level: 95  
+Tera Type: Electric  
+EVs: 84 HP / 84 Def / 84 SpA / 84 SpD / 84 Spe  
+IVs: 0 Atk  
+- Nasty Plot  
+- Encore  
+- Grass Knot  
+- Thunderbolt  
+
+Sunflora @ Choice Specs  
+Ability: Chlorophyll  
 Tera Type: Ground  
-EVs: 84 HP / 84 Def / 84 SpA / 84 SpD / 84 Spe
-Bashful Nature
-IVs: 0 Atk
-- Hurricane
-- Meteor Beam
-- Dark Pulse
-- Earth Power
+EVs: 84 HP / 84 Def / 84 SpA / 84 SpD / 84 Spe  
+IVs: 0 Atk  
+- Dazzling Gleam  
+- Earth Power  
+- Leaf Storm  
+- Sludge Bomb  
 
-Dipplin @ Eviolite
-Ability: Sticky Hold
-Level: 88
-Tera Type: Steel  
-EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe
-Bashful Nature
-- Recover
-- Dragon Pulse
-- Giga Drain
-- Sucker Punch
+Dodrio @ Choice Band  
+Ability: Early Bird  
+Level: 86  
+Tera Type: Normal  
+EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe  
+- Brave Bird  
+- Knock Off  
+- Double-Edge  
+- Quick Attack  
 
-Ariados @ Heavy-Duty Boots
-Ability: Swarm
-Level: 95
-Tera Type: Ghost  
-EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe
-Bashful Nature
-- Megahorn
-- Sucker Punch
-- Poison Jab
-- Sticky Web
+Deoxys-Attack @ Life Orb  
+Ability: Pressure  
+Level: 72  
+Tera Type: Psychic  
+EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe  
+- Knock Off  
+- Ice Beam  
+- Psycho Boost  
+- Superpower  
 
-Cresselia @ Leftovers
-Ability: Levitate
-Level: 80
-Tera Type: Fairy  
-EVs: 84 HP / 84 Def / 84 SpA / 84 SpD / 84 Spe
-Bashful Nature
-IVs: 0 Atk
-- Moonlight
-- Moonblast
-- Psyshock
-- Calm Mind
+Sneasler @ White Herb  
+Ability: Unburden  
+Level: 74  
+Tera Type: Flying  
+EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe  
+- Close Combat  
+- Gunk Shot  
+- Swords Dance  
+- Acrobatics  
 
-Latios @ Soul Dew
-Ability: Levitate
-Level: 78
-Tera Type: Dragon  
-EVs: 84 HP / 84 Def / 84 SpA / 84 SpD / 84 Spe
-Bashful Nature
-IVs: 0 Atk
-- Psyshock
-- Draco Meteor
-- Calm Mind
-- Recover
+Leafeon @ Leftovers  
+Ability: Chlorophyll  
+Level: 88  
+Tera Type: Dark  
+EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe  
+- Leaf Blade  
+- Knock Off  
+- Swords Dance  
+- Substitute  
 
-Pachirisu @ Assault Vest
-Ability: Volt Absorb
-Level: 96
-Tera Type: Flying
-EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe
-Bashful Nature
-- Nuzzle
-- Super Fang
-- U-turn
-- Thunderbolt

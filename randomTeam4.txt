@@ -1,0 +1,63 @@
+Tauros-Paldea-Blaze @ Choice Band  
+Ability: Intimidate  
+Level: 81  
+Tera Type: Fighting  
+EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe  
+- Stone Edge  
+- Flare Blitz  
+- Wild Charge  
+- Close Combat  
+
+Hydreigon @ Life Orb  
+Ability: Levitate  
+Level: 79  
+Tera Type: Steel  
+EVs: 84 HP / 84 Def / 84 SpA / 84 SpD / 84 Spe  
+IVs: 0 Atk  
+- Nasty Plot  
+- Draco Meteor  
+- Dark Pulse  
+- Flash Cannon  
+
+Girafarig @ Eviolite  
+Ability: Sap Sipper  
+Level: 89  
+Tera Type: Normal  
+EVs: 84 HP / 84 Def / 84 SpA / 84 SpD / 84 Spe  
+IVs: 0 Atk  
+- Psyshock  
+- Thunderbolt  
+- Hyper Voice  
+- Nasty Plot  
+
+Probopass @ Leftovers  
+Ability: Magnet Pull  
+Level: 92  
+Tera Type: Fighting  
+EVs: 84 HP / 84 Def / 84 SpA / 84 SpD / 84 Spe  
+IVs: 0 Atk  
+- Power Gem  
+- Body Press  
+- Iron Defense  
+- Flash Cannon  
+
+Clodsire @ Leftovers  
+Ability: Unaware  
+Level: 81  
+Tera Type: Flying  
+EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe  
+- Earthquake  
+- Recover  
+- Toxic  
+- Spikes  
+
+Lapras @ Loaded Dice  
+Ability: Water Absorb  
+Level: 87  
+Tera Type: Ground  
+EVs: 83 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe  
+- Icicle Spear  
+- Waterfall  
+- Dragon Dance  
+- Earthquake  
+
