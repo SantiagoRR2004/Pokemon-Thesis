@@ -57,10 +57,10 @@ async def main():
     critic = CriticNetwork()
     optimizer = optim.Adam(model.parameters(), lr=1e-3)
     criticOptimizer = optim.Adam(critic.parameters(), lr=1e-3)
-    nEpisodes = 32
-    nBatches = 10
+    nEpisodes = 64
+    nEpochs = 40
 
-    # We create a random player
+    # We create the AI player
     player = AIPlayer(
         battle_format="gen9anythinggoes",
         team=random_team1,
@@ -82,7 +82,7 @@ async def main():
     averageRewards = []
     averageCriticRewards = []
 
-    for batch in range(nBatches):
+    for epoch in range(nEpochs):
 
         # Reset the player for new Episodes
         player.reset()
@@ -96,8 +96,8 @@ async def main():
 
         actorLoss = 0
         criticLoss = 0
-        averageRewardsBatch = 0
-        averageCriticRewardsBatch = 0
+        averageRewardsEpoch = 0
+        averageCriticRewardsEpoch = 0
         gamma = 0.99  # discount factor (the far future is very important)
 
         for battle in player.battles.values():
@@ -116,10 +116,10 @@ async def main():
                 cumulative = r + gamma * cumulative
                 discountedRewards.insert(0, cumulative)
 
-            averageRewardsBatch += (
+            averageRewardsEpoch += (
                 torch.tensor(discountedRewards, dtype=torch.float32).mean().item()
             )
-            averageCriticRewardsBatch += (
+            averageCriticRewardsEpoch += (
                 torch.stack(player.values[battle.battle_tag]).mean().item()
             )
 
@@ -156,7 +156,7 @@ async def main():
         percentage = player.n_won_battles / player.n_finished_battles
 
         # We can now print the results of the battles
-        print(f"{batch+1:0{len(str(nBatches))}d}/{nBatches}", end=" ")
+        print(f"{epoch+1:0{len(str(nEpochs))}d}/{nEpochs}", end=" ")
         print(
             f"Player {player.username} won {percentage*100:.2f}% of battles.", end=" "
         )
@@ -165,45 +165,45 @@ async def main():
             end=" ",
         )
         print(
-            f"Average Rewards: {averageRewardsBatch / len(player.battles):>9.4f}, "
-            f"Average Critic Rewards: {averageCriticRewardsBatch / len(player.battles):>9.4f}"
+            f"Average Rewards: {averageRewardsEpoch / len(player.battles):>9.4f}, "
+            f"Average Critic Rewards: {averageCriticRewardsEpoch / len(player.battles):>9.4f}"
         )
 
         victoryPercentage.append(percentage)
         actorLosses.append(actorLoss.item())
         criticLosses.append(criticLoss.item())
-        averageRewards.append(averageRewardsBatch / len(player.battles))
-        averageCriticRewards.append(averageCriticRewardsBatch / len(player.battles))
+        averageRewards.append(averageRewardsEpoch / len(player.battles))
+        averageCriticRewards.append(averageCriticRewardsEpoch / len(player.battles))
 
     # Plot the victory percentage
     plt.plot(victoryPercentage)
-    plt.xlabel("Batches")
+    plt.xlabel("Epochs")
     plt.ylabel("Victory Percentage")
-    plt.title("Victory Percentage Over Batches")
+    plt.title("Victory Percentage Over Epochs")
     plt.savefig("victory_percentage.png")
 
     # Plot the losses
     plt.figure()
     plt.plot(actorLosses)
-    plt.xlabel("Batches")
+    plt.xlabel("Epochs")
     plt.ylabel("Actor Loss")
-    plt.title("Actor Loss Over Batches")
+    plt.title("Actor Loss Over Epochs")
     plt.savefig("actor_loss.png")
 
     plt.figure()
     plt.plot(criticLosses)
-    plt.xlabel("Batches")
+    plt.xlabel("Epochs")
     plt.ylabel("Critic Loss")
-    plt.title("Critic Loss Over Batches")
+    plt.title("Critic Loss Over Epochs")
     plt.savefig("critic_loss.png")
 
     # Plot the average rewards
     plt.figure()
     plt.plot(averageRewards, label="Average Rewards")
     plt.plot(averageCriticRewards, label="Average Critic Rewards")
-    plt.xlabel("Batches")
+    plt.xlabel("Epochs")
     plt.ylabel("Average Rewards")
-    plt.title("Average Rewards Over Batches")
+    plt.title("Average Rewards Over Epochs")
     plt.legend()
     plt.savefig("average_rewards.png")
 
