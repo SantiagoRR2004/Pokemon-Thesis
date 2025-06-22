@@ -1,6 +1,6 @@
+import randomTeams.randomTeam as randomTeam
 from MyAIPlayer import AIPlayer
 from poke_env.player import RandomPlayer
-import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -48,12 +48,6 @@ class CriticNetwork(nn.Module):
 async def main():
     serverControl.startServer()
 
-    with open("randomTeam1.txt", "r") as f:
-        random_team1 = f.read()
-
-    with open("randomTeam2.txt", "r") as f:
-        random_team2 = f.read()
-
     model = NeuralNetwork()
     critic = CriticNetwork()
     optimizer = optim.Adam(model.parameters(), lr=1e-3)
@@ -64,7 +58,7 @@ async def main():
     # We create the AI player
     player = AIPlayer(
         battle_format="gen9anythinggoes",
-        team=random_team1,
+        team=randomTeam.selectTeam(1),
         network=model,
         critic=critic,
         max_concurrent_battles=nEpisodes,
@@ -73,7 +67,7 @@ async def main():
     # We create another random player
     second_player = RandomPlayer(
         battle_format="gen9anythinggoes",
-        team=random_team2,
+        team=randomTeam.selectTeam(2),
         max_concurrent_battles=nEpisodes,
     )
 
