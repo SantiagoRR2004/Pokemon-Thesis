@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import pandas as pd
 import os
 
@@ -42,3 +43,60 @@ def saveData(
 
     # Save as a parquet file
     df.to_parquet(os.path.join(dataDirectory, "experiment.parquet"), index=False)
+
+
+def graphExperiment(fileName: str) -> None:
+    currentDirectory = os.path.dirname(os.path.abspath(__file__))
+    dataDirectory = os.path.join(currentDirectory, "data")
+
+    df = pd.read_parquet(os.path.join(dataDirectory, fileName))
+
+    # Plot the victory percentage
+    if "victoryPercentage" in df.columns:
+        plt.figure()
+        plt.plot(df["victoryPercentage"])
+        plt.xlabel("Epochs")
+        plt.ylabel("Victory Percentage")
+        plt.title("Victory Percentage Over Epochs")
+
+    # Plot the losses
+    if "actorLosses" in df.columns:
+        plt.figure()
+        plt.plot(df["actorLosses"])
+        plt.xlabel("Epochs")
+        plt.ylabel("Actor Loss")
+        plt.title("Actor Loss Over Epochs")
+
+    if "criticLosses" in df.columns:
+        plt.figure()
+        plt.plot(df["criticLosses"])
+        plt.xlabel("Epochs")
+        plt.ylabel("Critic Loss")
+        plt.title("Critic Loss Over Epochs")
+
+    # Plot the average rewards
+    if "averageRewards" in df.columns or "averageCriticRewards" in df.columns:
+        plt.figure()
+        if "averageRewards" in df.columns:
+            plt.plot(df["averageRewards"], label="Average Rewards")
+        if "averageCriticRewards" in df.columns:
+            plt.plot(df["averageCriticRewards"], label="Average Critic Rewards")
+        plt.xlabel("Epochs")
+        plt.ylabel("Average Rewards")
+        plt.title("Average Rewards Over Epochs")
+        plt.legend()
+
+    # Plot the number of turns
+    if "nTurns" in df.columns:
+        plt.figure()
+        plt.plot(df["nTurns"])
+        plt.xlabel("Epochs")
+        plt.ylabel("Number of Turns")
+        plt.title("Number of Turns Over Epochs")
+
+    plt.show()
+
+
+if __name__ == "__main__":
+
+    graphExperiment("experiment1.parquet")
