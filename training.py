@@ -5,6 +5,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import serverControl
+import metricsLogger
 import asyncio
 import os
 
@@ -101,10 +102,6 @@ async def main():
         averageCriticRewardsEpoch = 0
         gamma = 0.99  # discount factor (the far future is very important)
 
-        nTurns.append(
-            sum(battle.turn for battle in player.battles.values()) / len(player.battles)
-        )
-
         for battle in player.battles.values():
             nSteps = battle.turn
             actorLossBattle = 0
@@ -165,54 +162,25 @@ async def main():
         print(
             f"Player {player.username} won {percentage*100:.2f}% of battles.", end=" "
         )
-        print(
-            f"Actor Loss: {actorLoss.item():>10.4f}, Critic Loss: {criticLoss.item():>10.4f}",
-            end=" ",
-        )
-        print(
-            f"Average Rewards: {averageRewardsEpoch / len(player.battles):>9.4f}, "
-            f"Average Critic Rewards: {averageCriticRewardsEpoch / len(player.battles):>9.4f}"
-        )
+        print()
 
         victoryPercentage.append(percentage)
         actorLosses.append(actorLoss.item())
         criticLosses.append(criticLoss.item())
         averageRewards.append(averageRewardsEpoch / len(player.battles))
         averageCriticRewards.append(averageCriticRewardsEpoch / len(player.battles))
+        nTurns.append(
+            sum(battle.turn for battle in player.battles.values()) / len(player.battles)
+        )
 
-    # Plot the victory percentage
-    plt.plot(victoryPercentage)
-    plt.xlabel("Epochs")
-    plt.ylabel("Victory Percentage")
-    plt.title("Victory Percentage Over Epochs")
-    plt.savefig("victory_percentage.png")
-
-    # Plot the losses
-    plt.figure()
-    plt.plot(actorLosses)
-    plt.xlabel("Epochs")
-    plt.ylabel("Actor Loss")
-    plt.title("Actor Loss Over Epochs")
-    plt.savefig("actor_loss.png")
-
-    plt.figure()
-    plt.plot(criticLosses)
-    plt.xlabel("Epochs")
-    plt.ylabel("Critic Loss")
-    plt.title("Critic Loss Over Epochs")
-    plt.savefig("critic_loss.png")
-
-    # Plot the average rewards
-    plt.figure()
-    plt.plot(averageRewards, label="Average Rewards")
-    plt.plot(averageCriticRewards, label="Average Critic Rewards")
-    plt.xlabel("Epochs")
-    plt.ylabel("Average Rewards")
-    plt.title("Average Rewards Over Epochs")
-    plt.legend()
-    plt.savefig("average_rewards.png")
-
-    plt.show()
+    metricsLogger.saveData(
+        victoryPercentage=victoryPercentage,
+        actorLosses=actorLosses,
+        criticLosses=criticLosses,
+        averageRewards=averageRewards,
+        averageCriticRewards=averageCriticRewards,
+        nTurns=nTurns,
+    )
 
 
 if __name__ == "__main__":
