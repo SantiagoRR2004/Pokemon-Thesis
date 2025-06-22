@@ -45,12 +45,10 @@ class CriticNetwork(nn.Module):
         return self.net(x)
 
 
-async def main():
+async def main(actor: nn.Module, critic: nn.Module = None) -> None:
     serverControl.startServer()
 
-    model = NeuralNetwork()
-    critic = CriticNetwork()
-    optimizer = optim.Adam(model.parameters(), lr=1e-3)
+    optimizer = optim.Adam(actor.parameters(), lr=1e-3)
     criticOptimizer = optim.Adam(critic.parameters(), lr=1e-3)
     nEpisodes = 64
     nEpochs = 40
@@ -59,7 +57,7 @@ async def main():
     player = AIPlayer(
         battle_format="gen9anythinggoes",
         team=randomTeam.selectTeam(1),
-        network=model,
+        network=actor,
         critic=critic,
         max_concurrent_battles=nEpisodes,
     )
@@ -188,4 +186,4 @@ if __name__ == "__main__":
 
     import ignorePokeEnvProblems
 
-    asyncio.run(main())
+    asyncio.run(main(actor=NeuralNetwork(), critic=CriticNetwork()))
