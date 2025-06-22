@@ -1,0 +1,61 @@
+Regidrago @ Lum Berry  
+Ability: Dragon's Maw  
+Level: 77  
+Tera Type: Dragon  
+EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe  
+- Earthquake  
+- Draco Meteor  
+- Outrage  
+- Dragon Dance  
+
+Hitmontop @ Assault Vest  
+Ability: Intimidate  
+Level: 88  
+Tera Type: Steel  
+EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe  
+- Earthquake  
+- Stone Edge  
+- Close Combat  
+- Rapid Spin  
+
+Ampharos @ Choice Specs  
+Ability: Static  
+Level: 88  
+Tera Type: Electric  
+EVs: 84 HP / 84 Def / 84 SpA / 84 SpD / 84 Spe  
+IVs: 0 Atk  
+- Thunderbolt  
+- Volt Switch  
+- Focus Blast  
+- Dazzling Gleam  
+
+Glastrier @ Heavy-Duty Boots  
+Ability: Chilling Neigh  
+Level: 86  
+Tera Type: Ground  
+EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe  
+- Heavy Slam  
+- Swords Dance  
+- Icicle Crash  
+- High Horsepower  
+
+Camerupt @ Leftovers  
+Ability: Solid Rock  
+Level: 91  
+Tera Type: Grass  
+EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe  
+- Stealth Rock  
+- Earthquake  
+- Overheat  
+- Will-O-Wisp  
+
+Crawdaunt @ Choice Band  
+Ability: Adaptability  
+Level: 84  
+Tera Type: Fighting  
+EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe  
+- Knock Off  
+- Close Combat  
+- Crabhammer  
+- Aqua Jet  
+
