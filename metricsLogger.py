@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 
 
 def saveData(
@@ -34,5 +35,10 @@ def saveData(
         if value is not None:
             df[key] = value
 
+    currentDirectory = os.path.dirname(os.path.abspath(__file__))
+    dataDirectory = os.path.join(currentDirectory, "data")
+    # Ensure the directory exists
+    os.makedirs(dataDirectory, exist_ok=True)
+
     # Save as a parquet file
-    df.to_parquet("experiment.parquet", index=False)
+    df.to_parquet(os.path.join(dataDirectory, "experiment.parquet"), index=False)
