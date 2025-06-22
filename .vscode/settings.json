@@ -5,5 +5,5 @@
       // In this case, all files will trigger the task
     ]
   },
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python"
 }
