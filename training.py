@@ -81,6 +81,7 @@ async def main():
     criticLosses = []
     averageRewards = []
     averageCriticRewards = []
+    nTurns = []
 
     for epoch in range(nEpochs):
 
@@ -99,6 +100,10 @@ async def main():
         averageRewardsEpoch = 0
         averageCriticRewardsEpoch = 0
         gamma = 0.99  # discount factor (the far future is very important)
+
+        nTurns.append(
+            sum(battle.turn for battle in player.battles.values()) / len(player.battles)
+        )
 
         for battle in player.battles.values():
             nSteps = battle.turn
