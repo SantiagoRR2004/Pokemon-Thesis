@@ -1,0 +1,62 @@
+Eternatus @ Rocky Helmet  
+Ability: Pressure  
+Level: 69  
+Tera Type: Water  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- flamethrower  
+- recover  
+- dynamaxcannon  
+- toxic  
+
+Chesnaught @ Rocky Helmet  
+Ability: Bulletproof  
+Level: 84  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- woodhammer  
+- bodypress  
+- knockoff  
+- synthesis  
+
+Beartic @ Heavy-Duty Boots  
+Ability: Slush Rush  
+Level: 91  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- aquajet  
+- closecombat  
+- swordsdance  
+- iciclecrash  
+
+Tauros (Tauros-Paldea-Aqua) (M) @ Choice Band  
+Ability: Intimidate  
+Level: 81  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- stoneedge  
+- aquajet  
+- wavecrash  
+- closecombat  
+
+Charizard @ Heavy-Duty Boots  
+Ability: Blaze  
+Level: 85  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- outrage  
+- dragondance  
+- flareblitz  
+- earthquake  
+
+Regigigas @ Leftovers  
+Ability: Slow Start  
+Level: 84  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bodyslam  
+- rest  
+- knockoff  
+- sleeptalk  
+
+

@@ -1,0 +1,62 @@
+Terrakion @ Choice Band  
+Ability: Justified  
+Level: 79  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthquake  
+- quickattack  
+- stoneedge  
+- closecombat  
+
+Cresselia (F) @ Leftovers  
+Ability: Levitate  
+Level: 80  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- calmmind  
+- moonblast  
+- psyshock  
+- moonlight  
+
+Honchkrow @ Heavy-Duty Boots  
+Ability: Moxie  
+Level: 86  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bravebird  
+- heatwave  
+- suckerpunch  
+- uturn  
+
+Feraligatr @ Life Orb  
+Ability: Sheer Force  
+Level: 79  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- crunch  
+- icepunch  
+- liquidation  
+- dragondance  
+
+Rillaboom @ Choice Band  
+Ability: Grassy Surge  
+Level: 79  
+Tera Type: Grass  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- highhorsepower  
+- grassyglide  
+- woodhammer  
+- uturn  
+
+Flareon @ Toxic Orb  
+Ability: Guts  
+Level: 90  
+Tera Type: Normal  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- willowisp  
+- facade  
+- flareblitz  
+- trailblaze  
+
+

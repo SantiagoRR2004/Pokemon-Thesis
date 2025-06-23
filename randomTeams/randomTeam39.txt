@@ -1,0 +1,62 @@
+Sunflora @ Life Orb  
+Ability: Chlorophyll  
+Tera Type: Fire  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- weatherball  
+- sunnyday  
+- earthpower  
+- solarbeam  
+
+Falinks @ Life Orb  
+Ability: Defiant  
+Level: 84  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- noretreat  
+- knockoff  
+- closecombat  
+- ironhead  
+
+Gurdurr @ Eviolite  
+Ability: Guts  
+Level: 85  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- machpunch  
+- defog  
+- knockoff  
+- drainpunch  
+
+Oricorio (Oricorio-Pom-Pom) @ Heavy-Duty Boots  
+Ability: Dancer  
+Level: 82  
+Tera Type: Ground  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- hurricane  
+- quiverdance  
+- roost  
+- revelationdance  
+
+Blastoise @ White Herb  
+Ability: Torrent  
+Level: 80  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthquake  
+- shellsmash  
+- hydropump  
+- icebeam  
+
+Ursaring @ Eviolite  
+Ability: Guts  
+Level: 84  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- sleeptalk  
+- rest  
+- bodyslam  
+- earthquake  
+
+

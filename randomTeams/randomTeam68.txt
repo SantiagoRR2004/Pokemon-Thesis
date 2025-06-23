@@ -1,0 +1,63 @@
+Palossand @ Leftovers  
+Ability: Water Compaction  
+Level: 89  
+Tera Type: Water  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- shadowball  
+- sludgebomb  
+- earthpower  
+- shoreup  
+
+Gyarados @ Heavy-Duty Boots  
+Ability: Moxie  
+Level: 79  
+Tera Type: Flying  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- waterfall  
+- terablast  
+- earthquake  
+- dragondance  
+
+Pincurchin @ Leftovers  
+Ability: Electric Surge  
+Tera Type: Water  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- recover  
+- discharge  
+- spikes  
+- scald  
+
+Rillaboom @ Choice Band  
+Ability: Grassy Surge  
+Level: 79  
+Tera Type: Grass  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- grassyglide  
+- uturn  
+- woodhammer  
+- knockoff  
+
+Chansey (F) @ Eviolite  
+Ability: Natural Cure  
+Level: 85  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- seismictoss  
+- healbell  
+- softboiled  
+- thunderwave  
+
+Flapple @ Lum Berry  
+Ability: Hustle  
+Level: 88  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- suckerpunch  
+- gravapple  
+- outrage  
+- dragondance  
+
+

@@ -1,0 +1,63 @@
+Ludicolo @ Choice Specs  
+Ability: Swift Swim  
+Level: 90  
+Tera Type: Water  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- gigadrain  
+- icebeam  
+- hydropump  
+- leafstorm  
+
+Maushold (Maushold-Four) @ Wide Lens  
+Ability: Technician  
+Level: 76  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- encore  
+- populationbomb  
+- tidyup  
+- bite  
+
+Suicune @ Leftovers  
+Ability: Pressure  
+Level: 82  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- scald  
+- calmmind  
+- protect  
+- substitute  
+
+Breloom @ Life Orb  
+Ability: Technician  
+Level: 82  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bulletseed  
+- spore  
+- swordsdance  
+- machpunch  
+
+Solgaleo @ Weakness Policy  
+Ability: Full Metal Body  
+Level: 74  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- sunsteelstrike  
+- closecombat  
+- flamecharge  
+- psychic  
+
+Falinks @ Life Orb  
+Ability: Defiant  
+Level: 84  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- ironhead  
+- noretreat  
+- closecombat  
+- knockoff  
+
+

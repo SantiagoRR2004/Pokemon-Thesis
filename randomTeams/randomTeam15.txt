@@ -1,0 +1,64 @@
+Miraidon @ Leftovers  
+Ability: Hadron Engine  
+Level: 65  
+Tera Type: Electric  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- substitute  
+- calmmind  
+- dracometeor  
+- electrodrift  
+
+Zacian @ Choice Band  
+Ability: Intrepid Sword  
+Level: 69  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- wildcharge  
+- crunch  
+- playrough  
+- closecombat  
+
+Ursaluna (Ursaluna-Bloodmoon) (M) @ Leftovers  
+Ability: Mind's Eye  
+Level: 79  
+Tera Type: Normal  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- calmmind  
+- vacuumwave  
+- bloodmoon  
+- moonlight  
+
+Minun @ Life Orb  
+Ability: Volt Absorb  
+Level: 95  
+Tera Type: Electric  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- nastyplot  
+- alluringvoice  
+- grassknot  
+- thunderbolt  
+
+Annihilape @ Chesto Berry  
+Ability: Defiant  
+Level: 76  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- drainpunch  
+- rest  
+- ragefist  
+- bulkup  
+
+Bombirdier @ Choice Band  
+Ability: Rocky Payload  
+Level: 85  
+Tera Type: Rock  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- stoneedge  
+- knockoff  
+- suckerpunch  
+- bravebird  
+
+

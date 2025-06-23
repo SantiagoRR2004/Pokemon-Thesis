@@ -1,0 +1,63 @@
+Carbink @ Chesto Berry  
+Ability: Clear Body  
+Level: 90  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- irondefense  
+- bodypress  
+- moonblast  
+- rest  
+
+Bronzong @ Leftovers  
+Ability: Levitate  
+Level: 88  
+Tera Type: Electric  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- stealthrock  
+- ironhead  
+- psychicnoise  
+- hypnosis  
+
+Lumineon @ Choice Specs  
+Ability: Storm Drain  
+Level: 93  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- alluringvoice  
+- icebeam  
+- uturn  
+- hydropump  
+
+Slither Wing @ Life Orb  
+Ability: Protosynthesis  
+Level: 81  
+Tera Type: Electric  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- flareblitz  
+- firstimpression  
+- wildcharge  
+- closecombat  
+
+Hitmonlee (M) @ Choice Band  
+Ability: Reckless  
+Level: 85  
+Tera Type: Fighting  
+EVs: 81 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- stoneedge  
+- machpunch  
+- knockoff  
+- highjumpkick  
+
+Polteageist @ White Herb  
+Ability: Cursed Body  
+Level: 79  
+Tera Type: Psychic  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- shadowball  
+- strengthsap  
+- shellsmash  
+- storedpower  
+
+

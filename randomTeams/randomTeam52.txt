@@ -1,0 +1,65 @@
+Rotom @ Life Orb  
+Ability: Levitate  
+Level: 88  
+Tera Type: Electric  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- willowisp  
+- voltswitch  
+- thunderbolt  
+- shadowball  
+
+Calyrex (Calyrex-Shadow) @ Choice Specs  
+Ability: As One (Spectrier)  
+Level: 64  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- trick  
+- psyshock  
+- pollenpuff  
+- astralbarrage  
+
+Conkeldurr @ Flame Orb  
+Ability: Guts  
+Level: 80  
+Tera Type: Normal  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- machpunch  
+- closecombat  
+- facade  
+- knockoff  
+
+Probopass @ Chesto Berry  
+Ability: Magnet Pull  
+Level: 92  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- flashcannon  
+- bodypress  
+- rest  
+- irondefense  
+
+Braviary (Braviary-Hisui) (M) @ Heavy-Duty Boots  
+Ability: Tinted Lens  
+Level: 85  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- defog  
+- esperwing  
+- hurricane  
+- roost  
+
+Blaziken @ Life Orb  
+Ability: Speed Boost  
+Level: 76  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- swordsdance  
+- flareblitz  
+- knockoff  
+- closecombat  
+
+

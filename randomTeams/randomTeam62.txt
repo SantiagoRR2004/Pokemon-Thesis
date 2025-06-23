@@ -1,0 +1,63 @@
+Hariyama @ Assault Vest  
+Ability: Thick Fat  
+Level: 87  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- heavyslam  
+- headlongrush  
+- closecombat  
+- knockoff  
+
+Toedscruel @ Leftovers  
+Ability: Mycelium Might  
+Level: 87  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- spore  
+- earthpower  
+- gigadrain  
+- rapidspin  
+
+Farigiraf @ Leftovers  
+Ability: Sap Sipper  
+Level: 91  
+Tera Type: Water  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- hypervoice  
+- futuresight  
+- wish  
+- protect  
+
+Snorlax @ Leftovers  
+Ability: Thick Fat  
+Level: 82  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- rest  
+- bodyslam  
+- curse  
+- sleeptalk  
+
+Flutter Mane @ Choice Specs  
+Ability: Protosynthesis  
+Level: 74  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- mysticalfire  
+- psyshock  
+- shadowball  
+- moonblast  
+
+Sunflora @ Choice Specs  
+Ability: Chlorophyll  
+Tera Type: Poison  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- sludgebomb  
+- earthpower  
+- dazzlinggleam  
+- leafstorm  
+
+

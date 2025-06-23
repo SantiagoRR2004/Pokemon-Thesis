@@ -1,0 +1,64 @@
+Regigigas @ Leftovers  
+Ability: Slow Start  
+Level: 84  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- rest  
+- bodyslam  
+- sleeptalk  
+- knockoff  
+
+Meowstic (Meowstic-F) (F) @ Life Orb  
+Ability: Competitive  
+Level: 89  
+Tera Type: Electric  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- nastyplot  
+- darkpulse  
+- thunderbolt  
+- psychic  
+
+Flutter Mane @ Life Orb  
+Ability: Protosynthesis  
+Level: 74  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- shadowball  
+- mysticalfire  
+- moonblast  
+- calmmind  
+
+Comfey @ Leftovers  
+Ability: Triage  
+Level: 85  
+Tera Type: Poison  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- calmmind  
+- gigadrain  
+- drainingkiss  
+- storedpower  
+
+Gouging Fire @ Heavy-Duty Boots  
+Ability: Protosynthesis  
+Level: 74  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- heatcrash  
+- outrage  
+- earthquake  
+- dragondance  
+
+Alomomola @ Heavy-Duty Boots  
+Ability: Regenerator  
+Level: 87  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- wish  
+- scald  
+- protect  
+- flipturn  
+
+

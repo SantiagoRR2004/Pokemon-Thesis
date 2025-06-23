@@ -1,0 +1,62 @@
+Entei @ Choice Band  
+Ability: Inner Focus  
+Level: 78  
+Tera Type: Normal  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- stoneedge  
+- extremespeed  
+- sacredfire  
+- flareblitz  
+
+Dodrio @ Heavy-Duty Boots  
+Ability: Early Bird  
+Level: 86  
+Tera Type: Normal  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- swordsdance  
+- doubleedge  
+- bravebird  
+
+Kleavor @ Choice Scarf  
+Ability: Sharpness  
+Level: 78  
+Tera Type: Rock  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- closecombat  
+- uturn  
+- xscissor  
+- stoneaxe  
+
+Plusle @ Life Orb  
+Ability: Lightning Rod  
+Level: 95  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- nastyplot  
+- thunderbolt  
+- encore  
+- alluringvoice  
+
+Meowscarada @ Life Orb  
+Ability: Protean  
+Level: 78  
+Tera Type: Grass  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- toxicspikes  
+- flowertrick  
+- tripleaxel  
+
+Zapdos (Zapdos-Galar) @ Choice Band  
+Ability: Defiant  
+Level: 77  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bravebird  
+- knockoff  
+- closecombat  
+- uturn  
+
+

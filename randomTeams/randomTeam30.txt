@@ -1,0 +1,62 @@
+Sandslash @ Leftovers  
+Ability: Sand Rush  
+Level: 89  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthquake  
+- rapidspin  
+- knockoff  
+- spikes  
+
+Slither Wing @ Heavy-Duty Boots  
+Ability: Protosynthesis  
+Level: 81  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- closecombat  
+- morningsun  
+- willowisp  
+- uturn  
+
+Vespiquen (F) @ Heavy-Duty Boots  
+Ability: Pressure  
+Level: 99  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- toxic  
+- roost  
+- hurricane  
+- spikes  
+
+Revavroom @ Life Orb  
+Ability: Filter  
+Level: 79  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- shiftgear  
+- gunkshot  
+- ironhead  
+- highhorsepower  
+
+Meloetta @ Choice Specs  
+Ability: Serene Grace  
+Level: 82  
+Tera Type: Normal  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- psyshock  
+- hypervoice  
+- focusblast  
+- uturn  
+
+Goodra (Goodra-Hisui) @ Assault Vest  
+Ability: Sap Sipper  
+Level: 82  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- hydropump  
+- heavyslam  
+- earthquake  
+- dracometeor  
+
+

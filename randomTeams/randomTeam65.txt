@@ -1,0 +1,65 @@
+Dachsbun @ Leftovers  
+Ability: Well-Baked Body  
+Level: 92  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- playrough  
+- bodypress  
+- wish  
+- protect  
+
+Azelf @ Life Orb  
+Ability: Levitate  
+Level: 82  
+Tera Type: Psychic  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- dazzlinggleam  
+- psyshock  
+- nastyplot  
+- fireblast  
+
+Hoopa @ Life Orb  
+Ability: Magician  
+Level: 85  
+Tera Type: Psychic  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- psychic  
+- nastyplot  
+- focusblast  
+- shadowball  
+
+Phione @ Leftovers  
+Ability: Hydration  
+Level: 91  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- grassknot  
+- takeheart  
+- icebeam  
+- scald  
+
+Volcanion @ Choice Scarf  
+Ability: Water Absorb  
+Level: 79  
+Tera Type: Ground  
+EVs: 81 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- earthpower  
+- steameruption  
+- flamethrower  
+- sludgebomb  
+
+Emboar @ Choice Band  
+Ability: Reckless  
+Level: 84  
+Tera Type: Fire  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- headsmash  
+- flareblitz  
+- closecombat  
+
+

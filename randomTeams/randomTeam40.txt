@@ -1,0 +1,64 @@
+Chesnaught @ Leftovers  
+Ability: Bulletproof  
+Level: 84  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bodypress  
+- synthesis  
+- irondefense  
+- trailblaze  
+
+Sandy Shocks @ Heavy-Duty Boots  
+Ability: Protosynthesis  
+Level: 80  
+Tera Type: Grass  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- spikes  
+- earthpower  
+- thunderbolt  
+- voltswitch  
+
+Lurantis @ Assault Vest  
+Ability: Contrary  
+Level: 87  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- leafstorm  
+- leechlife  
+- superpower  
+
+Dusknoir @ Leftovers  
+Ability: Frisk  
+Level: 89  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- poltergeist  
+- willowisp  
+- earthquake  
+- painsplit  
+
+Palkia (Palkia-Origin) @ Lustrous Globe  
+Ability: Pressure  
+Level: 72  
+Tera Type: Water  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- dracometeor  
+- thunderwave  
+- fireblast  
+- hydropump  
+
+Cresselia (F) @ Leftovers  
+Ability: Levitate  
+Level: 80  
+Tera Type: Poison  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- calmmind  
+- psyshock  
+- moonblast  
+- moonlight  
+
+

@@ -1,61 +1,63 @@
-Regidrago @ Lum Berry  
-Ability: Dragon's Maw  
-Level: 77  
-Tera Type: Dragon  
-EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe  
-- Earthquake  
-- Draco Meteor  
-- Outrage  
-- Dragon Dance  
-
-Hitmontop @ Assault Vest  
-Ability: Intimidate  
-Level: 88  
-Tera Type: Steel  
-EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe  
-- Earthquake  
-- Stone Edge  
-- Close Combat  
-- Rapid Spin  
-
-Ampharos @ Choice Specs  
-Ability: Static  
+Morpeko @ Leftovers  
+Ability: Hunger Switch  
 Level: 88  
 Tera Type: Electric  
-EVs: 84 HP / 84 Def / 84 SpA / 84 SpD / 84 Spe  
-IVs: 0 Atk  
-- Thunderbolt  
-- Volt Switch  
-- Focus Blast  
-- Dazzling Gleam  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- rapidspin  
+- knockoff  
+- protect  
+- aurawheel  
 
-Glastrier @ Heavy-Duty Boots  
-Ability: Chilling Neigh  
-Level: 86  
-Tera Type: Ground  
-EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe  
-- Heavy Slam  
-- Swords Dance  
-- Icicle Crash  
-- High Horsepower  
-
-Camerupt @ Leftovers  
-Ability: Solid Rock  
-Level: 91  
-Tera Type: Grass  
-EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe  
-- Stealth Rock  
-- Earthquake  
-- Overheat  
-- Will-O-Wisp  
-
-Crawdaunt @ Choice Band  
-Ability: Adaptability  
+Scream Tail @ Leftovers  
+Ability: Protosynthesis  
 Level: 84  
-Tera Type: Fighting  
-EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe  
-- Knock Off  
-- Close Combat  
-- Crabhammer  
-- Aqua Jet  
+Tera Type: Poison  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- protect  
+- dazzlinggleam  
+- wish  
+- thunderwave  
+
+Tentacruel @ Leftovers  
+Ability: Liquid Ooze  
+Level: 84  
+Tera Type: Grass  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- toxicspikes  
+- haze  
+- surf  
+- sludgebomb  
+
+Ogerpon (Ogerpon-Cornerstone) (F) @ Cornerstone Mask  
+Ability: Sturdy  
+Level: 76  
+Tera Type: Rock  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- swordsdance  
+- ivycudgel  
+- superpower  
+- powerwhip  
+
+Lurantis @ Assault Vest  
+Ability: Contrary  
+Level: 87  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- leechlife  
+- leafstorm  
+- superpower  
+
+Fezandipiti (M) @ Leftovers  
+Ability: Toxic Chain  
+Level: 82  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- gunkshot  
+- roost  
+- moonblast  
+- beatup  
+
 

@@ -1,0 +1,61 @@
+Pachirisu @ Heavy-Duty Boots  
+Ability: Volt Absorb  
+Level: 96  
+Tera Type: Flying  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- discharge  
+- uturn  
+- encore  
+- superfang  
+
+Blissey (F) @ Leftovers  
+Ability: Natural Cure  
+Level: 85  
+Tera Type: Poison  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- seismictoss  
+- softboiled  
+- thunderwave  
+- healbell  
+
+Bombirdier @ Heavy-Duty Boots  
+Ability: Big Pecks  
+Level: 85  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- bravebird  
+- roost  
+- uturn  
+
+Mesprit @ Leftovers  
+Ability: Levitate  
+Level: 85  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- thunderwave  
+- knockoff  
+- icebeam  
+- psychicnoise  
+
+Pincurchin @ Leftovers  
+Ability: Electric Surge  
+Tera Type: Grass  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- zingzap  
+- curse  
+- recover  
+- liquidation  
+
+Cetitan @ Sitrus Berry  
+Ability: Thick Fat  
+Level: 82  
+Tera Type: Ice  
+EVs: 81 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- iceshard  
+- earthquake  
+- icespinner  
+- bellydrum  
+
+

@@ -1,0 +1,63 @@
+Crabominable @ Assault Vest  
+Ability: Iron Fist  
+Level: 90  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- drainpunch  
+- knockoff  
+- icehammer  
+- earthquake  
+
+Mudsdale @ Leftovers  
+Ability: Stamina  
+Level: 84  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- heavyslam  
+- stealthrock  
+- roar  
+- earthquake  
+
+Clawitzer @ Assault Vest  
+Ability: Mega Launcher  
+Level: 87  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- darkpulse  
+- waterpulse  
+- uturn  
+- dragonpulse  
+
+Chimecho @ Leftovers  
+Ability: Levitate  
+Level: 93  
+Tera Type: Dark  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- encore  
+- thunderwave  
+- psychicnoise  
+- recover  
+
+Corviknight @ Leftovers  
+Ability: Pressure  
+Level: 80  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- uturn  
+- defog  
+- roost  
+- bravebird  
+
+Plusle @ Life Orb  
+Ability: Lightning Rod  
+Level: 95  
+Tera Type: Electric  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- encore  
+- nastyplot  
+- thunderbolt  
+- alluringvoice  
+
+

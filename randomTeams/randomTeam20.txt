@@ -1,0 +1,65 @@
+Gholdengo @ Choice Scarf  
+Ability: Good as Gold  
+Level: 77  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- makeitrain  
+- shadowball  
+- focusblast  
+- trick  
+
+Hitmonlee (M) @ White Herb  
+Ability: Unburden  
+Level: 85  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- stoneedge  
+- knockoff  
+- swordsdance  
+- closecombat  
+
+Plusle @ Life Orb  
+Ability: Lightning Rod  
+Level: 95  
+Tera Type: Electric  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- grassknot  
+- nastyplot  
+- alluringvoice  
+- thunderbolt  
+
+Palkia (Palkia-Origin) @ Lustrous Globe  
+Ability: Pressure  
+Level: 72  
+Tera Type: Fire  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- hydropump  
+- fireblast  
+- thunderwave  
+- spacialrend  
+
+Iron Hands @ Assault Vest  
+Ability: Quark Drive  
+Level: 79  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- fakeout  
+- voltswitch  
+- wildcharge  
+- closecombat  
+
+Sylveon @ Leftovers  
+Ability: Pixilate  
+Level: 85  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- protect  
+- calmmind  
+- hypervoice  
+- wish  
+
+

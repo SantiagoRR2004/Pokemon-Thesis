@@ -1,0 +1,64 @@
+Hoopa (Hoopa-Unbound) @ Assault Vest  
+Ability: Magician  
+Level: 80  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- hyperspacefury  
+- focusblast  
+- gunkshot  
+- psychic  
+
+Pyroar @ Heavy-Duty Boots  
+Ability: Unnerve  
+Level: 88  
+Tera Type: Fire  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- fireblast  
+- hypervoice  
+- workup  
+- willowisp  
+
+Whimsicott @ Leftovers  
+Ability: Prankster  
+Level: 84  
+Tera Type: Poison  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- moonblast  
+- stunspore  
+- encore  
+- gigadrain  
+
+Sunflora @ Choice Specs  
+Ability: Chlorophyll  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- leafstorm  
+- dazzlinggleam  
+- earthpower  
+- sludgebomb  
+
+Keldeo (Keldeo-Resolute) @ Leftovers  
+Ability: Justified  
+Level: 79  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- substitute  
+- secretsword  
+- calmmind  
+- surf  
+
+Pelipper @ Choice Specs  
+Ability: Drizzle  
+Level: 86  
+Tera Type: Flying  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- uturn  
+- hurricane  
+- weatherball  
+- hydropump  
+
+

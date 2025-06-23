@@ -1,0 +1,62 @@
+Great Tusk @ Assault Vest  
+Ability: Protosynthesis  
+Level: 77  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- rapidspin  
+- headlongrush  
+- closecombat  
+
+Annihilape @ Chesto Berry  
+Ability: Defiant  
+Level: 76  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- drainpunch  
+- bulkup  
+- ragefist  
+- rest  
+
+Basculegion (Basculegion-F) (F) @ Assault Vest  
+Ability: Adaptability  
+Level: 83  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- flipturn  
+- shadowball  
+- hydropump  
+- wavecrash  
+
+Bellossom @ Leftovers  
+Ability: Chlorophyll  
+Level: 84  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- sleeppowder  
+- quiverdance  
+- gigadrain  
+- strengthsap  
+
+Toxapex @ Leftovers  
+Ability: Regenerator  
+Level: 82  
+Tera Type: Grass  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- toxicspikes  
+- recover  
+- haze  
+- liquidation  
+
+Kyurem (Kyurem-Black) @ Loaded Dice  
+Ability: Teravolt  
+Level: 71  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- dragondance  
+- scaleshot  
+- terablast  
+- iciclespear  
+
+

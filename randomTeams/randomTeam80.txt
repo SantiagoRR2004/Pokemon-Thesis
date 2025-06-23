@@ -1,0 +1,62 @@
+Spectrier @ Life Orb  
+Ability: Grim Neigh  
+Level: 75  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- shadowball  
+- terablast  
+- willowisp  
+- nastyplot  
+
+Gurdurr @ Eviolite  
+Ability: Guts  
+Level: 85  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bulkup  
+- drainpunch  
+- knockoff  
+- machpunch  
+
+Zoroark (Zoroark-Hisui) @ Choice Specs  
+Ability: Illusion  
+Level: 80  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- hypervoice  
+- uturn  
+- bittermalice  
+- focusblast  
+
+Enamorus (Enamorus-Therian) (F) @ Assault Vest  
+Ability: Overcoat  
+Level: 83  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthpower  
+- moonblast  
+- psychic  
+- superpower  
+
+Krookodile @ Choice Band  
+Ability: Intimidate  
+Level: 80  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- gunkshot  
+- stoneedge  
+- knockoff  
+- earthquake  
+
+Amoonguss @ Leftovers  
+Ability: Regenerator  
+Level: 82  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- spore  
+- stompingtantrum  
+- gigadrain  
+- sludgebomb  
+
+

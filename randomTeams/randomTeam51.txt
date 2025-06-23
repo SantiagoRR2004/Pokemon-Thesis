@@ -1,0 +1,62 @@
+Wo-Chien @ Leftovers  
+Ability: Tablets of Ruin  
+Level: 83  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- stunspore  
+- leechseed  
+- protect  
+- knockoff  
+
+Regieleki @ Magnet  
+Ability: Transistor  
+Level: 79  
+Tera Type: Electric  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- voltswitch  
+- rapidspin  
+- explosion  
+- thunderbolt  
+
+Hydreigon @ Choice Specs  
+Ability: Levitate  
+Level: 79  
+Tera Type: Fire  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- darkpulse  
+- uturn  
+- fireblast  
+- dracometeor  
+
+Skeledirge @ Heavy-Duty Boots  
+Ability: Unaware  
+Level: 79  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- flamecharge  
+- shadowball  
+- torchsong  
+- slackoff  
+
+Froslass (F) @ Wide Lens  
+Ability: Cursed Body  
+Level: 87  
+Tera Type: Ice  
+EVs: 81 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- spikes  
+- poltergeist  
+- destinybond  
+- tripleaxel  
+
+Rabsca @ Heavy-Duty Boots  
+Ability: Synchronize  
+Level: 91  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD  
+IVs: 0 Atk / 0 Spe  
+- psychic  
+- trickroom  
+- revivalblessing  
+- bugbuzz  
+
+

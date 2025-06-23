@@ -1,0 +1,63 @@
+Polteageist @ White Herb  
+Ability: Cursed Body  
+Level: 79  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- shellsmash  
+- storedpower  
+- shadowball  
+- terablast  
+
+Regirock @ Leftovers  
+Ability: Clear Body  
+Level: 83  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bodypress  
+- stealthrock  
+- thunderwave  
+- stoneedge  
+
+Scyther @ Heavy-Duty Boots  
+Ability: Technician  
+Level: 82  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bugbite  
+- swordsdance  
+- closecombat  
+- dualwingbeat  
+
+Luxray @ Flame Orb  
+Ability: Guts  
+Level: 88  
+Tera Type: Normal  
+EVs: 81 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- supercellslam  
+- throatchop  
+- trailblaze  
+- facade  
+
+Lunala @ Leftovers  
+Ability: Shadow Shield  
+Level: 70  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- calmmind  
+- moongeistbeam  
+- psyshock  
+- moonlight  
+
+Corviknight @ Rocky Helmet  
+Ability: Pressure  
+Level: 80  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bravebird  
+- bodypress  
+- roost  
+- defog  
+
+

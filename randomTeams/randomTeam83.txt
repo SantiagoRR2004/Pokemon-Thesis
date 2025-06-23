@@ -1,0 +1,64 @@
+Spidops @ Heavy-Duty Boots  
+Ability: Stakeout  
+Level: 96  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- toxicspikes  
+- uturn  
+- knockoff  
+- stickyweb  
+
+Klefki @ Leftovers  
+Ability: Prankster  
+Level: 84  
+Tera Type: Water  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- foulplay  
+- spikes  
+- thunderwave  
+- dazzlinggleam  
+
+Latios (M) @ Soul Dew  
+Ability: Levitate  
+Level: 78  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- dracometeor  
+- calmmind  
+- recover  
+- psyshock  
+
+Feraligatr @ Life Orb  
+Ability: Sheer Force  
+Level: 79  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- trailblaze  
+- dragondance  
+- liquidation  
+- icepunch  
+
+Scizor @ Life Orb  
+Ability: Technician  
+Level: 79  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- swordsdance  
+- bulletpunch  
+- closecombat  
+
+Oricorio (Oricorio-Pa'u) @ Heavy-Duty Boots  
+Ability: Dancer  
+Level: 87  
+Tera Type: Ground  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- roost  
+- revelationdance  
+- quiverdance  
+- hurricane  
+
+

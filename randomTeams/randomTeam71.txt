@@ -1,0 +1,65 @@
+Oricorio @ Heavy-Duty Boots  
+Ability: Dancer  
+Level: 84  
+Tera Type: Ground  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- hurricane  
+- revelationdance  
+- roost  
+- quiverdance  
+
+Arceus (Arceus-Grass) @ Meadow Plate  
+Ability: Multitype  
+Level: 72  
+Tera Type: Fire  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- judgment  
+- recover  
+- fireblast  
+- calmmind  
+
+Eelektross @ Assault Vest  
+Ability: Levitate  
+Level: 87  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- uturn  
+- gigadrain  
+- discharge  
+- knockoff  
+
+Regirock @ Leftovers  
+Ability: Clear Body  
+Level: 83  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- stoneedge  
+- thunderwave  
+- stealthrock  
+- bodypress  
+
+Meowstic (Meowstic-F) (F) @ Life Orb  
+Ability: Competitive  
+Level: 89  
+Tera Type: Dark  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- nastyplot  
+- psychic  
+- alluringvoice  
+- darkpulse  
+
+Glaceon @ Heavy-Duty Boots  
+Ability: Ice Body  
+Level: 94  
+Tera Type: Water  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- freezedry  
+- wish  
+- protect  
+- calmmind  
+
+

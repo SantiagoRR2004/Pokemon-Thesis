@@ -1,0 +1,63 @@
+Squawkabilly (Squawkabilly-Yellow) @ Heavy-Duty Boots  
+Ability: Hustle  
+Level: 89  
+Tera Type: Flying  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- quickattack  
+- partingshot  
+- doubleedge  
+- bravebird  
+
+Zebstrika @ Life Orb  
+Ability: Sap Sipper  
+Level: 87  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- highhorsepower  
+- voltswitch  
+- supercellslam  
+- overheat  
+
+Passimian @ Choice Band  
+Ability: Defiant  
+Level: 83  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- rockslide  
+- closecombat  
+- gunkshot  
+- knockoff  
+
+Politoed @ Leftovers  
+Ability: Drizzle  
+Level: 88  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- icebeam  
+- hypnosis  
+- haze  
+- hydropump  
+
+Gengar @ Life Orb  
+Ability: Cursed Body  
+Level: 81  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- focusblast  
+- sludgewave  
+- shadowball  
+- willowisp  
+
+Cryogonal @ Heavy-Duty Boots  
+Ability: Levitate  
+Level: 89  
+Tera Type: Electric  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- recover  
+- rapidspin  
+- icebeam  
+- terablast  
+
+

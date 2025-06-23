@@ -1,0 +1,63 @@
+Chimecho @ Leftovers  
+Ability: Levitate  
+Level: 93  
+Tera Type: Electric  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- psychicnoise  
+- dazzlinggleam  
+- recover  
+- calmmind  
+
+Urshifu @ Choice Band  
+Ability: Unseen Fist  
+Level: 74  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- closecombat  
+- poisonjab  
+- wickedblow  
+- suckerpunch  
+
+Basculegion (M) @ Assault Vest  
+Ability: Adaptability  
+Level: 81  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- flipturn  
+- wavecrash  
+- aquajet  
+- shadowball  
+
+Piloswine @ Eviolite  
+Ability: Thick Fat  
+Level: 85  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- iciclecrash  
+- earthquake  
+- stealthrock  
+- iceshard  
+
+Calyrex (Calyrex-Shadow) @ Choice Specs  
+Ability: As One (Spectrier)  
+Level: 64  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- trick  
+- psyshock  
+- pollenpuff  
+- astralbarrage  
+
+Mienshao @ Assault Vest  
+Ability: Regenerator  
+Level: 83  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- closecombat  
+- uturn  
+- fakeout  
+- knockoff  
+
+

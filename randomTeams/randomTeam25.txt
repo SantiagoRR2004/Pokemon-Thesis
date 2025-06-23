@@ -1,0 +1,63 @@
+Girafarig @ Eviolite  
+Ability: Sap Sipper  
+Level: 89  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- dazzlinggleam  
+- thunderbolt  
+- nastyplot  
+- psyshock  
+
+Okidogi (M) @ Leftovers  
+Ability: Toxic Chain  
+Level: 77  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- bulkup  
+- gunkshot  
+- drainpunch  
+
+Kricketune @ Heavy-Duty Boots  
+Ability: Technician  
+Level: 99  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- pounce  
+- taunt  
+- knockoff  
+- stickyweb  
+
+Great Tusk @ Leftovers  
+Ability: Protosynthesis  
+Level: 77  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bulkup  
+- earthquake  
+- closecombat  
+- rapidspin  
+
+Grumpig @ Leftovers  
+Ability: Thick Fat  
+Level: 92  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- dazzlinggleam  
+- earthpower  
+- nastyplot  
+- psyshock  
+
+Sandaconda @ Loaded Dice  
+Ability: Shed Skin  
+Level: 84  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthquake  
+- scaleshot  
+- coil  
+- rockblast  
+
+

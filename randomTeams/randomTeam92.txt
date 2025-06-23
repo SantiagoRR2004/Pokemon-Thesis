@@ -1,0 +1,65 @@
+Gholdengo @ Leftovers  
+Ability: Good as Gold  
+Level: 77  
+Tera Type: Dark  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- recover  
+- nastyplot  
+- shadowball  
+- makeitrain  
+
+Heracross @ Choice Scarf  
+Ability: Moxie  
+Level: 80  
+Tera Type: Rock  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthquake  
+- stoneedge  
+- megahorn  
+- closecombat  
+
+Dragalge @ Leftovers  
+Ability: Adaptability  
+Level: 88  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- sludgewave  
+- toxicspikes  
+- dracometeor  
+- focusblast  
+
+Slowking @ Leftovers  
+Ability: Regenerator  
+Level: 88  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- scald  
+- thunderwave  
+- psyshock  
+- slackoff  
+
+Walking Wake @ Choice Specs  
+Ability: Protosynthesis  
+Level: 79  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- flipturn  
+- flamethrower  
+- hydropump  
+- dracometeor  
+
+Ninetales @ Heavy-Duty Boots  
+Ability: Drought  
+Level: 85  
+Tera Type: Fire  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- fireblast  
+- scorchingsands  
+- solarbeam  
+- nastyplot  
+
+

@@ -1,0 +1,61 @@
+Komala @ Assault Vest  
+Ability: Comatose  
+Level: 89  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- bodyslam  
+- rapidspin  
+- earthquake  
+
+Solgaleo @ Leftovers  
+Ability: Full Metal Body  
+Level: 74  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- sunsteelstrike  
+- morningsun  
+- closecombat  
+- flareblitz  
+
+Vaporeon @ Leftovers  
+Ability: Water Absorb  
+Level: 86  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- flipturn  
+- scald  
+- protect  
+- wish  
+
+Magearna @ Weakness Policy  
+Ability: Soul-Heart  
+Level: 77  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- fleurcannon  
+- terablast  
+- ironhead  
+- shiftgear  
+
+Dragapult @ Heavy-Duty Boots  
+Ability: Infiltrator  
+Level: 77  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- uturn  
+- willowisp  
+- hex  
+- dragondarts  
+
+Mamoswine @ Life Orb  
+Ability: Thick Fat  
+Level: 81  
+Tera Type: Ice  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- iciclecrash  
+- earthquake  
+- iceshard  
+- stealthrock  
+
+

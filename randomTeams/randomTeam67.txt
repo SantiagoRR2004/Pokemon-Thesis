@@ -1,0 +1,64 @@
+Gengar @ Life Orb  
+Ability: Cursed Body  
+Level: 81  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- toxicspikes  
+- encore  
+- shadowball  
+- sludgewave  
+
+Manaphy @ Leftovers  
+Ability: Hydration  
+Level: 78  
+Tera Type: Water  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- surf  
+- icebeam  
+- energyball  
+- tailglow  
+
+Misdreavus @ Eviolite  
+Ability: Levitate  
+Level: 90  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- calmmind  
+- willowisp  
+- drainingkiss  
+- shadowball  
+
+Electrode @ Life Orb  
+Ability: Static  
+Level: 92  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- foulplay  
+- explosion  
+- thunderbolt  
+- thunderwave  
+
+Talonflame @ Heavy-Duty Boots  
+Ability: Flame Body  
+Level: 83  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- roost  
+- bravebird  
+- willowisp  
+- overheat  
+
+Roaring Moon @ Lum Berry  
+Ability: Protosynthesis  
+Level: 72  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- outrage  
+- dragondance  
+- earthquake  
+- knockoff  
+
+

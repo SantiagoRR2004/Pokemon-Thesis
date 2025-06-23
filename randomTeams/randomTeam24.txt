@@ -1,0 +1,62 @@
+Brute Bonnet @ Leftovers  
+Ability: Protosynthesis  
+Level: 81  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- spore  
+- suckerpunch  
+- crunch  
+- seedbomb  
+
+Quagsire @ Leftovers  
+Ability: Unaware  
+Level: 84  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- toxic  
+- recover  
+- earthquake  
+- icebeam  
+
+Dialga @ Leftovers  
+Ability: Pressure  
+Level: 73  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- stealthrock  
+- heavyslam  
+- thunderwave  
+- dracometeor  
+
+Primarina @ Leftovers  
+Ability: Torrent  
+Level: 83  
+Tera Type: Poison  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- drainingkiss  
+- calmmind  
+- sparklingaria  
+- psychic  
+
+Flygon @ Lum Berry  
+Ability: Levitate  
+Level: 82  
+Tera Type: Rock  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- outrage  
+- stoneedge  
+- dragondance  
+- earthquake  
+
+Zangoose @ Toxic Orb  
+Ability: Toxic Boost  
+Level: 85  
+Tera Type: Normal  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- facade  
+- quickattack  
+- knockoff  
+- swordsdance  
+
+

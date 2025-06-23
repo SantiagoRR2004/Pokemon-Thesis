@@ -1,0 +1,62 @@
+Cryogonal @ Heavy-Duty Boots  
+Ability: Levitate  
+Level: 89  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- haze  
+- freezedry  
+- rapidspin  
+- recover  
+
+Electivire @ Life Orb  
+Ability: Motor Drive  
+Level: 84  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- icepunch  
+- earthquake  
+- flamethrower  
+- supercellslam  
+
+Furret @ Choice Band  
+Ability: Frisk  
+Level: 94  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- uturn  
+- doubleedge  
+- trick  
+- knockoff  
+
+Golurk @ Choice Band  
+Ability: No Guard  
+Level: 87  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- poltergeist  
+- earthquake  
+- dynamicpunch  
+- stoneedge  
+
+Drifblim @ Sitrus Berry  
+Ability: Unburden  
+Level: 86  
+Tera Type: Fairy  
+EVs: 73 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- calmmind  
+- strengthsap  
+- shadowball  
+- airslash  
+
+Lokix @ Silver Powder  
+Ability: Tinted Lens  
+Level: 82  
+Tera Type: Bug  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- uturn  
+- firstimpression  
+- suckerpunch  
+
+

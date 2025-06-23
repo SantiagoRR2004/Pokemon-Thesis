@@ -1,0 +1,63 @@
+Klawf @ Choice Scarf  
+Ability: Regenerator  
+Level: 90  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- stoneedge  
+- highhorsepower  
+- crabhammer  
+- knockoff  
+
+Flygon @ Lum Berry  
+Ability: Levitate  
+Level: 82  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- outrage  
+- earthquake  
+- dragondance  
+- stoneedge  
+
+Swalot @ Leftovers  
+Ability: Liquid Ooze  
+Level: 90  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- gunkshot  
+- knockoff  
+- swordsdance  
+- earthquake  
+
+Slowking @ Heavy-Duty Boots  
+Ability: Regenerator  
+Level: 88  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- chillyreception  
+- slackoff  
+- scald  
+- futuresight  
+
+Manaphy @ Leftovers  
+Ability: Hydration  
+Level: 78  
+Tera Type: Water  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- tailglow  
+- energyball  
+- icebeam  
+- hydropump  
+
+Bronzong @ Chesto Berry  
+Ability: Levitate  
+Level: 88  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- rest  
+- ironhead  
+- bodypress  
+- irondefense  
+
+

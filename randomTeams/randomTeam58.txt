@@ -1,0 +1,62 @@
+Garchomp @ Rocky Helmet  
+Ability: Rough Skin  
+Level: 74  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- spikes  
+- outrage  
+- earthquake  
+- stealthrock  
+
+Poliwrath @ Life Orb  
+Ability: Swift Swim  
+Level: 88  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- liquidation  
+- knockoff  
+- raindance  
+- closecombat  
+
+Primarina @ Leftovers  
+Ability: Torrent  
+Level: 83  
+Tera Type: Poison  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- drainingkiss  
+- sparklingaria  
+- calmmind  
+- psychic  
+
+Kleavor @ Heavy-Duty Boots  
+Ability: Sharpness  
+Level: 78  
+Tera Type: Rock  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- uturn  
+- stoneaxe  
+- defog  
+- xscissor  
+
+Perrserker @ Choice Band  
+Ability: Tough Claws  
+Level: 89  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- uturn  
+- closecombat  
+- knockoff  
+- ironhead  
+
+Houndstone @ Leftovers  
+Ability: Fluffy  
+Level: 86  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bodypress  
+- sleeptalk  
+- poltergeist  
+- rest  
+
+

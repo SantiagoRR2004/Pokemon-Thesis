@@ -1,0 +1,64 @@
+Vikavolt @ Heavy-Duty Boots  
+Ability: Levitate  
+Level: 83  
+Tera Type: Electric  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- bugbuzz  
+- discharge  
+- energyball  
+- stickyweb  
+
+Okidogi (M) @ Leftovers  
+Ability: Toxic Chain  
+Level: 77  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- gunkshot  
+- drainpunch  
+- knockoff  
+- bulkup  
+
+Tauros (Tauros-Paldea-Combat) (M) @ Life Orb  
+Ability: Intimidate  
+Level: 82  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bulkup  
+- throatchop  
+- closecombat  
+- ironhead  
+
+Luxray @ Flame Orb  
+Ability: Guts  
+Level: 88  
+Tera Type: Normal  
+EVs: 81 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- supercellslam  
+- trailblaze  
+- playrough  
+- facade  
+
+Mew @ Leftovers  
+Ability: Synchronize  
+Level: 82  
+Tera Type: Dark  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- encore  
+- stealthrock  
+- willowisp  
+- psychic  
+
+Magmortar @ Heavy-Duty Boots  
+Ability: Flame Body  
+Level: 88  
+Shiny: Yes  
+Tera Type: Electric  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- taunt  
+- fireblast  
+- thunderbolt  
+
+

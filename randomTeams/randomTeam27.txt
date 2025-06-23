@@ -1,0 +1,62 @@
+Magearna @ Weakness Policy  
+Ability: Soul-Heart  
+Level: 77  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- ironhead  
+- fleurcannon  
+- shiftgear  
+- terablast  
+
+Skuntank @ Life Orb  
+Ability: Aftermath  
+Level: 84  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- suckerpunch  
+- gunkshot  
+- knockoff  
+- toxicspikes  
+
+Electrode (Electrode-Hisui) @ Life Orb  
+Ability: Soundproof  
+Level: 87  
+Tera Type: Grass  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- taunt  
+- gigadrain  
+- thunderwave  
+- thunderbolt  
+
+Landorus (Landorus-Therian) (M) @ Leftovers  
+Ability: Intimidate  
+Level: 76  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- taunt  
+- stoneedge  
+- stealthrock  
+- earthquake  
+
+Beartic @ Choice Band  
+Ability: Swift Swim  
+Level: 91  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthquake  
+- aquajet  
+- iciclecrash  
+- closecombat  
+
+Charizard @ Heavy-Duty Boots  
+Ability: Blaze  
+Level: 85  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- dragondance  
+- outrage  
+- flareblitz  
+- earthquake  
+
+

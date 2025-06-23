@@ -1,0 +1,62 @@
+Pachirisu @ Heavy-Duty Boots  
+Ability: Volt Absorb  
+Level: 96  
+Tera Type: Flying  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- encore  
+- superfang  
+- discharge  
+- uturn  
+
+Golurk @ Life Orb  
+Ability: No Guard  
+Level: 87  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- stoneedge  
+- earthquake  
+- poltergeist  
+- stealthrock  
+
+Pawmot @ Life Orb  
+Ability: Iron Fist  
+Level: 80  
+Tera Type: Electric  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- icepunch  
+- closecombat  
+- doubleshock  
+- revivalblessing  
+
+Infernape @ Life Orb  
+Ability: Blaze  
+Level: 82  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- overheat  
+- knockoff  
+- stoneedge  
+- closecombat  
+
+Chansey (F) @ Eviolite  
+Ability: Natural Cure  
+Level: 85  
+Tera Type: Poison  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- seismictoss  
+- healbell  
+- softboiled  
+- thunderwave  
+
+Honchkrow @ Heavy-Duty Boots  
+Ability: Moxie  
+Level: 86  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- lashout  
+- bravebird  
+- suckerpunch  
+- thunderwave  
+
+

@@ -1,0 +1,62 @@
+Scrafty @ Life Orb  
+Ability: Intimidate  
+Level: 84  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- poisonjab  
+- knockoff  
+- dragondance  
+- closecombat  
+
+Scyther @ Heavy-Duty Boots  
+Ability: Technician  
+Level: 82  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- dualwingbeat  
+- swordsdance  
+- bugbite  
+- closecombat  
+
+Volbeat (M) @ Heavy-Duty Boots  
+Ability: Prankster  
+Level: 90  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- lunge  
+- thunderwave  
+- encore  
+- roost  
+
+Basculegion (Basculegion-F) (F) @ Assault Vest  
+Ability: Adaptability  
+Level: 83  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- flipturn  
+- wavecrash  
+- shadowball  
+- hydropump  
+
+Politoed @ Chesto Berry  
+Ability: Drizzle  
+Level: 88  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- encore  
+- surf  
+- rest  
+- icebeam  
+
+Dragonite @ Heavy-Duty Boots  
+Ability: Multiscale  
+Level: 74  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- dragondance  
+- roost  
+- earthquake  
+- outrage  
+
+

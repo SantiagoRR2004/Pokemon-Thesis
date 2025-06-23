@@ -1,0 +1,62 @@
+Torkoal @ Heavy-Duty Boots  
+Ability: Drought  
+Level: 88  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- rapidspin  
+- yawn  
+- lavaplume  
+- solarbeam  
+
+Greninja (M) @ Life Orb  
+Ability: Protean  
+Level: 80  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- hydropump  
+- icebeam  
+- gunkshot  
+- darkpulse  
+
+Toxicroak @ Choice Band  
+Ability: Dry Skin  
+Level: 84  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- suckerpunch  
+- knockoff  
+- closecombat  
+- gunkshot  
+
+Registeel @ Leftovers  
+Ability: Clear Body  
+Level: 81  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- irondefense  
+- thunderwave  
+- ironhead  
+- bodypress  
+
+Latios (M) @ Soul Dew  
+Ability: Levitate  
+Level: 78  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- dracometeor  
+- aurasphere  
+- lusterpurge  
+- calmmind  
+
+Leafeon @ Life Orb  
+Ability: Chlorophyll  
+Level: 88  
+Tera Type: Normal  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- synthesis  
+- doubleedge  
+- leafblade  
+- swordsdance  
+
+

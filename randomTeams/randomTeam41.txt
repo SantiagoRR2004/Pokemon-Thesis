@@ -1,0 +1,66 @@
+Galvantula @ Focus Sash  
+Ability: Compound Eyes  
+Level: 82  
+Tera Type: Electric  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- voltswitch  
+- stickyweb  
+- bugbuzz  
+- thunder  
+
+Infernape @ Life Orb  
+Ability: Blaze  
+Level: 82  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- machpunch  
+- overheat  
+- closecombat  
+
+Bellibolt @ Leftovers  
+Ability: Electromorphosis  
+Level: 84  
+Tera Type: Electric  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- thunderbolt  
+- muddywater  
+- voltswitch  
+- slackoff  
+
+Ninetales (Ninetales-Alola) @ Light Clay  
+Ability: Snow Warning  
+Level: 78  
+Tera Type: Water  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- auroraveil  
+- freezedry  
+- blizzard  
+- moonblast  
+
+Ribombee @ Heavy-Duty Boots  
+Ability: Shield Dust  
+Level: 82  
+Tera Type: Ground  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- terablast  
+- quiverdance  
+- moonblast  
+- bugbuzz  
+
+Golduck @ Life Orb  
+Ability: Cloud Nine  
+Level: 90  
+Tera Type: Water  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- icebeam  
+- hydropump  
+- nastyplot  
+- grassknot  
+
+

@@ -1,0 +1,64 @@
+Sunflora @ Choice Specs  
+Ability: Chlorophyll  
+Tera Type: Ground  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- dazzlinggleam  
+- leafstorm  
+- earthpower  
+- sludgebomb  
+
+Brute Bonnet @ Choice Band  
+Ability: Protosynthesis  
+Level: 81  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- closecombat  
+- suckerpunch  
+- seedbomb  
+- crunch  
+
+Salazzle (F) @ Leftovers  
+Ability: Corrosion  
+Level: 83  
+Tera Type: Grass  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- flamethrower  
+- toxic  
+- substitute  
+- protect  
+
+Lucario @ Life Orb  
+Ability: Inner Focus  
+Level: 84  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- aurasphere  
+- vacuumwave  
+- nastyplot  
+- flashcannon  
+
+Gengar @ Life Orb  
+Ability: Cursed Body  
+Level: 81  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- shadowball  
+- sludgewave  
+- focusblast  
+- encore  
+
+Dondozo @ Leftovers  
+Ability: Unaware  
+Level: 78  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- sleeptalk  
+- wavecrash  
+- curse  
+- rest  
+
+

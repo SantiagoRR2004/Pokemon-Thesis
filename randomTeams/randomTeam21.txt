@@ -1,0 +1,62 @@
+Samurott @ Assault Vest  
+Ability: Torrent  
+Level: 88  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- sacredsword  
+- hydropump  
+- aquajet  
+
+Coalossal @ Heavy-Duty Boots  
+Ability: Flame Body  
+Level: 89  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- rapidspin  
+- stealthrock  
+- stoneedge  
+- overheat  
+
+Regirock @ Leftovers  
+Ability: Clear Body  
+Level: 83  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- irondefense  
+- thunderwave  
+- bodypress  
+- stoneedge  
+
+Tatsugiri (Tatsugiri-Stretchy) @ Life Orb  
+Ability: Storm Drain  
+Level: 87  
+Tera Type: Water  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- dracometeor  
+- surf  
+- hydropump  
+- nastyplot  
+
+Mabosstiff @ Choice Band  
+Ability: Stakeout  
+Level: 86  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- wildcharge  
+- psychicfangs  
+- playrough  
+- crunch  
+
+Passimian @ Choice Band  
+Ability: Defiant  
+Level: 83  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- closecombat  
+- earthquake  
+- rockslide  
+- knockoff  
+
+

@@ -1,60 +1,62 @@
-Kommo-o @ Loaded Dice  
-Ability: Soundproof  
-Level: 78  
+Rhyperior @ Assault Vest  
+Ability: Solid Rock  
+Level: 82  
+Tera Type: Grass  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- dragontail  
+- stoneedge  
+- megahorn  
+- earthquake  
+
+Gengar @ Life Orb  
+Ability: Cursed Body  
+Level: 81  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- focusblast  
+- sludgewave  
+- encore  
+- shadowball  
+
+Garchomp @ Loaded Dice  
+Ability: Rough Skin  
+Level: 74  
 Tera Type: Steel  
-EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe  
-- Scale Shot  
-- Close Combat  
-- Iron Head  
-- Swords Dance  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthquake  
+- ironhead  
+- swordsdance  
+- scaleshot  
 
-Dunsparce @ Eviolite  
-Ability: Serene Grace  
-Level: 86  
-Tera Type: Ground  
-EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe  
-- Roost  
-- Coil  
-- Body Slam  
-- Earthquake  
+Overqwil @ Loaded Dice  
+Ability: Intimidate  
+Level: 82  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- scaleshot  
+- gunkshot  
+- swordsdance  
+- crunch  
 
-Kilowattrel @ Heavy-Duty Boots  
-Ability: Volt Absorb  
-Level: 83  
-Tera Type: Water  
-EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe  
-- Thunderbolt  
-- U-turn  
-- Thunder Wave  
-- Hurricane  
-
-Skeledirge @ Heavy-Duty Boots  
-Ability: Unaware  
+Keldeo (Keldeo-Resolute) @ Choice Specs  
+Ability: Justified  
 Level: 79  
 Tera Type: Water  
-EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe  
-- Slack Off  
-- Shadow Ball  
-- Torch Song  
-- Flame Charge  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- airslash  
+- secretsword  
+- flipturn  
+- hydropump  
 
-Golem-Alola @ Life Orb  
-Ability: Galvanize  
-Level: 93  
-Tera Type: Grass  
-EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe  
-- Stone Edge  
-- Double-Edge  
-- Earthquake  
-- Rock Polish  
-
-Tropius @ Sitrus Berry  
-Ability: Harvest  
+Beartic @ Heavy-Duty Boots  
+Ability: Slush Rush  
 Level: 91  
 Tera Type: Ground  
-EVs: 84 HP / 84 Atk / 84 Def / 84 SpA / 84 SpD / 84 Spe  
-- Leaf Blade  
-- Dragon Dance  
-- Dual Wingbeat  
-- Earthquake  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- swordsdance  
+- snowscape  
+- iciclecrash  
+- earthquake  
+
 

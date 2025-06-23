@@ -1,0 +1,62 @@
+Jolteon @ Leftovers  
+Ability: Volt Absorb  
+Level: 84  
+Tera Type: Ice  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- calmmind  
+- terablast  
+- thunderbolt  
+- substitute  
+
+Grimmsnarl (M) @ Leftovers  
+Ability: Prankster  
+Level: 83  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- thunderwave  
+- spiritbreak  
+- suckerpunch  
+- partingshot  
+
+Iron Valiant @ Life Orb  
+Ability: Quark Drive  
+Level: 78  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- spiritbreak  
+- swordsdance  
+- knockoff  
+- closecombat  
+
+Gogoat @ Leftovers  
+Ability: Sap Sipper  
+Level: 88  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthquake  
+- milkdrink  
+- hornleech  
+- bulkup  
+
+Regieleki @ Magnet  
+Ability: Transistor  
+Level: 79  
+Tera Type: Electric  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- voltswitch  
+- rapidspin  
+- explosion  
+- thunderbolt  
+
+Pelipper @ Choice Specs  
+Ability: Drizzle  
+Level: 86  
+Tera Type: Flying  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- hurricane  
+- weatherball  
+- hydropump  
+- uturn  
+
+

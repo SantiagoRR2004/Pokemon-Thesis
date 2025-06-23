@@ -1,0 +1,64 @@
+Giratina @ Leftovers  
+Ability: Pressure  
+Level: 75  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- rest  
+- willowisp  
+- sleeptalk  
+- shadowball  
+
+Mesprit @ Leftovers  
+Ability: Levitate  
+Level: 85  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- thunderwave  
+- knockoff  
+- psychicnoise  
+- uturn  
+
+Annihilape @ Leftovers  
+Ability: Defiant  
+Level: 76  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- ragefist  
+- taunt  
+- drainpunch  
+- bulkup  
+
+Yanmega @ Heavy-Duty Boots  
+Ability: Speed Boost  
+Level: 82  
+Tera Type: Ground  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- terablast  
+- airslash  
+- protect  
+- bugbuzz  
+
+Mudsdale @ Leftovers  
+Ability: Stamina  
+Level: 84  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- heavyslam  
+- stealthrock  
+- earthquake  
+- stoneedge  
+
+Golduck @ Life Orb  
+Ability: Cloud Nine  
+Level: 90  
+Tera Type: Grass  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- hydropump  
+- icebeam  
+- grassknot  
+- nastyplot  
+
+

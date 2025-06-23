@@ -1,0 +1,65 @@
+Corviknight @ Leftovers  
+Ability: Mirror Armor  
+Level: 80  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- roost  
+- bravebird  
+- uturn  
+- defog  
+
+Grafaiai @ Life Orb  
+Ability: Poison Touch  
+Level: 86  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- lowkick  
+- knockoff  
+- gunkshot  
+- swordsdance  
+
+Arceus (Arceus-Rock) @ Stone Plate  
+Ability: Multitype  
+Level: 74  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- judgment  
+- calmmind  
+- recover  
+- fireblast  
+
+Dudunsparce (Dudunsparce-Three-Segment) @ Leftovers  
+Ability: Rattled  
+Level: 83  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- calmmind  
+- roost  
+- shadowball  
+- boomburst  
+
+Cresselia (F) @ Leftovers  
+Ability: Levitate  
+Level: 80  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- thunderbolt  
+- psyshock  
+- calmmind  
+- moonlight  
+
+Vileplume @ Leftovers  
+Ability: Effect Spore  
+Level: 85  
+Tera Type: Water  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- sleeppowder  
+- sludgebomb  
+- gigadrain  
+- strengthsap  
+
+

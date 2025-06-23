@@ -1,0 +1,64 @@
+Persian (Persian-Alola) @ Heavy-Duty Boots  
+Ability: Fur Coat  
+Level: 86  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- taunt  
+- partingshot  
+- knockoff  
+- thunderwave  
+
+Mandibuzz (F) @ Heavy-Duty Boots  
+Ability: Overcoat  
+Level: 85  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- defog  
+- bravebird  
+- knockoff  
+- roost  
+
+Bellibolt @ Leftovers  
+Ability: Electromorphosis  
+Level: 84  
+Tera Type: Electric  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- slackoff  
+- toxic  
+- muddywater  
+- thunderbolt  
+
+Raichu @ Life Orb  
+Ability: Lightning Rod  
+Level: 88  
+Tera Type: Ice  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- thunderbolt  
+- terablast  
+- nastyplot  
+- encore  
+
+Lycanroc @ Life Orb  
+Ability: Sand Rush  
+Level: 86  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- closecombat  
+- accelerock  
+- taunt  
+- stoneedge  
+
+Arceus (Arceus-Flying) @ Sky Plate  
+Ability: Multitype  
+Level: 69  
+Tera Type: Ground  
+EVs: 81 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- earthpower  
+- recover  
+- judgment  
+- calmmind  
+
+

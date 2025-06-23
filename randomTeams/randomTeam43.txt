@@ -1,0 +1,63 @@
+Bellibolt @ Leftovers  
+Ability: Electromorphosis  
+Level: 84  
+Tera Type: Electric  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- slackoff  
+- muddywater  
+- toxic  
+- thunderbolt  
+
+Indeedee (M) @ Choice Scarf  
+Ability: Psychic Surge  
+Level: 84  
+Tera Type: Psychic  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- dazzlinggleam  
+- hypervoice  
+- expandingforce  
+- shadowball  
+
+Trevenant @ Choice Band  
+Ability: Natural Cure  
+Level: 88  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- poltergeist  
+- drainpunch  
+- woodhammer  
+- hornleech  
+
+Virizion @ Life Orb  
+Ability: Justified  
+Level: 82  
+Tera Type: Rock  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- closecombat  
+- stoneedge  
+- leafblade  
+- swordsdance  
+
+Necrozma (Necrozma-Dusk-Mane) @ Weakness Policy  
+Ability: Prism Armor  
+Level: 69  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthquake  
+- dragondance  
+- photongeyser  
+- sunsteelstrike  
+
+Arcanine @ Heavy-Duty Boots  
+Ability: Intimidate  
+Level: 84  
+Tera Type: Normal  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- extremespeed  
+- morningsun  
+- closecombat  
+- flareblitz  
+
+

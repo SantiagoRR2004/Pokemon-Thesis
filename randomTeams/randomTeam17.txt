@@ -1,0 +1,62 @@
+Hitmonchan (M) @ Leftovers  
+Ability: Iron Fist  
+Level: 87  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- poisonjab  
+- knockoff  
+- drainpunch  
+- bulkup  
+
+Gliscor @ Toxic Orb  
+Ability: Poison Heal  
+Level: 76  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthquake  
+- substitute  
+- toxic  
+- protect  
+
+Dugtrio (Dugtrio-Alola) @ Life Orb  
+Ability: Tangling Hair  
+Level: 84  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthquake  
+- ironhead  
+- swordsdance  
+- suckerpunch  
+
+Pelipper @ Heavy-Duty Boots  
+Ability: Drizzle  
+Level: 86  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- roost  
+- surf  
+- hurricane  
+- knockoff  
+
+Whimsicott @ Leftovers  
+Ability: Prankster  
+Level: 84  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- substitute  
+- encore  
+- leechseed  
+- moonblast  
+
+Wyrdeer @ Assault Vest  
+Ability: Intimidate  
+Level: 87  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- megahorn  
+- earthquake  
+- psychicnoise  
+- bodyslam  
+
+

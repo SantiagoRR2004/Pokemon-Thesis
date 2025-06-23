@@ -1,0 +1,61 @@
+Meowscarada @ Choice Band  
+Ability: Protean  
+Level: 78  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- tripleaxel  
+- uturn  
+- knockoff  
+- flowertrick  
+
+Beartic @ Heavy-Duty Boots  
+Ability: Swift Swim  
+Level: 91  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthquake  
+- iciclecrash  
+- swordsdance  
+- closecombat  
+
+Greedent @ Sitrus Berry  
+Ability: Cheek Pouch  
+Level: 86  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- doubleedge  
+- knockoff  
+- earthquake  
+- swordsdance  
+
+Houndstone @ Leftovers  
+Ability: Fluffy  
+Level: 86  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- roar  
+- bodypress  
+- poltergeist  
+- shadowsneak  
+
+Gastrodon (Gastrodon-East) @ Leftovers  
+Ability: Storm Drain  
+Level: 86  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- stealthrock  
+- earthquake  
+- recover  
+- surf  
+
+Garchomp @ Rocky Helmet  
+Ability: Rough Skin  
+Level: 74  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- spikes  
+- dragontail  
+- outrage  
+- earthquake  
+
+

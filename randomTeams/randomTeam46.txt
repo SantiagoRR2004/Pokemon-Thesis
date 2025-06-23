@@ -1,0 +1,62 @@
+Deoxys @ Life Orb  
+Ability: Pressure  
+Level: 74  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- superpower  
+- psychoboost  
+- extremespeed  
+- knockoff  
+
+Roaring Moon @ Choice Band  
+Ability: Protosynthesis  
+Level: 72  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- uturn  
+- ironhead  
+- outrage  
+
+Slither Wing @ Life Orb  
+Ability: Protosynthesis  
+Level: 81  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- firstimpression  
+- earthquake  
+- wildcharge  
+- closecombat  
+
+Mandibuzz (F) @ Heavy-Duty Boots  
+Ability: Overcoat  
+Level: 85  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- foulplay  
+- roost  
+- toxic  
+- bravebird  
+
+Talonflame @ Heavy-Duty Boots  
+Ability: Flame Body  
+Level: 83  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- roost  
+- overheat  
+- willowisp  
+- bravebird  
+
+Plusle @ Life Orb  
+Ability: Lightning Rod  
+Level: 95  
+Tera Type: Grass  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- grassknot  
+- nastyplot  
+- thunderbolt  
+- alluringvoice  
+
+

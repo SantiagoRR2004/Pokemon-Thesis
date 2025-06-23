@@ -1,0 +1,65 @@
+Comfey @ Leftovers  
+Ability: Triage  
+Level: 85  
+Tera Type: Ground  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- terablast  
+- drainingkiss  
+- calmmind  
+- synthesis  
+
+Archaludon @ Lum Berry  
+Ability: Stamina  
+Level: 78  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthquake  
+- ironhead  
+- swordsdance  
+- outrage  
+
+Lumineon @ Life Orb  
+Ability: Storm Drain  
+Level: 93  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- alluringvoice  
+- icebeam  
+- hydropump  
+- encore  
+
+Raging Bolt @ Booster Energy  
+Ability: Protosynthesis  
+Level: 78  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- dragonpulse  
+- calmmind  
+- thunderclap  
+- thunderbolt  
+
+Glimmora @ Power Herb  
+Ability: Toxic Debris  
+Level: 75  
+Tera Type: Grass  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- earthpower  
+- meteorbeam  
+- sludgewave  
+- energyball  
+
+Kleavor @ Heavy-Duty Boots  
+Ability: Sharpness  
+Level: 78  
+Tera Type: Bug  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- stoneaxe  
+- closecombat  
+- xscissor  
+- swordsdance  
+
+

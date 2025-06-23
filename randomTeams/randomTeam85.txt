@@ -1,0 +1,62 @@
+Clefable @ Life Orb  
+Ability: Magic Guard  
+Level: 83  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- stealthrock  
+- moonblast  
+- fireblast  
+- moonlight  
+
+Cryogonal @ Heavy-Duty Boots  
+Ability: Levitate  
+Level: 89  
+Tera Type: Electric  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- icebeam  
+- recover  
+- terablast  
+- rapidspin  
+
+Hariyama @ Flame Orb  
+Ability: Guts  
+Level: 87  
+Tera Type: Normal  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- facade  
+- fakeout  
+- knockoff  
+- closecombat  
+
+Virizion @ Life Orb  
+Ability: Justified  
+Level: 82  
+Tera Type: Rock  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- swordsdance  
+- stoneedge  
+- leafblade  
+- closecombat  
+
+Talonflame @ Heavy-Duty Boots  
+Ability: Flame Body  
+Level: 83  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- overheat  
+- roost  
+- uturn  
+- bravebird  
+
+Komala @ Choice Scarf  
+Ability: Comatose  
+Level: 89  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bodyslam  
+- knockoff  
+- earthquake  
+- uturn  
+
+

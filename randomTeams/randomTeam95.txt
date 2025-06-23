@@ -1,0 +1,64 @@
+Haxorus @ Loaded Dice  
+Ability: Mold Breaker  
+Level: 77  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- swordsdance  
+- ironhead  
+- closecombat  
+- scaleshot  
+
+Minun @ Life Orb  
+Ability: Volt Absorb  
+Level: 95  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- nastyplot  
+- grassknot  
+- thunderbolt  
+- alluringvoice  
+
+Ninetales @ Heavy-Duty Boots  
+Ability: Drought  
+Level: 85  
+Tera Type: Grass  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- nastyplot  
+- solarbeam  
+- fireblast  
+- scorchingsands  
+
+Iron Thorns @ Booster Energy  
+Ability: Quark Drive  
+Level: 83  
+Tera Type: Flying  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- stoneedge  
+- icepunch  
+- wildcharge  
+- dragondance  
+
+Spectrier @ Life Orb  
+Ability: Grim Neigh  
+Level: 75  
+Tera Type: Dark  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- drainingkiss  
+- nastyplot  
+- shadowball  
+- darkpulse  
+
+Mightyena @ Assault Vest  
+Ability: Intimidate  
+Level: 95  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- playrough  
+- superfang  
+- poisonfang  
+- throatchop  
+
+

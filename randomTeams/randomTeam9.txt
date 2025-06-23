@@ -1,0 +1,63 @@
+Yanmega @ Heavy-Duty Boots  
+Ability: Speed Boost  
+Level: 82  
+Tera Type: Ground  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- terablast  
+- airslash  
+- bugbuzz  
+- protect  
+
+Furret @ Choice Band  
+Ability: Frisk  
+Level: 94  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- trick  
+- doubleedge  
+- uturn  
+
+Haxorus @ Loaded Dice  
+Ability: Mold Breaker  
+Level: 77  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- ironhead  
+- scaleshot  
+- swordsdance  
+- closecombat  
+
+Azumarill @ Choice Band  
+Ability: Huge Power  
+Level: 82  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- playrough  
+- superpower  
+- aquajet  
+- liquidation  
+
+Thundurus (M)  
+Ability: Defiant  
+Level: 80  
+Tera Type: Flying  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- thunderbolt  
+- knockoff  
+- uturn  
+- acrobatics  
+
+Spectrier @ Life Orb  
+Ability: Grim Neigh  
+Level: 75  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- nastyplot  
+- drainingkiss  
+- shadowball  
+- willowisp  
+
+

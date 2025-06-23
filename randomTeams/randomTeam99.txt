@@ -1,0 +1,63 @@
+Kricketune @ Focus Sash  
+Ability: Technician  
+Level: 99  
+Tera Type: Ghost  
+EVs: 81 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- stickyweb  
+- taunt  
+- pounce  
+
+Glalie @ Heavy-Duty Boots  
+Ability: Inner Focus  
+Level: 96  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- freezedry  
+- disable  
+- earthquake  
+- spikes  
+
+Klefki @ Leftovers  
+Ability: Prankster  
+Level: 84  
+Tera Type: Water  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- foulplay  
+- thunderwave  
+- spikes  
+- dazzlinggleam  
+
+Delphox @ Heavy-Duty Boots  
+Ability: Blaze  
+Level: 84  
+Tera Type: Fire  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- fireblast  
+- psyshock  
+- nastyplot  
+- grassknot  
+
+Garganacl @ Leftovers  
+Ability: Purifying Salt  
+Level: 80  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- recover  
+- saltcure  
+- bodypress  
+- irondefense  
+
+Dusknoir @ Leftovers  
+Ability: Frisk  
+Level: 89  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- poltergeist  
+- focuspunch  
+- substitute  
+- painsplit  
+
+

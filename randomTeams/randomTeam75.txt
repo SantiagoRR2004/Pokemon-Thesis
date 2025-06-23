@@ -1,0 +1,65 @@
+Serperior @ Life Orb  
+Ability: Contrary  
+Level: 79  
+Tera Type: Rock  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- terablast  
+- synthesis  
+- glare  
+- leafstorm  
+
+Magcargo @ Heavy-Duty Boots  
+Ability: Weak Armor  
+Level: 95  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- powergem  
+- shellsmash  
+- fireblast  
+- earthpower  
+
+Alcremie (Alcremie-Matcha-Cream) (F) @ Leftovers  
+Ability: Aroma Veil  
+Level: 90  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- calmmind  
+- alluringvoice  
+- psyshock  
+- recover  
+
+Chesnaught @ Leftovers  
+Ability: Bulletproof  
+Level: 84  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- trailblaze  
+- irondefense  
+- synthesis  
+- bodypress  
+
+Regice @ Heavy-Duty Boots  
+Ability: Clear Body  
+Level: 88  
+Tera Type: Electric  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- icebeam  
+- thunderbolt  
+- sleeptalk  
+- rest  
+
+Oricorio @ Heavy-Duty Boots  
+Ability: Dancer  
+Level: 84  
+Tera Type: Ground  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- hurricane  
+- revelationdance  
+- quiverdance  
+- roost  
+
+

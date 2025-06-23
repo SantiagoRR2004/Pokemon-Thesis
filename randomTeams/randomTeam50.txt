@@ -1,0 +1,63 @@
+Vivillon (Vivillon-Icy Snow) @ Heavy-Duty Boots  
+Ability: Compound Eyes  
+Level: 83  
+Tera Type: Flying  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- sleeppowder  
+- quiverdance  
+- hurricane  
+- bugbuzz  
+
+Stonjourner @ Life Orb  
+Ability: Power Spot  
+Level: 91  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- heatcrash  
+- stealthrock  
+- earthquake  
+- stoneedge  
+
+Barraskewda @ Choice Band  
+Ability: Swift Swim  
+Level: 81  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- waterfall  
+- poisonjab  
+- flipturn  
+- closecombat  
+
+Dusknoir @ Life Orb  
+Ability: Frisk  
+Level: 89  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- poltergeist  
+- shadowsneak  
+- earthquake  
+- painsplit  
+
+Iron Jugulis @ Power Herb  
+Ability: Quark Drive  
+Level: 78  
+Tera Type: Dark  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- darkpulse  
+- earthpower  
+- meteorbeam  
+- hurricane  
+
+Donphan @ Assault Vest  
+Ability: Sturdy  
+Level: 84  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- iceshard  
+- icespinner  
+- rapidspin  
+- earthquake  
+
+

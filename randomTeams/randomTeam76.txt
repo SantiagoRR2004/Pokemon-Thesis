@@ -1,0 +1,63 @@
+Appletun @ Leftovers  
+Ability: Thick Fat  
+Level: 92  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- recover  
+- appleacid  
+- dracometeor  
+- leechseed  
+
+Grimmsnarl (M) @ Leftovers  
+Ability: Prankster  
+Level: 83  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- thunderwave  
+- spiritbreak  
+- partingshot  
+- suckerpunch  
+
+Latias (F) @ Soul Dew  
+Ability: Levitate  
+Level: 79  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- dracometeor  
+- psyshock  
+- recover  
+- calmmind  
+
+Brambleghast @ Heavy-Duty Boots  
+Ability: Wind Rider  
+Level: 88  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- poltergeist  
+- strengthsap  
+- rapidspin  
+- powerwhip  
+
+Floatzel @ Choice Band  
+Ability: Water Veil  
+Level: 85  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- wavecrash  
+- flipturn  
+- icespinner  
+- crunch  
+
+Kricketune @ Heavy-Duty Boots  
+Ability: Technician  
+Level: 99  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- pounce  
+- stickyweb  
+- knockoff  
+- taunt  
+
+

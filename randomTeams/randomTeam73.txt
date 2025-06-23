@@ -1,0 +1,62 @@
+Tauros (Tauros-Paldea-Blaze) (M) @ Choice Band  
+Ability: Intimidate  
+Level: 81  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- closecombat  
+- flareblitz  
+- stoneedge  
+- wildcharge  
+
+Girafarig @ Eviolite  
+Ability: Sap Sipper  
+Level: 89  
+Tera Type: Normal  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- hypervoice  
+- nastyplot  
+- thunderbolt  
+- psyshock  
+
+Hitmonlee (M) @ White Herb  
+Ability: Unburden  
+Level: 85  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- swordsdance  
+- knockoff  
+- stoneedge  
+- closecombat  
+
+Decidueye @ Heavy-Duty Boots  
+Ability: Overgrow  
+Level: 88  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- leafstorm  
+- spiritshackle  
+- defog  
+- knockoff  
+
+Swampert @ Leftovers  
+Ability: Torrent  
+Level: 83  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthquake  
+- roar  
+- icebeam  
+- flipturn  
+
+Cyclizar @ Heavy-Duty Boots  
+Ability: Regenerator  
+Level: 83  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- shedtail  
+- knockoff  
+- dracometeor  
+- taunt  
+
+

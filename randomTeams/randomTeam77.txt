@@ -1,0 +1,63 @@
+Toxicroak @ Life Orb  
+Ability: Dry Skin  
+Level: 84  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- closecombat  
+- earthquake  
+- gunkshot  
+- swordsdance  
+
+Houndstone @ Assault Vest  
+Ability: Fluffy  
+Level: 86  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- playrough  
+- bodypress  
+- shadowsneak  
+- poltergeist  
+
+Hydreigon @ Choice Specs  
+Ability: Levitate  
+Level: 79  
+Tera Type: Fire  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- dracometeor  
+- darkpulse  
+- fireblast  
+- uturn  
+
+Glimmora @ Air Balloon  
+Ability: Toxic Debris  
+Level: 75  
+Tera Type: Ground  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- earthpower  
+- powergem  
+- stealthrock  
+- sludgewave  
+
+Alomomola @ Leftovers  
+Ability: Regenerator  
+Level: 87  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- scald  
+- protect  
+- wish  
+- flipturn  
+
+Mismagius @ Life Orb  
+Ability: Levitate  
+Level: 86  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- mysticalfire  
+- dazzlinggleam  
+- shadowball  
+- nastyplot  
+
+

@@ -1,0 +1,63 @@
+Cryogonal @ Heavy-Duty Boots  
+Ability: Levitate  
+Level: 89  
+Tera Type: Electric  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- recover  
+- rapidspin  
+- icebeam  
+- terablast  
+
+Keldeo (Keldeo-Resolute) @ Life Orb  
+Ability: Justified  
+Level: 79  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- secretsword  
+- hydropump  
+- calmmind  
+- airslash  
+
+Golduck @ Life Orb  
+Ability: Cloud Nine  
+Level: 90  
+Tera Type: Water  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- grassknot  
+- nastyplot  
+- icebeam  
+- hydropump  
+
+Piloswine @ Eviolite  
+Ability: Thick Fat  
+Level: 85  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthquake  
+- iciclecrash  
+- roar  
+- stealthrock  
+
+Tsareena (F) @ Choice Band  
+Ability: Queenly Majesty  
+Level: 87  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- powerwhip  
+- tripleaxel  
+- knockoff  
+- highjumpkick  
+
+Grimmsnarl (M) @ Leftovers  
+Ability: Prankster  
+Level: 83  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- taunt  
+- thunderwave  
+- spiritbreak  
+- suckerpunch  
+
+

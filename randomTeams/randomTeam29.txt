@@ -1,0 +1,62 @@
+Hariyama @ Assault Vest  
+Ability: Thick Fat  
+Level: 87  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bulletpunch  
+- closecombat  
+- knockoff  
+- heavyslam  
+
+Chi-Yu @ Choice Specs  
+Ability: Beads of Ruin  
+Level: 77  
+Tera Type: Dark  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- psychic  
+- flamethrower  
+- overheat  
+- darkpulse  
+
+Weezing (Weezing-Galar) @ Leftovers  
+Ability: Levitate  
+Level: 86  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- defog  
+- fireblast  
+- gunkshot  
+- strangesteam  
+
+Overqwil @ Loaded Dice  
+Ability: Intimidate  
+Level: 82  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- crunch  
+- scaleshot  
+- swordsdance  
+- gunkshot  
+
+Kricketune @ Heavy-Duty Boots  
+Ability: Technician  
+Level: 99  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- pounce  
+- knockoff  
+- taunt  
+- stickyweb  
+
+Sunflora @ Choice Specs  
+Ability: Chlorophyll  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- dazzlinggleam  
+- earthpower  
+- leafstorm  
+- sludgebomb  
+
+

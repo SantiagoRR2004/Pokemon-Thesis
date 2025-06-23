@@ -1,0 +1,65 @@
+Tropius @ Sitrus Berry  
+Ability: Harvest  
+Level: 91  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- substitute  
+- protect  
+- leechseed  
+- airslash  
+
+Chi-Yu @ Choice Specs  
+Ability: Beads of Ruin  
+Level: 77  
+Tera Type: Fire  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- overheat  
+- flamethrower  
+- psychic  
+- darkpulse  
+
+Bastiodon @ Chesto Berry  
+Ability: Soundproof  
+Level: 89  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- irondefense  
+- bodypress  
+- rest  
+- foulplay  
+
+Ting-Lu @ Leftovers  
+Ability: Vessel of Ruin  
+Level: 78  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthquake  
+- payback  
+- stealthrock  
+- heavyslam  
+
+Palkia @ Lustrous Orb  
+Ability: Pressure  
+Level: 75  
+Tera Type: Fire  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- hydropump  
+- fireblast  
+- dracometeor  
+- thunderwave  
+
+Toucannon @ Heavy-Duty Boots  
+Ability: Skill Link  
+Level: 88  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- roost  
+- boomburst  
+- beakblast  
+- bulletseed  
+
+

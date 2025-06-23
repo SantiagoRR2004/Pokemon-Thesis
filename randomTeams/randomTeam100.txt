@@ -1,0 +1,64 @@
+Toedscruel @ Assault Vest  
+Ability: Mycelium Might  
+Level: 87  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthpower  
+- knockoff  
+- gigadrain  
+- rapidspin  
+
+Sudowoodo @ Leftovers  
+Ability: Rock Head  
+Level: 94  
+Tera Type: Grass  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- woodhammer  
+- earthquake  
+- stealthrock  
+- headsmash  
+
+Kyurem @ Choice Specs  
+Ability: Pressure  
+Level: 77  
+Tera Type: Ground  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- icebeam  
+- freezedry  
+- earthpower  
+- dracometeor  
+
+Flutter Mane @ Choice Specs  
+Ability: Protosynthesis  
+Level: 74  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- mysticalfire  
+- moonblast  
+- thunderbolt  
+- shadowball  
+
+Persian (Persian-Alola) @ Life Orb  
+Ability: Fur Coat  
+Level: 86  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- darkpulse  
+- thunderbolt  
+- terablast  
+- nastyplot  
+
+Mandibuzz (F) @ Heavy-Duty Boots  
+Ability: Overcoat  
+Level: 85  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- roost  
+- toxic  
+- foulplay  
+- bravebird  
+
+

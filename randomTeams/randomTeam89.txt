@@ -1,0 +1,63 @@
+Tyranitar @ Leftovers  
+Ability: Sand Stream  
+Level: 79  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- stoneedge  
+- earthquake  
+- dragondance  
+
+Plusle @ Life Orb  
+Ability: Lightning Rod  
+Level: 95  
+Tera Type: Grass  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- grassknot  
+- encore  
+- thunderbolt  
+- nastyplot  
+
+Toxtricity @ Choice Specs  
+Ability: Punk Rock  
+Level: 82  
+Tera Type: Normal  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- sludgewave  
+- voltswitch  
+- overdrive  
+- boomburst  
+
+Krookodile @ Choice Band  
+Ability: Intimidate  
+Level: 80  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- gunkshot  
+- knockoff  
+- stoneedge  
+- earthquake  
+
+Staraptor @ Choice Band  
+Ability: Reckless  
+Level: 79  
+Tera Type: Flying  
+EVs: 81 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- doubleedge  
+- closecombat  
+- bravebird  
+- quickattack  
+
+Garchomp @ Loaded Dice  
+Ability: Rough Skin  
+Level: 74  
+Tera Type: Fire  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthquake  
+- scaleshot  
+- firefang  
+- swordsdance  
+
+

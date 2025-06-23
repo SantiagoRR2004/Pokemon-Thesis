@@ -1,0 +1,63 @@
+Tornadus (M) @ Choice Specs  
+Ability: Prankster  
+Level: 82  
+Tera Type: Flying  
+EVs: 81 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- focusblast  
+- bleakwindstorm  
+- grassknot  
+- heatwave  
+
+Wigglytuff @ Leftovers  
+Ability: Competitive  
+Level: 96  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- protect  
+- wish  
+- knockoff  
+- dazzlinggleam  
+
+Cresselia (F) @ Leftovers  
+Ability: Levitate  
+Level: 80  
+Tera Type: Electric  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- calmmind  
+- thunderbolt  
+- psyshock  
+- moonlight  
+
+Garchomp @ Loaded Dice  
+Ability: Rough Skin  
+Level: 74  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- ironhead  
+- scaleshot  
+- swordsdance  
+- earthquake  
+
+Weavile @ Choice Band  
+Ability: Pickpocket  
+Level: 79  
+Tera Type: Ice  
+EVs: 81 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- tripleaxel  
+- lowkick  
+- knockoff  
+- iceshard  
+
+Registeel @ Chesto Berry  
+Ability: Clear Body  
+Level: 81  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- rest  
+- bodypress  
+- irondefense  
+- ironhead  
+
+

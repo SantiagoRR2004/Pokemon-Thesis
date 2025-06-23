@@ -1,0 +1,64 @@
+Dudunsparce @ Leftovers  
+Ability: Rattled  
+Level: 83  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- calmmind  
+- roost  
+- boomburst  
+- shadowball  
+
+Bombirdier @ Heavy-Duty Boots  
+Ability: Rocky Payload  
+Level: 85  
+Tera Type: Rock  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- roost  
+- bravebird  
+- stoneedge  
+- knockoff  
+
+Scream Tail @ Leftovers  
+Ability: Protosynthesis  
+Level: 84  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- playrough  
+- protect  
+- thunderwave  
+- wish  
+
+Comfey @ Leftovers  
+Ability: Triage  
+Level: 85  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- calmmind  
+- storedpower  
+- drainingkiss  
+- gigadrain  
+
+Iron Hands @ Assault Vest  
+Ability: Quark Drive  
+Level: 79  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- closecombat  
+- voltswitch  
+- heavyslam  
+- wildcharge  
+
+Chansey (F) @ Eviolite  
+Ability: Natural Cure  
+Level: 85  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- seismictoss  
+- healbell  
+- thunderwave  
+- softboiled  
+
+

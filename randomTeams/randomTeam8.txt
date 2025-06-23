@@ -1,0 +1,63 @@
+Cramorant @ Heavy-Duty Boots  
+Ability: Gulp Missile  
+Level: 86  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- defog  
+- bravebird  
+- roost  
+- surf  
+
+Oinkologne (M) @ Leftovers  
+Ability: Thick Fat  
+Level: 92  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- lashout  
+- curse  
+- bodyslam  
+- highhorsepower  
+
+Toxtricity @ Choice Specs  
+Ability: Punk Rock  
+Level: 82  
+Tera Type: Normal  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- sludgewave  
+- overdrive  
+- voltswitch  
+- boomburst  
+
+Sinistcha (Sinistcha-Masterpiece) @ Leftovers  
+Ability: Heatproof  
+Level: 83  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- strengthsap  
+- matchagotcha  
+- shadowball  
+- calmmind  
+
+Eiscue @ Sitrus Berry  
+Ability: Ice Face  
+Level: 88  
+Tera Type: Water  
+EVs: 81 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- liquidation  
+- icespinner  
+- ironhead  
+- bellydrum  
+
+Zangoose @ Toxic Orb  
+Ability: Toxic Boost  
+Level: 85  
+Tera Type: Normal  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- closecombat  
+- facade  
+- quickattack  
+- knockoff  
+
+

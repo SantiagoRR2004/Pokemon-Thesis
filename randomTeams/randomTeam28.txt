@@ -1,0 +1,63 @@
+Golem @ Weakness Policy  
+Ability: Sturdy  
+Level: 87  
+Tera Type: Grass  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- explosion  
+- earthquake  
+- rockpolish  
+- stoneedge  
+
+Suicune @ Leftovers  
+Ability: Pressure  
+Level: 82  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- calmmind  
+- protect  
+- substitute  
+- scald  
+
+Weavile @ Heavy-Duty Boots  
+Ability: Pickpocket  
+Level: 79  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- tripleaxel  
+- iceshard  
+- swordsdance  
+
+Drifblim @ Sitrus Berry  
+Ability: Unburden  
+Level: 86  
+Tera Type: Fairy  
+EVs: 73 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- airslash  
+- shadowball  
+- strengthsap  
+- calmmind  
+
+Eiscue @ Salac Berry  
+Ability: Ice Face  
+Level: 88  
+Tera Type: Water  
+EVs: 69 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- icespinner  
+- substitute  
+- bellydrum  
+- liquidation  
+
+Skarmory @ Rocky Helmet  
+Ability: Sturdy  
+Level: 80  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- stealthrock  
+- roost  
+- bravebird  
+- bodypress  
+
+

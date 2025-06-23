@@ -1,0 +1,63 @@
+Swanna @ Heavy-Duty Boots  
+Ability: Hydration  
+Level: 88  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bravebird  
+- defog  
+- roost  
+- hydropump  
+
+Braviary (M) @ Heavy-Duty Boots  
+Ability: Defiant  
+Level: 85  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bravebird  
+- closecombat  
+- roost  
+- bulkup  
+
+Venomoth @ Heavy-Duty Boots  
+Ability: Tinted Lens  
+Level: 84  
+Tera Type: Water  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- sleeppowder  
+- sludgewave  
+- bugbuzz  
+- quiverdance  
+
+Mismagius @ Leftovers  
+Ability: Levitate  
+Level: 86  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- terablast  
+- substitute  
+- nastyplot  
+- shadowball  
+
+Rillaboom @ Choice Band  
+Ability: Grassy Surge  
+Level: 79  
+Tera Type: Grass  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- highhorsepower  
+- woodhammer  
+- uturn  
+- grassyglide  
+
+Dusknoir @ Leftovers  
+Ability: Frisk  
+Level: 89  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- willowisp  
+- poltergeist  
+- earthquake  
+- shadowsneak  
+
+

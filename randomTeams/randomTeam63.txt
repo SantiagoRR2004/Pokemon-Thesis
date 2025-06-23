@@ -1,0 +1,59 @@
+Venusaur @ Leftovers  
+Ability: Chlorophyll  
+Level: 84  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- synthesis  
+- sleeppowder  
+- sludgebomb  
+
+Ditto @ Choice Scarf  
+Ability: Imposter  
+Level: 87  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- transform  
+
+Jolteon @ Choice Specs  
+Ability: Volt Absorb  
+Level: 84  
+Tera Type: Electric  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- voltswitch  
+- alluringvoice  
+- thunderbolt  
+- shadowball  
+
+Kleavor @ Heavy-Duty Boots  
+Ability: Sharpness  
+Level: 78  
+Tera Type: Rock  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- xscissor  
+- uturn  
+- stoneaxe  
+- defog  
+
+Lycanroc (Lycanroc-Midnight) @ Life Orb  
+Ability: No Guard  
+Level: 89  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- swordsdance  
+- stoneedge  
+- closecombat  
+- suckerpunch  
+
+Decidueye (Decidueye-Hisui) @ Leftovers  
+Ability: Scrappy  
+Level: 87  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- roost  
+- knockoff  
+- triplearrows  
+- leafblade  
+
+

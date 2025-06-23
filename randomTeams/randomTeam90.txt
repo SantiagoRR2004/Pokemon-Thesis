@@ -1,0 +1,62 @@
+Veluza @ Choice Band  
+Ability: Sharpness  
+Level: 85  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- psychocut  
+- aquajet  
+- nightslash  
+- aquacutter  
+
+Baxcalibur @ Choice Band  
+Ability: Thermal Exchange  
+Level: 75  
+Tera Type: Dragon  
+EVs: 81 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- iciclecrash  
+- earthquake  
+- iceshard  
+- glaiverush  
+
+Politoed @ Leftovers  
+Ability: Drizzle  
+Level: 88  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- icebeam  
+- encore  
+- hypnosis  
+- hydropump  
+
+Moltres @ Heavy-Duty Boots  
+Ability: Flame Body  
+Level: 81  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bravebird  
+- roost  
+- scorchingsands  
+- fireblast  
+
+Swalot @ Leftovers  
+Ability: Liquid Ooze  
+Level: 90  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- swordsdance  
+- earthquake  
+- gunkshot  
+
+Entei @ Choice Band  
+Ability: Inner Focus  
+Level: 78  
+Tera Type: Normal  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- stoneedge  
+- flareblitz  
+- sacredfire  
+- extremespeed  
+
+

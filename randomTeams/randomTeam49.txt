@@ -1,0 +1,63 @@
+Rabsca @ Heavy-Duty Boots  
+Ability: Synchronize  
+Level: 91  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- recover  
+- bugbuzz  
+- psychic  
+- revivalblessing  
+
+Flygon @ Choice Band  
+Ability: Levitate  
+Level: 82  
+Tera Type: Rock  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthquake  
+- outrage  
+- stoneedge  
+- uturn  
+
+Sandy Shocks @ Heavy-Duty Boots  
+Ability: Protosynthesis  
+Level: 80  
+Tera Type: Electric  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- thunderwave  
+- voltswitch  
+- earthpower  
+- thunderbolt  
+
+Passimian @ Leftovers  
+Ability: Defiant  
+Level: 83  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bulkup  
+- gunkshot  
+- knockoff  
+- drainpunch  
+
+Zapdos @ Heavy-Duty Boots  
+Ability: Static  
+Level: 78  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- roost  
+- thunderbolt  
+- hurricane  
+- uturn  
+
+Tinkaton (F) @ Life Orb  
+Ability: Mold Breaker  
+Level: 82  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- playrough  
+- swordsdance  
+- gigatonhammer  
+- knockoff  
+
+

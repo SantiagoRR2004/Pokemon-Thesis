@@ -1,0 +1,61 @@
+Dachsbun @ Leftovers  
+Ability: Well-Baked Body  
+Level: 92  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bodypress  
+- playrough  
+- wish  
+- protect  
+
+Azumarill @ Choice Band  
+Ability: Huge Power  
+Level: 82  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- aquajet  
+- knockoff  
+- liquidation  
+- playrough  
+
+Dragapult @ Life Orb  
+Ability: Clear Body  
+Level: 77  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- fireblast  
+- terablast  
+- dragondance  
+- dragondarts  
+
+Heatran @ Air Balloon  
+Ability: Flash Fire  
+Level: 79  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- stealthrock  
+- earthpower  
+- lavaplume  
+- heavyslam  
+
+Ogerpon (Ogerpon-Wellspring) (F) @ Wellspring Mask  
+Ability: Water Absorb  
+Level: 76  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- hornleech  
+- swordsdance  
+- playrough  
+- ivycudgel  
+
+Corviknight @ Rocky Helmet  
+Ability: Mirror Armor  
+Level: 80  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- uturn  
+- roost  
+- bravebird  
+- defog  
+
+

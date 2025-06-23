@@ -1,0 +1,63 @@
+Vivillon (Vivillon-Garden) @ Heavy-Duty Boots  
+Ability: Compound Eyes  
+Level: 83  
+Tera Type: Ground  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- sleeppowder  
+- quiverdance  
+- terablast  
+- hurricane  
+
+Dedenne @ Sitrus Berry  
+Ability: Cheek Pouch  
+Level: 88  
+Tera Type: Flying  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- dazzlinggleam  
+- superfang  
+- thunderbolt  
+- nuzzle  
+
+Metagross @ Weakness Policy  
+Ability: Clear Body  
+Level: 79  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthquake  
+- agility  
+- psychicfangs  
+- heavyslam  
+
+Sandy Shocks @ Heavy-Duty Boots  
+Ability: Protosynthesis  
+Level: 80  
+Tera Type: Ground  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- earthpower  
+- thunderbolt  
+- stealthrock  
+- voltswitch  
+
+Hoopa (Hoopa-Unbound) @ Choice Band  
+Ability: Magician  
+Level: 80  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- gunkshot  
+- trick  
+- zenheadbutt  
+- hyperspacefury  
+
+Dondozo @ Leftovers  
+Ability: Unaware  
+Level: 78  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- rest  
+- curse  
+- wavecrash  
+- sleeptalk  
+
+

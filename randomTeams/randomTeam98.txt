@@ -1,0 +1,62 @@
+Terrakion @ Life Orb  
+Ability: Justified  
+Level: 79  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- closecombat  
+- swordsdance  
+- stoneedge  
+- earthquake  
+
+Volbeat (M) @ Heavy-Duty Boots  
+Ability: Prankster  
+Level: 90  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- uturn  
+- thunderwave  
+- roost  
+- encore  
+
+Kleavor @ Choice Band  
+Ability: Sharpness  
+Level: 78  
+Tera Type: Bug  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- stoneaxe  
+- xscissor  
+- uturn  
+- closecombat  
+
+Zoroark (Zoroark-Hisui) @ Choice Specs  
+Ability: Illusion  
+Level: 80  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- trick  
+- focusblast  
+- bittermalice  
+- hypervoice  
+
+Articuno @ Heavy-Duty Boots  
+Ability: Pressure  
+Level: 86  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- roost  
+- bravebird  
+- haze  
+- freezedry  
+
+Dedenne @ Sitrus Berry  
+Ability: Cheek Pouch  
+Level: 88  
+Tera Type: Flying  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- dazzlinggleam  
+- nuzzle  
+- superfang  
+- thunderbolt  
+
+

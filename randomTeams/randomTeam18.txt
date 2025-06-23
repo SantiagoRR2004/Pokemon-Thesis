@@ -1,0 +1,63 @@
+Houndoom @ Heavy-Duty Boots  
+Ability: Flash Fire  
+Level: 87  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- suckerpunch  
+- sludgebomb  
+- darkpulse  
+- fireblast  
+
+Mew @ Leftovers  
+Ability: Synchronize  
+Level: 82  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- willowisp  
+- encore  
+- stealthrock  
+- psychic  
+
+Banette @ Life Orb  
+Ability: Frisk  
+Level: 93  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- shadowsneak  
+- poltergeist  
+- gunkshot  
+- thunderwave  
+
+Whiscash @ Leftovers  
+Ability: Oblivious  
+Level: 88  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthquake  
+- hydropump  
+- icebeam  
+- spikes  
+
+Luvdisc @ Heavy-Duty Boots  
+Ability: Swift Swim  
+Tera Type: Ghost  
+EVs: 81 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- endeavor  
+- substitute  
+- surf  
+- whirlpool  
+
+Indeedee (Indeedee-F) (F) @ Life Orb  
+Ability: Psychic Surge  
+Level: 90  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- calmmind  
+- psyshock  
+- hypervoice  
+- dazzlinggleam  
+
+

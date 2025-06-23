@@ -1,0 +1,62 @@
+Grafaiai @ Assault Vest  
+Ability: Poison Touch  
+Level: 86  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- superfang  
+- gunkshot  
+- knockoff  
+- uturn  
+
+Walking Wake @ Choice Specs  
+Ability: Protosynthesis  
+Level: 79  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- dracometeor  
+- flamethrower  
+- hydropump  
+- flipturn  
+
+Ting-Lu @ Leftovers  
+Ability: Vessel of Ruin  
+Level: 78  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- whirlwind  
+- throatchop  
+- stealthrock  
+- earthquake  
+
+Appletun @ Leftovers  
+Ability: Thick Fat  
+Level: 92  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- leechseed  
+- recover  
+- dragonpulse  
+- appleacid  
+
+Articuno @ Heavy-Duty Boots  
+Ability: Pressure  
+Level: 86  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- uturn  
+- freezedry  
+- bravebird  
+- roost  
+
+Luxray @ Assault Vest  
+Ability: Intimidate  
+Level: 88  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- playrough  
+- wildcharge  
+- icefang  
+- voltswitch  
+
+

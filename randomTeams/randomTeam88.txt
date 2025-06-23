@@ -1,0 +1,62 @@
+Cramorant @ Heavy-Duty Boots  
+Ability: Gulp Missile  
+Level: 86  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- defog  
+- bravebird  
+- roost  
+- surf  
+
+Electivire @ Life Orb  
+Ability: Motor Drive  
+Level: 84  
+Tera Type: Electric  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- voltswitch  
+- knockoff  
+- supercellslam  
+- icepunch  
+
+Gurdurr @ Eviolite  
+Ability: Guts  
+Level: 85  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bulkup  
+- drainpunch  
+- machpunch  
+- knockoff  
+
+Ceruledge @ Heavy-Duty Boots  
+Ability: Weak Armor  
+Level: 78  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- closecombat  
+- swordsdance  
+- poltergeist  
+- bitterblade  
+
+Tornadus (M) @ Choice Specs  
+Ability: Defiant  
+Level: 82  
+Tera Type: Fire  
+EVs: 81 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- uturn  
+- grassknot  
+- bleakwindstorm  
+- heatwave  
+
+Gardevoir @ Life Orb  
+Ability: Trace  
+Level: 83  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- psychic  
+- moonblast  
+- calmmind  
+- mysticalfire  
+
+

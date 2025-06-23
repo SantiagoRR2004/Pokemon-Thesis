@@ -1,0 +1,64 @@
+Diancie @ Assault Vest  
+Ability: Clear Body  
+Level: 82  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthpower  
+- moonblast  
+- diamondstorm  
+- bodypress  
+
+Plusle @ Life Orb  
+Ability: Lightning Rod  
+Level: 95  
+Tera Type: Electric  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- encore  
+- nastyplot  
+- alluringvoice  
+- thunderbolt  
+
+Vespiquen (F) @ Heavy-Duty Boots  
+Ability: Pressure  
+Level: 99  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- spikes  
+- hurricane  
+- roost  
+- toxicspikes  
+
+Sandslash (Sandslash-Alola) @ Leftovers  
+Ability: Slush Rush  
+Level: 88  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- tripleaxel  
+- earthquake  
+- swordsdance  
+- rapidspin  
+
+Enamorus (Enamorus-Therian) (F) @ Weakness Policy  
+Ability: Overcoat  
+Level: 83  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthpower  
+- superpower  
+- agility  
+- moonblast  
+
+Venomoth @ Heavy-Duty Boots  
+Ability: Tinted Lens  
+Level: 84  
+Tera Type: Poison  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- sleeppowder  
+- sludgewave  
+- bugbuzz  
+- quiverdance  
+
+

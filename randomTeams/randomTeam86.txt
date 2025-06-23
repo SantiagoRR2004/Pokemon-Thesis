@@ -1,0 +1,62 @@
+Lokix @ Silver Powder  
+Ability: Tinted Lens  
+Level: 82  
+Tera Type: Bug  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- firstimpression  
+- uturn  
+- suckerpunch  
+- knockoff  
+
+Dugtrio (Dugtrio-Alola) @ Life Orb  
+Ability: Tangling Hair  
+Level: 84  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- suckerpunch  
+- stealthrock  
+- ironhead  
+- earthquake  
+
+Slaking @ Choice Band  
+Ability: Truant  
+Level: 84  
+Tera Type: Normal  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- doubleedge  
+- gigaimpact  
+- earthquake  
+
+Stonjourner @ Life Orb  
+Ability: Power Spot  
+Level: 91  
+Tera Type: Fire  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthquake  
+- rockpolish  
+- stoneedge  
+- heatcrash  
+
+Talonflame @ Heavy-Duty Boots  
+Ability: Flame Body  
+Level: 83  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- roost  
+- overheat  
+- bravebird  
+- uturn  
+
+Reuniclus @ Life Orb  
+Ability: Magic Guard  
+Level: 88  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- shadowball  
+- recover  
+- calmmind  
+- psychic  
+
+

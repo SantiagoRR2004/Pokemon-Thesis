@@ -1,0 +1,62 @@
+Scrafty @ Life Orb  
+Ability: Intimidate  
+Level: 84  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- dragondance  
+- closecombat  
+- poisonjab  
+
+Girafarig @ Eviolite  
+Ability: Sap Sipper  
+Level: 89  
+Tera Type: Electric  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- psyshock  
+- hypervoice  
+- nastyplot  
+- thunderbolt  
+
+Conkeldurr @ Flame Orb  
+Ability: Guts  
+Level: 80  
+Tera Type: Normal  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- closecombat  
+- knockoff  
+- machpunch  
+- facade  
+
+Deoxys (Deoxys-Attack) @ Life Orb  
+Ability: Pressure  
+Level: 72  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- icebeam  
+- superpower  
+- psychoboost  
+- knockoff  
+
+Pikachu (Pikachu-Kalos) @ Light Ball  
+Ability: Lightning Rod  
+Level: 93  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- surf  
+- volttackle  
+- fakeout  
+- knockoff  
+
+Squawkabilly @ Flame Orb  
+Ability: Guts  
+Level: 85  
+Tera Type: Normal  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bravebird  
+- facade  
+- protect  
+- quickattack  
+
+

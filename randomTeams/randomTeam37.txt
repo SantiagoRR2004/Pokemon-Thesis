@@ -1,0 +1,62 @@
+Froslass (F) @ Wide Lens  
+Ability: Cursed Body  
+Level: 87  
+Tera Type: Ice  
+EVs: 81 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- taunt  
+- poltergeist  
+- spikes  
+- tripleaxel  
+
+Arcanine @ Heavy-Duty Boots  
+Ability: Intimidate  
+Level: 84  
+Tera Type: Normal  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- flareblitz  
+- extremespeed  
+- morningsun  
+- closecombat  
+
+Cetitan @ Sitrus Berry  
+Ability: Thick Fat  
+Level: 82  
+Tera Type: Ice  
+EVs: 81 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bellydrum  
+- iceshard  
+- earthquake  
+- icespinner  
+
+Bruxish @ Choice Band  
+Ability: Strong Jaw  
+Level: 85  
+Tera Type: Psychic  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- crunch  
+- psychicfangs  
+- wavecrash  
+- aquajet  
+
+Wugtrio @ Choice Band  
+Ability: Gooey  
+Level: 91  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- aquajet  
+- liquidation  
+- stompingtantrum  
+- throatchop  
+
+Girafarig @ Eviolite  
+Ability: Sap Sipper  
+Level: 89  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- dazzlinggleam  
+- thunderbolt  
+- nastyplot  
+- psyshock  
+
+

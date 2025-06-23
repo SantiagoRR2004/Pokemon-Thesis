@@ -1,0 +1,62 @@
+Ting-Lu @ Leftovers  
+Ability: Vessel of Ruin  
+Level: 78  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- payback  
+- earthquake  
+- spikes  
+- heavyslam  
+
+Salamence @ Heavy-Duty Boots  
+Ability: Moxie  
+Level: 77  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- earthquake  
+- dragondance  
+- outrage  
+- dualwingbeat  
+
+Inteleon @ Choice Specs  
+Ability: Torrent  
+Level: 81  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- hydropump  
+- icebeam  
+- darkpulse  
+- uturn  
+
+Gardevoir @ Choice Scarf  
+Ability: Trace  
+Level: 83  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- moonblast  
+- psyshock  
+- focusblast  
+- trick  
+
+Krookodile @ Life Orb  
+Ability: Intimidate  
+Level: 80  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bulkup  
+- gunkshot  
+- knockoff  
+- earthquake  
+
+Tauros (M) @ Life Orb  
+Ability: Sheer Force  
+Level: 82  
+Tera Type: Normal  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- closecombat  
+- zenheadbutt  
+- throatchop  
+- bodyslam  
+
+

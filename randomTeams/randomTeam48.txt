@@ -1,0 +1,62 @@
+Hatterene (F) @ Leftovers  
+Ability: Magic Bounce  
+Level: 85  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- psychic  
+- drainingkiss  
+- calmmind  
+- mysticalfire  
+
+Inteleon @ Choice Specs  
+Ability: Torrent  
+Level: 81  
+Tera Type: Water  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- uturn  
+- darkpulse  
+- icebeam  
+- hydropump  
+
+Pachirisu @ Heavy-Duty Boots  
+Ability: Volt Absorb  
+Level: 96  
+Tera Type: Flying  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- uturn  
+- discharge  
+- superfang  
+- encore  
+
+Zamazenta @ Rusted Shield  
+Ability: Dauntless Shield  
+Level: 68  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bodypress  
+- irondefense  
+- stoneedge  
+- heavyslam  
+
+Lycanroc (Lycanroc-Midnight) @ Life Orb  
+Ability: No Guard  
+Level: 89  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- swordsdance  
+- suckerpunch  
+- stoneedge  
+- closecombat  
+
+Uxie @ Leftovers  
+Ability: Levitate  
+Level: 83  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- stealthrock  
+- uturn  
+- encore  
+- psychicnoise  
+
+

@@ -1,0 +1,64 @@
+Eiscue @ Salac Berry  
+Ability: Ice Face  
+Level: 88  
+Tera Type: Water  
+EVs: 69 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bellydrum  
+- substitute  
+- icespinner  
+- liquidation  
+
+Lucario @ Life Orb  
+Ability: Justified  
+Level: 84  
+Tera Type: Normal  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- meteormash  
+- extremespeed  
+- swordsdance  
+- closecombat  
+
+Scovillain @ Leftovers  
+Ability: Chlorophyll  
+Level: 91  
+Tera Type: Steel  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- leechseed  
+- substitute  
+- protect  
+- flamethrower  
+
+Flutter Mane @ Life Orb  
+Ability: Protosynthesis  
+Level: 74  
+Tera Type: Ghost  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- calmmind  
+- moonblast  
+- mysticalfire  
+- shadowball  
+
+Masquerain @ Heavy-Duty Boots  
+Ability: Intimidate  
+Level: 87  
+Tera Type: Water  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- hurricane  
+- stunspore  
+- hydropump  
+- stickyweb  
+
+Cyclizar @ Heavy-Duty Boots  
+Ability: Regenerator  
+Level: 83  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- knockoff  
+- dracometeor  
+- shedtail  
+- rapidspin  
+
+

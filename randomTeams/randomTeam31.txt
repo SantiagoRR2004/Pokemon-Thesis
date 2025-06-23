@@ -1,0 +1,62 @@
+Dipplin @ Eviolite  
+Ability: Sticky Hold  
+Level: 88  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- recover  
+- dragonpulse  
+- gigadrain  
+- dragontail  
+
+Whiscash @ Leftovers  
+Ability: Oblivious  
+Level: 88  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- icebeam  
+- hydropump  
+- stealthrock  
+- earthquake  
+
+Froslass (F) @ Wide Lens  
+Ability: Cursed Body  
+Level: 87  
+Tera Type: Ghost  
+EVs: 81 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- spikes  
+- willowisp  
+- tripleaxel  
+- poltergeist  
+
+Shiftry @ Life Orb  
+Ability: Wind Rider  
+Level: 89  
+Tera Type: Poison  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- leafstorm  
+- suckerpunch  
+- knockoff  
+- willowisp  
+
+Regice @ Heavy-Duty Boots  
+Ability: Clear Body  
+Level: 88  
+Tera Type: Electric  
+EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- icebeam  
+- rest  
+- sleeptalk  
+- thunderbolt  
+
+Hitmontop (M) @ Assault Vest  
+Ability: Intimidate  
+Level: 88  
+Tera Type: Steel  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- stoneedge  
+- closecombat  
+- rapidspin  
+- earthquake  
+
+

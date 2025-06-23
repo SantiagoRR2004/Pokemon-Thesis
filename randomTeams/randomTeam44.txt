@@ -1,0 +1,58 @@
+Ditto @ Choice Scarf  
+Ability: Imposter  
+Level: 87  
+Tera Type: Ice  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- transform  
+
+Luvdisc @ Heavy-Duty Boots  
+Ability: Swift Swim  
+Tera Type: Ghost  
+EVs: 81 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- surf  
+- substitute  
+- endeavor  
+- whirlpool  
+
+Quagsire @ Leftovers  
+Ability: Unaware  
+Level: 84  
+Tera Type: Fairy  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- toxic  
+- icebeam  
+- earthquake  
+- recover  
+
+Talonflame @ Heavy-Duty Boots  
+Ability: Flame Body  
+Level: 83  
+Tera Type: Ground  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- bravebird  
+- flareblitz  
+- swordsdance  
+- terablast  
+
+Sandaconda @ Loaded Dice  
+Ability: Shed Skin  
+Level: 84  
+Tera Type: Dragon  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- scaleshot  
+- rockblast  
+- earthquake  
+- coil  
+
+Iron Valiant @ Life Orb  
+Ability: Quark Drive  
+Level: 78  
+Tera Type: Dark  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- closecombat  
+- swordsdance  
+- spiritbreak  
+- knockoff  
+
+
