@@ -14,6 +14,9 @@ def endProcess(process: subprocess.Popen) -> None:
     Returns:
         - None
     """
+    if process.poll() is not None:
+        return
+
     # Step 1: Send a SIGINT (interrupt) signal to the entire process group
     os.killpg(os.getpgid(process.pid), signal.SIGINT)
 
@@ -23,7 +26,7 @@ def endProcess(process: subprocess.Popen) -> None:
     print("Server shut down successfully.")
 
 
-def startServer() -> None:
+def startServer() -> subprocess.Popen:
     """
     Starts the Pokemon Showdown server.
 
@@ -31,7 +34,7 @@ def startServer() -> None:
         - None
 
     Returns:
-        - None
+        - subprocess.Popen: The process running the server
     """
     # Fist we check that everything is installed
     downloadPokemonShowdown()
@@ -56,6 +59,7 @@ def startServer() -> None:
         print(f"An error occurred: {e}")
     finally:
         atexit.register(endProcess, serverProcess)
+        return serverProcess
 
 
 def downloadPokemonShowdown() -> None:

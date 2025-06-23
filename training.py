@@ -7,6 +7,7 @@ import torch.optim as optim
 import serverControl
 import metricsLogger
 import asyncio
+import signal
 import time
 import os
 
@@ -47,7 +48,7 @@ class CriticNetwork(nn.Module):
 
 
 async def main(actor: nn.Module, critic: nn.Module = None) -> None:
-    serverControl.startServer()
+    p = serverControl.startServer()
 
     optimizer = optim.Adam(actor.parameters(), lr=1e-3)
     if critic:
@@ -55,22 +56,6 @@ async def main(actor: nn.Module, critic: nn.Module = None) -> None:
 
     nEpisodes = 64
     nEpochs = 40
-
-    # We create the AI player
-    player = AIPlayer(
-        battle_format="gen9anythinggoes",
-        team=randomTeam.selectTeam(1),
-        network=actor,
-        critic=critic,
-        max_concurrent_battles=nEpisodes,
-    )
-
-    # We create another random player
-    second_player = RandomPlayer(
-        battle_format="gen9anythinggoes",
-        team=randomTeam.selectTeam(2),
-        max_concurrent_battles=nEpisodes,
-    )
 
     victoryPercentage = []
     actorLosses = []
@@ -83,6 +68,22 @@ async def main(actor: nn.Module, critic: nn.Module = None) -> None:
     start = time.time()
 
     for epoch in range(nEpochs):
+
+        # We create the AI player
+        player = AIPlayer(
+            battle_format="gen9anythinggoes",
+            team=randomTeam.selectTeam(1),
+            network=actor,
+            critic=critic,
+            max_concurrent_battles=nEpisodes,
+        )
+
+        # We create another random player
+        second_player = RandomPlayer(
+            battle_format="gen9anythinggoes",
+            team=randomTeam.selectTeam(2),
+            max_concurrent_battles=nEpisodes,
+        )
 
         # Reset the player for new Episodes
         player.reset()
@@ -193,6 +194,11 @@ async def main(actor: nn.Module, critic: nn.Module = None) -> None:
         nTurns.append(
             sum(battle.turn for battle in player.battles.values()) / len(player.battles)
         )
+
+        if (epoch + 1) % 100 == 0:
+            os.killpg(os.getpgid(p.pid), signal.SIGINT)
+            p.wait()
+            p = serverControl.startServer()
 
     # Save the metrics
     kwargs = {
