@@ -1,63 +1,63 @@
-Yanmega @ Heavy-Duty Boots  
-Ability: Speed Boost  
-Level: 82  
-Tera Type: Ground  
-EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
-IVs: 0 Atk  
-- terablast  
-- airslash  
-- bugbuzz  
-- protect  
-
-Furret @ Choice Band  
-Ability: Frisk  
-Level: 94  
-Tera Type: Ghost  
+Brute Bonnet @ Leftovers  
+Ability: Protosynthesis  
+Level: 81  
+Tera Type: Poison  
 EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
-- knockoff  
-- trick  
-- doubleedge  
-- uturn  
+- seedbomb  
+- closecombat  
+- spore  
+- suckerpunch  
 
-Haxorus @ Loaded Dice  
-Ability: Mold Breaker  
-Level: 77  
+Chesnaught @ Leftovers  
+Ability: Bulletproof  
+Level: 84  
 Tera Type: Steel  
 EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
-- ironhead  
-- scaleshot  
-- swordsdance  
-- closecombat  
+- trailblaze  
+- irondefense  
+- bodypress  
+- synthesis  
 
-Azumarill @ Choice Band  
-Ability: Huge Power  
-Level: 82  
+Lapras @ Choice Specs  
+Ability: Water Absorb  
+Level: 87  
+Tera Type: Water  
+EVs: 81 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Atk  
+- icebeam  
+- sparklingaria  
+- hydropump  
+- freezedry  
+
+Tatsugiri (Tatsugiri-Stretchy) @ Heavy-Duty Boots  
+Ability: Storm Drain  
+Level: 87  
 Tera Type: Water  
 EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
-- playrough  
-- superpower  
-- aquajet  
-- liquidation  
+- nastyplot  
+- dracometeor  
+- hydropump  
+- rapidspin  
 
-Thundurus (M)  
-Ability: Defiant  
-Level: 80  
-Tera Type: Flying  
-EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
-- thunderbolt  
-- knockoff  
-- uturn  
-- acrobatics  
-
-Spectrier @ Life Orb  
-Ability: Grim Neigh  
-Level: 75  
-Tera Type: Fairy  
+Rabsca @ Heavy-Duty Boots  
+Ability: Synchronize  
+Level: 91  
+Tera Type: Steel  
 EVs: 85 HP / 85 Def / 85 SpA / 85 SpD / 85 Spe  
 IVs: 0 Atk  
-- nastyplot  
-- drainingkiss  
-- shadowball  
-- willowisp  
+- psychic  
+- revivalblessing  
+- recover  
+- bugbuzz  
+
+Tauros (M) @ Life Orb  
+Ability: Sheer Force  
+Level: 82  
+Tera Type: Fighting  
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+- closecombat  
+- earthquake  
+- throatchop  
+- bodyslam  
 
 

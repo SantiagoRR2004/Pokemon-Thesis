@@ -19,7 +19,7 @@ def selectTeam(team: int) -> str:
     with open(file, "r") as f:
         team_data = f.read()
 
-    return team_data
+    return team_data.strip()
 
 
 def selectRandomTeam(range: int) -> str:
