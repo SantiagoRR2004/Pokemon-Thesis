@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Check if an argument is provided
 if [ -z "$1" ]; then
   echo "Usage: $0 <number_of_teams>"

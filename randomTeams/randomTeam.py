@@ -1,5 +1,6 @@
 import os
 import random
+import subprocess
 
 
 def selectTeam(team: int) -> str:
@@ -33,3 +34,21 @@ def selectRandomTeam(range: int) -> str:
     """
     team = random.randint(1, range)
     return selectTeam(team)
+
+
+def generateTeams(number: int) -> None:
+    """
+    Generates teams by running an external script.
+
+    Args:
+        - number (int): The number of teams to generate.
+
+    Returns:
+        - None
+    """
+    currentDirectory = os.path.dirname(os.path.abspath(__file__))
+    file = os.path.join(currentDirectory, "generate-teams.sh")
+    try:
+        subprocess.run([file, str(number)], check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Script failed with error: {e}")
