@@ -7,6 +7,7 @@ import torch.optim as optim
 import serverControl
 import metricsLogger
 import asyncio
+import time
 import os
 
 
@@ -78,6 +79,8 @@ async def main(actor: nn.Module, critic: nn.Module = None) -> None:
         criticLosses = []
         averageCriticRewards = []
     nTurns = []
+
+    start = time.time()
 
     for epoch in range(nEpochs):
 
@@ -167,6 +170,15 @@ async def main(actor: nn.Module, critic: nn.Module = None) -> None:
 
         # We can now print the results of the battles
         print(f"{epoch+1:0{len(str(nEpochs))}d}/{nEpochs}", end=" ")
+        print(
+            f"{time.strftime("%H:%M:%S",
+                             time.gmtime((time.time() - start) * 
+                                         (nEpochs - (epoch + 1)) / 
+                                         (epoch+1)
+                                         )
+                            )}",
+            end=" ",
+        )
         print(
             f"Player {player.username} won {percentage*100:.2f}% of battles.", end=" "
         )
