@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Check if conda is already installed
-if ! command -v conda &> /dev/null; then
+if ! command -v conda &>/dev/null; then
     echo "Conda is not installed. Installing Anaconda..."
     wget https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh -O anaconda.sh
     chmod +x anaconda.sh
@@ -25,7 +25,10 @@ else
     echo "Conda environment 'Pokemon' already exists."
 fi
 
+# Initialize conda for shell usage
+eval "$(conda shell.bash hook)"
+
 conda activate Pokemon
 conda install --yes pip
 pip install -r requirements.txt
-conda install nodejs
+conda install --yes nodejs
