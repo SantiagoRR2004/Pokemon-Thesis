@@ -6,10 +6,11 @@ if ! command -v conda &>/dev/null; then
     wget https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh -O anaconda.sh
     chmod +x anaconda.sh
     # Run the installer with automated input
-    ./anaconda.sh <<EOF
+    ./anaconda.sh -b <<EOF
 
 q
 yes
+
 yes
 EOF
     source ~/.bashrc
