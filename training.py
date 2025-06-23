@@ -49,7 +49,9 @@ async def main(actor: nn.Module, critic: nn.Module = None) -> None:
     serverControl.startServer()
 
     optimizer = optim.Adam(actor.parameters(), lr=1e-3)
-    criticOptimizer = optim.Adam(critic.parameters(), lr=1e-3)
+    if critic:
+        criticOptimizer = optim.Adam(critic.parameters(), lr=1e-3)
+
     nEpisodes = 64
     nEpochs = 40
 
@@ -71,9 +73,10 @@ async def main(actor: nn.Module, critic: nn.Module = None) -> None:
 
     victoryPercentage = []
     actorLosses = []
-    criticLosses = []
     averageRewards = []
-    averageCriticRewards = []
+    if critic:
+        criticLosses = []
+        averageCriticRewards = []
     nTurns = []
 
     for epoch in range(nEpochs):
@@ -89,15 +92,17 @@ async def main(actor: nn.Module, critic: nn.Module = None) -> None:
         await player.battle_against(second_player, n_battles=nEpisodes)
 
         actorLoss = 0
-        criticLoss = 0
         averageRewardsEpoch = 0
-        averageCriticRewardsEpoch = 0
+        if critic:
+            criticLoss = 0
+            averageCriticRewardsEpoch = 0
         gamma = 0.99  # discount factor (the far future is very important)
 
         for battle in player.battles.values():
             nSteps = battle.turn
             actorLossBattle = 0
-            criticLossBattle = 0
+            if critic:
+                criticLossBattle = 0
             finalReward = 1000 if battle.won else -1000
 
             # Reward sequence
@@ -113,29 +118,39 @@ async def main(actor: nn.Module, critic: nn.Module = None) -> None:
             averageRewardsEpoch += (
                 torch.tensor(discountedRewards, dtype=torch.float32).mean().item()
             )
-            averageCriticRewardsEpoch += (
-                torch.stack(player.values[battle.battle_tag]).mean().item()
-            )
+            if critic:
+                averageCriticRewardsEpoch += (
+                    torch.stack(player.values[battle.battle_tag]).mean().item()
+                )
 
             # Calculate the loss using actor-critic
-            for log_prob, G, V in zip(
-                player.log_probs[battle.battle_tag],
-                discountedRewards,
-                player.values[battle.battle_tag],
-            ):
-                advantage = G - V.item()
-                actorLossBattle += -log_prob * advantage
+            if critic:
+                for log_prob, G, V in zip(
+                    player.log_probs[battle.battle_tag],
+                    discountedRewards,
+                    player.values[battle.battle_tag],
+                ):
+                    advantage = G - V.item()
+                    actorLossBattle += -log_prob * advantage
 
-            for G, V in zip(discountedRewards, player.values[battle.battle_tag]):
-                criticLossBattle += (V - G).pow(2)
+                for G, V in zip(discountedRewards, player.values[battle.battle_tag]):
+                    criticLossBattle += (V - G).pow(2)
+            # Calculate the loss using only actor
+            else:
+                for log_prob, G in zip(
+                    player.log_probs[battle.battle_tag], discountedRewards
+                ):
+                    actorLossBattle += -log_prob * G
 
             # Normalize the loss by the episodes
             actorLoss += actorLossBattle / nSteps
-            criticLoss += criticLossBattle / nSteps
+            if critic:
+                criticLoss += criticLossBattle / nSteps
 
         # Normalize the loss by the number of battles
         actorLoss /= len(player.battles)
-        criticLoss /= len(player.battles)
+        if critic:
+            criticLoss /= len(player.battles)
 
         # Backpropagation step
         optimizer.zero_grad()
@@ -143,9 +158,10 @@ async def main(actor: nn.Module, critic: nn.Module = None) -> None:
         optimizer.step()
 
         # Update the critic network
-        criticOptimizer.zero_grad()
-        criticLoss.backward()
-        criticOptimizer.step()
+        if critic:
+            criticOptimizer.zero_grad()
+            criticLoss.backward()
+            criticOptimizer.step()
 
         percentage = player.n_won_battles / player.n_finished_battles
 
@@ -158,21 +174,27 @@ async def main(actor: nn.Module, critic: nn.Module = None) -> None:
 
         victoryPercentage.append(percentage)
         actorLosses.append(actorLoss.item())
-        criticLosses.append(criticLoss.item())
         averageRewards.append(averageRewardsEpoch / len(player.battles))
-        averageCriticRewards.append(averageCriticRewardsEpoch / len(player.battles))
+        if critic:
+            criticLosses.append(criticLoss.item())
+            averageCriticRewards.append(averageCriticRewardsEpoch / len(player.battles))
         nTurns.append(
             sum(battle.turn for battle in player.battles.values()) / len(player.battles)
         )
 
-    metricsLogger.saveData(
-        victoryPercentage=victoryPercentage,
-        actorLosses=actorLosses,
-        criticLosses=criticLosses,
-        averageRewards=averageRewards,
-        averageCriticRewards=averageCriticRewards,
-        nTurns=nTurns,
-    )
+    # Save the metrics
+    kwargs = {
+        "victoryPercentage": victoryPercentage,
+        "actorLosses": actorLosses,
+        "averageRewards": averageRewards,
+        "nTurns": nTurns,
+    }
+
+    if critic:
+        kwargs["criticLosses"] = criticLosses
+        kwargs["averageCriticRewards"] = averageCriticRewards
+
+    metricsLogger.saveData(**kwargs)
 
 
 if __name__ == "__main__":
