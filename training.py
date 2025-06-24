@@ -55,7 +55,7 @@ async def main(actor: nn.Module, nTeams: int, critic: nn.Module = None) -> None:
         criticOptimizer = optim.Adam(critic.parameters(), lr=1e-3)
 
     nEpisodes = 64
-    nEpochs = 40
+    nEpochs = 1000
 
     victoryPercentage = []
     actorLosses = []
@@ -198,7 +198,7 @@ async def main(actor: nn.Module, nTeams: int, critic: nn.Module = None) -> None:
             flush=True,
         )
         print(
-            f"Player {player.username} won {percentage*100:.2f}% of battles.",
+            f"{player.username} won {percentage*100:.2f}% of battles.",
             end=" ",
             flush=True,
         )
