@@ -71,8 +71,8 @@ async def main(actor: nn.Module, critic: nn.Module = None) -> None:
 
         # We create the AI player
         player = AIPlayer(
-            battle_format="gen9anythinggoes",
-            team=randomTeam.selectTeam(1),
+            battle_format="gen9purehackmons",
+            team=randomTeam.selectRandomTeam(2),
             network=actor,
             critic=critic,
             max_concurrent_battles=nEpisodes,
@@ -80,8 +80,8 @@ async def main(actor: nn.Module, critic: nn.Module = None) -> None:
 
         # We create another random player
         second_player = RandomPlayer(
-            battle_format="gen9anythinggoes",
-            team=randomTeam.selectTeam(2),
+            battle_format="gen9purehackmons",
+            team=randomTeam.selectRandomTeam(2),
             max_concurrent_battles=nEpisodes,
         )
 
