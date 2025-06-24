@@ -47,7 +47,7 @@ class CriticNetwork(nn.Module):
         return self.net(x)
 
 
-async def main(actor: nn.Module, critic: nn.Module = None) -> None:
+async def main(actor: nn.Module, nTeams: int, critic: nn.Module = None) -> None:
     p = serverControl.startServer()
 
     optimizer = optim.Adam(actor.parameters(), lr=1e-3)
@@ -69,21 +69,37 @@ async def main(actor: nn.Module, critic: nn.Module = None) -> None:
 
     for epoch in range(nEpochs):
 
-        # We create the AI player
-        player = AIPlayer(
-            battle_format="gen9purehackmons",
-            team=randomTeam.selectRandomTeam(2),
-            network=actor,
-            critic=critic,
-            max_concurrent_battles=nEpisodes,
-        )
+        if nTeams == float("inf"):
+            # We create the AI player
+            player = AIPlayer(
+                battle_format="gen9randombattle",
+                network=actor,
+                critic=critic,
+                max_concurrent_battles=nEpisodes,
+            )
 
-        # We create another random player
-        second_player = RandomPlayer(
-            battle_format="gen9purehackmons",
-            team=randomTeam.selectRandomTeam(2),
-            max_concurrent_battles=nEpisodes,
-        )
+            # We create another random player
+            second_player = RandomPlayer(
+                battle_format="gen9randombattle",
+                max_concurrent_battles=nEpisodes,
+            )
+        else:
+
+            # We create the AI player
+            player = AIPlayer(
+                battle_format="gen9purehackmons",
+                team=randomTeam.selectRandomTeam(nTeams),
+                network=actor,
+                critic=critic,
+                max_concurrent_battles=nEpisodes,
+            )
+
+            # We create another random player
+            second_player = RandomPlayer(
+                battle_format="gen9purehackmons",
+                team=randomTeam.selectRandomTeam(nTeams),
+                max_concurrent_battles=nEpisodes,
+            )
 
         # Reset the player for new Episodes
         player.reset()
@@ -229,4 +245,6 @@ if __name__ == "__main__":
 
     import ignorePokeEnvProblems
 
-    asyncio.run(main(actor=NeuralNetwork(), critic=CriticNetwork()))
+    asyncio.run(
+        main(actor=NeuralNetwork(), critic=CriticNetwork(), nTeams=float("inf"))
+    )
