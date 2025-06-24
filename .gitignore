@@ -3,3 +3,4 @@ __pycache__
 secrets.json
 pokemon-showdown/
 warnings.log
+output.log
