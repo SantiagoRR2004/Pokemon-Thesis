@@ -23,7 +23,7 @@ def endProcess(process: subprocess.Popen) -> None:
     # Step 2: Wait for the process to finish
     process.wait()
 
-    print("Server shut down successfully.")
+    print("Server shut down successfully.", flush=True)
 
 
 def startServer() -> subprocess.Popen:
@@ -50,13 +50,13 @@ def startServer() -> subprocess.Popen:
     # We wait for 'Test your server' to appear
     try:
         for line in serverProcess.stdout:
-            print(line.strip())  # Print the output for debugging purposes
+            print(line.strip(), flush=True)  # Print the output for debugging purposes
             if "Test your server" in line:
-                print("Found the target message: 'Test your server'")
+                print("Found the target message: 'Test your server'", flush=True)
                 # It is ready
                 break
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"An error occurred: {e}", flush=True)
     finally:
         atexit.register(endProcess, serverProcess)
         return serverProcess
@@ -76,6 +76,6 @@ def downloadPokemonShowdown() -> None:
         result = subprocess.run(
             ["bash", "downloadServer.sh"], capture_output=True, text=True, check=True
         )
-        print(result.stdout.strip())
+        print(result.stdout.strip(), flush=True)
     except subprocess.CalledProcessError as e:
         raise Exception(e.stderr)

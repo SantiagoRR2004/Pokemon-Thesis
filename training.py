@@ -170,7 +170,7 @@ async def main(actor: nn.Module, critic: nn.Module = None) -> None:
         percentage = player.n_won_battles / player.n_finished_battles
 
         # We can now print the results of the battles
-        print(f"{epoch+1:0{len(str(nEpochs))}d}/{nEpochs}", end=" ")
+        print(f"{epoch+1:0{len(str(nEpochs))}d}/{nEpochs}", end=" ", flush=True)
         print(
             time.strftime(
                 "%H:%M:%S",
@@ -179,9 +179,12 @@ async def main(actor: nn.Module, critic: nn.Module = None) -> None:
                 ),
             ),
             end=" ",
+            flush=True,
         )
         print(
-            f"Player {player.username} won {percentage*100:.2f}% of battles.", end=" "
+            f"Player {player.username} won {percentage*100:.2f}% of battles.",
+            end=" ",
+            flush=True,
         )
         print()
 
