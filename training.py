@@ -214,7 +214,7 @@ async def main(actor: nn.Module, nTeams: int, critic: nn.Module = None) -> None:
             sum(battle.turn for battle in player.battles.values()) / len(player.battles)
         )
 
-        if (epoch + 1) % 100 == 0:
+        if (epoch + 1) % 100 == 0 and (epoch + 1) != nEpochs:
             os.killpg(os.getpgid(p.pid), signal.SIGINT)
             p.wait()
             p = serverControl.startServer()
