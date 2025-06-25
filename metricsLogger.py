@@ -97,6 +97,73 @@ def graphExperiment(fileName: str) -> None:
     plt.show()
 
 
+def graphAllExperiments() -> None:
+    currentDirectory = os.path.dirname(os.path.abspath(__file__))
+    dataDirectory = os.path.join(currentDirectory, "data")
+
+    # List all parquet files in the data directory
+    files = {
+        fileName[: -len(".parquet")]: pd.read_parquet(
+            os.path.join(dataDirectory, fileName)
+        )
+        for fileName in os.listdir(dataDirectory)
+        if fileName.endswith(".parquet")
+    }
+
+    # Plot the victory percentage
+    plt.figure()
+    for name, df in files.items():
+        if "victoryPercentage" in df.columns:
+            plt.plot(df["victoryPercentage"], label=name)
+    plt.xlabel("Epochs")
+    plt.ylabel("Victory Percentage")
+    plt.legend()
+    plt.title("Victory Percentage Over Epochs")
+
+    # Plot the losses
+    plt.figure()
+    for name, df in files.items():
+        if "actorLosses" in df.columns:
+            plt.plot(df["actorLosses"], label=f"{name}")
+    plt.xlabel("Epochs")
+    plt.ylabel("Loss")
+    plt.legend()
+    plt.title("Actor Loss Over Epochs")
+
+    plt.figure()
+    for name, df in files.items():
+        if "criticLosses" in df.columns:
+            plt.plot(df["criticLosses"], label=f"{name}")
+    plt.xlabel("Epochs")
+    plt.ylabel("Loss")
+    plt.legend()
+    plt.title("Critic Loss Over Epochs")
+
+    # Plot the average rewards
+    plt.figure()
+    for name, df in files.items():
+        if "averageRewards" in df.columns:
+            plt.plot(df["averageRewards"], label=f"{name} Average Rewards")
+        if "averageCriticRewards" in df.columns:
+            plt.plot(df["averageCriticRewards"], label=f"{name} Average Critic Rewards")
+    plt.xlabel("Epochs")
+    plt.ylabel("Average Rewards")
+    plt.legend()
+    plt.title("Average Rewards Over Epochs")
+
+    # Plot the number of turns
+    plt.figure()
+    for name, df in files.items():
+        if "nTurns" in df.columns:
+            plt.plot(df["nTurns"], label=name)
+    plt.xlabel("Epochs")
+    plt.ylabel("Number of Turns")
+    plt.legend()
+    plt.title("Number of Turns Over Epochs")
+
+    plt.show()
+
+
 if __name__ == "__main__":
 
-    graphExperiment("experiment1.parquet")
+    graphAllExperiments()
