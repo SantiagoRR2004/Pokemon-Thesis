@@ -215,7 +215,7 @@ async def main(actor: nn.Module, nTeams: int, critic: nn.Module = None) -> None:
         )
 
         if (epoch + 1) % 100 == 0 and (epoch + 1) != nEpochs:
-            os.killpg(os.getpgid(p.pid), signal.SIGINT)
+            serverControl.endProcess(p)
             p.wait()
             p = serverControl.startServer()
 
