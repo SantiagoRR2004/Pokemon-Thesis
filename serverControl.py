@@ -1,6 +1,7 @@
 import subprocess
 import signal
 import atexit
+import time
 import os
 
 
@@ -54,6 +55,7 @@ def startServer() -> subprocess.Popen:
             if "Test your server" in line:
                 print("Found the target message: 'Test your server'", flush=True)
                 # It is ready
+                time.sleep(1)  # Give it an extra second to ensure it's fully ready
                 break
     except Exception as e:
         print(f"An error occurred: {e}", flush=True)
