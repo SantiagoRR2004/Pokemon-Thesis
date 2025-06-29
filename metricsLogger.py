@@ -165,6 +165,7 @@ def graphAllExperiments(windowSize: int = 1) -> None:
         yaxis_title="Loss",
         hovermode="closest",
     )
+    fig.show()
 
     fig = go.Figure()
     for name, df in files.items():
