@@ -212,5 +212,5 @@ if __name__ == "__main__":
     import ignorePokeEnvProblems
 
     asyncio.run(
-        main(actor=NeuralNetwork(), critic=CriticNetwork(), nTeams=float("inf"))
+        main(actor=NeuralNetwork(AIPlayer), critic=CriticNetwork(), nTeams=float("inf"))
     )
