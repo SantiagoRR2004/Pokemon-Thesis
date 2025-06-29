@@ -97,6 +97,27 @@ def graphExperiment(fileName: str) -> None:
     plt.show()
 
 
+def sortLegend() -> None:
+    """
+    Sort the legend of the current plot by label name.
+
+    Args:
+        - None
+
+    Returns:
+        - None
+    """
+    # Get current legend handles and labels
+    handles, labels = plt.gca().get_legend_handles_labels()
+
+    # Sort labels and handles by label name
+    sorted_handles_labels = sorted(zip(labels, handles), key=lambda x: x[0])
+    sorted_labels, sorted_handles = zip(*sorted_handles_labels)
+
+    # Apply sorted legend
+    plt.legend(sorted_handles, sorted_labels)
+
+
 def graphAllExperiments(windowSize: int = 1) -> None:
     currentDirectory = os.path.dirname(os.path.abspath(__file__))
     dataDirectory = os.path.join(currentDirectory, "data")
@@ -120,7 +141,7 @@ def graphAllExperiments(windowSize: int = 1) -> None:
             plt.plot(smoothed, label=name)
     plt.xlabel("Epochs")
     plt.ylabel("Victory Percentage")
-    plt.legend()
+    sortLegend()
     plt.title("Victory Percentage Over Epochs")
 
     # Plot the losses
@@ -131,7 +152,7 @@ def graphAllExperiments(windowSize: int = 1) -> None:
             plt.plot(smoothed, label=f"{name}")
     plt.xlabel("Epochs")
     plt.ylabel("Loss")
-    plt.legend()
+    sortLegend()
     plt.title("Actor Loss Over Epochs")
 
     plt.figure()
@@ -141,7 +162,7 @@ def graphAllExperiments(windowSize: int = 1) -> None:
             plt.plot(smoothed, label=f"{name}")
     plt.xlabel("Epochs")
     plt.ylabel("Loss")
-    plt.legend()
+    sortLegend()
     plt.title("Critic Loss Over Epochs")
 
     # Plot the average rewards
@@ -161,7 +182,7 @@ def graphAllExperiments(windowSize: int = 1) -> None:
             plt.plot(smoothed, label=f"{name} Average Critic Rewards")
     plt.xlabel("Epochs")
     plt.ylabel("Average Rewards")
-    plt.legend()
+    sortLegend()
     plt.title("Average Rewards Over Epochs")
 
     # Plot the number of turns
@@ -172,7 +193,7 @@ def graphAllExperiments(windowSize: int = 1) -> None:
             plt.plot(smoothed, label=name)
     plt.xlabel("Epochs")
     plt.ylabel("Number of Turns")
-    plt.legend()
+    sortLegend()
     plt.title("Number of Turns Over Epochs")
 
     plt.show()
