@@ -1,4 +1,4 @@
-from MyAIPlayer import AIPlayer
+from players import AIPlayer
 import serverControl
 import asyncio
 import neat

@@ -1,5 +1,5 @@
 import randomTeams.randomTeam as randomTeam
-from MyAIPlayer import AIPlayer
+from players import AIPlayer
 from poke_env.player import RandomPlayer
 import torch
 import torch.nn as nn
