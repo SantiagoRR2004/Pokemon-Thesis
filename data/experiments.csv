@@ -8,6 +8,7 @@ experiment6,actor,10,64
 experiment7,actor,100,64
 experiment8,actor,inf,64
 experiment9,actorCritc,2,1
+experiment9,actorCritc,2,16
 random1,,2,64
 random2,,10,64
 random3,,100,64
