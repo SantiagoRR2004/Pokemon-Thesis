@@ -3,5 +3,6 @@ poke_env
 neat-python
 torch
 matplotlib
+plotly
 pandas
 pyarrow

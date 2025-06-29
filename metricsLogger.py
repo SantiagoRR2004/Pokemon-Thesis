@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import plotly.graph_objs as go
 import pandas as pd
 import os
 
@@ -130,73 +131,100 @@ def graphAllExperiments(windowSize: int = 1) -> None:
         for fileName in os.listdir(dataDirectory)
         if fileName.endswith(".parquet")
     }
+    files = dict(sorted(files.items(), key=lambda item: item[0]))  # sort by name
 
     # Plot the victory percentage
-    plt.figure()
+    fig = go.Figure()
     for name, df in files.items():
         if "victoryPercentage" in df.columns:
             smoothed = (
                 df["victoryPercentage"].rolling(window=windowSize, center=True).mean()
             )
-            plt.plot(smoothed, label=name)
-    plt.xlabel("Epochs")
-    plt.ylabel("Victory Percentage")
-    sortLegend()
-    plt.title("Victory Percentage Over Epochs")
+            fig.add_trace(
+                go.Scatter(y=smoothed, mode="lines", name=name, hoverinfo="name+y")
+            )
+    fig.update_layout(
+        title="Victory Percentage Over Epochs",
+        xaxis_title="Epochs",
+        yaxis_title="Victory Percentage",
+        hovermode="closest",
+    )
+    fig.show()
 
     # Plot the losses
-    plt.figure()
+    fig = go.Figure()
     for name, df in files.items():
         if "actorLosses" in df.columns:
             smoothed = df["actorLosses"].rolling(window=windowSize, center=True).mean()
-            plt.plot(smoothed, label=f"{name}")
-    plt.xlabel("Epochs")
-    plt.ylabel("Loss")
-    sortLegend()
-    plt.title("Actor Loss Over Epochs")
+            fig.add_trace(
+                go.Scatter(y=smoothed, mode="lines", name=name, hoverinfo="name+y")
+            )
+    fig.update_layout(
+        title="Actor Loss Over Epochs",
+        xaxis_title="Epochs",
+        yaxis_title="Loss",
+        hovermode="closest",
+    )
 
-    plt.figure()
+    fig = go.Figure()
     for name, df in files.items():
         if "criticLosses" in df.columns:
             smoothed = df["criticLosses"].rolling(window=windowSize, center=True).mean()
-            plt.plot(smoothed, label=f"{name}")
-    plt.xlabel("Epochs")
-    plt.ylabel("Loss")
-    sortLegend()
-    plt.title("Critic Loss Over Epochs")
+            fig.add_trace(
+                go.Scatter(y=smoothed, mode="lines", name=name, hoverinfo="name+y")
+            )
+    fig.update_layout(
+        title="Critic Loss Over Epochs",
+        xaxis_title="Epochs",
+        yaxis_title="Loss",
+        hovermode="closest",
+    )
+    fig.show()
 
     # Plot the average rewards
-    plt.figure()
+    fig = go.Figure()
     for name, df in files.items():
         if "averageRewards" in df.columns:
             smoothed = (
                 df["averageRewards"].rolling(window=windowSize, center=True).mean()
             )
-            plt.plot(smoothed, label=f"{name} Average Rewards")
+            fig.add_trace(
+                go.Scatter(y=smoothed, mode="lines", name=f"{name} Average Rewards")
+            )
         if "averageCriticRewards" in df.columns:
             smoothed = (
                 df["averageCriticRewards"]
                 .rolling(window=windowSize, center=True)
                 .mean()
             )
-            plt.plot(smoothed, label=f"{name} Average Critic Rewards")
-    plt.xlabel("Epochs")
-    plt.ylabel("Average Rewards")
-    sortLegend()
-    plt.title("Average Rewards Over Epochs")
+            fig.add_trace(
+                go.Scatter(
+                    y=smoothed, mode="lines", name=f"{name} Average Critic Rewards"
+                )
+            )
+    fig.update_layout(
+        title="Average Rewards Over Epochs",
+        xaxis_title="Epochs",
+        yaxis_title="Average Rewards",
+        hovermode="closest",
+    )
+    fig.show()
 
     # Plot the number of turns
-    plt.figure()
+    fig = go.Figure()
     for name, df in files.items():
         if "nTurns" in df.columns:
             smoothed = df["nTurns"].rolling(window=windowSize, center=True).mean()
-            plt.plot(smoothed, label=name)
-    plt.xlabel("Epochs")
-    plt.ylabel("Number of Turns")
-    sortLegend()
-    plt.title("Number of Turns Over Epochs")
-
-    plt.show()
+            fig.add_trace(
+                go.Scatter(y=smoothed, mode="lines", name=name, hoverinfo="name+y")
+            )
+    fig.update_layout(
+        title="Number of Turns Over Epochs",
+        xaxis_title="Epochs",
+        yaxis_title="Number of Turns",
+        hovermode="closest",
+    )
+    fig.show()
 
 
 if __name__ == "__main__":
