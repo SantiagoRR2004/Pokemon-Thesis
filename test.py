@@ -2,7 +2,7 @@ from poke_env import ShowdownServerConfiguration, AccountConfiguration
 
 # from poke_env.player import RandomPlayer
 # from poke_env.player.baselines import SimpleHeuristicsPlayer
-from MyRandomPlayer import CustomRandomPlayer
+from NEAT.MyRandomPlayer import CustomRandomPlayer
 import asyncio
 import appSecrets
 
