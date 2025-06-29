@@ -97,7 +97,7 @@ def graphExperiment(fileName: str) -> None:
     plt.show()
 
 
-def graphAllExperiments() -> None:
+def graphAllExperiments(windowSize: int = 1) -> None:
     currentDirectory = os.path.dirname(os.path.abspath(__file__))
     dataDirectory = os.path.join(currentDirectory, "data")
 
@@ -114,7 +114,10 @@ def graphAllExperiments() -> None:
     plt.figure()
     for name, df in files.items():
         if "victoryPercentage" in df.columns:
-            plt.plot(df["victoryPercentage"], label=name)
+            smoothed = (
+                df["victoryPercentage"].rolling(window=windowSize, center=True).mean()
+            )
+            plt.plot(smoothed, label=name)
     plt.xlabel("Epochs")
     plt.ylabel("Victory Percentage")
     plt.legend()
@@ -124,7 +127,8 @@ def graphAllExperiments() -> None:
     plt.figure()
     for name, df in files.items():
         if "actorLosses" in df.columns:
-            plt.plot(df["actorLosses"], label=f"{name}")
+            smoothed = df["actorLosses"].rolling(window=windowSize, center=True).mean()
+            plt.plot(smoothed, label=f"{name}")
     plt.xlabel("Epochs")
     plt.ylabel("Loss")
     plt.legend()
@@ -133,7 +137,8 @@ def graphAllExperiments() -> None:
     plt.figure()
     for name, df in files.items():
         if "criticLosses" in df.columns:
-            plt.plot(df["criticLosses"], label=f"{name}")
+            smoothed = df["criticLosses"].rolling(window=windowSize, center=True).mean()
+            plt.plot(smoothed, label=f"{name}")
     plt.xlabel("Epochs")
     plt.ylabel("Loss")
     plt.legend()
@@ -143,9 +148,17 @@ def graphAllExperiments() -> None:
     plt.figure()
     for name, df in files.items():
         if "averageRewards" in df.columns:
-            plt.plot(df["averageRewards"], label=f"{name} Average Rewards")
+            smoothed = (
+                df["averageRewards"].rolling(window=windowSize, center=True).mean()
+            )
+            plt.plot(smoothed, label=f"{name} Average Rewards")
         if "averageCriticRewards" in df.columns:
-            plt.plot(df["averageCriticRewards"], label=f"{name} Average Critic Rewards")
+            smoothed = (
+                df["averageCriticRewards"]
+                .rolling(window=windowSize, center=True)
+                .mean()
+            )
+            plt.plot(smoothed, label=f"{name} Average Critic Rewards")
     plt.xlabel("Epochs")
     plt.ylabel("Average Rewards")
     plt.legend()
@@ -155,7 +168,8 @@ def graphAllExperiments() -> None:
     plt.figure()
     for name, df in files.items():
         if "nTurns" in df.columns:
-            plt.plot(df["nTurns"], label=name)
+            smoothed = df["nTurns"].rolling(window=windowSize, center=True).mean()
+            plt.plot(smoothed, label=name)
     plt.xlabel("Epochs")
     plt.ylabel("Number of Turns")
     plt.legend()
@@ -166,4 +180,4 @@ def graphAllExperiments() -> None:
 
 if __name__ == "__main__":
 
-    graphAllExperiments()
+    graphAllExperiments(100)
