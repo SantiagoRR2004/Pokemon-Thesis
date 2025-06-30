@@ -66,7 +66,7 @@ class AbstractAIPlayer(Player, ABC):
             BattleOrder: The move to be executed
         """
 
-        inputs = torch.tensor(self.getInputs(battle))
+        inputs = torch.tensor(self.getInputs(battle), dtype=torch.float32)
 
         # Raw network outputs
         logits = self.neuralNetwork(inputs)

@@ -1,5 +1,6 @@
 from poke_env.environment import AbstractBattle, Pokemon
 from players.AbstractAIPlayer import AbstractAIPlayer
+import numpy as np
 
 
 class AIPlayerS(AbstractAIPlayer):
@@ -8,7 +9,24 @@ class AIPlayerS(AbstractAIPlayer):
     """
 
     N_F_TYPES = 20  # Tera stellar and Pawmot
-    N_F_POKEMON = 1 + N_F_TYPES + N_F_TYPES + 1 + 1 + N_F_TYPES + 2 + 2 + 1 + (2 * 4)
+    N_F_POKEMON = (
+        1
+        + N_F_TYPES
+        + N_F_TYPES
+        + 1
+        + 1
+        + N_F_TYPES
+        + 1
+        + 6
+        + 1
+        + 1
+        + 1
+        + (2 * 6)
+        + 7
+        + 1
+        + 1
+        + (2 * 4)
+    )
     N_F_TOTAL = 2 + (1 + N_F_POKEMON) * 12
 
     N_OUTPUTS = 14  # 8 moves + 6 switches
@@ -79,11 +97,15 @@ class AIPlayerS(AbstractAIPlayer):
             - If the pokemon has already tera'd (encoded as an integer)
             - If the tera type is known (encoded as an integer)
             - The tera type of the pokemon (encoded as a list of {self.N_F_TYPES} integers)
-            - The ability's presence indicator
-            - The ability of the pokemon (encoded as an integer)
+            - The level of the pokemon as a float
+            - The base stats of the pokemon (list of 6 floats)
+            - The HP fraction of the pokemon
+            - The 6 stats of the pokemon:
+                - The presence indicator of the stat (1 if known, 0 otherwise)
+                - The value of the stat (a float)
+            - The stat boosts of the pokemon (list of 7 floats)
             - The item's presence indicator
             - The item of the pokemon (encoded as an integer)
-            - The HP fraction of the pokemon
             - The 4 moves of the pokemon:
                 - The presence indicator of the move
                 - The name of the move (encoded as an integer)
@@ -127,6 +149,17 @@ class AIPlayerS(AbstractAIPlayer):
             # If the tera type is not known we add a zero
             featureVector += [0] + ([0] * self.N_F_TYPES)
 
+        # Add the level
+        featureVector.append(pokemon.level / 100)
+
+        # Add the base stats
+        featureVector.append(pokemon.base_stats["hp"] / 255)
+        featureVector.append(pokemon.base_stats["atk"] / 255)
+        featureVector.append(pokemon.base_stats["def"] / 255)
+        featureVector.append(pokemon.base_stats["spa"] / 255)
+        featureVector.append(pokemon.base_stats["spd"] / 255)
+        featureVector.append(pokemon.base_stats["spe"] / 255)
+
         # Add the ability
         ability = self.encoder.encodeAbility(pokemon.ability)
         if ability == -1:
@@ -135,6 +168,45 @@ class AIPlayerS(AbstractAIPlayer):
         else:
             featureVector.extend([1, ability])
 
+        # The HP fraction of the pokemon
+        featureVector.append(pokemon.current_hp_fraction)
+
+        # The stats
+        if pokemon.stats["hp"] is not None:
+            featureVector.append(1)
+            featureVector.append(np.log(pokemon.stats["hp"] + 1) / np.log(1000))
+        else:
+            featureVector.extend([0, 0])
+        if pokemon.stats["atk"] is not None:
+            featureVector.append(1)
+            featureVector.append(np.log(pokemon.stats["atk"] + 1) / np.log(1000))
+        else:
+            featureVector.extend([0, 0])
+        if pokemon.stats["def"] is not None:
+            featureVector.append(1)
+            featureVector.append(np.log(pokemon.stats["def"] + 1) / np.log(1000))
+        else:
+            featureVector.extend([0, 0])
+        if pokemon.stats["spa"] is not None:
+            featureVector.append(1)
+            featureVector.append(np.log(pokemon.stats["spa"] + 1) / np.log(1000))
+        else:
+            featureVector.extend([0, 0])
+        if pokemon.stats["spd"] is not None:
+            featureVector.append(1)
+            featureVector.append(np.log(pokemon.stats["spd"] + 1) / np.log(1000))
+        else:
+            featureVector.extend([0, 0])
+        if pokemon.stats["spe"] is not None:
+            featureVector.append(1)
+            featureVector.append(np.log(pokemon.stats["spe"] + 1) / np.log(1000))
+        else:
+            featureVector.extend([0, 0])
+
+        # Stat boosts
+        for stat in ["atk", "def", "spa", "spd", "spe", "accuracy", "evasion"]:
+            featureVector.append(pokemon.boosts[stat] / 6)
+
         # Add the item
         item = self.encoder.encodeItem(pokemon.item)
         if item == -1:
@@ -142,9 +214,6 @@ class AIPlayerS(AbstractAIPlayer):
             featureVector.extend([0, 0])
         else:
             featureVector.extend([1, item])
-
-        # The HP fraction of the pokemon
-        featureVector.append(pokemon.current_hp_fraction)
 
         # The moves
         moves = []
