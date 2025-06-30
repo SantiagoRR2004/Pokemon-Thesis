@@ -1,5 +1,5 @@
 import randomTeams.randomTeam as randomTeam
-from players import AIPlayer
+from players import AIPlayerS
 from actors import NeuralNetwork
 from critics import CriticNetwork
 from poke_env.player import RandomPlayer
@@ -20,8 +20,8 @@ async def main(actor: nn.Module, nTeams: int, critic: nn.Module = None) -> None:
     if critic:
         criticOptimizer = optim.Adam(critic.parameters(), lr=1e-3)
 
-    nEpisodes = 64
-    nEpochs = 1000
+    nEpisodes = 4
+    nEpochs = 4
 
     victoryPercentage = []
     actorLosses = []
@@ -37,7 +37,7 @@ async def main(actor: nn.Module, nTeams: int, critic: nn.Module = None) -> None:
 
         if nTeams == float("inf"):
             # We create the AI player
-            player = AIPlayer(
+            player = AIPlayerS(
                 battle_format="gen9randombattle",
                 network=actor,
                 critic=critic,
@@ -52,7 +52,7 @@ async def main(actor: nn.Module, nTeams: int, critic: nn.Module = None) -> None:
         else:
 
             # We create the AI player
-            player = AIPlayer(
+            player = AIPlayerS(
                 battle_format="gen9purehackmons",
                 team=randomTeam.selectRandomTeam(nTeams),
                 network=actor,
@@ -213,8 +213,8 @@ if __name__ == "__main__":
 
     asyncio.run(
         main(
-            actor=NeuralNetwork(AIPlayer),
-            critic=CriticNetwork(AIPlayer),
+            actor=NeuralNetwork(AIPlayerS),
+            critic=CriticNetwork(AIPlayerS),
             nTeams=float("inf"),
         )
     )

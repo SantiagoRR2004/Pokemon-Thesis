@@ -153,12 +153,8 @@ class AIPlayerS(AbstractAIPlayer):
         featureVector.append(pokemon.level / 100)
 
         # Add the base stats
-        featureVector.append(pokemon.base_stats["hp"] / 255)
-        featureVector.append(pokemon.base_stats["atk"] / 255)
-        featureVector.append(pokemon.base_stats["def"] / 255)
-        featureVector.append(pokemon.base_stats["spa"] / 255)
-        featureVector.append(pokemon.base_stats["spd"] / 255)
-        featureVector.append(pokemon.base_stats["spe"] / 255)
+        for stat in self.STATS:
+            featureVector.append(pokemon.base_stats[stat] / 255)
 
         # Add the ability
         ability = self.encoder.encodeAbility(pokemon.ability)
@@ -172,39 +168,15 @@ class AIPlayerS(AbstractAIPlayer):
         featureVector.append(pokemon.current_hp_fraction)
 
         # The stats
-        if pokemon.stats["hp"] is not None:
-            featureVector.append(1)
-            featureVector.append(np.log(pokemon.stats["hp"] + 1) / np.log(1000))
-        else:
-            featureVector.extend([0, 0])
-        if pokemon.stats["atk"] is not None:
-            featureVector.append(1)
-            featureVector.append(np.log(pokemon.stats["atk"] + 1) / np.log(1000))
-        else:
-            featureVector.extend([0, 0])
-        if pokemon.stats["def"] is not None:
-            featureVector.append(1)
-            featureVector.append(np.log(pokemon.stats["def"] + 1) / np.log(1000))
-        else:
-            featureVector.extend([0, 0])
-        if pokemon.stats["spa"] is not None:
-            featureVector.append(1)
-            featureVector.append(np.log(pokemon.stats["spa"] + 1) / np.log(1000))
-        else:
-            featureVector.extend([0, 0])
-        if pokemon.stats["spd"] is not None:
-            featureVector.append(1)
-            featureVector.append(np.log(pokemon.stats["spd"] + 1) / np.log(1000))
-        else:
-            featureVector.extend([0, 0])
-        if pokemon.stats["spe"] is not None:
-            featureVector.append(1)
-            featureVector.append(np.log(pokemon.stats["spe"] + 1) / np.log(1000))
-        else:
-            featureVector.extend([0, 0])
+        for stat in self.STATS:
+            if pokemon.stats[stat] is not None:
+                featureVector.append(1)
+                featureVector.append(np.log(pokemon.stats[stat] + 1) / np.log(1000))
+            else:
+                featureVector.extend([0, 0])
 
         # Stat boosts
-        for stat in ["atk", "def", "spa", "spd", "spe", "accuracy", "evasion"]:
+        for stat in [s for s in self.STATS if s != "hp"] + ["accuracy", "evasion"]:
             featureVector.append(pokemon.boosts[stat] / 6)
 
         # Add the item

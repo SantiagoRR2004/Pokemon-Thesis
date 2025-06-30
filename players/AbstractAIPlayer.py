@@ -42,6 +42,8 @@ class AbstractAIPlayer(Player, ABC):
         self.criticNetwork = critic
         self.reset()
 
+    STATS = ["hp", "atk", "def", "spa", "spd", "spe"]
+
     def reset(self) -> None:
         """
         Reset the internal lists for training
