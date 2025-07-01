@@ -233,22 +233,26 @@ class PokemonFeatureEncoder:
         """
         return self.abilityEncoder.get(ability, -1)
 
-    def encodeAbilityList(self, ability: str) -> list[int]:
+    def encodeAbilityList(self, abilities: list[str]) -> list[int]:
         """
         Encodes a Pokemon ability into a list of integers.
 
+        If there are multiple abilities, each is given the probability of
+        1 divided by the number of abilities.
+
         Args:
-            - ability (str): The Pokemon ability to encode.
+            - abilities (str): A list of Pokemon abilities to encode.
 
         Returns:
             - list[int]: A list of integers where the index corresponds to the ability.
         """
         toret = [0] * self.NUM_UNIQUE_ABILITIES
-        abilityIndex = self.encodeAbility(ability)
-        if abilityIndex != -1:
-            toret[abilityIndex] = 1
-        else:
-            raise ValueError(f"Ability '{ability}' not found.")
+        for ability in abilities:
+            abilityIndex = self.encodeAbility(ability)
+            if abilityIndex != -1:
+                toret[abilityIndex] = 1 / len(abilities)
+            else:
+                raise ValueError(f"Ability '{ability}' not found.")
         return toret
 
     def prepareItems(self) -> None:

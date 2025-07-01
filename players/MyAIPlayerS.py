@@ -161,10 +161,14 @@ class AIPlayerS(AbstractAIPlayer):
         if pokemon.ability is not None:
             # We encode the ability
             featureVector.append(1)
-            featureVector.extend(self.encoder.encodeAbilityList(pokemon.ability))
+            featureVector.extend(self.encoder.encodeAbilityList([pokemon.ability]))
         else:
             # If the ability is not known we add a zero
-            featureVector.extend([0] * (1 + self.encoder.NUM_UNIQUE_ABILITIES))
+            featureVector.append(0)
+            # We encode the possible abilities
+            featureVector.extend(
+                self.encoder.encodeAbilityList(pokemon.possible_abilities)
+            )
 
         # The HP fraction of the pokemon
         featureVector.append(pokemon.current_hp_fraction)
