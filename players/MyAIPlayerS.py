@@ -10,7 +10,7 @@ class AIPlayerS(AbstractAIPlayer):
 
     N_F_TYPES = 20  # Tera stellar and Pawmot
     N_F_POKEMON = (
-        1
+        AbstractAIPlayer.encoder.NUM_UNIQUE_FORMS
         + N_F_TYPES
         + N_F_TYPES
         + 1
@@ -18,14 +18,12 @@ class AIPlayerS(AbstractAIPlayer):
         + N_F_TYPES
         + 1
         + 6
-        + 1
-        + 1
+        + (1 + AbstractAIPlayer.encoder.NUM_UNIQUE_ABILITIES)
         + 1
         + (2 * 6)
         + 7
-        + 1
-        + 1
-        + (2 * 4)
+        + (1 + AbstractAIPlayer.encoder.NUM_UNIQUE_ITEMS)
+        + 4 * (1 + AbstractAIPlayer.encoder.NUM_UNIQUE_MOVES)
     )
     N_F_TOTAL = 2 + (1 + N_F_POKEMON) * 12
 
@@ -91,7 +89,7 @@ class AIPlayerS(AbstractAIPlayer):
         This method will encode a pokemon into a feature vector
 
         The feature vector will have:
-            - The form of the pokemon (encoded as an integer)
+            - The form of the pokemon (encoded as a list of encoder.NUM_UNIQUE_FORMS integers)
             - The original type of the pokemon (encoded as a list of {self.N_F_TYPES} integers)
             - The current types of the pokemon (encoded as a list of {self.N_F_TYPES} integers)
             - If the pokemon has already tera'd (encoded as an integer)
@@ -99,16 +97,20 @@ class AIPlayerS(AbstractAIPlayer):
             - The tera type of the pokemon (encoded as a list of {self.N_F_TYPES} integers)
             - The level of the pokemon as a float
             - The base stats of the pokemon (list of 6 floats)
+            - The ability of the pokemon:
+                - The presence indicator of the ability (1 if known, 0 otherwise)
+                - The ability (encoded as a list of encoder.NUM_UNIQUE_ABILITIES integers)
             - The HP fraction of the pokemon
             - The 6 stats of the pokemon:
                 - The presence indicator of the stat (1 if known, 0 otherwise)
                 - The value of the stat (a float)
             - The stat boosts of the pokemon (list of 7 floats)
-            - The item's presence indicator
-            - The item of the pokemon (encoded as an integer)
+            - The item:
+                - The presence indicator of the item (1 if known, 0 otherwise)
+                - The item (encoded as a list of encoder.NUM_UNIQUE_ITEMS integers)
             - The 4 moves of the pokemon:
                 - The presence indicator of the move
-                - The name of the move (encoded as an integer)
+                - The name of the move (encoded as a list of encoder.NUM_UNIQUE_MOVES integers)
 
         Args:
             - pokemon (Pokemon): The pokemon to be encoded
@@ -119,11 +121,9 @@ class AIPlayerS(AbstractAIPlayer):
         featureVector = []
 
         # The form of the pokemon
-        form = self.encoder.encodeForm(pokemon.species)
-        if form == -1:
-            # It was a cosmetic form
-            form = self.encoder.encodeForm(pokemon.base_species)
-        featureVector.append(form)
+        featureVector.extend(
+            self.encoder.encodeFormList(pokemon.species, pokemon.base_species)
+        )
 
         # The original type of the pokemon
         types = [0] * self.N_F_TYPES
@@ -157,12 +157,13 @@ class AIPlayerS(AbstractAIPlayer):
             featureVector.append(pokemon.base_stats[stat] / 255)
 
         # Add the ability
-        ability = self.encoder.encodeAbility(pokemon.ability)
-        if ability == -1:
-            # We don't know the ability
-            featureVector.extend([0, 0])
+        if pokemon.ability is not None:
+            # We encode the ability
+            featureVector.append(1)
+            featureVector.extend(self.encoder.encodeAbilityList(pokemon.ability))
         else:
-            featureVector.extend([1, ability])
+            # If the ability is not known we add a zero
+            featureVector.extend([0] * (1 + self.encoder.NUM_UNIQUE_ABILITIES))
 
         # The HP fraction of the pokemon
         featureVector.append(pokemon.current_hp_fraction)
@@ -180,21 +181,26 @@ class AIPlayerS(AbstractAIPlayer):
             featureVector.append(pokemon.boosts[stat] / 6)
 
         # Add the item
-        item = self.encoder.encodeItem(pokemon.item)
-        if item == -1:
-            # We don't know the item
-            featureVector.extend([0, 0])
+        if pokemon.item and pokemon.item != "unknown_item":
+            # We encode the item
+            featureVector.append(1)
+            featureVector.extend(self.encoder.encodeItemList(pokemon.item))
         else:
-            featureVector.extend([1, item])
+            # If the item is not known we add a zero
+            featureVector.extend([0] * (1 + self.encoder.NUM_UNIQUE_ITEMS))
 
         # The moves
         moves = []
         for move in pokemon.moves.values():
             # We encode the move
             moves.append(1)
-            moves.append(self.encoder.encodeMove(move.id))
+            moves.extend(self.encoder.encodeMoveList(move.id))
         # We fill with zeros if the pokemon has less than 4 moves
-        moves += [0, 0] * (4 - len(pokemon.moves.values()))
+        moves += (
+            [0]
+            * (1 + self.encoder.NUM_UNIQUE_MOVES)
+            * (4 - len(pokemon.moves.values()))
+        )
         featureVector += moves
 
         return featureVector

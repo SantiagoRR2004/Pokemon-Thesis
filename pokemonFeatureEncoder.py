@@ -169,6 +169,27 @@ class PokemonFeatureEncoder:
         """
         return self.formEncoder.get(form, -1)
 
+    def encodeFormList(self, form: str, backup: str) -> list[int]:
+        """
+        Encodes a Pokemon form and its backup into a list of integers.
+
+        Args:
+            - form (str): The primary Pokemon form to encode.
+            - backup (str): The backup Pokemon form to encode.
+
+        Returns:
+            - list[int]: A list of integers where the index corresponds to the form.
+        """
+        toret = [0] * self.NUM_UNIQUE_FORMS
+        formIndex = self.encodeForm(form)
+        if formIndex == -1:
+            formIndex = self.encodeForm(backup)
+        if formIndex != -1:
+            toret[formIndex] = 1
+        else:
+            raise ValueError(f"Form '{form}' and backup '{backup}' not found.")
+        return toret
+
     def prepareAbilities(self) -> None:
         """
         Prepares the abilities by extracting them from the TypeScript file.
@@ -212,6 +233,24 @@ class PokemonFeatureEncoder:
         """
         return self.abilityEncoder.get(ability, -1)
 
+    def encodeAbilityList(self, ability: str) -> list[int]:
+        """
+        Encodes a Pokemon ability into a list of integers.
+
+        Args:
+            - ability (str): The Pokemon ability to encode.
+
+        Returns:
+            - list[int]: A list of integers where the index corresponds to the ability.
+        """
+        toret = [0] * self.NUM_UNIQUE_ABILITIES
+        abilityIndex = self.encodeAbility(ability)
+        if abilityIndex != -1:
+            toret[abilityIndex] = 1
+        else:
+            raise ValueError(f"Ability '{ability}' not found.")
+        return toret
+
     def prepareItems(self) -> None:
         """
         Prepares the items by extracting them from the TypeScript file.
@@ -253,6 +292,24 @@ class PokemonFeatureEncoder:
         """
         return self.itemEncoder.get(item, -1)
 
+    def encodeItemList(self, item: str) -> list[int]:
+        """
+        Encodes a Pokemon item into a list of integers.
+
+        Args:
+            - item (str): The Pokemon item to encode.
+
+        Returns:
+            - list[int]: A list of integers where the index corresponds to the item.
+        """
+        toret = [0] * self.NUM_UNIQUE_ITEMS
+        itemIndex = self.encodeItem(item)
+        if itemIndex != -1:
+            toret[itemIndex] = 1
+        else:
+            raise ValueError(f"Item '{item}' not found.")
+        return toret
+
     def prepareMoves(self) -> None:
         """
         Prepares the moves by extracting them from the TypeScript file.
@@ -293,6 +350,24 @@ class PokemonFeatureEncoder:
             If the move is not found, returns -1.
         """
         return self.moveEncoder.get(move, -1)
+
+    def encodeMoveList(self, move: str) -> list[int]:
+        """
+        Encodes a Pokemon move into a list of integers.
+
+        Args:
+            - move (str): The Pokemon move to encode.
+
+        Returns:
+            - list[int]: A list of integers where the index corresponds to the move.
+        """
+        toret = [0] * self.NUM_UNIQUE_MOVES
+        moveIndex = self.encodeMove(move)
+        if moveIndex != -1:
+            toret[moveIndex] = 1
+        else:
+            raise ValueError(f"Move '{move}' not found.")
+        return toret
 
 
 if __name__ == "__main__":
