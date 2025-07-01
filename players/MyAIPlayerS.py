@@ -1,4 +1,4 @@
-from poke_env.environment import AbstractBattle, Pokemon
+from poke_env.environment import AbstractBattle, Pokemon, Move
 from players.AbstractAIPlayer import AbstractAIPlayer
 import numpy as np
 
@@ -9,6 +9,7 @@ class AIPlayerS(AbstractAIPlayer):
     """
 
     N_F_TYPES = 20  # Tera stellar and Pawmot
+    N_F_MOVE = AbstractAIPlayer.encoder.NUM_UNIQUE_MOVES + N_F_TYPES
     N_F_POKEMON = (
         AbstractAIPlayer.encoder.NUM_UNIQUE_FORMS
         + N_F_TYPES
@@ -23,7 +24,7 @@ class AIPlayerS(AbstractAIPlayer):
         + (2 * 6)
         + 7
         + (1 + AbstractAIPlayer.encoder.NUM_UNIQUE_ITEMS)
-        + 4 * (1 + AbstractAIPlayer.encoder.NUM_UNIQUE_MOVES)
+        + 4 * (1 + N_F_MOVE)
     )
     N_F_TOTAL = 2 + (1 + N_F_POKEMON) * 12
 
@@ -110,7 +111,7 @@ class AIPlayerS(AbstractAIPlayer):
                 - The item (encoded as a list of encoder.NUM_UNIQUE_ITEMS integers)
             - The 4 moves of the pokemon:
                 - The presence indicator of the move
-                - The name of the move (encoded as a list of encoder.NUM_UNIQUE_MOVES integers)
+                - The encoded move (list of self.N_F_MOVE integers)
 
         Args:
             - pokemon (Pokemon): The pokemon to be encoded
@@ -194,13 +195,32 @@ class AIPlayerS(AbstractAIPlayer):
         for move in pokemon.moves.values():
             # We encode the move
             moves.append(1)
-            moves.extend(self.encoder.encodeMoveList(move.id))
+            moves.extend(self.encodeMove(move))
         # We fill with zeros if the pokemon has less than 4 moves
-        moves += (
-            [0]
-            * (1 + self.encoder.NUM_UNIQUE_MOVES)
-            * (4 - len(pokemon.moves.values()))
-        )
+        moves += [0] * (1 + self.N_F_MOVE) * (4 - len(pokemon.moves.values()))
         featureVector += moves
 
         return featureVector
+
+    def encodeMove(self, move: Move) -> list[float]:
+        """
+        This method will encode a move into a feature vector
+
+        The feature vector will have:
+            - The name of the move (encoded as a list of encoder.NUM_UNIQUE_MOVES integers)
+            - The type of the move (encoded as a list of {self.N_F_TYPES} integers)
+
+        Args:
+            move (Move): The move to be encoded
+
+        Returns:
+            list[float]: The feature vector of the move
+        """
+        toret = []
+        toret.extend(self.encoder.encodeMoveList(move.id))
+
+        types = [0] * self.N_F_TYPES
+        types[move.type.value - 1] = 1
+        toret += types
+
+        return toret
