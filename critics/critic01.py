@@ -1,8 +1,8 @@
-from actors.abstractActor import AbstractActor
+from critics.abstractCritic import AbstractCritic
 from torch import nn
 
 
-class NeuralNetwork(AbstractActor):
+class CriticNetwork01(AbstractCritic):
 
     def generateNetwork(self, player):
         return nn.Sequential(
@@ -12,6 +12,5 @@ class NeuralNetwork(AbstractActor):
             nn.Linear(128, 64),
             nn.Dropout(0.25),
             nn.ReLU(),
-            nn.Linear(64, player.N_OUTPUTS),
-            nn.Softmax(dim=-1),  # Output layer with softmax activation
+            nn.Linear(64, 1),  # Output a single value for the state value
         )

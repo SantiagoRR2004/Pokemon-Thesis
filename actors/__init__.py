@@ -1,2 +1,2 @@
 from .abstractActor import AbstractActor
-from .actor import NeuralNetwork
+from .actor01 import ActorNetwork01

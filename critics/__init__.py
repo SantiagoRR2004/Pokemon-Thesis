@@ -1,2 +1,2 @@
 from .abstractCritic import AbstractCritic
-from .critic import CriticNetwork
+from .critic01 import CriticNetwork01
