@@ -20,6 +20,7 @@ async def main(
     critic: nn.Module = None,
     nEpisodes: int = 64,
     fileName: str = None,
+    gamma: float = 0.99,
 ) -> None:
     """
     Train an actor-critic model for a given number of episodes.
@@ -30,6 +31,7 @@ async def main(
         - critic (nn.Module, optional): The critic network to be trained. If None, only the actor will be trained.
         - nEpisodes (int): Number of episodes to run for training.
         - fileName (str, optional): The name of the file to save the metrics. If None, a default name will be used.
+        - gamma (float): Discount factor for future rewards.
 
     Returns:
         - None
@@ -101,7 +103,6 @@ async def main(
         if critic:
             criticLoss = 0
             averageCriticRewardsEpoch = 0
-        gamma = 0.99  # discount factor (the far future is very important)
 
         for battle in player.battles.values():
             nSteps = battle.turn
