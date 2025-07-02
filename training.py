@@ -19,6 +19,7 @@ async def main(
     nTeams: int = float("inf"),
     critic: nn.Module = None,
     nEpisodes: int = 64,
+    fileName: str = None,
 ) -> None:
     """
     Train an actor-critic model for a given number of episodes.
@@ -28,6 +29,7 @@ async def main(
         - nTeams (int): Number of teams to use for training. If float("inf"), random teams will be used.
         - critic (nn.Module, optional): The critic network to be trained. If None, only the actor will be trained.
         - nEpisodes (int): Number of episodes to run for training.
+        - fileName (str, optional): The name of the file to save the metrics. If None, a default name will be used.
 
     Returns:
         - None
@@ -213,6 +215,9 @@ async def main(
     if critic:
         kwargs["criticLosses"] = criticLosses
         kwargs["averageCriticRewards"] = averageCriticRewards
+
+    if fileName is not None:
+        kwargs["fileName"] = fileName
 
     metricsLogger.saveData(**kwargs)
 

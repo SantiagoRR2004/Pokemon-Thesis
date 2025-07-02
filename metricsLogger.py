@@ -6,6 +6,7 @@ import os
 
 def saveData(
     *,
+    fileName: str = "experiment",
     victoryPercentage: list,
     actorLosses: list = None,
     criticLosses: list = None,
@@ -43,7 +44,7 @@ def saveData(
     os.makedirs(dataDirectory, exist_ok=True)
 
     # Save as a parquet file
-    df.to_parquet(os.path.join(dataDirectory, "experiment.parquet"), index=False)
+    df.to_parquet(os.path.join(dataDirectory, fileName + ".parquet"), index=False)
 
 
 def graphExperiment(fileName: str) -> None:

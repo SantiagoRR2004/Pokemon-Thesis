@@ -1,12 +1,12 @@
-FileName,TrainingMethod,nTeams,nEpisodes,actor,critic
+fileName,TrainingMethod,nTeams,nEpisodes,actor,critic
 experiment01,actorCritc,2,64,ActorNetwork01,CriticNetwork01
 experiment02,actorCritc,10,64,ActorNetwork01,CriticNetwork01
 experiment03,actorCritc,100,64,ActorNetwork01,CriticNetwork01
 experiment04,actorCritc,inf,64,ActorNetwork01,CriticNetwork01
-experiment05,actor,2,64,ActorNetwork01,CriticNetwork01
-experiment06,actor,10,64,ActorNetwork01,CriticNetwork01
-experiment07,actor,100,64,ActorNetwork01,CriticNetwork01
-experiment08,actor,inf,64,ActorNetwork01,CriticNetwork01
+experiment05,actor,2,64,ActorNetwork01,
+experiment06,actor,10,64,ActorNetwork01,
+experiment07,actor,100,64,ActorNetwork01,
+experiment08,actor,inf,64,ActorNetwork01,
 experiment09,actorCritc,2,1,ActorNetwork01,CriticNetwork01
 experiment10,actorCritc,2,16,ActorNetwork01,CriticNetwork01
 experiment11,actorCritc,2,32,ActorNetwork01,CriticNetwork01

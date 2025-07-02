@@ -15,15 +15,15 @@ if __name__ == "__main__":
     df = pd.read_csv(dataFile)
 
     for row in df.itertuples():
-        # Check if the FileName does not exist
-        fileName = os.path.join(
+        # Check if the completePath does not exist
+        completePath = os.path.join(
             os.path.dirname(os.path.abspath(__file__)),
             "data",
-            row.FileName + ".parquet",
+            row.fileName + ".parquet",
         )
 
-        if not os.path.exists(fileName):
-            print(f"Running experiment {row.FileName}...")
+        if not os.path.exists(completePath):
+            print(f"Running experiment {row.fileName}...")
             actor = getattr(actors, row.actor)
             actorI = actor(AIPlayer)
             if row.TrainingMethod == "actorCritic":
@@ -41,7 +41,7 @@ if __name__ == "__main__":
 
             # Add the rest of the columns as arguments
             for col in df.columns:
-                if col not in ["FileName", "actor", "critic", "TrainingMethod"]:
+                if col not in ["actor", "critic", "TrainingMethod"]:
                     args[col] = getattr(row, col)
 
             asyncio.run(training.main(**args))
