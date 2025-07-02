@@ -1,7 +1,7 @@
 import randomTeams.randomTeam as randomTeam
-from players import AIPlayerS
-from actors import NeuralNetwork
-from critics import CriticNetwork
+from players import AIPlayer
+from actors import ActorNetwork01
+from critics import CriticNetwork01
 from poke_env.player import RandomPlayer
 import torch
 import torch.nn as nn
@@ -13,15 +13,32 @@ import time
 import os
 
 
-async def main(actor: nn.Module, nTeams: int, critic: nn.Module = None) -> None:
+async def main(
+    *,
+    actor: nn.Module,
+    nTeams: int = float("inf"),
+    critic: nn.Module = None,
+    nEpisodes: int = 64,
+) -> None:
+    """
+    Train an actor-critic model for a given number of episodes.
+
+    Args:
+        - actor (nn.Module): The actor network to be trained.
+        - nTeams (int): Number of teams to use for training. If float("inf"), random teams will be used.
+        - critic (nn.Module, optional): The critic network to be trained. If None, only the actor will be trained.
+        - nEpisodes (int): Number of episodes to run for training.
+
+    Returns:
+        - None
+    """
     p = serverControl.startServer()
 
     optimizer = optim.Adam(actor.parameters(), lr=1e-3)
     if critic:
         criticOptimizer = optim.Adam(critic.parameters(), lr=1e-3)
 
-    nEpisodes = 4
-    nEpochs = 4
+    nEpochs = 1000
 
     victoryPercentage = []
     actorLosses = []
@@ -37,7 +54,7 @@ async def main(actor: nn.Module, nTeams: int, critic: nn.Module = None) -> None:
 
         if nTeams == float("inf"):
             # We create the AI player
-            player = AIPlayerS(
+            player = AIPlayer(
                 battle_format="gen9randombattle",
                 network=actor,
                 critic=critic,
@@ -52,7 +69,7 @@ async def main(actor: nn.Module, nTeams: int, critic: nn.Module = None) -> None:
         else:
 
             # We create the AI player
-            player = AIPlayerS(
+            player = AIPlayer(
                 battle_format="gen9purehackmons",
                 team=randomTeam.selectRandomTeam(nTeams),
                 network=actor,
@@ -213,8 +230,8 @@ if __name__ == "__main__":
 
     asyncio.run(
         main(
-            actor=NeuralNetwork(AIPlayerS),
-            critic=CriticNetwork(AIPlayerS),
+            actor=ActorNetwork01(AIPlayer),
+            critic=CriticNetwork01(AIPlayer),
             nTeams=float("inf"),
         )
     )
