@@ -4,6 +4,8 @@ import actors
 import asyncio
 from players import AIPlayer
 import training
+import getpass
+import subprocess
 
 
 if __name__ == "__main__":
@@ -24,24 +26,38 @@ if __name__ == "__main__":
 
         if not os.path.exists(completePath):
             print(f"Running experiment {row.fileName}...")
-            actor = getattr(actors, row.actor)
-            actorI = actor(AIPlayer)
-            if row.TrainingMethod == "actorCritic":
-                critic = getattr(actors, row.critic)
-                criticI = critic(AIPlayer)
-            elif row.TrainingMethod == "actor":
-                criticI = None
-            else:
-                criticI = None
 
-            args = {
-                "actor": actorI,
-                "critic": criticI,
-            }
+            finishExperiment = False
 
-            # Add the rest of the columns as arguments
-            for col in df.columns:
-                if col not in ["actor", "critic", "TrainingMethod"]:
-                    args[col] = getattr(row, col)
+            # Until the experiment is finished, keep trying
+            while not finishExperiment:
+                try:
+                    actor = getattr(actors, row.actor)
+                    actorI = actor(AIPlayer)
+                    if row.TrainingMethod == "actorCritic":
+                        critic = getattr(actors, row.critic)
+                        criticI = critic(AIPlayer)
+                    elif row.TrainingMethod == "actor":
+                        criticI = None
+                    else:
+                        criticI = None
 
-            asyncio.run(training.main(**args))
+                    args = {
+                        "actor": actorI,
+                        "critic": criticI,
+                    }
+
+                    # Add the rest of the columns as arguments
+                    for col in df.columns:
+                        if col not in ["actor", "critic", "TrainingMethod"]:
+                            args[col] = getattr(row, col)
+
+                    asyncio.run(training.main(**args))
+
+                    finishExperiment = True
+                except Exception as e:
+                    print(f"An error occurred: {e}")
+                    username = getpass.getuser()
+                    # Shut down the server forcefully
+                    # This will break VSCode if it is running from there
+                    subprocess.run(["pkill", "-u", username, "-f", "node"])
