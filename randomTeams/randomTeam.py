@@ -32,7 +32,7 @@ def selectRandomTeam(range: int) -> str:
     Returns:
         - str: The content of the randomly selected team file.
     """
-    team = random.randint(1, range)
+    team = random.randint(1, int(range))
     return selectTeam(team)
 
 
