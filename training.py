@@ -222,6 +222,10 @@ async def main(
 
     metricsLogger.saveData(**kwargs)
 
+    # Turn off the server
+    serverControl.endProcess(p)
+    p.wait()
+
 
 if __name__ == "__main__":
 
