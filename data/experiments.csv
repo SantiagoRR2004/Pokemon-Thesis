@@ -14,6 +14,14 @@ experiment12,actorCritic,1,64,ActorNetwork01,CriticNetwork01,0.99
 experiment13,actorCritic,2,64,ActorNetwork02,CriticNetwork02,0.99
 experiment14,actorCritic,2,64,ActorNetwork03,CriticNetwork03,0.99
 experiment15,actorCritic,2,64,ActorNetwork01,CriticNetwork01,0.5
+experiment16,actorCritic,inf,64,ActorNetwork03,CriticNetwork03,0.99
+experiment17,actor,inf,64,ActorNetwork03,,0.99
+experiment18,actor,1,64,ActorNetwork03,,0.99
+experiment19,actor,inf,64,ActorNetwork02,,0.99
+experiment20,actor,1,64,ActorNetwork02,,0.99
+experiment21,actor,inf,64,ActorNetwork03,,0.5
+experiment22,actor,1,64,ActorNetwork02,,0.5
+experiment23,actor,1,1,ActorNetwork02,,0.99
 random1,,2,64,,,
 random2,,10,64,,,
 random3,,100,64,,,
