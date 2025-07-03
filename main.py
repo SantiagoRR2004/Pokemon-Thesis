@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import actors
+import critics
 import asyncio
 from players import AIPlayer
 import training
@@ -35,7 +36,7 @@ if __name__ == "__main__":
                     actor = getattr(actors, row.actor)
                     actorI = actor(AIPlayer)
                     if row.TrainingMethod == "actorCritic":
-                        critic = getattr(actors, row.critic)
+                        critic = getattr(critics, row.critic)
                         criticI = critic(AIPlayer)
                     elif row.TrainingMethod == "actor":
                         criticI = None
