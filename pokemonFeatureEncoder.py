@@ -1,3 +1,4 @@
+import serverControl
 import json
 import os
 import re
@@ -21,6 +22,7 @@ class PokemonFeatureEncoder:
     NUM_UNIQUE_MOVES: int
 
     def __init__(self) -> None:
+        serverControl.downloadPokemonShowdown()
         currentDirectory = os.path.dirname(os.path.abspath(__file__))
         self.dataPath = os.path.join(currentDirectory, "pokemon-showdown", "data")
         self.preparePokemonForms()
