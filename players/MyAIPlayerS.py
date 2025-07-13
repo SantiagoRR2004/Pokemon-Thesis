@@ -9,7 +9,7 @@ class AIPlayerS(AbstractAIPlayer):
     """
 
     N_F_TYPES = 20  # Tera stellar and Pawmot
-    N_F_MOVE = AbstractAIPlayer.encoder.NUM_UNIQUE_MOVES + N_F_TYPES
+    N_F_MOVE = AbstractAIPlayer.encoder.NUM_UNIQUE_MOVES + N_F_TYPES + 3 + 1 + 1
     N_F_POKEMON = (
         AbstractAIPlayer.encoder.NUM_UNIQUE_FORMS
         + N_F_TYPES
@@ -213,6 +213,14 @@ class AIPlayerS(AbstractAIPlayer):
         The feature vector will have:
             - The name of the move (encoded as a list of encoder.NUM_UNIQUE_MOVES integers)
             - The type of the move (encoded as a list of {self.N_F_TYPES} integers)
+            - The category of the move (encoded as a list of 3 integers, one for each category)
+                - PHYSICAL
+                - SPECIAL
+                - STATUS
+            - The base power of the move (normalized to a float between 0 and 1)
+                Divided by 120 because higher than that and they become very rare.
+            - The accuracy of the move (a float between 0 and 1)
+                It is already given between 0 and 1.
 
         Args:
             move (Move): The move to be encoded
@@ -227,4 +235,19 @@ class AIPlayerS(AbstractAIPlayer):
         types[move.type.value - 1] = 1
         toret += types
 
+        # Add the category of the move
+        moveCategory = [0] * 3
+        moveCategory[move.category.value - 1] = 1
+        toret.extend(moveCategory)
+
+        # Add the base power of the move
+        toret.append(move.base_power / 120)
+
+        # Add the accuracy of the move
+        toret.append(move.accuracy)
+
         return toret
+
+
+if __name__ == "__main__":
+    print(f"Number of features: {AIPlayerS.N_F_TOTAL}")
