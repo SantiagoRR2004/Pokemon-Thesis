@@ -9,7 +9,17 @@ class AIPlayerS(AbstractAIPlayer):
     """
 
     N_F_TYPES = 20  # Tera stellar and Pawmot
-    N_F_MOVE = AbstractAIPlayer.encoder.NUM_UNIQUE_MOVES + N_F_TYPES + 3 + 1 + 1
+    N_F_MOVE = (
+        AbstractAIPlayer.encoder.NUM_UNIQUE_MOVES
+        + N_F_TYPES
+        + 3
+        + 1
+        + 1
+        + 2
+        + 1
+        + 1
+        + 3
+    )
     N_F_POKEMON = (
         AbstractAIPlayer.encoder.NUM_UNIQUE_FORMS
         + N_F_TYPES
@@ -221,6 +231,15 @@ class AIPlayerS(AbstractAIPlayer):
                 Divided by 120 because higher than that and they become very rare.
             - The accuracy of the move (a float between 0 and 1)
                 It is already given between 0 and 1.
+            - The remaining PP percentage of the move
+            - The maximum PP of the move (a float between 0 and 1)
+                We use the base PP without using PP up
+            - The priority of the move (float between -1 to 1)
+            - The critical hit ratio (float between 0 and 1)
+            - Number of hits (3 floats between 0 and 1):
+                - The minimum number of hits
+                - The expected number of hits
+                - The maximum number of hits
 
         Args:
             move (Move): The move to be encoded
@@ -245,6 +264,21 @@ class AIPlayerS(AbstractAIPlayer):
 
         # Add the accuracy of the move
         toret.append(move.accuracy)
+
+        # Add the PP of the move
+        toret.append(move.current_pp / move.max_pp)
+        toret.append(move.max_pp * 0.625 / 40)
+
+        # Add the priority of the move
+        toret.append(move.priority / 8)
+
+        # Add the critical hit ratio
+        toret.append(move.crit_ratio / 6)
+
+        # The number of hits
+        toret.append(move.n_hit[0] / 5)
+        toret.append(move.expected_hits / 5)
+        toret.append(move.n_hit[1] / 5)
 
         return toret
 
