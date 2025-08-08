@@ -1,4 +1,5 @@
-from poke_env.environment import AbstractBattle, Pokemon
+from poke_env.battle import Pokemon
+from poke_env.battle import AbstractBattle
 from players.AbstractAIPlayer import AbstractAIPlayer
 
 

@@ -1,5 +1,5 @@
-from poke_env.environment import AbstractBattle
-from poke_env.player.battle_order import BattleOrder
+from poke_env.battle import AbstractBattle
+from poke_env.player.battle_order import SingleBattleOrder
 from poke_env.player.player import Player
 from abc import ABC, abstractmethod
 import pokemonFeatureEncoder
@@ -57,7 +57,7 @@ class AbstractAIPlayer(Player, ABC):
         self.log_probs = {}
         self.values = {}
 
-    def choose_move(self, battle: AbstractBattle) -> BattleOrder:
+    def choose_move(self, battle: AbstractBattle) -> SingleBattleOrder:
         """
         This is the most important method because it must be implemented
 
@@ -65,7 +65,7 @@ class AbstractAIPlayer(Player, ABC):
             battle (AbstractBattle): The current battle
 
         Returns:
-            BattleOrder: The move to be executed
+            SingleBattleOrder: The move to be executed
         """
 
         inputs = torch.tensor(self.getInputs(battle), dtype=torch.float32)
@@ -110,7 +110,7 @@ class AbstractAIPlayer(Player, ABC):
 
     def translateOutputs(
         self, battle: AbstractBattle
-    ) -> tuple[torch.Tensor, list[BattleOrder]]:
+    ) -> tuple[torch.Tensor, list[SingleBattleOrder]]:
         """
         This method will return the moves and switches that can be made
 
@@ -123,9 +123,9 @@ class AbstractAIPlayer(Player, ABC):
             - battle (AbstractBattle): The current battle
 
         Returns:
-            - tuple[torch.Tensor, list[BattleOrder]]:
+            - tuple[torch.Tensor, list[SingleBattleOrder]]:
                 - A tensor of booleans indicating which moves and switches are valid
-                - A list of BattleOrder objects corresponding to the moves and switches
+                - A list of SingleBattleOrder objects corresponding to the moves and switches
         """
         # All the moves plus all the switches
         allOrders = []
@@ -133,15 +133,15 @@ class AbstractAIPlayer(Player, ABC):
 
         # First we add the moves of the active pokemon
         for move in battle.active_pokemon.moves.values():
-            allOrders.append(BattleOrder(move))
+            allOrders.append(self.create_order(move))
             validOrders.append(move in battle.available_moves)
 
-            allOrders.append(BattleOrder(move, terastallize=True))
+            allOrders.append(self.create_order(move, terastallize=True))
             validOrders.append(move in battle.available_moves and bool(battle.can_tera))
 
         # Then we add the switches
         for pokemon in battle.team.values():
-            allOrders.append(BattleOrder(pokemon))
+            allOrders.append(self.create_order(pokemon))
             validOrders.append(pokemon in battle.available_switches)
 
         # If there are not enough outputs, we fill with False

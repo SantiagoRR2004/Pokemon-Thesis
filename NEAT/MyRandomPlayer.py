@@ -1,8 +1,6 @@
-from poke_env.environment import AbstractBattle
-from poke_env.player.battle_order import BattleOrder
+from poke_env.battle import AbstractBattle, Battle, DoubleBattle
+from poke_env.player.battle_order import SingleBattleOrder
 from poke_env.player.player import Player
-from poke_env.environment.battle import Battle
-from poke_env.environment.double_battle import DoubleBattle
 import random
 
 
@@ -23,7 +21,7 @@ class CustomRandomPlayer(Player):
     chanceDynamax = 0.1
     chanceTera = 0.1
 
-    def choose_move(self, battle: AbstractBattle) -> BattleOrder:
+    def choose_move(self, battle: AbstractBattle) -> SingleBattleOrder:
         """
         This is the most important method because it must be implemented
 
@@ -31,7 +29,7 @@ class CustomRandomPlayer(Player):
             battle (AbstractBattle): The current battle
 
         Returns:
-            BattleOrder: The move to be executed
+            SingleBattleOrder: The move to be executed
         """
 
         if isinstance(battle, Battle):
@@ -46,7 +44,7 @@ class CustomRandomPlayer(Player):
             print(self.separator)
         return move
 
-    def chooseRandomSinglesMove(self, battle: Battle) -> BattleOrder:
+    def chooseRandomSinglesMove(self, battle: Battle) -> SingleBattleOrder:
         """
         This method chooses a random move in a singles battle
 
@@ -54,9 +52,9 @@ class CustomRandomPlayer(Player):
             battle (Battle): The current battle
 
         Returns:
-            BattleOrder: The move to be executed
+            SingleBattleOrder: The move to be executed
         """
-        available_orders = [BattleOrder(move) for move in battle.available_moves]
+        available_orders = [SingleBattleOrder(move) for move in battle.available_moves]
         # print(battle.opponent_team)
 
         if self.enablePrint:
@@ -77,14 +75,16 @@ class CustomRandomPlayer(Player):
             # Here it z-moves
             if self.enablePrint:
                 moves = "\t".join(
-                    BattleOrder(order, z_move=True).order.id.capitalize().ljust(10)
+                    SingleBattleOrder(order, z_move=True)
+                    .order.id.capitalize()
+                    .ljust(10)
                     for order in set(battle.active_pokemon.available_z_moves)
                 )
                 print(f"Pokemon can z move: {moves}")
             if random.random() < self.chanceZ:
                 available_z_moves = set(battle.active_pokemon.available_z_moves)
                 available_orders = [
-                    BattleOrder(move, z_move=move in available_z_moves)
+                    SingleBattleOrder(move, z_move=move in available_z_moves)
                     for move in battle.available_moves
                 ]
 
@@ -114,7 +114,7 @@ class CustomRandomPlayer(Player):
             if random.random() < 1 / (1 + len(available_orders)):
                 # I will randomly choose between all the moves and switching
                 available_orders = [
-                    BattleOrder(switch) for switch in battle.available_switches
+                    SingleBattleOrder(switch) for switch in battle.available_switches
                 ]
 
         if available_orders:

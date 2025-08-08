@@ -1,4 +1,4 @@
-from poke_env.environment import AbstractBattle, Pokemon, Move
+from poke_env.battle import AbstractBattle, Pokemon, Move
 from players.AbstractAIPlayer import AbstractAIPlayer
 import numpy as np
 
