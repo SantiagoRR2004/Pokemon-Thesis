@@ -19,6 +19,25 @@ class AIPlayerS(AbstractAIPlayer):
         + 1
         + 1
         + 3
+        + 7
+        + (1 + 1 + 1)
+        + (1 + 1 + 1 + 1)
+        + 1
+        + 1
+        + 1
+        + 1
+        + 1
+        + 1
+        + 1
+        + 1
+        + 1
+        + 1
+        + 1
+        + 1
+        + 1
+        + 1
+        + 1
+        + 1
     )
     N_F_POKEMON = (
         AbstractAIPlayer.encoder.NUM_UNIQUE_FORMS
@@ -240,6 +259,36 @@ class AIPlayerS(AbstractAIPlayer):
                 - The minimum number of hits
                 - The expected number of hits
                 - The maximum number of hits
+            - The boosts the move gives (7 floats between -1 and 1):
+                - Attack
+                - Defense
+                - Special Attack
+                - Special Defense
+                - Speed
+                - Accuracy
+                - Evasion
+            - The protection data (3 integers):
+                - If the move is a protect move (1 if true, 0 otherwise)
+                - If the move increases the protect counter (1 if true, 0 otherwise)
+                - If it is a side protect move (1 if true, 0 otherwise)
+            - If the move creates something on the battlefield (4 integers):
+                - If the move is a weather move (1 if true, 0 otherwise)
+                - If the move is a pseudo weather move (1 if true, 0 otherwise)
+                - If the move creates a side condition (1 if true, 0 otherwise)
+                - If the move creates a terrain (1 if true, 0 otherwise)
+
+        The following features are not used:
+            - Anything related to z-moves
+            - Anything related to dynamax
+            - move.is_empty (Seems to always be False)
+            - move.non_ghost_target (It is only used for curse)
+            - move.no_pp_boosts (It is only used for revival blessing)
+            - move.sleep_usable (It is only used for Sleep Talk and Snore)
+            - move.steals_boosts (It is only used for Spectral Thief)
+            - move.request_target (Seems to be not used)
+            - move.use_target_offensive (It is only used for Foul Play)
+            - move.entry (Everything here is somewhere else)
+            - move.target
 
         Args:
             move (Move): The move to be encoded
@@ -279,6 +328,102 @@ class AIPlayerS(AbstractAIPlayer):
         toret.append(move.n_hit[0] / 5)
         toret.append(move.expected_hits / 5)
         toret.append(move.n_hit[1] / 5)
+
+        # The boosts the move gives or takes
+        if move.boosts or move.self_boost:
+            boostsCombined = {**(move.boosts or {}), **(move.self_boost or {})}
+            for stat in (set(self.STATS) - {"hp"}).union({"accuracy", "evasion"}):
+                toret.append(boostsCombined.get(stat, 0) / 2)
+        else:
+            toret += [0] * 7
+
+        ## The protection data
+        # If the move is a protect move
+        toret.append(int(move.is_protect_move))
+
+        # If the move increases the protect counter
+        toret.append(int(move.is_protect_counter))
+
+        # If it is a side protect move
+        toret.append(int(move.is_side_protect_move))
+
+        ## The move creates something on the battlefield
+        # If the move is a weather move
+        toret.append(1 if move.weather else 0)
+
+        # If the move is a pseudo weather move
+        toret.append(1 if move.pseudo_weather else 0)
+
+        # If the move creates a side condition
+        toret.append(1 if move.side_condition else 0)
+
+        # If the move creates a terrain
+        toret.append(1 if move.terrain else 0)
+
+        # If the move can break trough protect
+        toret.append(int(move.breaks_protect))
+
+        # The percentage the move drains
+        toret.append(move.drain)
+
+        # The percentage the move heals
+        toret.append(move.heal)
+
+        # The move forces the opponent to switch
+        toret.append(int(move.force_switch))
+
+        # If the move ignores abilities
+        toret.append(int(move.ignore_ability))
+
+        # If the move ignores defensive boosts
+        toret.append(int(move.ignore_defensive))
+
+        # If the move ignores evasion
+        toret.append(int(move.ignore_evasion))
+
+        # If the move ignores immunities
+        toret.append(int(move.ignore_immunity))
+
+        # The percentage of recoil damage
+        toret.append(move.recoil)
+
+        # If the move is a self-destruct move
+        toret.append(1 if move.self_destruct else 0)
+
+        # If the move is a self-switch move
+        toret.append(1 if move.self_switch else 0)
+
+        # If the move adds a slot condition
+        toret.append(1 if move.slot_condition else 0)
+
+        # If the move is a stalling move
+        toret.append(int(move.stalling_move))
+
+        # If the move tries to give a status condition
+        toret.append(1 if move.status else 0)
+
+        # If the move thaws
+        toret.append(int(move.thaws_target))
+
+        # If the move tries to inflict a volatile status
+        toret.append(1 if move.volatile_status else 0)
+
+        if move.damage:
+            print(move.id, move.damage)
+
+        if move.flags:
+            # For later use
+            pass
+
+        if move.secondary:
+            # For later use
+            pass
+
+        if move.deduced_target or move.target:
+            pass  # For later use
+
+        if move.defensive_category:
+            pass
 
         return toret
 
