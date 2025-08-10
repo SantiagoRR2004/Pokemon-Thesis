@@ -283,6 +283,7 @@ class AIPlayerS(AbstractAIPlayer):
                 - If the move is a pseudo weather move (1 if true, 0 otherwise)
                 - If the move creates a side condition (1 if true, 0 otherwise)
                 - If the move creates a terrain (1 if true, 0 otherwise)
+                - If the move heals a switching partner (1 if true, 0 otherwise)
             - Guaranteed secondary effects:
                 - If the move can break trough protect (1 if true, 0 otherwise)
                 - The percentage the move drains (float between 0 and 1)
@@ -388,6 +389,9 @@ class AIPlayerS(AbstractAIPlayer):
         # If the move creates a terrain
         toret.append(1 if move.terrain else 0)
 
+        # If the move heals a switching partner
+        toret.append(1 if move.slot_condition else 0)
+
         ## Guaranteed secondary effects
         # If the move can break trough protect
         toret.append(int(move.breaks_protect))
@@ -424,9 +428,6 @@ class AIPlayerS(AbstractAIPlayer):
 
         # If the move thaws
         toret.append(int(move.thaws_target))
-
-        # If the move adds a slot condition
-        toret.append(1 if move.slot_condition else 0)
 
         # If the move is a stalling move
         toret.append(int(move.stalling_move))
