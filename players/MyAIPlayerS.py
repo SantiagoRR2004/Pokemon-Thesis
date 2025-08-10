@@ -13,6 +13,8 @@ class AIPlayerS(AbstractAIPlayer):
         AbstractAIPlayer.encoder.NUM_UNIQUE_MOVES
         + N_F_TYPES
         + 3
+        + 3
+        + 1
         + 1
         + 1
         + 2
@@ -240,14 +242,19 @@ class AIPlayerS(AbstractAIPlayer):
         This method will encode a move into a feature vector
 
         The feature vector will have:
-            - The name of the move (encoded as a list of encoder.NUM_UNIQUE_MOVES integers)
-            - The type of the move (encoded as a list of {self.N_F_TYPES} integers)
-            - The category of the move (encoded as a list of 3 integers, one for each category)
+            - The name of the move (encoder.NUM_UNIQUE_MOVES One-Hot Encoding)
+            - The type of the move ({self.N_F_TYPES} One-Hot Encoding)
+            - The category of the move (3 One-Hot Encoding)
+                - PHYSICAL
+                - SPECIAL
+                - STATUS
+            - The defense the move targets (3 One-Hot Encoding):
                 - PHYSICAL
                 - SPECIAL
                 - STATUS
             - The base power of the move (normalized to a float between 0 and 1)
                 Divided by 120 because higher than that and they become very rare.
+            - If the base power is preset or level dependent (boolean)
             - The accuracy of the move (a float between 0 and 1)
                 It is already given between 0 and 1.
             - The remaining PP percentage of the move
@@ -267,11 +274,11 @@ class AIPlayerS(AbstractAIPlayer):
                 - Speed
                 - Accuracy
                 - Evasion
-            - The protection data (3 integers):
+            - The protection data (3 booleans):
                 - If the move is a protect move (1 if true, 0 otherwise)
                 - If the move increases the protect counter (1 if true, 0 otherwise)
                 - If it is a side protect move (1 if true, 0 otherwise)
-            - If the move creates something on the battlefield (4 integers):
+            - If the move creates something on the battlefield (4 booleans):
                 - If the move is a weather move (1 if true, 0 otherwise)
                 - If the move is a pseudo weather move (1 if true, 0 otherwise)
                 - If the move creates a side condition (1 if true, 0 otherwise)
@@ -308,8 +315,16 @@ class AIPlayerS(AbstractAIPlayer):
         moveCategory[move.category.value - 1] = 1
         toret.extend(moveCategory)
 
+        # Add the defense the move targets
+        defensiveCategory = [0] * 3
+        defensiveCategory[move.defensive_category.value - 1] = 1
+        toret.extend(defensiveCategory)
+
         # Add the base power of the move
         toret.append(move.base_power / 120)
+
+        # Add if the base power is preset or level dependent
+        toret.append(1 if move.damage else 0)
 
         # Add the accuracy of the move
         toret.append(move.accuracy)
@@ -408,9 +423,6 @@ class AIPlayerS(AbstractAIPlayer):
         # If the move tries to inflict a volatile status
         toret.append(1 if move.volatile_status else 0)
 
-        if move.damage:
-            print(move.id, move.damage)
-
         if move.flags:
             # For later use
             pass
@@ -421,9 +433,6 @@ class AIPlayerS(AbstractAIPlayer):
 
         if move.deduced_target or move.target:
             pass  # For later use
-
-        if move.defensive_category:
-            pass
 
         return toret
 
