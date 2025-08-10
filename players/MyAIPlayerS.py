@@ -283,6 +283,19 @@ class AIPlayerS(AbstractAIPlayer):
                 - If the move is a pseudo weather move (1 if true, 0 otherwise)
                 - If the move creates a side condition (1 if true, 0 otherwise)
                 - If the move creates a terrain (1 if true, 0 otherwise)
+            - Guaranteed secondary effects:
+                - If the move can break trough protect (1 if true, 0 otherwise)
+                - The percentage the move drains (float between 0 and 1)
+                - The percentage the move heals (float between 0 and 1)
+                - The percentage of recoil damage (float between 0 and 1)
+                - If the move is a self-switch move (1 if true, 0 otherwise)
+                - The move forces the opponent to switch (1 if true, 0 otherwise)
+                - If the move ignores abilities (1 if true, 0 otherwise)
+                - If the move ignores defensive boosts (1 if true, 0 otherwise)
+                - If the move ignores evasion (1 if true, 0 otherwise)
+                - If the move ignores immunities (1 if true, 0 otherwise)
+                - If the move is a self-destruct move (1 if true, 0 otherwise)
+                - If the move thaws (1 if true, 0 otherwise)
 
         The following features are not used:
             - Anything related to z-moves
@@ -375,6 +388,7 @@ class AIPlayerS(AbstractAIPlayer):
         # If the move creates a terrain
         toret.append(1 if move.terrain else 0)
 
+        ## Guaranteed secondary effects
         # If the move can break trough protect
         toret.append(int(move.breaks_protect))
 
@@ -383,6 +397,12 @@ class AIPlayerS(AbstractAIPlayer):
 
         # The percentage the move heals
         toret.append(move.heal)
+
+        # The percentage of recoil damage
+        toret.append(move.recoil)
+
+        # If the move is a self-switch move
+        toret.append(1 if move.self_switch else 0)
 
         # The move forces the opponent to switch
         toret.append(int(move.force_switch))
@@ -399,14 +419,11 @@ class AIPlayerS(AbstractAIPlayer):
         # If the move ignores immunities
         toret.append(int(move.ignore_immunity))
 
-        # The percentage of recoil damage
-        toret.append(move.recoil)
-
         # If the move is a self-destruct move
         toret.append(1 if move.self_destruct else 0)
 
-        # If the move is a self-switch move
-        toret.append(1 if move.self_switch else 0)
+        # If the move thaws
+        toret.append(int(move.thaws_target))
 
         # If the move adds a slot condition
         toret.append(1 if move.slot_condition else 0)
@@ -416,9 +433,6 @@ class AIPlayerS(AbstractAIPlayer):
 
         # If the move tries to give a status condition
         toret.append(1 if move.status else 0)
-
-        # If the move thaws
-        toret.append(int(move.thaws_target))
 
         # If the move tries to inflict a volatile status
         toret.append(1 if move.volatile_status else 0)
