@@ -20,12 +20,13 @@ class AIPlayerS(AbstractAIPlayer):
         + 2
         + 1
         + 1
+        + 7
         + 3
         + (1 + 1 + 1)
         + (1 + 1 + 1 + 1)
+        + len(AbstractAIPlayer.STATUS)
         + (1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1)
         + 1
-        + len(AbstractAIPlayer.STATUS)
         + len(AbstractAIPlayer.VOLATILE_STATUS)
         + len(AbstractAIPlayer.BOOSTABLE_STATS) * 2
     )
@@ -272,6 +273,9 @@ class AIPlayerS(AbstractAIPlayer):
                 - If the move creates a side condition (1 if true, 0 otherwise)
                 - If the move creates a terrain (1 if true, 0 otherwise)
                 - If the move heals a switching partner (1 if true, 0 otherwise)
+            - If it gives a normal status condition (6 floats between 0 and 1):
+                It can be the main purpose of the move or a secondary effect,
+                so it is the chance of inflicting the status.
             - Guaranteed secondary effects:
                 - If the move can break trough protect (1 if true, 0 otherwise)
                 - The percentage the move drains (float between 0 and 1)
@@ -347,6 +351,15 @@ class AIPlayerS(AbstractAIPlayer):
         toret.append(move.expected_hits / 5)
         toret.append(move.n_hit[1] / 5)
 
+        # The boosts the move gives or takes to self
+        if move.boosts or move.self_boost:
+            boostsCombined = {**(move.boosts or {}), **(move.self_boost or {})}
+            for stat in self.BOOSTABLE_STATS:
+                toret.append(boostsCombined.get(stat, 0) / 2)
+        else:
+            # If there are no boosts we add zeros
+            toret.extend([0] * len(self.BOOSTABLE_STATS))
+
         ## The protection data
         # If the move is a protect move
         toret.append(int(move.is_protect_move))
@@ -372,6 +385,21 @@ class AIPlayerS(AbstractAIPlayer):
 
         # If the move heals a switching partner
         toret.append(1 if move.slot_condition else 0)
+
+        # The status the move tries to inflict
+        statusToret = [0] * len(self.STATUS)
+
+        # The status the move tries to inflict
+        if move.status:
+            statusToret[self.STATUS.index(move.status.name.lower())] = move.accuracy
+
+        if move.secondary:
+            for s in move.secondary:
+
+                if s.get("status"):
+                    statusToret[self.STATUS.index(s["status"])] = s["chance"] / 100
+
+        toret.extend(statusToret)
 
         ## Guaranteed secondary effects
         # If the move can break trough protect
@@ -418,14 +446,9 @@ class AIPlayerS(AbstractAIPlayer):
             pass
 
         ## The 4 lists that could be in secondary
-        statusToret = [0] * len(self.STATUS)
         volatileStatusToret = [0] * len(self.VOLATILE_STATUS)
         boostSelf = [0] * len(self.BOOSTABLE_STATS)
         boostOpponent = [0] * len(self.BOOSTABLE_STATS)
-
-        # The status the move tries to inflict
-        if move.status:
-            statusToret[self.STATUS.index(move.status.name.lower())] = move.accuracy
 
         # The volatile status the move tries to inflict
         if move.volatile_status:
@@ -433,22 +456,11 @@ class AIPlayerS(AbstractAIPlayer):
                 self.VOLATILE_STATUS.index(move.volatile_status.name.lower())
             ] = move.accuracy
 
-        # The boosts the move gives or takes to self
-        if move.boosts or move.self_boost:
-            boostsCombined = {**(move.boosts or {}), **(move.self_boost or {})}
-            for stat in self.BOOSTABLE_STATS:
-                boostSelf[self.BOOSTABLE_STATS.index(stat)] = (
-                    boostsCombined.get(stat, 0) / 2
-                )
-
         # The secondary effects of the move
         if move.secondary:
             for s in move.secondary:
 
-                if s.get("status"):
-                    statusToret[self.STATUS.index(s["status"])] = s["chance"] / 100
-
-                elif s.get("volatileStatus"):
+                if s.get("volatileStatus"):
                     volatileStatusToret[
                         self.VOLATILE_STATUS.index(s["volatileStatus"])
                     ] = (s["chance"] / 100)
@@ -471,7 +483,6 @@ class AIPlayerS(AbstractAIPlayer):
                 else:
                     print(s)
 
-        toret.extend(statusToret)
         toret.extend(volatileStatusToret)
         toret.extend(boostSelf)
         toret.extend(boostOpponent)
