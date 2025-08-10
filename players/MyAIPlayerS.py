@@ -21,25 +21,13 @@ class AIPlayerS(AbstractAIPlayer):
         + 1
         + 1
         + 3
-        + 7
         + (1 + 1 + 1)
         + (1 + 1 + 1 + 1)
+        + (1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1)
         + 1
-        + 1
-        + 1
-        + 1
-        + 1
-        + 1
-        + 1
-        + 1
-        + 1
-        + 1
-        + 1
-        + 1
-        + 1
-        + 1
-        + 1
-        + 1
+        + len(AbstractAIPlayer.STATUS)
+        + len(AbstractAIPlayer.VOLATILE_STATUS)
+        + len(AbstractAIPlayer.BOOSTABLE_STATS) * 2
     )
     N_F_POKEMON = (
         AbstractAIPlayer.encoder.NUM_UNIQUE_FORMS
@@ -213,7 +201,7 @@ class AIPlayerS(AbstractAIPlayer):
                 featureVector.extend([0, 0])
 
         # Stat boosts
-        for stat in [s for s in self.STATS if s != "hp"] + ["accuracy", "evasion"]:
+        for stat in self.BOOSTABLE_STATS:
             featureVector.append(pokemon.boosts[stat] / 6)
 
         # Add the item
@@ -297,6 +285,7 @@ class AIPlayerS(AbstractAIPlayer):
                 - If the move ignores immunities (1 if true, 0 otherwise)
                 - If the move is a self-destruct move (1 if true, 0 otherwise)
                 - If the move thaws (1 if true, 0 otherwise)
+            - If the move is a stalling move (boolean) (Categorized by Showdown)
 
         The following features are not used:
             - Anything related to z-moves
@@ -357,14 +346,6 @@ class AIPlayerS(AbstractAIPlayer):
         toret.append(move.n_hit[0] / 5)
         toret.append(move.expected_hits / 5)
         toret.append(move.n_hit[1] / 5)
-
-        # The boosts the move gives or takes
-        if move.boosts or move.self_boost:
-            boostsCombined = {**(move.boosts or {}), **(move.self_boost or {})}
-            for stat in (set(self.STATS) - {"hp"}).union({"accuracy", "evasion"}):
-                toret.append(boostsCombined.get(stat, 0) / 2)
-        else:
-            toret += [0] * 7
 
         ## The protection data
         # If the move is a protect move
@@ -432,19 +413,68 @@ class AIPlayerS(AbstractAIPlayer):
         # If the move is a stalling move
         toret.append(int(move.stalling_move))
 
-        # If the move tries to give a status condition
-        toret.append(1 if move.status else 0)
-
-        # If the move tries to inflict a volatile status
-        toret.append(1 if move.volatile_status else 0)
-
         if move.flags:
             # For later use
             pass
 
+        ## The 4 lists that could be in secondary
+        statusToret = [0] * len(self.STATUS)
+        volatileStatusToret = [0] * len(self.VOLATILE_STATUS)
+        boostSelf = [0] * len(self.BOOSTABLE_STATS)
+        boostOpponent = [0] * len(self.BOOSTABLE_STATS)
+
+        # The status the move tries to inflict
+        if move.status:
+            statusToret[self.STATUS.index(move.status.name.lower())] = move.accuracy
+
+        # The volatile status the move tries to inflict
+        if move.volatile_status:
+            volatileStatusToret[
+                self.VOLATILE_STATUS.index(move.volatile_status.name.lower())
+            ] = move.accuracy
+
+        # The boosts the move gives or takes to self
+        if move.boosts or move.self_boost:
+            boostsCombined = {**(move.boosts or {}), **(move.self_boost or {})}
+            for stat in self.BOOSTABLE_STATS:
+                boostSelf[self.BOOSTABLE_STATS.index(stat)] = (
+                    boostsCombined.get(stat, 0) / 2
+                )
+
+        # The secondary effects of the move
         if move.secondary:
-            # For later use
-            pass
+            for s in move.secondary:
+
+                if s.get("status"):
+                    statusToret[self.STATUS.index(s["status"])] = s["chance"] / 100
+
+                elif s.get("volatileStatus"):
+                    volatileStatusToret[
+                        self.VOLATILE_STATUS.index(s["volatileStatus"])
+                    ] = (s["chance"] / 100)
+
+                elif s.get("boosts"):
+                    for b in s["boosts"]:
+                        boostOpponent[self.BOOSTABLE_STATS.index(b)] = (
+                            s["boosts"][b] / 2
+                        )
+
+                elif s.get("self"):
+                    for b in s["self"]["boosts"]:
+                        boostSelf[self.BOOSTABLE_STATS.index(b)] = (
+                            s["self"]["boosts"][b] / 2
+                        )
+
+                elif s.get("onHit"):
+                    pass
+
+                else:
+                    print(s)
+
+        toret.extend(statusToret)
+        toret.extend(volatileStatusToret)
+        toret.extend(boostSelf)
+        toret.extend(boostOpponent)
 
         if move.deduced_target or move.target:
             pass  # For later use

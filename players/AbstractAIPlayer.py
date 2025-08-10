@@ -43,6 +43,34 @@ class AbstractAIPlayer(Player, ABC):
         self.reset()
 
     STATS = ["hp", "atk", "def", "spa", "spd", "spe"]
+    BOOSTABLE_STATS = ["atk", "def", "spa", "spd", "spe", "accuracy", "evasion"]
+    STATUS = ["brn", "frz", "par", "psn", "tox", "slp"]  # We skip "fnt"
+    VOLATILE_STATUS = [
+        "flinch",
+        "confusion",
+        "healblock",
+        "salt_cure",
+        "saltcure",
+        "sparkling_aria",
+        "sparklingaria",
+        "protect",
+        "substitute",
+        "encore",
+        "locked_move",
+        "taunt",
+        "roost",
+        "glaive_rush",
+        "heal_block",
+        "curse",
+        "must_recharge",
+        "yawn",
+        "leech_seed",
+        "no_retreat",
+        "magnet_rise",
+        "partially_trapped",
+        "destiny_bond",
+        "disable",
+    ]
 
     def reset(self) -> None:
         """
