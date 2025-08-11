@@ -18,18 +18,20 @@ class AIPlayerS(AbstractAIPlayer):
         + 1
         + 1
         + 1
-        + 2
         + 1
         + 1
-        + 7
+        + 1
+        + 1
         + 3
+        + len(AbstractAIPlayer.BOOSTABLE_STATS)
         + (1 + 1 + 1)
-        + (1 + 1 + 1 + 1)
+        + (1 + 1 + 1 + 1 + 1)
         + len(AbstractAIPlayer.STATUS)
         + len(_VOLATILE_STATUS_EFFECTS)
-        + (1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1)
+        + (1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1)
         + 1
-        + len(AbstractAIPlayer.BOOSTABLE_STATS) * 2
+        + len(AbstractAIPlayer.BOOSTABLE_STATS)
+        + len(AbstractAIPlayer.BOOSTABLE_STATS)
     )
     N_F_POKEMON = (
         AbstractAIPlayer.encoder.NUM_UNIQUE_FORMS
@@ -256,7 +258,7 @@ class AIPlayerS(AbstractAIPlayer):
                 - The minimum number of hits
                 - The expected number of hits
                 - The maximum number of hits
-            - The boosts the move gives (7 floats between -1 and 1):
+            - The boosts the move gives ({len(self.BOOSTABLE_STATS)} floats between -1 and 1):
                 - Attack
                 - Defense
                 - Special Attack
@@ -268,7 +270,7 @@ class AIPlayerS(AbstractAIPlayer):
                 - If the move is a protect move (1 if true, 0 otherwise)
                 - If the move increases the protect counter (1 if true, 0 otherwise)
                 - If it is a side protect move (1 if true, 0 otherwise)
-            - If the move creates something on the battlefield (4 booleans):
+            - If the move creates something on the battlefield (5 booleans):
                 - If the move is a weather move (1 if true, 0 otherwise)
                 - If the move is a pseudo weather move (1 if true, 0 otherwise)
                 - If the move creates a side condition (1 if true, 0 otherwise)
@@ -295,6 +297,10 @@ class AIPlayerS(AbstractAIPlayer):
                 - If the move is a self-destruct move (1 if true, 0 otherwise)
                 - If the move thaws (1 if true, 0 otherwise)
             - If the move is a stalling move (boolean) (Categorized by Showdown)
+            - The boosts the move can give to self in the secondary effects
+                ({len(self.BOOSTABLE_STATS)} floats between -1 and 1)
+            - The boosts the move can give to opponent in the secondary effects
+                ({len(self.BOOSTABLE_STATS)} floats between -1 and 1)
 
         The following features are not used:
             - Anything related to z-moves
@@ -308,12 +314,15 @@ class AIPlayerS(AbstractAIPlayer):
             - move.use_target_offensive (It is only used for Foul Play)
             - move.entry (Everything here is somewhere else)
             - move.target
+            - move.secondary["onHit"] This seems to be an error in the poke_env library
+                It says the change of some status or volatile status, but there is no way to know
+                which one it is.
 
         Args:
-            move (Move): The move to be encoded
+            - move (Move): The move to be encoded
 
         Returns:
-            list[float]: The feature vector of the move
+            - list[float]: The feature vector of the move
         """
         toret = []
         toret.extend(self.encoder.encodeMoveList(move.id))
@@ -486,7 +495,7 @@ class AIPlayerS(AbstractAIPlayer):
                             s["self"]["boosts"][b] / 2
                         )
 
-                elif s.get("onHit"):
+                elif s.get("onHit") or s.get("status") or s.get("volatileStatus"):
                     pass
 
                 else:
