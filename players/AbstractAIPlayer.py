@@ -72,7 +72,65 @@ class AbstractAIPlayer(Player, ABC):
         "FOE_SIDE": [1, 1, 1, 0, 0, 0],
         "NORMAL": [0.5, 0.5, 0, 0, 0.5, 0],
         "RANDOM_NORMAL": [0.75, 0.75, 0, 0, 0, 0],
+        "SCRIPTED": [0, 0, 0, 1, 0, 0],
         "SELF": [0, 0, 0, 1, 0, 0],
+    }
+
+    OTHER_FLAGS = {
+        "protect",  # Blocked by Protect
+        "contact",  # Physical Contact
+        "mirror",  # Copyable by Mirror Move
+        "bullet",  # Bullet-Type
+        "punch",  # Punch Move
+        "wind",  # Wind Move
+        "powder",  # Powder Move
+        "snatch",  # Copyable by Snatch
+        "reflectable",  # Reflected By Magic Coat/Magic Bounce
+        "sound",  # Sound-Type
+        "bite",  # Biting Move
+        "bypasssub",  # Bypasses Substitute
+        "dance",  # Dance Move
+        "pulse",  # Aura/pulse move
+        "slicing",  # Slicing Move
+        "gravity",  # Affected by Gravity
+        "basePowerCallback",  # The base power changes based on some condition
+        "onBasePower",  # The base power changes based on some condition
+        "damageCallback",  # The damage changes based on some condition
+        "heal",  # If the move heals the user (It may not have a heal percentage)
+        "onAfterHit",  # If the move has an effect after hitting (e.g. knock off)
+        "nonsky",  # If the move does not hit in the sky
+        "failcopycat",  # If the move fails when copied by Copycat
+        "failinstruct",  # The move cannot be repeated by Instruct
+        "failmimic",  # The move fails when copied by Mimic
+        "nosketch",  # The move cannot be copied by Sketch
+        "failmefirst",  # The move fails when used by Me First
+        "nosleeptalk",  # The move cannot be used by Sleep Talk
+        "charge",  # The move requires a charge turn
+        "recharge",  # The move requires a recharge turn
+        "cantusetwice",  # The move cannot be used twice in a row
+    }
+    OTHER_FLAGS_IGNORE = {
+        "metronome",  # Not necessary
+        "defrost",  # Already in move.thaws_target
+        "distance",  # Don't know what it does
+        "onModifyMove",  # Don't know what it does
+        "mustpressure",  # Don't know what it does
+        "allyanim",  # Don't know what it does
+        "onPrepareHit",  # Don't know what it does
+        "failencore",  # Think this is only used for the move Encore
+        "noassist",  # Don't know what it does
+        "onTry",  # Don't know what it does
+        "onHit",  # Something happens on hit
+        "onTryHit",  # Something happens on try hit
+        "onAfterMove",  # Something happens after the move is used
+        "onTryMove",  # Something happens when the move is tried
+        "onMoveFail",  # Something happens when the move fails
+        "onEffectiveness",  # Seems to be related to Freeze Dry
+        "onHitField",  # Something happens to the field when the move is used
+        "onAfterMoveSecondarySelf",  # Onlyused by Relic Song
+        "beforeMoveCallback",  # Something happens before the move is used
+        "noparentalbond",  # Doesn't work with Parental Bond
+        "futuremove",  # The move is a Future Move (only used by Future Sight)
     }
 
     def reset(self) -> None:

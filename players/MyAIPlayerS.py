@@ -33,6 +33,7 @@ class AIPlayerS(AbstractAIPlayer):
         + 1
         + len(AbstractAIPlayer.BOOSTABLE_STATS)
         + len(AbstractAIPlayer.BOOSTABLE_STATS)
+        + len(AbstractAIPlayer.OTHER_FLAGS)
     )
     N_F_POKEMON = (
         AbstractAIPlayer.encoder.NUM_UNIQUE_FORMS
@@ -303,6 +304,9 @@ class AIPlayerS(AbstractAIPlayer):
                 ({len(self.BOOSTABLE_STATS)} floats between -1 and 1)
             - The boosts the move can give to opponent in the secondary effects
                 ({len(self.BOOSTABLE_STATS)} floats between -1 and 1)
+            - Other flags (len(self.OTHER_FLAGS) integers)
+                They are simply what it is stored inside and didn't get
+                added to self.OTHER_FLAGS_IGNORE.
 
         The following features are not used:
             - Anything related to z-moves
@@ -477,10 +481,6 @@ class AIPlayerS(AbstractAIPlayer):
         # If the move is a stalling move
         toret.append(int(move.stalling_move))
 
-        if move.flags:
-            # For later use
-            pass
-
         ## The lists that could be in secondary
         boostSelf = [0] * len(self.BOOSTABLE_STATS)
         boostOpponent = [0] * len(self.BOOSTABLE_STATS)
@@ -509,6 +509,15 @@ class AIPlayerS(AbstractAIPlayer):
 
         toret.extend(boostSelf)
         toret.extend(boostOpponent)
+
+        ## Other flags
+        for f in self.OTHER_FLAGS:
+            toret.append(int(f in move.flags))
+
+        for f in move.flags:
+            if f not in self.OTHER_FLAGS and f not in self.OTHER_FLAGS_IGNORE:
+                print(f"Flag {f} from move {move.id}.")
+                # TODO: Remove this later when all moves have been checked
 
         return toret
 
