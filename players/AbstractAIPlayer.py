@@ -54,6 +54,27 @@ class AbstractAIPlayer(Player, ABC):
         VOLATILE_STATUS[name] = index
         VOLATILE_STATUS[name.replace("_", "").lower()] = index
 
+    """
+    I think 0 will be untargetable, 1 will be guaranteed, 
+    0.5 will be choice and 0.75 will be random.
+    """
+    MOVE_TARGETS = {
+        "ADJACENT_ALLY": [0, 0, 0, 0, 1, 0],
+        "ADJACENT_ALLY_OR_SELF": [0, 0, 0, 0.5, 0.5, 0],
+        "ADJACENT_FOE": [0.5, 0.5, 0, 0, 0, 0],
+        "ALL": [1, 1, 1, 1, 1, 1],
+        "ALL_ADJACENT": [1, 1, 0, 0, 1, 0],
+        "ALL_ADJACENT_FOES": [1, 1, 0, 0, 0, 0],
+        "ALLIES": [0, 0, 0, 1, 1, 1],
+        "ALLY_SIDE": [0, 0, 0, 1, 1, 1],
+        "ALLY_TEAM": [0, 0, 0, 1, 1, 1],
+        "ANY": [0.5, 0.5, 0.5, 0, 0.5, 0.5],
+        "FOE_SIDE": [1, 1, 1, 0, 0, 0],
+        "NORMAL": [0.5, 0.5, 0, 0, 0.5, 0],
+        "RANDOM_NORMAL": [0.75, 0.75, 0, 0, 0, 0],
+        "SELF": [0, 0, 0, 1, 0, 0],
+    }
+
     def reset(self) -> None:
         """
         Reset the internal lists for training

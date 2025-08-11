@@ -21,6 +21,7 @@ class AIPlayerS(AbstractAIPlayer):
         + 1
         + 1
         + 1
+        + 6
         + 1
         + 3
         + len(AbstractAIPlayer.BOOSTABLE_STATS)
@@ -253,6 +254,7 @@ class AIPlayerS(AbstractAIPlayer):
             - The maximum PP of the move (a float between 0 and 1)
                 We use the base PP without using PP up
             - The priority of the move (float between -1 to 1)
+            - Where the move targets (6 floats between 0 and 1)
             - The critical hit ratio (float between 0 and 1)
             - Number of hits (3 floats between 0 and 1):
                 - The minimum number of hits
@@ -317,6 +319,7 @@ class AIPlayerS(AbstractAIPlayer):
             - move.secondary["onHit"] This seems to be an error in the poke_env library
                 It says the change of some status or volatile status, but there is no way to know
                 which one it is.
+            - move.deduced_target (Basically the same as move.target)
 
         Args:
             - move (Move): The move to be encoded
@@ -356,6 +359,9 @@ class AIPlayerS(AbstractAIPlayer):
 
         # Add the priority of the move
         toret.append(move.priority / 8)
+
+        # Add the target of the move
+        toret.extend(self.MOVE_TARGETS[move.target.name])
 
         # Add the critical hit ratio
         toret.append(move.crit_ratio / 6)
@@ -503,9 +509,6 @@ class AIPlayerS(AbstractAIPlayer):
 
         toret.extend(boostSelf)
         toret.extend(boostOpponent)
-
-        if move.deduced_target or move.target:
-            pass  # For later use
 
         return toret
 
