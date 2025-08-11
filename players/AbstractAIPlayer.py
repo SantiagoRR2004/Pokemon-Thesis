@@ -1,5 +1,6 @@
 from poke_env.battle import AbstractBattle
 from poke_env.player.battle_order import SingleBattleOrder
+from poke_env.battle.effect import _VOLATILE_STATUS_EFFECTS
 from poke_env.player.player import Player
 from abc import ABC, abstractmethod
 import pokemonFeatureEncoder
@@ -45,32 +46,13 @@ class AbstractAIPlayer(Player, ABC):
     STATS = ["hp", "atk", "def", "spa", "spd", "spe"]
     BOOSTABLE_STATS = ["atk", "def", "spa", "spd", "spe", "accuracy", "evasion"]
     STATUS = ["brn", "frz", "par", "psn", "tox", "slp"]  # We skip "fnt"
-    VOLATILE_STATUS = [
-        "flinch",
-        "confusion",
-        "healblock",
-        "salt_cure",
-        "saltcure",
-        "sparkling_aria",
-        "sparklingaria",
-        "protect",
-        "substitute",
-        "encore",
-        "locked_move",
-        "taunt",
-        "roost",
-        "glaive_rush",
-        "heal_block",
-        "curse",
-        "must_recharge",
-        "yawn",
-        "leech_seed",
-        "no_retreat",
-        "magnet_rise",
-        "partially_trapped",
-        "destiny_bond",
-        "disable",
-    ]
+    VOLATILE_STATUS = {}
+    for index, status in enumerate(
+        sorted(_VOLATILE_STATUS_EFFECTS, key=lambda s: s.name)
+    ):
+        name = status.name
+        VOLATILE_STATUS[name] = index
+        VOLATILE_STATUS[name.replace("_", "").lower()] = index
 
     def reset(self) -> None:
         """
