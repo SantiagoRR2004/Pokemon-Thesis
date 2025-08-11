@@ -29,7 +29,6 @@ class AIPlayerS(AbstractAIPlayer):
         + len(_VOLATILE_STATUS_EFFECTS)
         + (1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1)
         + 1
-        + len(AbstractAIPlayer.VOLATILE_STATUS)
         + len(AbstractAIPlayer.BOOSTABLE_STATS) * 2
     )
     N_F_POKEMON = (
@@ -277,7 +276,11 @@ class AIPlayerS(AbstractAIPlayer):
                 - If the move heals a switching partner (1 if true, 0 otherwise)
             - If it gives a normal status condition (6 floats between 0 and 1):
                 It can be the main purpose of the move or a secondary effect,
-                so it is the chance of inflicting the status.
+                so it is the chance of inflicting the status, once the move hits.
+            - If it gives a volitile status condition ({len(self._VOLATILE_STATUS_EFFECTS)} between 0 and 1):
+                It can be the main purpose of the move or a secondary effect,
+                so it is the chance of inflicting the volitile status
+                 once the move hits.
             - Guaranteed secondary effects:
                 - If the move can break trough protect (1 if true, 0 otherwise)
                 - The percentage the move drains (float between 0 and 1)
@@ -393,7 +396,7 @@ class AIPlayerS(AbstractAIPlayer):
 
         ## The status the move tries to inflict
         if move.status:
-            statusToret[self.STATUS.index(move.status.name.lower())] = move.accuracy
+            statusToret[self.STATUS.index(move.status.name.lower())] = 1
 
         if move.secondary:
             for s in move.secondary:
@@ -407,9 +410,7 @@ class AIPlayerS(AbstractAIPlayer):
         volatileStatusToret = [0] * len(_VOLATILE_STATUS_EFFECTS)
 
         if move.volatile_status:
-            volatileStatusToret[self.VOLATILE_STATUS[move.volatile_status.name]] = (
-                move.accuracy
-            )
+            volatileStatusToret[self.VOLATILE_STATUS[move.volatile_status.name]] = 1
 
         if move.secondary:
             for s in move.secondary:
@@ -465,8 +466,7 @@ class AIPlayerS(AbstractAIPlayer):
             # For later use
             pass
 
-        ## The 4 lists that could be in secondary
-        volatileStatusToret = [0] * len(self.VOLATILE_STATUS)
+        ## The lists that could be in secondary
         boostSelf = [0] * len(self.BOOSTABLE_STATS)
         boostOpponent = [0] * len(self.BOOSTABLE_STATS)
 
@@ -492,7 +492,6 @@ class AIPlayerS(AbstractAIPlayer):
                 else:
                     pass
 
-        toret.extend(volatileStatusToret)
         toret.extend(boostSelf)
         toret.extend(boostOpponent)
 
@@ -504,3 +503,5 @@ class AIPlayerS(AbstractAIPlayer):
 
 if __name__ == "__main__":
     print(f"Number of features: {AIPlayerS.N_F_TOTAL}")
+    print(f"Number of features per pokemon: {AIPlayerS.N_F_POKEMON}")
+    print(f"Number of features per move: {AIPlayerS.N_F_MOVE}")
