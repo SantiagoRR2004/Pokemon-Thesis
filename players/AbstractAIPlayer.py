@@ -108,6 +108,7 @@ class AbstractAIPlayer(Player, ABC):
         "charge",  # The move requires a charge turn
         "recharge",  # The move requires a recharge turn
         "cantusetwice",  # The move cannot be used twice in a row
+        "pledgecombo",  # The move is a Pledge Move
     }
     OTHER_FLAGS_IGNORE = {
         "metronome",  # Not necessary
@@ -129,6 +130,7 @@ class AbstractAIPlayer(Player, ABC):
         "onHitField",  # Something happens to the field when the move is used
         "onAfterMoveSecondarySelf",  # Onlyused by Relic Song
         "beforeMoveCallback",  # Something happens before the move is used
+        "beforeTurnCallback",  # Something happens before the turn starts
         "noparentalbond",  # Doesn't work with Parental Bond
         "futuremove",  # The move is a Future Move (only used by Future Sight)
     }

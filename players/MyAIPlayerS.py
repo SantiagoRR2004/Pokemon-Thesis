@@ -470,7 +470,7 @@ class AIPlayerS(AbstractAIPlayer):
         toret.append(int(move.ignore_evasion))
 
         # If the move ignores immunities
-        toret.append(int(move.ignore_immunity))
+        toret.append(1 if move.ignore_immunity else 0)
 
         # If the move is a self-destruct move
         toret.append(1 if move.self_destruct else 0)
@@ -496,10 +496,11 @@ class AIPlayerS(AbstractAIPlayer):
                         )
 
                 elif s.get("self"):
-                    for b in s["self"]["boosts"]:
-                        boostSelf[self.BOOSTABLE_STATS.index(b)] = (
-                            s["self"]["boosts"][b] / 2
-                        )
+                    if s["self"].get("boosts"):
+                        for b in s["self"]["boosts"]:
+                            boostSelf[self.BOOSTABLE_STATS.index(b)] = (
+                                s["self"]["boosts"][b] / 2
+                            )
 
                 elif s.get("onHit") or s.get("status") or s.get("volatileStatus"):
                     pass
@@ -513,11 +514,6 @@ class AIPlayerS(AbstractAIPlayer):
         ## Other flags
         for f in self.OTHER_FLAGS:
             toret.append(int(f in move.flags))
-
-        for f in move.flags:
-            if f not in self.OTHER_FLAGS and f not in self.OTHER_FLAGS_IGNORE:
-                print(f"Flag {f} from move {move.id}.")
-                # TODO: Remove this later when all moves have been checked
 
         return toret
 
