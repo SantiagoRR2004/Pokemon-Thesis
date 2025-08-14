@@ -6,7 +6,7 @@ class ActorNetwork01(AbstractActor):
 
     def generateNetwork(self, player):
         return nn.Sequential(
-            nn.Linear(player.N_F_TOTAL, 128),
+            nn.Linear(player.getNumberOfInputs(), 128),
             nn.Dropout(0.25),
             nn.ReLU(),
             nn.Linear(128, 64),
