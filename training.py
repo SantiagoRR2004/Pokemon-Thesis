@@ -20,7 +20,7 @@ async def main(
     playerClass: AbstractAIPlayer,
     moveClass: AbstractMove,
     nTeams: int = float("inf"),
-    critic: nn.Module = None,
+    criticClass: nn.Module = None,
     nEpisodes: int = 64,
     fileName: str = None,
     gamma: float = 0.99,
@@ -33,7 +33,7 @@ async def main(
         - playerClass (AbstractAIPlayer): The class player for which the actor is trained.
         - moveClass (AbstractMove): The class of move to be used by the player.
         - nTeams (int): Number of teams to use for training. If float("inf"), random teams will be used.
-        - critic (nn.Module, optional): The class of critic network to be trained. If None, only the actor will be trained.
+        - criticClass (nn.Module, optional): The class of critic network to be trained. If None, only the actor will be trained.
         - nEpisodes (int): Number of episodes to run for training.
         - fileName (str, optional): The name of the file to save the metrics. If None, a default name will be used.
         - gamma (float): Discount factor for future rewards.
@@ -50,8 +50,11 @@ async def main(
 
     actor = actorClass(testPlayer)
 
+    if criticClass:
+        critic = criticClass(testPlayer)
+
     optimizer = optim.Adam(actor.parameters(), lr=1e-3)
-    if critic:
+    if criticClass:
         criticOptimizer = optim.Adam(critic.parameters(), lr=1e-3)
 
     nEpochs = 1000
@@ -59,7 +62,7 @@ async def main(
     victoryPercentage = []
     actorLosses = []
     averageRewards = []
-    if critic:
+    if criticClass:
         criticLosses = []
         averageCriticRewards = []
     nTurns = []
@@ -114,14 +117,14 @@ async def main(
 
         actorLoss = 0
         averageRewardsEpoch = 0
-        if critic:
+        if criticClass:
             criticLoss = 0
             averageCriticRewardsEpoch = 0
 
         for battle in player.battles.values():
             nSteps = battle.turn
             actorLossBattle = 0
-            if critic:
+            if criticClass:
                 criticLossBattle = 0
             finalReward = 1000 if battle.won else -1000
 
@@ -138,13 +141,13 @@ async def main(
             averageRewardsEpoch += (
                 torch.tensor(discountedRewards, dtype=torch.float32).mean().item()
             )
-            if critic:
+            if criticClass:
                 averageCriticRewardsEpoch += (
                     torch.stack(player.values[battle.battle_tag]).mean().item()
                 )
 
             # Calculate the loss using actor-critic
-            if critic:
+            if criticClass:
                 for log_prob, G, V in zip(
                     player.log_probs[battle.battle_tag],
                     discountedRewards,
@@ -164,12 +167,12 @@ async def main(
 
             # Normalize the loss by the episodes
             actorLoss += actorLossBattle / nSteps
-            if critic:
+            if criticClass:
                 criticLoss += criticLossBattle / nSteps
 
         # Normalize the loss by the number of battles
         actorLoss /= len(player.battles)
-        if critic:
+        if criticClass:
             criticLoss /= len(player.battles)
 
         # Backpropagation step
@@ -178,7 +181,7 @@ async def main(
         optimizer.step()
 
         # Update the critic network
-        if critic:
+        if criticClass:
             criticOptimizer.zero_grad()
             criticLoss.backward()
             criticOptimizer.step()
@@ -207,7 +210,7 @@ async def main(
         victoryPercentage.append(percentage)
         actorLosses.append(actorLoss.item())
         averageRewards.append(averageRewardsEpoch / len(player.battles))
-        if critic:
+        if criticClass:
             criticLosses.append(criticLoss.item())
             averageCriticRewards.append(averageCriticRewardsEpoch / len(player.battles))
         nTurns.append(
@@ -227,7 +230,7 @@ async def main(
         "nTurns": nTurns,
     }
 
-    if critic:
+    if criticClass:
         kwargs["criticLosses"] = criticLosses
         kwargs["averageCriticRewards"] = averageCriticRewards
 
@@ -255,7 +258,7 @@ if __name__ == "__main__":
     asyncio.run(
         main(
             actorClass=ActorNetwork01,
-            # critic=CriticNetwork01,
+            criticClass=CriticNetwork01,
             nTeams=float("inf"),
             playerClass=AIPlayer,
             moveClass=Move00,

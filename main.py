@@ -46,7 +46,7 @@ if __name__ == "__main__":
                         "actorClass": actor,
                         "playerClass": AIPlayer,
                         "moveClass": move,
-                        "critic": critic,
+                        "criticClass": critic,
                     }
 
                     # Add the rest of the columns as arguments
