@@ -7,6 +7,32 @@ class MoveS(AbstractMove):
     This class will be used to represent a move as a feature vector for the neural network.
     """
 
+    N_F_MOVE = (
+        AbstractMove.encoder.NUM_UNIQUE_MOVES
+        + AbstractMove.N_F_TYPES
+        + 3
+        + 3
+        + 1
+        + 1
+        + 1
+        + 1
+        + 1
+        + 1
+        + 6
+        + 1
+        + 3
+        + len(AbstractMove.BOOSTABLE_STATS)
+        + (1 + 1 + 1)
+        + (1 + 1 + 1 + 1 + 1)
+        + len(AbstractMove.STATUS)
+        + len(_VOLATILE_STATUS_EFFECTS)
+        + (1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1)
+        + 1
+        + len(AbstractMove.BOOSTABLE_STATS)
+        + len(AbstractMove.BOOSTABLE_STATS)
+        + len(AbstractMove.OTHER_FLAGS)
+    )
+
     @staticmethod
     def getFeatures(move) -> list[float]:
         """

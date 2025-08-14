@@ -108,4 +108,24 @@ class AbstractMove(ABC):
     @staticmethod
     @abstractmethod
     def getFeatures(move: Move) -> list[float]:
+        """
+        This method will return the features of the move as a list of floats.
+
+        Args:
+            - move (Move): The move to encode.
+
+        Returns:
+            - list[float]: The features of the move.
+        """
         pass
+
+    N_F_MOVE = 0
+
+    @classmethod
+    def getNumberOfFeatures(cls) -> int:
+        """
+        This method will return the number of features of the move
+        """
+        if cls.N_F_MOVE == 0:
+            raise ValueError("The number of features has not been set yet")
+        return cls.N_F_MOVE
