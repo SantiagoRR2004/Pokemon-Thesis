@@ -9,9 +9,8 @@ class AIPlayer(AbstractAIPlayer):
     to work with gen9randombattle
     """
 
-    N_F_TYPES = 20  # Tera stellar and Pawmot
-    N_F_POKEMON = 1 + 2 + 2 + 1 + 8
-    N_F_TOTAL = 2 + (1 + N_F_POKEMON) * 12
+    N_F_POKEMON = 1 + 2 + 2 + 1 + 4
+    N_F_BATTLE = 2 + 12
 
     N_OUTPUTS = 14  # 8 moves + 6 switches
 
@@ -48,7 +47,17 @@ class AIPlayer(AbstractAIPlayer):
         for pokemon in battle.team.values():
             inputs += [1] + self.encodePokemon(pokemon)
         # Fill with zeros if unknown pokemon
-        inputs += (6 - len(battle.team)) * ([0] + [0.0] * self.N_F_POKEMON)
+        inputs += (
+            [0]
+            * (6 - len(battle.team))
+            * (
+                1
+                + (
+                    self.N_F_POKEMON
+                    + 4 * self.moveFeatureExtractor.getNumberOfFeatures()
+                )
+            )
+        )
 
         # Which opponent's pokemon is active
         try:
@@ -66,7 +75,17 @@ class AIPlayer(AbstractAIPlayer):
         for pokemon in battle.opponent_team.values():
             inputs += [1] + self.encodePokemon(pokemon)
         # Fill with zeros if unknown pokemon
-        inputs += (6 - len(battle.opponent_team)) * ([0] + [0.0] * self.N_F_POKEMON)
+        inputs += (
+            [0]
+            * (6 - len(battle.opponent_team))
+            * (
+                1
+                + (
+                    self.N_F_POKEMON
+                    + 4 * self.moveFeatureExtractor.getNumberOfFeatures()
+                )
+            )
+        )
 
         return inputs
 
@@ -124,9 +143,14 @@ class AIPlayer(AbstractAIPlayer):
         for move in pokemon.moves.values():
             # We encode the move
             moves.append(1)
-            moves.append(self.encoder.encodeMove(move.id))
+            moves.extend(self.moveFeatureExtractor.getFeatures(move))
         # We fill with zeros if the pokemon has less than 4 moves
-        moves += [0, 0] * (4 - len(pokemon.moves.values()))
+        moves += (
+            [0]
+            * (4 - len(pokemon.moves.values()))
+            * (1 + self.moveFeatureExtractor.getNumberOfFeatures())
+        )
+
         featureVector += moves
 
         return featureVector
