@@ -1,8 +1,9 @@
+from players import AbstractAIPlayer, AIPlayer
 import randomTeams.randomTeam as randomTeam
-from players import AIPlayer
-from actors import ActorNetwork01
-from critics import CriticNetwork01
 from poke_env.player import RandomPlayer
+from moves import AbstractMove, Move00
+from critics import CriticNetwork01
+from actors import ActorNetwork01
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -15,7 +16,9 @@ import os
 
 async def main(
     *,
-    actor: nn.Module,
+    actorClass: nn.Module,
+    playerClass: AbstractAIPlayer,
+    moveClass: AbstractMove,
     nTeams: int = float("inf"),
     critic: nn.Module = None,
     nEpisodes: int = 64,
@@ -26,9 +29,11 @@ async def main(
     Train an actor-critic model for a given number of episodes.
 
     Args:
-        - actor (nn.Module): The actor network to be trained.
+        - actor (nn.Module): The class of actor network to be trained.
+        - playerClass (AbstractAIPlayer): The class player for which the actor is trained.
+        - moveClass (AbstractMove): The class of move to be used by the player.
         - nTeams (int): Number of teams to use for training. If float("inf"), random teams will be used.
-        - critic (nn.Module, optional): The critic network to be trained. If None, only the actor will be trained.
+        - critic (nn.Module, optional): The class of critic network to be trained. If None, only the actor will be trained.
         - nEpisodes (int): Number of episodes to run for training.
         - fileName (str, optional): The name of the file to save the metrics. If None, a default name will be used.
         - gamma (float): Discount factor for future rewards.
@@ -37,6 +42,13 @@ async def main(
         - None
     """
     p = serverControl.startServer()
+
+    testPlayer: AbstractAIPlayer = playerClass(
+        network="BlaBlaBla",
+        moveFeatureExtractor=moveClass(),
+    )
+
+    actor = actorClass(testPlayer)
 
     optimizer = optim.Adam(actor.parameters(), lr=1e-3)
     if critic:
@@ -58,11 +70,12 @@ async def main(
 
         if nTeams == float("inf"):
             # We create the AI player
-            player = AIPlayer(
+            player: AbstractAIPlayer = playerClass(
                 battle_format="gen9randombattle",
                 network=actor,
                 critic=critic,
                 max_concurrent_battles=nEpisodes,
+                moveFeatureExtractor=moveClass(),
             )
 
             # We create another random player
@@ -73,12 +86,13 @@ async def main(
         else:
 
             # We create the AI player
-            player = AIPlayer(
+            player: AbstractAIPlayer = playerClass(
                 battle_format="gen9purehackmons",
                 team=randomTeam.selectRandomTeam(nTeams),
                 network=actor,
                 critic=critic,
                 max_concurrent_battles=nEpisodes,
+                moveFeatureExtractor=moveClass(),
             )
 
             # We create another random player
@@ -240,8 +254,10 @@ if __name__ == "__main__":
 
     asyncio.run(
         main(
-            actor=ActorNetwork01(AIPlayer),
-            critic=CriticNetwork01(AIPlayer),
+            actorClass=ActorNetwork01,
+            # critic=CriticNetwork01,
             nTeams=float("inf"),
+            playerClass=AIPlayer,
+            moveClass=Move00,
         )
     )
