@@ -7,4 +7,6 @@ from .move04 import Move04
 from .move05 import Move05
 from .move06 import Move06
 from .move07 import Move07
+from .move08 import Move08
+from .move09 import Move09
 from .moveS import MoveS
