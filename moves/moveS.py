@@ -85,9 +85,9 @@ class MoveS(AbstractMove):
             - If it gives a normal status condition (6 floats between 0 and 1):
                 It can be the main purpose of the move or a secondary effect,
                 so it is the chance of inflicting the status, once the move hits.
-            - If it gives a volitile status condition ({len(self._VOLATILE_STATUS_EFFECTS)} between 0 and 1):
+            - If it gives a volatile status condition ({len(self._VOLATILE_STATUS_EFFECTS)} between 0 and 1):
                 It can be the main purpose of the move or a secondary effect,
-                so it is the chance of inflicting the volitile status
+                so it is the chance of inflicting the volatile status
                  once the move hits.
             - Guaranteed secondary effects:
                 - If the move can break trough protect (1 if true, 0 otherwise)
@@ -213,10 +213,9 @@ class MoveS(AbstractMove):
         # If the move heals a switching partner
         toret.append(1 if move.slot_condition else 0)
 
-        # The status the move tries to inflict
+        ## The status the move tries to inflict
         statusToret = [0] * len(MoveS.STATUS)
 
-        ## The status the move tries to inflict
         if move.status:
             statusToret[MoveS.STATUS.index(move.status.name.lower())] = 1
 
@@ -228,7 +227,7 @@ class MoveS(AbstractMove):
 
         toret.extend(statusToret)
 
-        ## The volitile status the move tries to inflict
+        ## The volatile status the move tries to inflict
         volatileStatusToret = [0] * len(_VOLATILE_STATUS_EFFECTS)
 
         if move.volatile_status:
