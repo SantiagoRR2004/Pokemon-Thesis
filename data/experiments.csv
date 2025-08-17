@@ -35,8 +35,8 @@ experiment33,actorCritic,2,64,ActorNetwork01,CriticNetwork01,0.99,Move09
 experiment34,actorCritic,2,64,ActorNetwork01,CriticNetwork01,0.99,MoveS
 experiment35,actor,inf,64,ActorNetwork03,,0.99,MoveS
 experiment36,actorCritic,inf,64,ActorNetwork03,CriticNetworkS,0.99,MoveS
-random1,,2,64,,,,
-random2,,10,64,,,,
-random3,,100,64,,,,
-random4,,inf,64,,,,
-random5,,1,64,,,,
+random1,random,2,64,random,random,random,random
+random2,random,10,64,random,random,random,random
+random3,random,100,64,random,random,random,random
+random4,random,inf,64,random,random,random,random
+random5,random,1,64,random,random,random,random

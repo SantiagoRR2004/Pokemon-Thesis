@@ -229,6 +229,71 @@ def graphAllExperiments(windowSize: int = 1) -> None:
     fig.show()
 
 
+def graphVictoryPercentage() -> None:
+    """
+    Graph the victory percentage for the different
+    variables in the experiments.csv file.
+
+    Args:
+        - None
+
+    Returns:
+        - None
+    """
+    currentDirectory = os.path.dirname(os.path.abspath(__file__))
+    dataDirectory = os.path.join(currentDirectory, "data")
+
+    # List all parquet files in the data directory
+    files = {
+        fileName[: -len(".parquet")]: pd.read_parquet(
+            os.path.join(dataDirectory, fileName)
+        )
+        for fileName in os.listdir(dataDirectory)
+        if fileName.endswith(".parquet")
+    }
+    files = dict(sorted(files.items(), key=lambda item: item[0]))  # sort by name
+
+    experimentData = pd.read_csv(os.path.join(dataDirectory, "experiments.csv"))
+
+    for column in experimentData.columns:
+
+        if column != "fileName":
+
+            fig = go.Figure()
+            fig.update_layout(
+                title=f"Victory Percentage for {column}",
+                xaxis_title="Epochs",
+                yaxis_title="Victory Percentage",
+                hovermode="closest",
+            )
+
+            # Group values by the column
+            grouped = experimentData.groupby(column)
+
+            for name, group in grouped:
+
+                smoothedTotal = []
+
+                # Now we average the data of all files in the group
+                for fileName in group["fileName"]:
+
+                    if files.get(fileName) is not None:
+                        df = files[fileName]
+                        smoothed = (
+                            df["victoryPercentage"]
+                            .rolling(window=100, center=True)
+                            .mean()
+                        )
+                        smoothedTotal.append(smoothed)
+
+                if smoothedTotal:
+                    combined = pd.concat(smoothedTotal, axis=1).mean(axis=1)
+
+                    fig.add_trace(go.Scatter(y=combined, mode="lines", name=name))
+
+            fig.show()
+
+
 if __name__ == "__main__":
 
-    graphAllExperiments(100)
+    graphVictoryPercentage()
