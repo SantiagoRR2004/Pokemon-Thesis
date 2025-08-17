@@ -201,7 +201,7 @@ async def main(
             flush=True,
         )
         print(
-            f"{player.username} won {percentage*100:.2f}% of battles.",
+            f"{fileName} won {percentage*100:.2f}% of battles.",
             end=" ",
             flush=True,
         )
