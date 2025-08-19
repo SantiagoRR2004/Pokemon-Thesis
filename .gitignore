@@ -1,5 +1,6 @@
 .venv/
 __pycache__
+.git/
 secrets.json
 pokemon-showdown/
 warnings.log

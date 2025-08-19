@@ -295,5 +295,5 @@ def graphVictoryPercentage() -> None:
 
 
 if __name__ == "__main__":
-
+    graphAllExperiments(100)
     graphVictoryPercentage()
