@@ -52,6 +52,8 @@ async def main(
 
     if criticClass:
         critic = criticClass(testPlayer)
+    else:
+        critic = None
 
     optimizer = optim.Adam(actor.parameters(), lr=1e-3)
     if criticClass:
@@ -66,6 +68,10 @@ async def main(
         criticLosses = []
         averageCriticRewards = []
     nTurns = []
+
+    nTeams = float(nTeams)
+    nEpisodes = int(nEpisodes)
+    gamma = float(gamma)
 
     start = time.time()
 
