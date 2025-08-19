@@ -121,7 +121,7 @@ class AIPlayerS(AbstractAIPlayer):
             - The HP fraction of the pokemon
             - The 6 stats of the pokemon:
                 - The presence indicator of the stat (1 if known, 0 otherwise)
-                - The value of the stat (a float)
+                - The value of the stat (a float) in logarithmic scale
             - The stat boosts of the pokemon (list of 7 floats)
             - The item:
                 - The presence indicator of the item (1 if known, 0 otherwise)
@@ -129,6 +129,29 @@ class AIPlayerS(AbstractAIPlayer):
             - The 4 moves of the pokemon:
                 - The presence indicator of the move
                 - The encoded move (list of self.N_F_MOVE integers)
+
+        Missing:
+            - pokemon.active
+            - pokemon.current_hp
+            - pokemon.fainted
+            - pokemon.first_turn
+            - pokemon.gender
+            - pokemon.height
+            - pokemon.is_terastallized
+            - pokemon.max_hp
+            - pokemon.must_recharge
+            - pokemon.name
+            - pokemon.pokeball
+            - pokemon.preparing
+            - pokemon.preparing_move
+            - pokemon.preparing.target
+            - pokemon.protect_counter
+            - pokemon.revealed
+            - pokemon.shiny
+            - pokemon.stab_multiplier
+            - pokemon.status
+            - pokemon.status_counter
+            - pokemon.weight
 
         Args:
             - pokemon (Pokemon): The pokemon to be encoded
