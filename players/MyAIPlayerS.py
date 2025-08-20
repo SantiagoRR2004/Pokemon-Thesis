@@ -10,7 +10,8 @@ class AIPlayerS(AbstractAIPlayer):
     """
 
     N_F_POKEMON = (
-        AbstractAIPlayer.encoder.NUM_UNIQUE_FORMS
+        1
+        + AbstractAIPlayer.encoder.NUM_UNIQUE_FORMS
         + AbstractAIPlayer.N_F_TYPES
         + AbstractAIPlayer.N_F_TYPES
         + 1
@@ -109,6 +110,7 @@ class AIPlayerS(AbstractAIPlayer):
         This method will encode a pokemon into a feature vector
 
         The feature vector will have:
+            - If the pokemon is currently active (boolean)
             - The form of the pokemon (encoder.NUM_UNIQUE_FORMS One-Hot Encoding)
             - The original type of the pokemon (encoded as a list of {self.N_F_TYPES} integers)
             - The current types of the pokemon (encoded as a list of {self.N_F_TYPES} integers)
@@ -135,7 +137,6 @@ class AIPlayerS(AbstractAIPlayer):
                 - The encoded move (list of self.N_F_MOVE integers)
 
         Missing:
-            - pokemon.active
             - pokemon.current_hp
             - pokemon.fainted
             - pokemon.first_turn
@@ -143,7 +144,7 @@ class AIPlayerS(AbstractAIPlayer):
             - pokemon.must_recharge
             - pokemon.preparing
             - pokemon.preparing_move
-            - pokemon.preparing.target
+            - pokemon.preparing_target
             - pokemon.protect_counter
             - pokemon.revealed
             - pokemon.stab_multiplier
@@ -165,6 +166,8 @@ class AIPlayerS(AbstractAIPlayer):
             - list[float]: The feature vector of the pokemon
         """
         featureVector = []
+
+        featureVector.append(int(pokemon.active))
 
         # The form of the pokemon
         featureVector.extend(
