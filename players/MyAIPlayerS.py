@@ -18,6 +18,8 @@ class AIPlayerS(AbstractAIPlayer):
         + AbstractAIPlayer.N_F_TYPES
         + 1
         + 6
+        + 1
+        + 3
         + (1 + AbstractAIPlayer.encoder.NUM_UNIQUE_ABILITIES)
         + 1
         + (2 * 6)
@@ -107,7 +109,7 @@ class AIPlayerS(AbstractAIPlayer):
         This method will encode a pokemon into a feature vector
 
         The feature vector will have:
-            - The form of the pokemon (encoded as a list of encoder.NUM_UNIQUE_FORMS integers)
+            - The form of the pokemon (encoder.NUM_UNIQUE_FORMS One-Hot Encoding)
             - The original type of the pokemon (encoded as a list of {self.N_F_TYPES} integers)
             - The current types of the pokemon (encoded as a list of {self.N_F_TYPES} integers)
             - If the pokemon has already tera'd (encoded as an integer)
@@ -115,6 +117,8 @@ class AIPlayerS(AbstractAIPlayer):
             - The tera type of the pokemon (encoded as a list of {self.N_F_TYPES} integers)
             - The level of the pokemon as a float
             - The base stats of the pokemon (list of 6 floats)
+            - The weight of the pokemon (float between 0 and 1)
+            - The gender of the pokemon (3 One-Hot Encoding)
             - The ability of the pokemon:
                 - The presence indicator of the ability (1 if known, 0 otherwise)
                 - The ability (encoded as a list of encoder.NUM_UNIQUE_ABILITIES integers)
@@ -135,23 +139,26 @@ class AIPlayerS(AbstractAIPlayer):
             - pokemon.current_hp
             - pokemon.fainted
             - pokemon.first_turn
-            - pokemon.gender
-            - pokemon.height
             - pokemon.is_terastallized
             - pokemon.max_hp
             - pokemon.must_recharge
-            - pokemon.name
-            - pokemon.pokeball
             - pokemon.preparing
             - pokemon.preparing_move
             - pokemon.preparing.target
             - pokemon.protect_counter
             - pokemon.revealed
-            - pokemon.shiny
             - pokemon.stab_multiplier
             - pokemon.status
             - pokemon.status_counter
             - pokemon.weight
+
+        The following features are not used:
+            - Anything involving megas, z-moves or dynamax
+            - Not used in combat:
+                - pokemon.height
+                - pokemon.name
+                - pokemon.pokeball
+                - pokemon.shiny
 
         Args:
             - pokemon (Pokemon): The pokemon to be encoded
@@ -196,6 +203,14 @@ class AIPlayerS(AbstractAIPlayer):
         # Add the base stats
         for stat in self.STATS:
             featureVector.append(pokemon.base_stats[stat] / 255)
+
+        # Add the weight
+        featureVector.append(pokemon.weight / 1000)
+
+        # Add the gender
+        gender = [0, 0, 0]
+        gender[pokemon.gender.value - 1] = 1
+        featureVector.extend(gender)
 
         # Add the ability
         if pokemon.ability is not None:
