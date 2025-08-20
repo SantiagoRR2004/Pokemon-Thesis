@@ -139,7 +139,6 @@ class AIPlayerS(AbstractAIPlayer):
             - pokemon.current_hp
             - pokemon.fainted
             - pokemon.first_turn
-            - pokemon.is_terastallized
             - pokemon.max_hp
             - pokemon.must_recharge
             - pokemon.preparing
@@ -150,7 +149,6 @@ class AIPlayerS(AbstractAIPlayer):
             - pokemon.stab_multiplier
             - pokemon.status
             - pokemon.status_counter
-            - pokemon.weight
 
         The following features are not used:
             - Anything involving megas, z-moves or dynamax
