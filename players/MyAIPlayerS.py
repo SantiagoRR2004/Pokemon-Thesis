@@ -128,6 +128,8 @@ class AIPlayerS(AbstractAIPlayer):
             - The 6 stats of the pokemon:
                 - The presence indicator of the stat (1 if known, 0 otherwise)
                 - The value of the stat (a float) in logarithmic scale
+                When the hp is unknown we use the max_hp. They are always the same
+                value except for Magnezone (seems to be an error)
             - The stat boosts of the pokemon (list of 7 floats)
             - The item:
                 - The presence indicator of the item (1 if known, 0 otherwise)
@@ -137,10 +139,8 @@ class AIPlayerS(AbstractAIPlayer):
                 - The encoded move (list of self.N_F_MOVE integers)
 
         Missing:
-            - pokemon.current_hp
             - pokemon.fainted
             - pokemon.first_turn
-            - pokemon.max_hp
             - pokemon.must_recharge
             - pokemon.preparing
             - pokemon.preparing_move
@@ -158,6 +158,8 @@ class AIPlayerS(AbstractAIPlayer):
                 - pokemon.name
                 - pokemon.pokeball
                 - pokemon.shiny
+            - pokemon.current_hp
+                If normalized it is the current_hp_fraction
 
         Args:
             - pokemon (Pokemon): The pokemon to be encoded
@@ -234,6 +236,9 @@ class AIPlayerS(AbstractAIPlayer):
             if pokemon.stats[stat] is not None:
                 featureVector.append(1)
                 featureVector.append(np.log(pokemon.stats[stat] + 1) / np.log(1000))
+            elif stat == "hp":
+                featureVector.append(1)
+                featureVector.append(np.log(pokemon.max_hp + 1) / np.log(1000))
             else:
                 featureVector.extend([0, 0])
 
