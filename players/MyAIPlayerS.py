@@ -11,6 +11,8 @@ class AIPlayerS(AbstractAIPlayer):
 
     N_F_POKEMON = (
         1
+        + 1
+        + 1
         + AbstractAIPlayer.encoder.NUM_UNIQUE_FORMS
         + AbstractAIPlayer.N_F_TYPES
         + AbstractAIPlayer.N_F_TYPES
@@ -22,6 +24,8 @@ class AIPlayerS(AbstractAIPlayer):
         + 1
         + 3
         + (1 + AbstractAIPlayer.encoder.NUM_UNIQUE_ABILITIES)
+        + 1
+        + 1
         + 1
         + (2 * 6)
         + 7
@@ -110,7 +114,9 @@ class AIPlayerS(AbstractAIPlayer):
         This method will encode a pokemon into a feature vector
 
         The feature vector will have:
+            - If the pokemon has been revealed (boolean)
             - If the pokemon is currently active (boolean)
+            - If the pokemon has fainted (boolean)
             - The form of the pokemon (encoder.NUM_UNIQUE_FORMS One-Hot Encoding)
             - The original type of the pokemon (encoded as a list of {self.N_F_TYPES} integers)
             - The current types of the pokemon (encoded as a list of {self.N_F_TYPES} integers)
@@ -124,6 +130,8 @@ class AIPlayerS(AbstractAIPlayer):
             - The ability of the pokemon:
                 - The presence indicator of the ability (1 if known, 0 otherwise)
                 - The ability (encoded as a list of encoder.NUM_UNIQUE_ABILITIES integers)
+            - The STAB multiplier of the pokemon (float)
+            - If it is the first turn of the pokemon (boolean)
             - The HP fraction of the pokemon
             - The 6 stats of the pokemon:
                 - The presence indicator of the stat (1 if known, 0 otherwise)
@@ -139,15 +147,11 @@ class AIPlayerS(AbstractAIPlayer):
                 - The encoded move (list of self.N_F_MOVE integers)
 
         Missing:
-            - pokemon.fainted
-            - pokemon.first_turn
             - pokemon.must_recharge
             - pokemon.preparing
             - pokemon.preparing_move
             - pokemon.preparing_target
             - pokemon.protect_counter
-            - pokemon.revealed
-            - pokemon.stab_multiplier
             - pokemon.status
             - pokemon.status_counter
 
@@ -169,7 +173,14 @@ class AIPlayerS(AbstractAIPlayer):
         """
         featureVector = []
 
+        # If the pokemon has been revealed
+        featureVector.append(int(pokemon.revealed))
+
+        # If the pokemon is currently active
         featureVector.append(int(pokemon.active))
+
+        # If the pokemon has fainted
+        featureVector.append(int(pokemon.fainted))
 
         # The form of the pokemon
         featureVector.extend(
@@ -227,6 +238,12 @@ class AIPlayerS(AbstractAIPlayer):
             featureVector.extend(
                 self.encoder.encodeAbilityList(pokemon.possible_abilities)
             )
+
+        # The STAB multiplier
+        featureVector.append(pokemon.stab_multiplier)
+
+        # If it is the first turn of the pokemon
+        featureVector.append(int(pokemon.first_turn))
 
         # The HP fraction of the pokemon
         featureVector.append(pokemon.current_hp_fraction)
