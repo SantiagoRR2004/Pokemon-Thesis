@@ -33,6 +33,7 @@ class AIPlayerS(AbstractAIPlayer):
         + 1
         + (1 + 1 + 1 + 1)
         + len(AbstractAIPlayer.STATUS)
+        + len(_VOLATILE_STATUS_EFFECTS)
         + 4
     )
     N_F_BATTLE = 2 + 12
@@ -154,12 +155,11 @@ class AIPlayerS(AbstractAIPlayer):
                 - If the pokemon is preparing (boolean)
                 - If the pokemon is preparing a move (float between 0 and 1)
                 - If the pokemon is preparing a target (boolean)
+            - Volatile status effects ({self.N_F_VOLATILE_STATUS} One-Hot Encoding)
+                It uses the max of turns the status has been active and one.
             - The 4 moves of the pokemon:
                 - The presence indicator of the move
                 - The encoded move (list of self.N_F_MOVE integers)
-
-        Missing:
-            - pokemon.effects
 
         The following features are not used:
             - Anything involving megas, z-moves or dynamax
@@ -326,6 +326,16 @@ class AIPlayerS(AbstractAIPlayer):
             featureVector.append(1 if pokemon.preparing_target else 0)
         else:
             featureVector.extend([0] * 4)
+
+        # Volatile status effects
+        effects = [0] * len(_VOLATILE_STATUS_EFFECTS)
+
+        if pokemon in self.battle.all_active_pokemons and not pokemon.fainted:
+            for effect, counter in pokemon.effects.items():
+                if effect.name in self.VOLATILE_STATUS:
+                    effects[self.VOLATILE_STATUS[effect.name]] = max(counter, 1)
+
+        featureVector += effects
 
         # The moves
         moves = []
