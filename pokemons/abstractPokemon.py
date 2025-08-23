@@ -1,3 +1,4 @@
+from poke_env.battle.effect import _VOLATILE_STATUS_EFFECTS
 from abc import ABC, abstractmethod
 from poke_env.battle import Pokemon
 from moves import AbstractMove
@@ -14,7 +15,16 @@ class AbstractPokemon(ABC):
 
     N_F_TYPES = 20  # Tera stellar and Pawmot
 
+    STATS = ["hp", "atk", "def", "spa", "spd", "spe"]
+    BOOSTABLE_STATS = ["atk", "def", "spa", "spd", "spe", "accuracy", "evasion"]
     STATUS = ["brn", "frz", "par", "psn", "tox", "slp"]  # We skip "fnt"
+    VOLATILE_STATUS = {}
+    for index, status in enumerate(
+        sorted(_VOLATILE_STATUS_EFFECTS, key=lambda s: s.name)
+    ):
+        name = status.name
+        VOLATILE_STATUS[name] = index
+        VOLATILE_STATUS[name.replace("_", "").lower()] = index
 
     def __init__(self, moveEncoder: AbstractMove) -> None:
         """
@@ -27,10 +37,10 @@ class AbstractPokemon(ABC):
         Returns:
             - None
         """
-        self.moveEncoder = moveEncoder
+        self.moveEncoder: AbstractMove = moveEncoder
 
     @abstractmethod
-    def getFeatures(pokemon: Pokemon) -> list[float]:
+    def getFeatures(self, pokemon: Pokemon) -> list[float]:
         """
         This method will return the features of the Pokemon as a list of floats.
 
