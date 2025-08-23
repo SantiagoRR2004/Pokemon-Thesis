@@ -1,4 +1,5 @@
 from poke_env.battle.effect import _VOLATILE_STATUS_EFFECTS
+from poke_env.battle import AbstractBattle
 from abc import ABC, abstractmethod
 from poke_env.battle import Pokemon
 from moves import AbstractMove
@@ -40,12 +41,13 @@ class AbstractPokemon(ABC):
         self.moveEncoder: AbstractMove = moveEncoder
 
     @abstractmethod
-    def getFeatures(self, pokemon: Pokemon) -> list[float]:
+    def getFeatures(self, pokemon: Pokemon, battle: AbstractBattle) -> list[float]:
         """
         This method will return the features of the Pokemon as a list of floats.
 
         Args:
             - pokemon (Pokemon): The Pokemon to encode.
+            - battle (AbstractBattle): The battle context (Used to check active Pokemon)
 
         Returns:
             - list[float]: The features of the Pokemon.

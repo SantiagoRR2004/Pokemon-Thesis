@@ -34,7 +34,7 @@ class PokemonS(AbstractPokemon):
     )
 
     @staticmethod
-    def getFeatures(self, pokemon) -> list[float]:
+    def getFeatures(self, pokemon, battle) -> list[float]:
         """
         This method will encode a pokemon into a feature vector
 
@@ -105,7 +105,7 @@ class PokemonS(AbstractPokemon):
 
         # If the pokemon is currently active
         featureVector.append(
-            int(pokemon.active and pokemon in self.battle.all_active_pokemons)
+            int(pokemon.active and pokemon in battle.all_active_pokemons)
         )
 
         # If the pokemon has fainted
@@ -206,10 +206,7 @@ class PokemonS(AbstractPokemon):
             featureVector.extend([0] * (1 + AbstractPokemon.encoder.NUM_UNIQUE_ITEMS))
 
         # Protect counter
-        if (
-            pokemon.protect_counter
-            and pokemon in AbstractPokemon.battle.all_active_pokemons
-        ):
+        if pokemon.protect_counter and pokemon in battle.all_active_pokemons:
             """
             This seems to be very broken because it is
             from the turn before. Should make an
@@ -233,7 +230,7 @@ class PokemonS(AbstractPokemon):
         if (
             pokemon.active
             and not pokemon.fainted
-            and pokemon in AbstractPokemon.battle.all_active_pokemons
+            and pokemon in battle.all_active_pokemons
         ):
             # If the pokemon must recharge
             featureVector.append(int(pokemon.must_recharge))
@@ -258,10 +255,7 @@ class PokemonS(AbstractPokemon):
         # Volatile status effects
         effects = [0] * len(_VOLATILE_STATUS_EFFECTS)
 
-        if (
-            pokemon in AbstractPokemon.battle.all_active_pokemons
-            and not pokemon.fainted
-        ):
+        if pokemon in battle.all_active_pokemons and not pokemon.fainted:
             for effect, counter in pokemon.effects.items():
                 if effect.name in AbstractPokemon.VOLATILE_STATUS:
                     effects[AbstractPokemon.VOLATILE_STATUS[effect.name]] = max(
