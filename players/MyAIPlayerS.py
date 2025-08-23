@@ -30,6 +30,7 @@ class AIPlayerS(AbstractAIPlayer):
         + (2 * 6)
         + 7
         + (1 + AbstractAIPlayer.encoder.NUM_UNIQUE_ITEMS)
+        + 1
         + (1 + 1 + 1 + 1)
         + 4
     )
@@ -143,6 +144,7 @@ class AIPlayerS(AbstractAIPlayer):
             - The item:
                 - The presence indicator of the item (1 if known, 0 otherwise)
                 - The item (encoded as a list of encoder.NUM_UNIQUE_ITEMS integers)
+            - Protect counter (integer)
             - Currently in a 2 turn move (4 features):
                 - If the pokemon is recharging (boolean)
                 - If the pokemon is preparing (boolean)
@@ -153,11 +155,6 @@ class AIPlayerS(AbstractAIPlayer):
                 - The encoded move (list of self.N_F_MOVE integers)
 
         Missing:
-            - pokemon.must_recharge
-            - pokemon.preparing
-            - pokemon.preparing_move
-            - pokemon.preparing_target
-            - pokemon.protect_counter
             - pokemon.status
             - pokemon.status_counter
 
@@ -183,7 +180,9 @@ class AIPlayerS(AbstractAIPlayer):
         featureVector.append(int(pokemon.revealed))
 
         # If the pokemon is currently active
-        featureVector.append(int(pokemon.active))
+        featureVector.append(
+            int(pokemon.active and pokemon in self.battle.all_active_pokemons)
+        )
 
         # If the pokemon has fainted
         featureVector.append(int(pokemon.fainted))
@@ -278,8 +277,21 @@ class AIPlayerS(AbstractAIPlayer):
             # If the item is not known we add a zero
             featureVector.extend([0] * (1 + self.encoder.NUM_UNIQUE_ITEMS))
 
+        # Protect counter
+        if pokemon.protect_counter and pokemon in self.battle.all_active_pokemons:
+            """
+            This seems to be very broken and be
+            from the turn before. Should make an
+            issue in the poke_env repository.
+            """
+            featureVector.append(pokemon.protect_counter)
+
         # If the pokemon is doing something that takes 2 turns
-        if pokemon.active:
+        if (
+            pokemon.active
+            and not pokemon.fainted
+            and pokemon in self.battle.all_active_pokemons
+        ):
             # If the pokemon must recharge
             featureVector.append(int(pokemon.must_recharge))
 

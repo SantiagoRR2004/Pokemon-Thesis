@@ -86,6 +86,8 @@ class AbstractAIPlayer(Player, ABC):
             SingleBattleOrder: The move to be executed
         """
 
+        self.battle = battle
+
         inputs = torch.tensor(self.getInputs(battle), dtype=torch.float32)
 
         # Raw network outputs
