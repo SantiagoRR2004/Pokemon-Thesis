@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from poke_env.battle import Pokemon
 from moves import AbstractMove
+import pokemonFeatureEncoder
 
 
 class AbstractPokemon(ABC):
@@ -8,6 +9,12 @@ class AbstractPokemon(ABC):
     This is the abstract class that will be used to represent a Pokemon
     as a feature vector for the neural network.
     """
+
+    encoder = pokemonFeatureEncoder.PokemonFeatureEncoder()
+
+    N_F_TYPES = 20  # Tera stellar and Pawmot
+
+    STATUS = ["brn", "frz", "par", "psn", "tox", "slp"]  # We skip "fnt"
 
     def __init__(self, moveEncoder: AbstractMove) -> None:
         """
