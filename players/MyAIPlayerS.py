@@ -32,6 +32,7 @@ class AIPlayerS(AbstractAIPlayer):
         + (1 + AbstractAIPlayer.encoder.NUM_UNIQUE_ITEMS)
         + 1
         + (1 + 1 + 1 + 1)
+        + len(AbstractAIPlayer.STATUS)
         + 4
     )
     N_F_BATTLE = 2 + 12
@@ -145,6 +146,9 @@ class AIPlayerS(AbstractAIPlayer):
                 - The presence indicator of the item (1 if known, 0 otherwise)
                 - The item (encoded as a list of encoder.NUM_UNIQUE_ITEMS integers)
             - Protect counter (integer)
+            - Non-volatile status ({self.N_F_STATUS} One-Hot Encoding)
+                They will be 1 except for toxic and sleep.
+                These will be the numbers of turns the status has been active.
             - Currently in a 2 turn move (4 features):
                 - If the pokemon is recharging (boolean)
                 - If the pokemon is preparing (boolean)
@@ -155,8 +159,7 @@ class AIPlayerS(AbstractAIPlayer):
                 - The encoded move (list of self.N_F_MOVE integers)
 
         Missing:
-            - pokemon.status
-            - pokemon.status_counter
+            - pokemon.effects
 
         The following features are not used:
             - Anything involving megas, z-moves or dynamax
@@ -285,6 +288,18 @@ class AIPlayerS(AbstractAIPlayer):
             issue in the poke_env repository.
             """
             featureVector.append(pokemon.protect_counter)
+        else:
+            featureVector.append(0)
+
+        # Status
+        statusToret = [0] * len(self.STATUS)
+
+        if pokemon.status and pokemon.status.name.lower() in self.STATUS:
+            statusToret[self.STATUS.index(pokemon.status.name.lower())] = max(
+                pokemon.status_counter, 1
+            )
+
+        featureVector += statusToret
 
         # If the pokemon is doing something that takes 2 turns
         if (
