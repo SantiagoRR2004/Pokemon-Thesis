@@ -30,6 +30,7 @@ class AIPlayerS(AbstractAIPlayer):
         + (2 * 6)
         + 7
         + (1 + AbstractAIPlayer.encoder.NUM_UNIQUE_ITEMS)
+        + (1 + 1 + 1 + 1)
         + 4
     )
     N_F_BATTLE = 2 + 12
@@ -142,6 +143,11 @@ class AIPlayerS(AbstractAIPlayer):
             - The item:
                 - The presence indicator of the item (1 if known, 0 otherwise)
                 - The item (encoded as a list of encoder.NUM_UNIQUE_ITEMS integers)
+            - Currently in a 2 turn move (4 features):
+                - If the pokemon is recharging (boolean)
+                - If the pokemon is preparing (boolean)
+                - If the pokemon is preparing a move (float between 0 and 1)
+                - If the pokemon is preparing a target (boolean)
             - The 4 moves of the pokemon:
                 - The presence indicator of the move
                 - The encoded move (list of self.N_F_MOVE integers)
@@ -271,6 +277,28 @@ class AIPlayerS(AbstractAIPlayer):
         else:
             # If the item is not known we add a zero
             featureVector.extend([0] * (1 + self.encoder.NUM_UNIQUE_ITEMS))
+
+        # If the pokemon is doing something that takes 2 turns
+        if pokemon.active:
+            # If the pokemon must recharge
+            featureVector.append(int(pokemon.must_recharge))
+
+            # If the pokemon is preparing something
+            featureVector.append(int(pokemon.preparing))
+
+            # If the pokemon is preparing a move
+            if pokemon.preparing_move is not None:
+                featureVector.append(
+                    (list(pokemon.moves.values()).index(pokemon.preparing_move) + 1) / 4
+                )
+            else:
+                featureVector.append(0)
+            # featureVector.append(1 if pokemon.preparing_move else 0)
+
+            # If the pokemon is preparing a target
+            featureVector.append(1 if pokemon.preparing_target else 0)
+        else:
+            featureVector.extend([0] * 4)
 
         # The moves
         moves = []
