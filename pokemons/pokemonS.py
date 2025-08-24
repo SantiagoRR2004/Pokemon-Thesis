@@ -33,7 +33,6 @@ class PokemonS(AbstractPokemon):
         + 4
     )
 
-    @staticmethod
     def getFeatures(self, pokemon, battle) -> list[float]:
         """
         This method will encode a pokemon into a feature vector
