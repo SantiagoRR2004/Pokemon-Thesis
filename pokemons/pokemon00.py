@@ -23,11 +23,11 @@ class Pokemon00(AbstractPokemon):
         featureVector = []
 
         # The form of the pokemon
-        featureVector.extend(
-            AbstractPokemon.encoder.encodeFormList(
-                pokemon.species, pokemon.base_species
-            )
-        )
+        form = self.encoder.encodeForm(pokemon.species)
+        if form == -1:
+            # It was a cosmetic form
+            form = self.encoder.encodeForm(pokemon.base_species)
+        featureVector.append(form)
 
         # The moves
         moves = []
