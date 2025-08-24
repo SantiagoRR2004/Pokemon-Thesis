@@ -2,7 +2,7 @@ from poke_env.battle import AbstractBattle
 from poke_env.player.battle_order import SingleBattleOrder
 from poke_env.battle.effect import _VOLATILE_STATUS_EFFECTS
 from poke_env.player.player import Player
-from moves import AbstractMove
+from pokemons import AbstractPokemon
 from abc import ABC, abstractmethod
 import pokemonFeatureEncoder
 import torch.nn as nn
@@ -19,7 +19,6 @@ class AbstractAIPlayer(Player, ABC):
 
     N_F_TYPES = 20  # Tera stellar and Pawmot
     N_F_BATTLE = 0
-    N_F_POKEMON = 0
 
     N_OUTPUTS = 14  # 8 moves + 6 switches
 
@@ -27,7 +26,7 @@ class AbstractAIPlayer(Player, ABC):
         self,
         *args,
         network: nn.Module,
-        moveFeatureExtractor: AbstractMove,
+        pokemonFeatureExtractor: AbstractPokemon,
         critic: nn.Module = None,
         **kwargs
     ) -> None:
@@ -37,7 +36,7 @@ class AbstractAIPlayer(Player, ABC):
         Args:
             *args:
             - network (nn.Module): The neural network that will be used to make decisions
-            - moveFeatureExtractor (AbstractMove): The move feature extractor to be used
+            - pokemonFeatureExtractor (AbstractPokemon): The Pokemon feature extractor to be used
             - critic (nn.Module): The critic network for value estimation (optional)
             **kwargs:
 
@@ -48,7 +47,7 @@ class AbstractAIPlayer(Player, ABC):
         super().__init__(*args, **kwargs)
         self.neuralNetwork = network
         self.criticNetwork = critic
-        self.moveFeatureExtractor = moveFeatureExtractor
+        self.pokemonFeatureExtractor = pokemonFeatureExtractor
         self.reset()
 
     STATS = ["hp", "atk", "def", "spa", "spd", "spe"]
@@ -180,6 +179,4 @@ class AbstractAIPlayer(Player, ABC):
         Returns:
             - int: The number of inputs
         """
-        return self.N_F_BATTLE + 12 * (
-            self.N_F_POKEMON + 4 * (self.moveFeatureExtractor.getNumberOfFeatures())
-        )
+        return self.N_F_BATTLE + 12 * self.pokemonFeatureExtractor.getNumberOfFeatures()

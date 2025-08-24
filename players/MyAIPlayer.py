@@ -9,7 +9,6 @@ class AIPlayer(AbstractAIPlayer):
     to work with gen9randombattle
     """
 
-    N_F_POKEMON = 1 + 2 + 2 + 1 + 4
     N_F_BATTLE = 2 + 12
 
     N_OUTPUTS = 14  # 8 moves + 6 switches
@@ -45,18 +44,12 @@ class AIPlayer(AbstractAIPlayer):
 
         # First our team
         for pokemon in battle.team.values():
-            inputs += [1] + self.encodePokemon(pokemon)
+            inputs += [1] + self.pokemonFeatureExtractor.getFeatures(pokemon, battle)
         # Fill with zeros if unknown pokemon
         inputs += (
             [0]
             * (6 - len(battle.team))
-            * (
-                1
-                + (
-                    self.N_F_POKEMON
-                    + 4 * self.moveFeatureExtractor.getNumberOfFeatures()
-                )
-            )
+            * (1 + self.pokemonFeatureExtractor.getNumberOfFeatures())
         )
 
         # Which opponent's pokemon is active
@@ -73,18 +66,12 @@ class AIPlayer(AbstractAIPlayer):
 
         # The opponent's team
         for pokemon in battle.opponent_team.values():
-            inputs += [1] + self.encodePokemon(pokemon)
+            inputs += [1] + self.pokemonFeatureExtractor.getFeatures(pokemon, battle)
         # Fill with zeros if unknown pokemon
         inputs += (
             [0]
             * (6 - len(battle.opponent_team))
-            * (
-                1
-                + (
-                    self.N_F_POKEMON
-                    + 4 * self.moveFeatureExtractor.getNumberOfFeatures()
-                )
-            )
+            * (1 + self.pokemonFeatureExtractor.getNumberOfFeatures())
         )
 
         return inputs

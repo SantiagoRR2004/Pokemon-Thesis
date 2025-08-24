@@ -4,6 +4,7 @@ from poke_env.player import RandomPlayer
 from moves import AbstractMove, Move00
 from critics import CriticNetwork01
 from actors import ActorNetwork01
+from pokemons import Pokemon00
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -45,7 +46,7 @@ async def main(
 
     testPlayer: AbstractAIPlayer = playerClass(
         network="BlaBlaBla",
-        moveFeatureExtractor=moveClass(),
+        pokemonFeatureExtractor=Pokemon00(moveClass),
     )
 
     actor = actorClass(testPlayer)
@@ -84,7 +85,7 @@ async def main(
                 network=actor,
                 critic=critic,
                 max_concurrent_battles=nEpisodes,
-                moveFeatureExtractor=moveClass(),
+                pokemonFeatureExtractor=Pokemon00(moveClass),
             )
 
             # We create another random player
@@ -101,7 +102,7 @@ async def main(
                 network=actor,
                 critic=critic,
                 max_concurrent_battles=nEpisodes,
-                moveFeatureExtractor=moveClass(),
+                pokemonFeatureExtractor=Pokemon00(moveClass),
             )
 
             # We create another random player

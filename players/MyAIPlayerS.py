@@ -1,7 +1,5 @@
 from poke_env.battle import AbstractBattle
 from players import AbstractAIPlayer
-from pokemons import PokemonS
-from moves import Move00
 
 
 class AIPlayerS(AbstractAIPlayer):
@@ -9,9 +7,6 @@ class AIPlayerS(AbstractAIPlayer):
     This will have all the information
     """
 
-    pokemonFeatureExtractor = PokemonS(Move00)
-
-    N_F_POKEMON = pokemonFeatureExtractor.getNumberOfFeatures()
     N_F_BATTLE = 2 + 12
 
     def getInputs(self, battle: AbstractBattle) -> list[float]:
