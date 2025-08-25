@@ -51,6 +51,9 @@ class Pokemon03(AbstractPokemon):
         else:
             featureVector.extend([1, item])
 
+        # The HP fraction of the pokemon
+        featureVector.append(pokemon.current_hp_fraction)
+
         # The moves
         moves = []
         for move in pokemon.moves.values():

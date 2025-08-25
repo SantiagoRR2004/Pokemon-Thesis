@@ -1,10 +1,10 @@
+from pokemons import AbstractPokemon, Pokemon00
 from players import AbstractAIPlayer, AIPlayer
 import randomTeams.randomTeam as randomTeam
 from poke_env.player import RandomPlayer
 from moves import AbstractMove, Move00
 from critics import CriticNetwork01
 from actors import ActorNetwork01
-from pokemons import Pokemon00
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -20,6 +20,7 @@ async def main(
     actorClass: nn.Module,
     playerClass: AbstractAIPlayer,
     moveClass: AbstractMove,
+    pokemonClass: AbstractPokemon,
     nTeams: int = float("inf"),
     criticClass: nn.Module = None,
     nEpisodes: int = 64,
@@ -33,6 +34,7 @@ async def main(
         - actor (nn.Module): The class of actor network to be trained.
         - playerClass (AbstractAIPlayer): The class player for which the actor is trained.
         - moveClass (AbstractMove): The class of move to be used by the player.
+        - pokemonClass (AbstractPokemon): The class of pokemon to be used by the player.
         - nTeams (int): Number of teams to use for training. If float("inf"), random teams will be used.
         - criticClass (nn.Module, optional): The class of critic network to be trained. If None, only the actor will be trained.
         - nEpisodes (int): Number of episodes to run for training.
@@ -46,7 +48,7 @@ async def main(
 
     testPlayer: AbstractAIPlayer = playerClass(
         network="BlaBlaBla",
-        pokemonFeatureExtractor=Pokemon00(moveClass),
+        pokemonFeatureExtractor=pokemonClass(moveClass),
     )
 
     actor = actorClass(testPlayer)
@@ -85,7 +87,7 @@ async def main(
                 network=actor,
                 critic=critic,
                 max_concurrent_battles=nEpisodes,
-                pokemonFeatureExtractor=Pokemon00(moveClass),
+                pokemonFeatureExtractor=pokemonClass(moveClass),
             )
 
             # We create another random player
@@ -102,7 +104,7 @@ async def main(
                 network=actor,
                 critic=critic,
                 max_concurrent_battles=nEpisodes,
-                pokemonFeatureExtractor=Pokemon00(moveClass),
+                pokemonFeatureExtractor=pokemonClass(moveClass),
             )
 
             # We create another random player
@@ -269,5 +271,6 @@ if __name__ == "__main__":
             nTeams=float("inf"),
             playerClass=AIPlayer,
             moveClass=Move00,
+            pokemonClass=Pokemon00,
         )
     )

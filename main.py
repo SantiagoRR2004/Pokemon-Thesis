@@ -3,6 +3,7 @@ import pandas as pd
 import actors
 import critics
 import moves
+import pokemons
 import asyncio
 from players import AIPlayer
 import training
@@ -38,6 +39,8 @@ if __name__ == "__main__":
 
                     move = getattr(moves, row.move)
 
+                    pokemon = getattr(pokemons, row.pokemon)
+
                     critic = None
                     if row.TrainingMethod == "actorCritic":
                         critic = getattr(critics, row.critic)
@@ -46,12 +49,19 @@ if __name__ == "__main__":
                         "actorClass": actor,
                         "playerClass": AIPlayer,
                         "moveClass": move,
+                        "pokemonClass": pokemon,
                         "criticClass": critic,
                     }
 
                     # Add the rest of the columns as arguments
                     for col in df.columns:
-                        if col not in ["actor", "critic", "TrainingMethod", "move"]:
+                        if col not in [
+                            "actor",
+                            "critic",
+                            "TrainingMethod",
+                            "move",
+                            "pokemon",
+                        ]:
                             args[col] = getattr(row, col)
 
                     asyncio.run(training.main(**args))

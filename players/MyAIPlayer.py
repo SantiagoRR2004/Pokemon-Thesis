@@ -1,4 +1,3 @@
-from poke_env.battle import Pokemon
 from poke_env.battle import AbstractBattle
 from players.AbstractAIPlayer import AbstractAIPlayer
 
@@ -75,69 +74,3 @@ class AIPlayer(AbstractAIPlayer):
         )
 
         return inputs
-
-    def encodePokemon(self, pokemon: Pokemon) -> list[float]:
-        """
-        This method will encode a pokemon into a feature vector
-
-        The feature vector will have:
-            - The form of the pokemon (encoded as an integer)
-            - The ability's presence indicator
-            - The ability of the pokemon (encoded as an integer)
-            - The item's presence indicator
-            - The item of the pokemon (encoded as an integer)
-            - The HP fraction of the pokemon
-            - The 4 moves of the pokemon:
-                - The presence indicator of the move
-                - The name of the move (encoded as an integer)
-
-        Args:
-            - pokemon (Pokemon): The pokemon to be encoded
-
-        Returns:
-            - list[float]: The feature vector of the pokemon
-        """
-        featureVector = []
-
-        # The form of the pokemon
-        form = self.encoder.encodeForm(pokemon.species)
-        if form == -1:
-            # It was a cosmetic form
-            form = self.encoder.encodeForm(pokemon.base_species)
-        featureVector.append(form)
-
-        # Add the ability
-        ability = self.encoder.encodeAbility(pokemon.ability)
-        if ability == -1:
-            # We don't know the ability
-            featureVector.extend([0, 0])
-        else:
-            featureVector.extend([1, ability])
-
-        # Add the item
-        item = self.encoder.encodeItem(pokemon.item)
-        if item == -1:
-            # We don't know the item
-            featureVector.extend([0, 0])
-        else:
-            featureVector.extend([1, item])
-
-        # The HP fraction of the pokemon
-        featureVector.append(pokemon.current_hp_fraction)
-
-        # The moves
-        moves = []
-        for move in pokemon.moves.values():
-            # We encode the move
-            moves.append(1)
-            moves.extend(self.moveFeatureExtractor.getFeatures(move))
-        # We fill with zeros if the pokemon has less than 4 moves
-        moves += (
-            [0]
-            * (4 - len(pokemon.moves.values()))
-            * (1 + self.moveFeatureExtractor.getNumberOfFeatures())
-        )
-
-        featureVector += moves
-
-        return featureVector
