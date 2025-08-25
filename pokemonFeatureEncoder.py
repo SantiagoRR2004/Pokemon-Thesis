@@ -1,3 +1,4 @@
+from poke_env.battle.effect import _VOLATILE_STATUS_EFFECTS
 import serverControl
 import json
 import os
@@ -34,6 +35,13 @@ class PokemonFeatureEncoder:
     STATS = ["hp", "atk", "def", "spa", "spd", "spe"]
     BOOSTABLE_STATS = ["atk", "def", "spa", "spd", "spe", "accuracy", "evasion"]
     STATUS = ["brn", "frz", "par", "psn", "tox", "slp"]  # We skip "fnt"
+    VOLATILE_STATUS = {}
+    for index, status in enumerate(
+        sorted(_VOLATILE_STATUS_EFFECTS, key=lambda s: s.name)
+    ):
+        name = status.name
+        VOLATILE_STATUS[name] = index
+        VOLATILE_STATUS[name.replace("_", "").lower()] = index
 
     def removeFunctions(self, text: str) -> str:
 

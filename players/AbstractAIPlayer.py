@@ -1,6 +1,5 @@
 from poke_env.battle import AbstractBattle
 from poke_env.player.battle_order import SingleBattleOrder
-from poke_env.battle.effect import _VOLATILE_STATUS_EFFECTS
 from poke_env.player.player import Player
 from pokemons import AbstractPokemon
 from abc import ABC, abstractmethod
@@ -48,15 +47,6 @@ class AbstractAIPlayer(Player, ABC):
         self.criticNetwork = critic
         self.pokemonFeatureExtractor = pokemonFeatureExtractor
         self.reset()
-
-    STATUS = ["brn", "frz", "par", "psn", "tox", "slp"]  # We skip "fnt"
-    VOLATILE_STATUS = {}
-    for index, status in enumerate(
-        sorted(_VOLATILE_STATUS_EFFECTS, key=lambda s: s.name)
-    ):
-        name = status.name
-        VOLATILE_STATUS[name] = index
-        VOLATILE_STATUS[name.replace("_", "").lower()] = index
 
     def reset(self) -> None:
         """

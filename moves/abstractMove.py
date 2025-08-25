@@ -1,4 +1,3 @@
-from poke_env.battle.effect import _VOLATILE_STATUS_EFFECTS
 from abc import ABC, abstractmethod
 from poke_env.battle import Move
 import pokemonFeatureEncoder
@@ -11,14 +10,6 @@ class AbstractMove(ABC):
     """
 
     encoder = pokemonFeatureEncoder.PokemonFeatureEncoder()
-
-    VOLATILE_STATUS = {}
-    for index, status in enumerate(
-        sorted(_VOLATILE_STATUS_EFFECTS, key=lambda s: s.name)
-    ):
-        name = status.name
-        VOLATILE_STATUS[name] = index
-        VOLATILE_STATUS[name.replace("_", "").lower()] = index
 
     """
     I think 0 will be untargetable, 1 will be guaranteed, 

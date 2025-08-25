@@ -1,4 +1,3 @@
-from poke_env.battle.effect import _VOLATILE_STATUS_EFFECTS
 from moves import AbstractMove
 
 

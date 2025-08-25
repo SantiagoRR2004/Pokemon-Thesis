@@ -259,8 +259,8 @@ class PokemonS(AbstractPokemon):
 
         if pokemon in battle.all_active_pokemons and not pokemon.fainted:
             for effect, counter in pokemon.effects.items():
-                if effect.name in AbstractPokemon.VOLATILE_STATUS:
-                    effects[AbstractPokemon.VOLATILE_STATUS[effect.name]] = max(
+                if effect.name in AbstractPokemon.encoder.VOLATILE_STATUS:
+                    effects[AbstractPokemon.encoder.VOLATILE_STATUS[effect.name]] = max(
                         counter, 1
                     )
 

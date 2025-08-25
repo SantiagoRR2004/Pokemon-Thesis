@@ -83,7 +83,7 @@ class Move09(AbstractMove):
             - If it gives a normal status condition (6 floats between 0 and 1):
                 It can be the main purpose of the move or a secondary effect,
                 so it is the chance of inflicting the status, once the move hits.
-            - If it gives a volatile status condition ({len(self._VOLATILE_STATUS_EFFECTS)} between 0 and 1):
+            - If it gives a volatile status condition ({len(_VOLATILE_STATUS_EFFECTS)} between 0 and 1):
                 It can be the main purpose of the move or a secondary effect,
                 so it is the chance of inflicting the volatile status
                 once the move hits.
@@ -213,7 +213,7 @@ class Move09(AbstractMove):
 
         if move.volatile_status:
             volatileStatusToret[
-                AbstractMove.VOLATILE_STATUS[move.volatile_status.name]
+                AbstractMove.encoder.VOLATILE_STATUS[move.volatile_status.name]
             ] = 1
 
         if move.secondary:
@@ -221,7 +221,7 @@ class Move09(AbstractMove):
 
                 if s.get("volatileStatus"):
                     volatileStatusToret[
-                        AbstractMove.VOLATILE_STATUS[s["volatileStatus"]]
+                        AbstractMove.encoder.VOLATILE_STATUS[s["volatileStatus"]]
                     ] = (s["chance"] / 100)
 
         toret.extend(volatileStatusToret)
