@@ -18,19 +18,28 @@ update_repo() {
     LATEST_TAG=$(get_latest_tag)
     echo "Latest tag found: $LATEST_TAG"
 
-    echo "Checking out stable version..."
-    git checkout "$LATEST_TAG"
-    echo "Running npm install..."
-    npm install
-    if [ -f config/config-example.js ]; then
-        echo "Copying config-example.js to config.js..."
-        cp config/config-example.js config/config.js
-    else
-        echo "config-example.js not found. Skipping config copy."
-    fi
 
-    # Configure the server
-    ../serverConfiguration.sh config/config.js
+    CURRENT_TAG=$(git describe --tags --exact-match 2>/dev/null || echo "none")
+
+    if [ "$CURRENT_TAG" = "$LATEST_TAG" ]; then
+        echo "Already on the latest version ($LATEST_TAG). Skipping checkout."
+    else
+
+        echo "Checking out stable version..."
+        git checkout "$LATEST_TAG"
+        echo "Running npm install..."
+        npm install
+        if [ -f config/config-example.js ]; then
+            echo "Copying config-example.js to config.js..."
+            cp config/config-example.js config/config.js
+        else
+            echo "config-example.js not found. Skipping config copy."
+        fi
+
+        # Configure the server
+        ../serverConfiguration.sh config/config.js
+
+    fi
 }
 
 # Check if the directory exists
