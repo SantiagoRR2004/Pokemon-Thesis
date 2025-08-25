@@ -3,4 +3,8 @@ from .pokemon00 import Pokemon00
 from .pokemon01 import Pokemon01
 from .pokemon02 import Pokemon02
 from .pokemon03 import Pokemon03
+from .pokemon04 import Pokemon04
+from .pokemon05 import Pokemon05
+from .pokemon06 import Pokemon06
+from .pokemon07 import Pokemon07
 from .pokemonS import PokemonS
