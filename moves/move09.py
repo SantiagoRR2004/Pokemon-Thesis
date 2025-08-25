@@ -9,7 +9,7 @@ class Move09(AbstractMove):
 
     N_F_MOVE = (
         1
-        + AbstractMove.N_F_TYPES
+        + AbstractMove.encoder.N_F_TYPES
         + 3
         + 3
         + 1
@@ -20,15 +20,15 @@ class Move09(AbstractMove):
         + 6
         + 1
         + 3
-        + len(AbstractMove.BOOSTABLE_STATS)
+        + len(AbstractMove.encoder.BOOSTABLE_STATS)
         + (1 + 1 + 1)
         + (1 + 1 + 1 + 1 + 1)
-        + len(AbstractMove.STATUS)
+        + len(AbstractMove.encoder.STATUS)
         + len(_VOLATILE_STATUS_EFFECTS)
         + (1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1)
         + 1
-        + len(AbstractMove.BOOSTABLE_STATS)
-        + len(AbstractMove.BOOSTABLE_STATS)
+        + len(AbstractMove.encoder.BOOSTABLE_STATS)
+        + len(AbstractMove.encoder.BOOSTABLE_STATS)
         + len(AbstractMove.OTHER_FLAGS)
     )
 
@@ -39,7 +39,7 @@ class Move09(AbstractMove):
 
         The feature vector will have:
             - The name of the move (encoded as an integer)
-            - The type of the move ({self.N_F_TYPES} One-Hot Encoding)
+            - The type of the move ({self.encoder.N_F_TYPES} One-Hot Encoding)
             - The category of the move (3 One-Hot Encoding)
                 - PHYSICAL
                 - SPECIAL
@@ -118,7 +118,7 @@ class Move09(AbstractMove):
         toret = []
         toret.append(AbstractMove.encoder.encodeMove(move.id))
 
-        types = [0] * AbstractMove.N_F_TYPES
+        types = [0] * AbstractMove.encoder.N_F_TYPES
         types[move.type.value - 1] = 1
         toret += types
 
@@ -159,11 +159,11 @@ class Move09(AbstractMove):
         # The boosts the move gives or takes to self
         if move.boosts or move.self_boost:
             boostsCombined = {**(move.boosts or {}), **(move.self_boost or {})}
-            for stat in AbstractMove.BOOSTABLE_STATS:
+            for stat in AbstractMove.encoder.BOOSTABLE_STATS:
                 toret.append(boostsCombined.get(stat, 0) / 2)
         else:
             # If there are no boosts we add zeros
-            toret.extend([0] * len(AbstractMove.BOOSTABLE_STATS))
+            toret.extend([0] * len(AbstractMove.encoder.BOOSTABLE_STATS))
 
         ## The protection data
         # If the move is a protect move
@@ -192,17 +192,17 @@ class Move09(AbstractMove):
         toret.append(1 if move.slot_condition else 0)
 
         ## The status the move tries to inflict
-        statusToret = [0] * len(AbstractMove.STATUS)
+        statusToret = [0] * len(AbstractMove.encoder.STATUS)
 
         # The status the move tries to inflict
         if move.status:
-            statusToret[AbstractMove.STATUS.index(move.status.name.lower())] = 1
+            statusToret[AbstractMove.encoder.STATUS.index(move.status.name.lower())] = 1
 
         if move.secondary:
             for s in move.secondary:
 
                 if s.get("status"):
-                    statusToret[AbstractMove.STATUS.index(s["status"])] = (
+                    statusToret[AbstractMove.encoder.STATUS.index(s["status"])] = (
                         s["chance"] / 100
                     )
 
@@ -267,8 +267,8 @@ class Move09(AbstractMove):
         toret.append(int(move.stalling_move))
 
         ## The lists of possible boosts
-        boostSelf = [0] * len(AbstractMove.BOOSTABLE_STATS)
-        boostOpponent = [0] * len(AbstractMove.BOOSTABLE_STATS)
+        boostSelf = [0] * len(AbstractMove.encoder.BOOSTABLE_STATS)
+        boostOpponent = [0] * len(AbstractMove.encoder.BOOSTABLE_STATS)
 
         # The secondary effects of the move
         if move.secondary:
@@ -276,14 +276,14 @@ class Move09(AbstractMove):
 
                 if s.get("boosts"):
                     for b in s["boosts"]:
-                        boostOpponent[AbstractMove.BOOSTABLE_STATS.index(b)] = (
+                        boostOpponent[AbstractMove.encoder.BOOSTABLE_STATS.index(b)] = (
                             s["boosts"][b] / 2
                         )
 
                 elif s.get("self"):
                     if s["self"].get("boosts"):
                         for b in s["self"]["boosts"]:
-                            boostSelf[AbstractMove.BOOSTABLE_STATS.index(b)] = (
+                            boostSelf[AbstractMove.encoder.BOOSTABLE_STATS.index(b)] = (
                                 s["self"]["boosts"][b] / 2
                             )
 

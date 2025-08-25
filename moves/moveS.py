@@ -9,7 +9,7 @@ class MoveS(AbstractMove):
 
     N_F_MOVE = (
         AbstractMove.encoder.NUM_UNIQUE_MOVES
-        + AbstractMove.N_F_TYPES
+        + AbstractMove.encoder.N_F_TYPES
         + 3
         + 3
         + 1
@@ -21,15 +21,15 @@ class MoveS(AbstractMove):
         + 6
         + 1
         + 3
-        + len(AbstractMove.BOOSTABLE_STATS)
+        + len(AbstractMove.encoder.BOOSTABLE_STATS)
         + (1 + 1 + 1)
         + (1 + 1 + 1 + 1 + 1)
-        + len(AbstractMove.STATUS)
+        + len(AbstractMove.encoder.STATUS)
         + len(_VOLATILE_STATUS_EFFECTS)
         + (1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1)
         + 1
-        + len(AbstractMove.BOOSTABLE_STATS)
-        + len(AbstractMove.BOOSTABLE_STATS)
+        + len(AbstractMove.encoder.BOOSTABLE_STATS)
+        + len(AbstractMove.encoder.BOOSTABLE_STATS)
         + len(AbstractMove.OTHER_FLAGS)
     )
 
@@ -40,7 +40,7 @@ class MoveS(AbstractMove):
 
         The feature vector will have:
             - The name of the move (encoder.NUM_UNIQUE_MOVES One-Hot Encoding)
-            - The type of the move ({self.N_F_TYPES} One-Hot Encoding)
+            - The type of the move ({self.encoder.N_F_TYPES} One-Hot Encoding)
             - The category of the move (3 One-Hot Encoding)
                 - PHYSICAL
                 - SPECIAL
@@ -137,7 +137,7 @@ class MoveS(AbstractMove):
         toret = []
         toret.extend(MoveS.encoder.encodeMoveList(move.id))
 
-        types = [0] * MoveS.N_F_TYPES
+        types = [0] * MoveS.encoder.N_F_TYPES
         types[move.type.value - 1] = 1
         toret += types
 

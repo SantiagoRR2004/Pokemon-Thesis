@@ -10,25 +10,25 @@ class PokemonS(AbstractPokemon):
         + 1
         + 1
         + AbstractPokemon.encoder.NUM_UNIQUE_FORMS
-        + AbstractPokemon.N_F_TYPES
-        + AbstractPokemon.N_F_TYPES
+        + AbstractPokemon.encoder.N_F_TYPES
+        + AbstractPokemon.encoder.N_F_TYPES
         + 1
         + 1
-        + AbstractPokemon.N_F_TYPES
+        + AbstractPokemon.encoder.N_F_TYPES
         + 1
-        + len(AbstractPokemon.STATS)
+        + len(AbstractPokemon.encoder.STATS)
         + 1
         + 3
         + (1 + AbstractPokemon.encoder.NUM_UNIQUE_ABILITIES)
         + 1
         + 1
         + 1
-        + (2 * len(AbstractPokemon.STATS))
-        + len(AbstractPokemon.BOOSTABLE_STATS)
+        + (2 * len(AbstractPokemon.encoder.STATS))
+        + len(AbstractPokemon.encoder.BOOSTABLE_STATS)
         + (1 + AbstractPokemon.encoder.NUM_UNIQUE_ITEMS)
         + 1
         + (1 + 1 + 1 + 1)
-        + len(AbstractPokemon.STATUS)
+        + len(AbstractPokemon.encoder.STATUS)
         + len(_VOLATILE_STATUS_EFFECTS)
         + 4
     )
@@ -42,11 +42,11 @@ class PokemonS(AbstractPokemon):
             - If the pokemon is currently active (boolean)
             - If the pokemon has fainted (boolean)
             - The form of the pokemon (encoder.NUM_UNIQUE_FORMS One-Hot Encoding)
-            - The original type of the pokemon (encoded as a list of {self.N_F_TYPES} integers)
-            - The current types of the pokemon (encoded as a list of {self.N_F_TYPES} integers)
+            - The original type of the pokemon (encoded as a list of {self.encoder.N_F_TYPES} integers)
+            - The current types of the pokemon (encoded as a list of {self.encoder.N_F_TYPES} integers)
             - If the pokemon has already tera'd (encoded as an integer)
             - If the tera type is known (encoded as an integer)
-            - The tera type of the pokemon (encoded as a list of {self.N_F_TYPES} integers)
+            - The tera type of the pokemon (encoded as a list of {self.encoder.N_F_TYPES} integers)
             - The level of the pokemon as a float
             - The base stats of the pokemon (list of 6 floats)
             - The weight of the pokemon (float between 0 and 1)
@@ -118,13 +118,13 @@ class PokemonS(AbstractPokemon):
         )
 
         # The original type of the pokemon
-        types = [0] * AbstractPokemon.N_F_TYPES
+        types = [0] * AbstractPokemon.encoder.N_F_TYPES
         for t in pokemon.original_types:
             types[t.value - 1] = 1
         featureVector += types
 
         # The current pokemon type
-        cTypes = [0] * AbstractPokemon.N_F_TYPES
+        cTypes = [0] * AbstractPokemon.encoder.N_F_TYPES
         for t in pokemon.types:
             cTypes[t.value - 1] = 1
         featureVector += cTypes
@@ -134,18 +134,18 @@ class PokemonS(AbstractPokemon):
 
         # If the tera type is known
         if pokemon.tera_type:
-            tTypes = [0] * AbstractPokemon.N_F_TYPES
+            tTypes = [0] * AbstractPokemon.encoder.N_F_TYPES
             tTypes[pokemon.tera_type.value - 1] = 1
             featureVector += [1] + tTypes
         else:
             # If the tera type is not known we add a zero
-            featureVector += [0] + ([0] * AbstractPokemon.N_F_TYPES)
+            featureVector += [0] + ([0] * AbstractPokemon.encoder.N_F_TYPES)
 
         # Add the level
         featureVector.append(pokemon.level / 100)
 
         # Add the base stats
-        for stat in AbstractPokemon.STATS:
+        for stat in AbstractPokemon.encoder.STATS:
             featureVector.append(pokemon.base_stats[stat] / 255)
 
         # Add the weight
@@ -181,7 +181,7 @@ class PokemonS(AbstractPokemon):
         featureVector.append(pokemon.current_hp_fraction)
 
         # The stats
-        for stat in AbstractPokemon.STATS:
+        for stat in AbstractPokemon.encoder.STATS:
             if pokemon.stats[stat] is not None:
                 featureVector.append(1)
                 featureVector.append(np.log(pokemon.stats[stat] + 1) / np.log(1000))
@@ -192,7 +192,7 @@ class PokemonS(AbstractPokemon):
                 featureVector.extend([0, 0])
 
         # Stat boosts
-        for stat in AbstractPokemon.BOOSTABLE_STATS:
+        for stat in AbstractPokemon.encoder.BOOSTABLE_STATS:
             featureVector.append(pokemon.boosts[stat] / 6)
 
         # Add the item
@@ -216,12 +216,15 @@ class PokemonS(AbstractPokemon):
             featureVector.append(0)
 
         # Status
-        statusToret = [0] * len(AbstractPokemon.STATUS)
+        statusToret = [0] * len(AbstractPokemon.encoder.STATUS)
 
-        if pokemon.status and pokemon.status.name.lower() in AbstractPokemon.STATUS:
-            statusToret[AbstractPokemon.STATUS.index(pokemon.status.name.lower())] = (
-                max(pokemon.status_counter, 1)
-            )
+        if (
+            pokemon.status
+            and pokemon.status.name.lower() in AbstractPokemon.encoder.STATUS
+        ):
+            statusToret[
+                AbstractPokemon.encoder.STATUS.index(pokemon.status.name.lower())
+            ] = max(pokemon.status_counter, 1)
 
         featureVector += statusToret
 

@@ -9,7 +9,7 @@ class Move06(AbstractMove):
 
     N_F_MOVE = (
         1
-        + AbstractMove.N_F_TYPES
+        + AbstractMove.encoder.N_F_TYPES
         + 3
         + 3
         + 1
@@ -20,10 +20,10 @@ class Move06(AbstractMove):
         + 6
         + 1
         + 3
-        + len(AbstractMove.BOOSTABLE_STATS)
+        + len(AbstractMove.encoder.BOOSTABLE_STATS)
         + (1 + 1 + 1)
         + (1 + 1 + 1 + 1 + 1)
-        + len(AbstractMove.STATUS)
+        + len(AbstractMove.encoder.STATUS)
         + (1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1)
         + 1
     )
@@ -35,7 +35,7 @@ class Move06(AbstractMove):
 
         The feature vector will have:
             - The name of the move (encoded as an integer)
-            - The type of the move ({self.N_F_TYPES} One-Hot Encoding)
+            - The type of the move ({self.encoder.N_F_TYPES} One-Hot Encoding)
             - The category of the move (3 One-Hot Encoding)
                 - PHYSICAL
                 - SPECIAL
@@ -103,7 +103,7 @@ class Move06(AbstractMove):
         toret = []
         toret.append(AbstractMove.encoder.encodeMove(move.id))
 
-        types = [0] * AbstractMove.N_F_TYPES
+        types = [0] * AbstractMove.encoder.N_F_TYPES
         types[move.type.value - 1] = 1
         toret += types
 
@@ -144,11 +144,11 @@ class Move06(AbstractMove):
         # The boosts the move gives or takes to self
         if move.boosts or move.self_boost:
             boostsCombined = {**(move.boosts or {}), **(move.self_boost or {})}
-            for stat in AbstractMove.BOOSTABLE_STATS:
+            for stat in AbstractMove.encoder.BOOSTABLE_STATS:
                 toret.append(boostsCombined.get(stat, 0) / 2)
         else:
             # If there are no boosts we add zeros
-            toret.extend([0] * len(AbstractMove.BOOSTABLE_STATS))
+            toret.extend([0] * len(AbstractMove.encoder.BOOSTABLE_STATS))
 
         ## The protection data
         # If the move is a protect move
@@ -177,17 +177,17 @@ class Move06(AbstractMove):
         toret.append(1 if move.slot_condition else 0)
 
         ## The status the move tries to inflict
-        statusToret = [0] * len(AbstractMove.STATUS)
+        statusToret = [0] * len(AbstractMove.encoder.STATUS)
 
         # The status the move tries to inflict
         if move.status:
-            statusToret[AbstractMove.STATUS.index(move.status.name.lower())] = 1
+            statusToret[AbstractMove.encoder.STATUS.index(move.status.name.lower())] = 1
 
         if move.secondary:
             for s in move.secondary:
 
                 if s.get("status"):
-                    statusToret[AbstractMove.STATUS.index(s["status"])] = (
+                    statusToret[AbstractMove.encoder.STATUS.index(s["status"])] = (
                         s["chance"] / 100
                     )
 

@@ -7,7 +7,7 @@ class Move01(AbstractMove):
     This class will be used to represent a move as a feature vector for the neural network.
     """
 
-    N_F_MOVE = 1 + AbstractMove.N_F_TYPES + 3 + 1 + 1
+    N_F_MOVE = 1 + AbstractMove.encoder.N_F_TYPES + 3 + 1 + 1
 
     @staticmethod
     def getFeatures(move) -> list[float]:
@@ -16,7 +16,7 @@ class Move01(AbstractMove):
 
         The feature vector will have:
             - The name of the move (encoded as an integer)
-            - The type of the move ({self.N_F_TYPES} One-Hot Encoding)
+            - The type of the move ({self.encoder.N_F_TYPES} One-Hot Encoding)
             - The category of the move (3 One-Hot Encoding)
                 - PHYSICAL
                 - SPECIAL
@@ -35,7 +35,7 @@ class Move01(AbstractMove):
         toret = []
         toret.append(AbstractMove.encoder.encodeMove(move.id))
 
-        types = [0] * AbstractMove.N_F_TYPES
+        types = [0] * AbstractMove.encoder.N_F_TYPES
         types[move.type.value - 1] = 1
         toret += types
 

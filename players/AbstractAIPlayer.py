@@ -17,7 +17,6 @@ class AbstractAIPlayer(Player, ABC):
 
     encoder = pokemonFeatureEncoder.PokemonFeatureEncoder()
 
-    N_F_TYPES = 20  # Tera stellar and Pawmot
     N_F_BATTLE = 0
 
     N_OUTPUTS = 14  # 8 moves + 6 switches
@@ -50,8 +49,6 @@ class AbstractAIPlayer(Player, ABC):
         self.pokemonFeatureExtractor = pokemonFeatureExtractor
         self.reset()
 
-    STATS = ["hp", "atk", "def", "spa", "spd", "spe"]
-    BOOSTABLE_STATS = ["atk", "def", "spa", "spd", "spe", "accuracy", "evasion"]
     STATUS = ["brn", "frz", "par", "psn", "tox", "slp"]  # We skip "fnt"
     VOLATILE_STATUS = {}
     for index, status in enumerate(

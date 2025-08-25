@@ -14,11 +14,6 @@ class AbstractPokemon(ABC):
 
     encoder = pokemonFeatureEncoder.PokemonFeatureEncoder()
 
-    N_F_TYPES = 20  # Tera stellar and Pawmot
-
-    STATS = ["hp", "atk", "def", "spa", "spd", "spe"]
-    BOOSTABLE_STATS = ["atk", "def", "spa", "spd", "spe", "accuracy", "evasion"]
-    STATUS = ["brn", "frz", "par", "psn", "tox", "slp"]  # We skip "fnt"
     VOLATILE_STATUS = {}
     for index, status in enumerate(
         sorted(_VOLATILE_STATUS_EFFECTS, key=lambda s: s.name)

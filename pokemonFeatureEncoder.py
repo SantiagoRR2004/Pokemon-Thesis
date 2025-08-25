@@ -30,6 +30,11 @@ class PokemonFeatureEncoder:
         self.prepareItems()
         self.prepareMoves()
 
+    N_F_TYPES = 20  # Tera stellar and Pawmot
+    STATS = ["hp", "atk", "def", "spa", "spd", "spe"]
+    BOOSTABLE_STATS = ["atk", "def", "spa", "spd", "spe", "accuracy", "evasion"]
+    STATUS = ["brn", "frz", "par", "psn", "tox", "slp"]  # We skip "fnt"
+
     def removeFunctions(self, text: str) -> str:
 
         # Pattern to find function declaration start: name(params){

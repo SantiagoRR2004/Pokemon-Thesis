@@ -9,7 +9,7 @@ class Move03(AbstractMove):
 
     N_F_MOVE = (
         1
-        + AbstractMove.N_F_TYPES
+        + AbstractMove.encoder.N_F_TYPES
         + 3
         + 1
         + 1
@@ -19,7 +19,7 @@ class Move03(AbstractMove):
         + 6
         + 1
         + 3
-        + len(AbstractMove.BOOSTABLE_STATS)
+        + len(AbstractMove.encoder.BOOSTABLE_STATS)
         + 1
         + 1
     )
@@ -31,7 +31,7 @@ class Move03(AbstractMove):
 
         The feature vector will have:
             - The name of the move (encoded as an integer)
-            - The type of the move ({self.N_F_TYPES} One-Hot Encoding)
+            - The type of the move ({self.encoder.N_F_TYPES} One-Hot Encoding)
             - The category of the move (3 One-Hot Encoding)
                 - PHYSICAL
                 - SPECIAL
@@ -72,7 +72,7 @@ class Move03(AbstractMove):
         toret = []
         toret.append(AbstractMove.encoder.encodeMove(move.id))
 
-        types = [0] * AbstractMove.N_F_TYPES
+        types = [0] * AbstractMove.encoder.N_F_TYPES
         types[move.type.value - 1] = 1
         toret += types
 
@@ -108,11 +108,11 @@ class Move03(AbstractMove):
         # The boosts the move gives or takes to self
         if move.boosts or move.self_boost:
             boostsCombined = {**(move.boosts or {}), **(move.self_boost or {})}
-            for stat in AbstractMove.BOOSTABLE_STATS:
+            for stat in AbstractMove.encoder.BOOSTABLE_STATS:
                 toret.append(boostsCombined.get(stat, 0) / 2)
         else:
             # If there are no boosts we add zeros
-            toret.extend([0] * len(AbstractMove.BOOSTABLE_STATS))
+            toret.extend([0] * len(AbstractMove.encoder.BOOSTABLE_STATS))
 
         ## The protection data
         # If the move increases the protect counter
