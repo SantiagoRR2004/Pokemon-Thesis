@@ -19,12 +19,12 @@ class Pokemon10(AbstractPokemon):
         + 1
         + 3
         + (1 + AbstractPokemon.encoder.NUM_UNIQUE_ABILITIES)
-        + (1 + AbstractPokemon.encoder.NUM_UNIQUE_ITEMS)
         + 1
         + 1
         + 1
         + (2 * len(AbstractPokemon.encoder.STATS))
         + len(AbstractPokemon.encoder.BOOSTABLE_STATS)
+        + (1 + AbstractPokemon.encoder.NUM_UNIQUE_ITEMS)
         + 1
         + len(AbstractPokemon.encoder.STATUS)
         + len(_VOLATILE_STATUS_EFFECTS)
@@ -53,6 +53,9 @@ class Pokemon10(AbstractPokemon):
             - The ability of the pokemon:
                 - The presence indicator
                 - The ability (encoded as a list of encoder.NUM_UNIQUE_ABILITIES integers)
+            - The STAB multiplier of the pokemon (float)
+            - If it is the first turn of the pokemon (boolean)
+            - The HP fraction of the pokemon
             - The {self.encoder.N_F_STATS} stats of the pokemon:
                 - The presence indicator of the stat (1 if known, 0 otherwise)
                 - The value of the stat (a float) in logarithmic scale
@@ -62,9 +65,6 @@ class Pokemon10(AbstractPokemon):
             - The item:
                 - The presence indicator of the item (1 if known, 0 otherwise)
                 - The item (encoded as a list of encoder.NUM_UNIQUE_ITEMS integers)
-            - The STAB multiplier of the pokemon (float)
-            - If it is the first turn of the pokemon (boolean)
-            - The HP fraction of the pokemon
             - Protect counter (integer)
             - Non-volatile status ({self.N_F_STATUS} One-Hot Encoding)
                 They will be 1 except for toxic and sleep.
@@ -160,15 +160,6 @@ class Pokemon10(AbstractPokemon):
                 AbstractPokemon.encoder.encodeAbilityList(pokemon.possible_abilities)
             )
 
-        # Add the item
-        if pokemon.item and pokemon.item != "unknown_item":
-            # We encode the item
-            featureVector.append(1)
-            featureVector.extend(AbstractPokemon.encoder.encodeItemList(pokemon.item))
-        else:
-            # If the item is not known we add a zero
-            featureVector.extend([0] * (1 + AbstractPokemon.encoder.NUM_UNIQUE_ITEMS))
-
         # The STAB multiplier
         featureVector.append(pokemon.stab_multiplier)
 
@@ -192,6 +183,15 @@ class Pokemon10(AbstractPokemon):
         # Stat boosts
         for stat in AbstractPokemon.encoder.BOOSTABLE_STATS:
             featureVector.append(pokemon.boosts[stat] / 6)
+
+        # Add the item
+        if pokemon.item and pokemon.item != "unknown_item":
+            # We encode the item
+            featureVector.append(1)
+            featureVector.extend(AbstractPokemon.encoder.encodeItemList(pokemon.item))
+        else:
+            # If the item is not known we add a zero
+            featureVector.extend([0] * (1 + AbstractPokemon.encoder.NUM_UNIQUE_ITEMS))
 
         # Protect counter
         if pokemon.protect_counter and pokemon in battle.all_active_pokemons:

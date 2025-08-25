@@ -3,7 +3,7 @@ from pokemons import AbstractPokemon
 
 class Pokemon03(AbstractPokemon):
 
-    N_F_POKEMON = 1 + (1 + 1) + (1 + 1) + 1 + 4
+    N_F_POKEMON = 1 + (1 + 1) + 1 + (1 + 1) + 4
 
     def getFeatures(self, pokemon, battle) -> list[float]:
         """
@@ -13,9 +13,9 @@ class Pokemon03(AbstractPokemon):
             - The form of the pokemon (encoded as an integer)
             - The ability's presence indicator
             - The ability of the pokemon (encoded as an integer)
+            - The HP fraction of the pokemon
             - The item's presence indicator
             - The item of the pokemon (encoded as an integer)
-            - The HP fraction of the pokemon
             - The 4 moves of the pokemon:
                 - The presence indicator of the move
                 - The encoded move
@@ -43,6 +43,9 @@ class Pokemon03(AbstractPokemon):
         else:
             featureVector.extend([1, ability])
 
+        # The HP fraction of the pokemon
+        featureVector.append(pokemon.current_hp_fraction)
+
         # Add the item
         item = self.encoder.encodeItem(pokemon.item)
         if item == -1:
@@ -50,9 +53,6 @@ class Pokemon03(AbstractPokemon):
             featureVector.extend([0, 0])
         else:
             featureVector.extend([1, item])
-
-        # The HP fraction of the pokemon
-        featureVector.append(pokemon.current_hp_fraction)
 
         # The moves
         moves = []

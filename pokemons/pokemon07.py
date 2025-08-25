@@ -15,11 +15,11 @@ class Pokemon07(AbstractPokemon):
         + 1
         + len(AbstractPokemon.encoder.STATS)
         + (1 + 1)
-        + (1 + 1)
         + 1
         + 1
         + (2 * len(AbstractPokemon.encoder.STATS))
         + len(AbstractPokemon.encoder.BOOSTABLE_STATS)
+        + (1 + 1)
         + 1
         + len(AbstractPokemon.encoder.STATUS)
         + len(_VOLATILE_STATUS_EFFECTS)
@@ -41,6 +41,8 @@ class Pokemon07(AbstractPokemon):
             - The base stats of the pokemon (list of {self.encoder.N_F_STATS} floats)
             - The ability's presence indicator
             - The ability of the pokemon (encoded as an integer)
+            - If it is the first turn of the pokemon (boolean)
+            - The HP fraction of the pokemon
             - The {self.encoder.N_F_STATS} stats of the pokemon:
                 - The presence indicator of the stat (1 if known, 0 otherwise)
                 - The value of the stat (a float) in logarithmic scale
@@ -49,8 +51,6 @@ class Pokemon07(AbstractPokemon):
             - The stat boosts of the pokemon (list of {self.encoder.N_F_BOOSTABLE_STATS} floats)
             - The item's presence indicator
             - The item of the pokemon (encoded as an integer)
-            - If it is the first turn of the pokemon (boolean)
-            - The HP fraction of the pokemon
             - Protect counter (integer)
             - Non-volatile status ({self.N_F_STATUS} One-Hot Encoding)
                 They will be 1 except for toxic and sleep.
@@ -114,14 +114,6 @@ class Pokemon07(AbstractPokemon):
         else:
             featureVector.extend([1, ability])
 
-        # Add the item
-        item = self.encoder.encodeItem(pokemon.item)
-        if item == -1:
-            # We don't know the item
-            featureVector.extend([0, 0])
-        else:
-            featureVector.extend([1, item])
-
         # If it is the first turn of the pokemon
         featureVector.append(int(pokemon.first_turn))
 
@@ -142,6 +134,14 @@ class Pokemon07(AbstractPokemon):
         # Stat boosts
         for stat in AbstractPokemon.encoder.BOOSTABLE_STATS:
             featureVector.append(pokemon.boosts[stat] / 6)
+
+        # Add the item
+        item = self.encoder.encodeItem(pokemon.item)
+        if item == -1:
+            # We don't know the item
+            featureVector.extend([0, 0])
+        else:
+            featureVector.extend([1, item])
 
         # Protect counter
         if pokemon.protect_counter and pokemon in battle.all_active_pokemons:

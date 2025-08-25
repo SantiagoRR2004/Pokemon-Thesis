@@ -12,8 +12,8 @@ class Pokemon02(AbstractPokemon):
         The feature vector will have:
             - The form of the pokemon (encoded as an integer)
             - The ability of the pokemon (encoded as an integer)
-            - The item of the pokemon (encoded as an integer)
             - The HP fraction of the pokemon
+            - The item of the pokemon (encoded as an integer)
             - The 4 moves of the pokemon:
                 - The presence indicator of the move
                 - The encoded move
@@ -41,6 +41,9 @@ class Pokemon02(AbstractPokemon):
         else:
             featureVector.append(ability)
 
+        # The HP fraction of the pokemon
+        featureVector.append(pokemon.current_hp_fraction)
+
         # Add the item
         item = self.encoder.encodeItem(pokemon.item)
         if item == -1:
@@ -48,9 +51,6 @@ class Pokemon02(AbstractPokemon):
             featureVector.append(0)
         else:
             featureVector.append(item)
-
-        # The HP fraction of the pokemon
-        featureVector.append(pokemon.current_hp_fraction)
 
         # The moves
         moves = []

@@ -3,7 +3,7 @@ from pokemons import AbstractPokemon
 
 class Pokemon04(AbstractPokemon):
 
-    N_F_POKEMON = 1 + 1 + 1 + 1 + (1 + 1) + (1 + 1) + 1 + 1 + 1 + 4
+    N_F_POKEMON = 1 + 1 + 1 + 1 + (1 + 1) + 1 + 1 + (1 + 1) + 1 + 4
 
     def getFeatures(self, pokemon, battle) -> list[float]:
         """
@@ -16,10 +16,10 @@ class Pokemon04(AbstractPokemon):
             - The form of the pokemon (encoded as an integer)
             - The ability's presence indicator
             - The ability of the pokemon (encoded as an integer)
-            - The item's presence indicator
-            - The item of the pokemon (encoded as an integer)
             - If it is the first turn of the pokemon (boolean)
             - The HP fraction of the pokemon
+            - The item's presence indicator
+            - The item of the pokemon (encoded as an integer)
             - Protect counter (integer)
             - The 4 moves of the pokemon:
                 - The presence indicator of the move
@@ -59,6 +59,12 @@ class Pokemon04(AbstractPokemon):
         else:
             featureVector.extend([1, ability])
 
+        # If it is the first turn of the pokemon
+        featureVector.append(int(pokemon.first_turn))
+
+        # The HP fraction of the pokemon
+        featureVector.append(pokemon.current_hp_fraction)
+
         # Add the item
         item = self.encoder.encodeItem(pokemon.item)
         if item == -1:
@@ -66,12 +72,6 @@ class Pokemon04(AbstractPokemon):
             featureVector.extend([0, 0])
         else:
             featureVector.extend([1, item])
-
-        # If it is the first turn of the pokemon
-        featureVector.append(int(pokemon.first_turn))
-
-        # The HP fraction of the pokemon
-        featureVector.append(pokemon.current_hp_fraction)
 
         # Protect counter
         if pokemon.protect_counter and pokemon in battle.all_active_pokemons:
