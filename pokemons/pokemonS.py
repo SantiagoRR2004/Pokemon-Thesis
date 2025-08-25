@@ -9,7 +9,7 @@ class PokemonS(AbstractPokemon):
         1
         + 1
         + 1
-        + AbstractPokemon.encoder.NUM_UNIQUE_FORMS
+        + 1
         + AbstractPokemon.encoder.N_F_TYPES
         + AbstractPokemon.encoder.N_F_TYPES
         + 1
@@ -44,8 +44,8 @@ class PokemonS(AbstractPokemon):
             - The form of the pokemon (encoder.NUM_UNIQUE_FORMS One-Hot Encoding)
             - The original type of the pokemon (encoded as a list of {self.encoder.N_F_TYPES} integers)
             - The current types of the pokemon (encoded as a list of {self.encoder.N_F_TYPES} integers)
-            - If the pokemon has already tera'd (encoded as an integer)
-            - If the tera type is known (encoded as an integer)
+            - If the pokemon has already tera'd (boolean)
+            - If the tera type is known (boolean)
             - The tera type of the pokemon (encoded as a list of {self.encoder.N_F_TYPES} integers)
             - The level of the pokemon as a float
             - The base stats of the pokemon (list of 6 floats)
@@ -57,12 +57,12 @@ class PokemonS(AbstractPokemon):
             - The STAB multiplier of the pokemon (float)
             - If it is the first turn of the pokemon (boolean)
             - The HP fraction of the pokemon
-            - The 6 stats of the pokemon:
+            - The {self.encoder.N_F_STATS} stats of the pokemon:
                 - The presence indicator of the stat (1 if known, 0 otherwise)
                 - The value of the stat (a float) in logarithmic scale
                 When the hp is unknown we use the max_hp. They are always the same
                 value except for Magnezone (seems to be an error)
-            - The stat boosts of the pokemon (list of 7 floats)
+            - The stat boosts of the pokemon (list of {self.encoder.N_F_BOOSTABLE_STATS} floats)
             - The item:
                 - The presence indicator of the item (1 if known, 0 otherwise)
                 - The item (encoded as a list of encoder.NUM_UNIQUE_ITEMS integers)
@@ -70,16 +70,16 @@ class PokemonS(AbstractPokemon):
             - Non-volatile status ({self.N_F_STATUS} One-Hot Encoding)
                 They will be 1 except for toxic and sleep.
                 These will be the numbers of turns the status has been active.
+            - Volatile status effects ({self.N_F_VOLATILE_STATUS} One-Hot Encoding)
+                It uses the max of turns the status has been active and one.
             - Currently in a 2 turn move (4 features):
                 - If the pokemon is recharging (boolean)
                 - If the pokemon is preparing (boolean)
                 - If the pokemon is preparing a move (float between 0 and 1)
                 - If the pokemon is preparing a target (boolean)
-            - Volatile status effects ({self.N_F_VOLATILE_STATUS} One-Hot Encoding)
-                It uses the max of turns the status has been active and one.
             - The 4 moves of the pokemon:
                 - The presence indicator of the move
-                - The encoded move (list of self.N_F_MOVE integers)
+                - The encoded move
 
         The following features are not used:
             - Anything involving megas, z-moves or dynamax
@@ -206,11 +206,6 @@ class PokemonS(AbstractPokemon):
 
         # Protect counter
         if pokemon.protect_counter and pokemon in battle.all_active_pokemons:
-            """
-            This seems to be very broken because it is
-            from the turn before. Should make an
-            issue in the poke_env repository.
-            """
             featureVector.append(pokemon.protect_counter)
         else:
             featureVector.append(0)
@@ -227,6 +222,18 @@ class PokemonS(AbstractPokemon):
             ] = max(pokemon.status_counter, 1)
 
         featureVector += statusToret
+
+        # Volatile status effects
+        effects = [0] * len(_VOLATILE_STATUS_EFFECTS)
+
+        if pokemon in battle.all_active_pokemons and not pokemon.fainted:
+            for effect, counter in pokemon.effects.items():
+                if effect.name in AbstractPokemon.encoder.VOLATILE_STATUS:
+                    effects[AbstractPokemon.encoder.VOLATILE_STATUS[effect.name]] = max(
+                        counter, 1
+                    )
+
+        featureVector += effects
 
         # If the pokemon is doing something that takes 2 turns
         if (
@@ -247,24 +254,11 @@ class PokemonS(AbstractPokemon):
                 )
             else:
                 featureVector.append(0)
-            # featureVector.append(1 if pokemon.preparing_move else 0)
 
             # If the pokemon is preparing a target
             featureVector.append(1 if pokemon.preparing_target else 0)
         else:
             featureVector.extend([0] * 4)
-
-        # Volatile status effects
-        effects = [0] * len(_VOLATILE_STATUS_EFFECTS)
-
-        if pokemon in battle.all_active_pokemons and not pokemon.fainted:
-            for effect, counter in pokemon.effects.items():
-                if effect.name in AbstractPokemon.encoder.VOLATILE_STATUS:
-                    effects[AbstractPokemon.encoder.VOLATILE_STATUS[effect.name]] = max(
-                        counter, 1
-                    )
-
-        featureVector += effects
 
         # The moves
         moves = []
