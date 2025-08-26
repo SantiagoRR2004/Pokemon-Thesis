@@ -1,3 +1,4 @@
+from poke_env.ps_client.server_configuration import ServerConfiguration
 from pokemons import AbstractPokemon, Pokemon00
 from players import AbstractAIPlayer, AIPlayer
 import randomTeams.randomTeam as randomTeam
@@ -5,6 +6,7 @@ from poke_env.player import RandomPlayer
 from moves import AbstractMove, Move00
 from critics import CriticNetwork01
 from actors import ActorNetwork01
+from dotenv import load_dotenv
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -13,6 +15,8 @@ import metricsLogger
 import asyncio
 import time
 import os
+
+load_dotenv()
 
 
 async def main(
@@ -46,9 +50,15 @@ async def main(
     """
     p = serverControl.startServer()
 
+    serverConfig = ServerConfiguration(
+        f"ws://localhost:{int(os.getenv("SERVER_PORT"))}/showdown/websocket",
+        "https://play.pokemonshowdown.com/action.php?",
+    )
+
     testPlayer: AbstractAIPlayer = playerClass(
         network="BlaBlaBla",
         pokemonFeatureExtractor=pokemonClass(moveClass),
+        server_configuration=serverConfig,
     )
 
     actor = actorClass(testPlayer)
@@ -62,7 +72,7 @@ async def main(
     if criticClass:
         criticOptimizer = optim.Adam(critic.parameters(), lr=1e-3)
 
-    nEpochs = 1000
+    nEpochs = 1
 
     victoryPercentage = []
     actorLosses = []
@@ -88,12 +98,14 @@ async def main(
                 critic=critic,
                 max_concurrent_battles=nEpisodes,
                 pokemonFeatureExtractor=pokemonClass(moveClass),
+                server_configuration=serverConfig,
             )
 
             # We create another random player
             second_player = RandomPlayer(
                 battle_format="gen9randombattle",
                 max_concurrent_battles=nEpisodes,
+                server_configuration=serverConfig,
             )
         else:
 
@@ -105,6 +117,7 @@ async def main(
                 critic=critic,
                 max_concurrent_battles=nEpisodes,
                 pokemonFeatureExtractor=pokemonClass(moveClass),
+                server_configuration=serverConfig,
             )
 
             # We create another random player
@@ -112,6 +125,7 @@ async def main(
                 battle_format="gen9purehackmons",
                 team=randomTeam.selectRandomTeam(nTeams),
                 max_concurrent_battles=nEpisodes,
+                server_configuration=serverConfig,
             )
 
         # Reset the player for new Episodes
