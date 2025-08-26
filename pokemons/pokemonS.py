@@ -9,7 +9,7 @@ class PokemonS(AbstractPokemon):
         1
         + 1
         + 1
-        + 1
+        + AbstractPokemon.encoder.NUM_UNIQUE_FORMS
         + AbstractPokemon.encoder.N_F_TYPES
         + AbstractPokemon.encoder.N_F_TYPES
         + 1

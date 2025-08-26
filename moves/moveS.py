@@ -181,11 +181,11 @@ class MoveS(AbstractMove):
         # The boosts the move gives or takes to self
         if move.boosts or move.self_boost:
             boostsCombined = {**(move.boosts or {}), **(move.self_boost or {})}
-            for stat in MoveS.BOOSTABLE_STATS:
+            for stat in AbstractMove.encoder.BOOSTABLE_STATS:
                 toret.append(boostsCombined.get(stat, 0) / 2)
         else:
             # If there are no boosts we add zeros
-            toret.extend([0] * len(MoveS.BOOSTABLE_STATS))
+            toret.extend([0] * len(AbstractMove.encoder.BOOSTABLE_STATS))
 
         ## The protection data
         # If the move is a protect move
@@ -214,16 +214,18 @@ class MoveS(AbstractMove):
         toret.append(1 if move.slot_condition else 0)
 
         ## The status the move tries to inflict
-        statusToret = [0] * len(MoveS.STATUS)
+        statusToret = [0] * len(AbstractMove.encoder.STATUS)
 
         if move.status:
-            statusToret[MoveS.STATUS.index(move.status.name.lower())] = 1
+            statusToret[AbstractMove.encoder.STATUS.index(move.status.name.lower())] = 1
 
         if move.secondary:
             for s in move.secondary:
 
                 if s.get("status"):
-                    statusToret[MoveS.STATUS.index(s["status"])] = s["chance"] / 100
+                    statusToret[AbstractMove.encoder.STATUS.index(s["status"])] = (
+                        s["chance"] / 100
+                    )
 
         toret.extend(statusToret)
 
@@ -232,7 +234,7 @@ class MoveS(AbstractMove):
 
         if move.volatile_status:
             volatileStatusToret[
-                AbstractMove.encoder.N_F_TYPES[move.volatile_status.name]
+                AbstractMove.encoder.VOLATILE_STATUS[move.volatile_status.name]
             ] = 1
 
         if move.secondary:
@@ -240,7 +242,7 @@ class MoveS(AbstractMove):
 
                 if s.get("volatileStatus"):
                     volatileStatusToret[
-                        AbstractMove.encoder.N_F_TYPES[s["volatileStatus"]]
+                        AbstractMove.encoder.VOLATILE_STATUS[s["volatileStatus"]]
                     ] = (s["chance"] / 100)
 
         toret.extend(volatileStatusToret)
@@ -286,8 +288,8 @@ class MoveS(AbstractMove):
         toret.append(int(move.stalling_move))
 
         ## The lists of possible boosts
-        boostSelf = [0] * len(MoveS.BOOSTABLE_STATS)
-        boostOpponent = [0] * len(MoveS.BOOSTABLE_STATS)
+        boostSelf = [0] * len(AbstractMove.encoder.BOOSTABLE_STATS)
+        boostOpponent = [0] * len(AbstractMove.encoder.BOOSTABLE_STATS)
 
         # The secondary effects of the move
         if move.secondary:
@@ -295,14 +297,14 @@ class MoveS(AbstractMove):
 
                 if s.get("boosts"):
                     for b in s["boosts"]:
-                        boostOpponent[MoveS.BOOSTABLE_STATS.index(b)] = (
+                        boostOpponent[AbstractMove.encoder.BOOSTABLE_STATS.index(b)] = (
                             s["boosts"][b] / 2
                         )
 
                 elif s.get("self"):
                     if s["self"].get("boosts"):
                         for b in s["self"]["boosts"]:
-                            boostSelf[MoveS.BOOSTABLE_STATS.index(b)] = (
+                            boostSelf[AbstractMove.encoder.BOOSTABLE_STATS.index(b)] = (
                                 s["self"]["boosts"][b] / 2
                             )
 
