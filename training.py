@@ -72,7 +72,7 @@ async def main(
     if criticClass:
         criticOptimizer = optim.Adam(critic.parameters(), lr=1e-3)
 
-    nEpochs = 1
+    nEpochs = 1000
 
     victoryPercentage = []
     actorLosses = []
