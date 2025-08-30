@@ -227,7 +227,10 @@ class Pokemon09(AbstractPokemon):
             featureVector.append(int(pokemon.preparing))
 
             # If the pokemon is preparing a move
-            if pokemon.preparing_move is not None:
+            if (
+                pokemon.preparing_move is not None
+                and pokemon.preparing_move in pokemon.moves.values()
+            ):
                 featureVector.append(
                     (list(pokemon.moves.values()).index(pokemon.preparing_move) + 1) / 4
                 )
