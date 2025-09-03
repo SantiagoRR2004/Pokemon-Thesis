@@ -7,21 +7,27 @@ class AIPlayerS(AbstractAIPlayer):
     This will have all the information
     """
 
-    N_F_BATTLE = 2 + 12
+    N_F_BATTLE = 1 + 1 + 1 + 1 + 1 + 1 + 6 + 1 + 1 + 6
 
     def getInputs(self, battle: AbstractBattle) -> list[float]:
         """
         This method will return the inputs for the neural network
 
         The feature vector will have:
-            - The index of the active pokemon in the team
+            - If the tera can be used (boolean)
+            - If the user's tera has been used (boolean)
+            - If the user has to select a pokemon to switch (boolean)
+            - If the user has to select a pokemon to revive (boolean)
+            - The user's active pokemon is grounded (boolean)
+            - The index of the active pokemon in the team (integer)
             - The player's team (1 + {self.N_F_POKEMON} features per pokemon):
                 - Presence indicator (1 if the pokemon is present, 0 otherwise)
-                - The encoding of the pokemon (see encodePokemon)
-            - The index of the opponent's active pokemon in the opponent's team
+                - The encoding of the pokemon
+            - If the opponent's tera has been used (boolean)
+            - The index of the opponent's active pokemon in the opponent's team (integer)
             - The opponent's team (1 + {self.N_F_POKEMON} features per pokemon):
                 - Presence indicator (1 if the pokemon is present, 0 otherwise)
-                - The encoding of the pokemon (see encodePokemon)
+                - The encoding of the pokemon
 
 
         The following are not used:
@@ -69,26 +75,35 @@ class AIPlayerS(AbstractAIPlayer):
             - battle (AbstractBattle): The current battle
 
         Missing:
-            - battle.can_tera
             - battle.current_observation
             - battle.fields
-            - battle.force_switch
-            - battle.grounded
             - battle.maybe_trapped
             - battle.observations
             - battle.opponent_side_conditions
-            - battle.opponent_used_tera
-            - battle.reviving
             - battle.side_conditions
             - battle.trapped
             - battle.turn
-            - battle.used_tera
             - battle.weather
 
         Returns:
             - list: The inputs for the neural network
         """
         inputs = []
+
+        # If the tera can be used
+        inputs.append(int(battle.can_tera))
+
+        # If the user has to select a pokemon to switch
+        inputs.append(int(battle.force_switch))
+
+        # If the pokemon is reviving
+        inputs.append(int(battle.reviving))
+
+        # If the user's tera has been used
+        inputs.append(int(battle.used_tera))
+
+        # If the pokemon is grounded
+        inputs.append(int(battle.grounded))
 
         # Which pokemon is active
         try:
@@ -106,6 +121,9 @@ class AIPlayerS(AbstractAIPlayer):
             * (6 - len(battle.team))
             * (1 + self.pokemonFeatureExtractor.getNumberOfFeatures())
         )
+
+        # If the opponent's tera has been used
+        inputs.append(int(battle.opponent_used_tera))
 
         # Which opponent's pokemon is active
         try:
