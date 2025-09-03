@@ -26,6 +26,55 @@ class AIPlayerS(AbstractAIPlayer):
         Args:
             battle (AbstractBattle): The current battle
 
+        Missing:
+            - battle.battle_tag
+            - battle.can_dynamax
+            - battle.can_mega_evolve
+            - battle.can_tera
+            - battle.can_z_move
+            - battle.current_observation
+            - battle.dynamax_turns_left
+            - battle.fields
+            - battle.finished
+            - battle.force_switch
+            - battle.format
+            - battle.gen
+            - battle.grounded
+            - battle.in_team_preview
+            - battle.last_request
+            - battle.logger
+            - battle.lost
+            - battle.max_team_size
+            - battle.maybe_trapped
+            - battle.observations
+            - battle.opponent_dynamax_turns_left
+            - battle.opponent_rating
+            - battle.opponent_role
+            - battle.opponent_side_conditions
+            - battle.opponent_used_dynamax
+            - battle.opponent_used_mega_evolve
+            - battle.opponent_used_tera
+            - battle.opponent_used_z_move
+            - battle.opponent_username
+            - battle.player_role
+            - battle.player_username
+            - battle.rating
+            - battle.reviving
+            - battle.rules
+            - battle.side_conditions
+            - battle.team_size
+            - battle.teampreview
+            - battle.teampreview_opponent_team
+            - battle.teampreview_team
+            - battle.trapped
+            - battle.turn
+            - battle.used_dynamax
+            - battle.used_mega_evolve
+            - battle.used_tera
+            - battle.used_z_move
+            - battle.weather
+            - battle.won
+
         Returns:
             list: The inputs for the neural network
         """

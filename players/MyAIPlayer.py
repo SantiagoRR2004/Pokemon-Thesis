@@ -10,8 +10,6 @@ class AIPlayer(AbstractAIPlayer):
 
     N_F_BATTLE = 2 + 12
 
-    N_OUTPUTS = 14  # 8 moves + 6 switches
-
     def getInputs(self, battle: AbstractBattle) -> list[float]:
         """
         This method will return the inputs for the neural network
