@@ -7,7 +7,7 @@ class AIPlayerS(AbstractAIPlayer):
     This will have all the information
     """
 
-    N_F_BATTLE = 1 + 1 + 1 + 1 + 1 + 1 + 6 + 1 + 1 + 6
+    N_F_BATTLE = 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 6 + 1 + 1 + 6
 
     def getInputs(self, battle: AbstractBattle) -> list[float]:
         """
@@ -15,9 +15,11 @@ class AIPlayerS(AbstractAIPlayer):
 
         The feature vector will have:
             - If the tera can be used (boolean)
-            - If the user's tera has been used (boolean)
             - If the user has to select a pokemon to switch (boolean)
             - If the user has to select a pokemon to revive (boolean)
+            - If the pokemon might be trapped (boolean)
+            - If the pokemon is trapped (boolean)
+            - If the user's tera has been used (boolean)
             - The user's active pokemon is grounded (boolean)
             - The index of the active pokemon in the team (integer)
             - The player's team (1 + {self.N_F_POKEMON} features per pokemon):
@@ -70,18 +72,20 @@ class AIPlayerS(AbstractAIPlayer):
                 - battle.teampreview
                 - battle.teampreview_opponent_team
                 - battle.teampreview_team
+            - battle.current_observation
+                All the information here is already
+                in other attributes of the battle object.
+            - battle.observations
+                It is a dictionary that contains the
+                current_observation for all turns of the battle.
 
         Args:
             - battle (AbstractBattle): The current battle
 
         Missing:
-            - battle.current_observation
             - battle.fields
-            - battle.maybe_trapped
-            - battle.observations
             - battle.opponent_side_conditions
             - battle.side_conditions
-            - battle.trapped
             - battle.turn
             - battle.weather
 
@@ -98,6 +102,12 @@ class AIPlayerS(AbstractAIPlayer):
 
         # If the pokemon is reviving
         inputs.append(int(battle.reviving))
+
+        # If the pokemon might be trapped
+        inputs.append(int(battle.maybe_trapped))
+
+        # If the pokemon is trapped
+        inputs.append(int(battle.trapped))
 
         # If the user's tera has been used
         inputs.append(int(battle.used_tera))
