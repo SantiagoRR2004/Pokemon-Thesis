@@ -242,9 +242,14 @@ async def main(
         "nTurns": nTurns,
     }
 
+    if False:
+        torch.save(actor.state_dict(), "actor.pth")
+
     if criticClass:
         kwargs["criticLosses"] = criticLosses
         kwargs["averageCriticRewards"] = averageCriticRewards
+        if False:
+            torch.save(critic.state_dict(), "critic.pth")
 
     if fileName is not None:
         kwargs["fileName"] = fileName
