@@ -5,7 +5,7 @@ import critics
 import moves
 import pokemons
 import asyncio
-from players import AIPlayer
+import players
 import training
 import getpass
 import subprocess
@@ -50,7 +50,7 @@ if __name__ == "__main__":
 
                             args = {
                                 "actorClass": actor,
-                                "playerClass": AIPlayer,
+                                "playerClass": getattr(players, row.player),
                                 "moveClass": move,
                                 "pokemonClass": pokemon,
                                 "criticClass": critic,

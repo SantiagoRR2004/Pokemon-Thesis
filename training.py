@@ -1,6 +1,6 @@
 from poke_env.ps_client.server_configuration import ServerConfiguration
 from pokemons import AbstractPokemon, Pokemon00
-from players import AbstractAIPlayer, AIPlayer
+from players import AbstractAIPlayer, AIPlayer00
 import randomTeams.randomTeam as randomTeam
 from poke_env.player import RandomPlayer
 from moves import AbstractMove, Move00
@@ -283,7 +283,7 @@ if __name__ == "__main__":
             actorClass=ActorNetwork01,
             criticClass=CriticNetwork01,
             nTeams=float("inf"),
-            playerClass=AIPlayer,
+            playerClass=AIPlayer00,
             moveClass=Move00,
             pokemonClass=Pokemon00,
         )
