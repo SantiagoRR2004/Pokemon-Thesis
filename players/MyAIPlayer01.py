@@ -2,13 +2,9 @@ from poke_env.battle import AbstractBattle
 from players.AbstractAIPlayer import AbstractAIPlayer
 
 
-class AIPlayer(AbstractAIPlayer):
-    """
-    This will only be made
-    to work with gen9randombattle
-    """
+class AIPlayer01(AbstractAIPlayer):
 
-    N_F_BATTLE = 2 + 12
+    N_F_BATTLE = 2
 
     def getInputs(self, battle: AbstractBattle) -> list[float]:
         """
@@ -16,12 +12,10 @@ class AIPlayer(AbstractAIPlayer):
 
         The feature vector will have:
             - The index of the active pokemon in the team
-            - The player's team (1 + {self.N_F_POKEMON} features per pokemon):
-                - Presence indicator (1 if the pokemon is present, 0 otherwise)
+            - The player's team ({self.N_F_POKEMON} features per pokemon):
                 - The encoding of the pokemon (see encodePokemon)
             - The index of the opponent's active pokemon in the opponent's team
-            - The opponent's team (1 + {self.N_F_POKEMON} features per pokemon):
-                - Presence indicator (1 if the pokemon is present, 0 otherwise)
+            - The opponent's team ({self.N_F_POKEMON} features per pokemon):
                 - The encoding of the pokemon (see encodePokemon)
 
         Args:
@@ -41,12 +35,12 @@ class AIPlayer(AbstractAIPlayer):
 
         # First our team
         for pokemon in battle.team.values():
-            inputs += [1] + self.pokemonFeatureExtractor.getFeatures(pokemon, battle)
+            inputs += self.pokemonFeatureExtractor.getFeatures(pokemon, battle)
         # Fill with zeros if unknown pokemon
         inputs += (
             [0]
             * (6 - len(battle.team))
-            * (1 + self.pokemonFeatureExtractor.getNumberOfFeatures())
+            * self.pokemonFeatureExtractor.getNumberOfFeatures()
         )
 
         # Which opponent's pokemon is active
@@ -63,12 +57,12 @@ class AIPlayer(AbstractAIPlayer):
 
         # The opponent's team
         for pokemon in battle.opponent_team.values():
-            inputs += [1] + self.pokemonFeatureExtractor.getFeatures(pokemon, battle)
+            inputs += self.pokemonFeatureExtractor.getFeatures(pokemon, battle)
         # Fill with zeros if unknown pokemon
         inputs += (
             [0]
             * (6 - len(battle.opponent_team))
-            * (1 + self.pokemonFeatureExtractor.getNumberOfFeatures())
+            * self.pokemonFeatureExtractor.getNumberOfFeatures()
         )
 
         return inputs
