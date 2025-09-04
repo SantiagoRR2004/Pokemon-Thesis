@@ -13,73 +13,71 @@ import shutil
 
 
 if __name__ == "__main__":
-    while True:
-        try:
-            dataFile = os.path.join(
-                os.path.dirname(os.path.abspath(__file__)), "data", "experiments.csv"
-            )
+    dataFile = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "data", "experiments.csv"
+    )
 
-            # Open with pandas
-            df = pd.read_csv(dataFile)
+    # Open with pandas
+    df = pd.read_csv(dataFile)
 
-            for row in df.itertuples():
-                # Check if the completePath does not exist
-                completePath = os.path.join(
-                    os.path.dirname(os.path.abspath(__file__)),
-                    "data",
-                    row.fileName + ".parquet",
-                )
+    for row in df.itertuples():
+        # Check if the completePath does not exist
+        completePath = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            "data",
+            row.fileName + ".parquet",
+        )
 
-                if not os.path.exists(completePath):
-                    print(f"Running experiment {row.fileName}...")
+        if not os.path.exists(completePath):
+            print(f"Running experiment {row.fileName}...")
 
-                    finishExperiment = False
+            finishExperiment = False
 
-                    # Until the experiment is finished, keep trying
-                    while not finishExperiment:
-                        try:
-                            actor = getattr(actors, row.actor)
+            # Until the experiment is finished, keep trying
+            while not finishExperiment:
+                try:
+                    actor = getattr(actors, row.actor)
 
-                            move = getattr(moves, row.move)
+                    move = getattr(moves, row.move)
 
-                            pokemon = getattr(pokemons, row.pokemon)
+                    pokemon = getattr(pokemons, row.pokemon)
 
-                            critic = None
-                            if row.TrainingMethod == "actorCritic":
-                                critic = getattr(critics, row.critic)
+                    critic = None
+                    if row.TrainingMethod == "actorCritic":
+                        critic = getattr(critics, row.critic)
 
-                            args = {
-                                "actorClass": actor,
-                                "playerClass": getattr(players, row.player),
-                                "moveClass": move,
-                                "pokemonClass": pokemon,
-                                "criticClass": critic,
-                            }
+                    args = {
+                        "actorClass": actor,
+                        "playerClass": getattr(players, row.player),
+                        "moveClass": move,
+                        "pokemonClass": pokemon,
+                        "criticClass": critic,
+                    }
 
-                            # Add the rest of the columns as arguments
-                            for col in df.columns:
-                                if col not in [
-                                    "actor",
-                                    "critic",
-                                    "TrainingMethod",
-                                    "move",
-                                    "pokemon",
-                                ]:
-                                    args[col] = getattr(row, col)
+                    # Add the rest of the columns as arguments
+                    for col in df.columns:
+                        if col not in [
+                            "actor",
+                            "critic",
+                            "TrainingMethod",
+                            "move",
+                            "pokemon",
+                            "player",
+                        ]:
+                            args[col] = getattr(row, col)
 
-                            asyncio.run(training.main(**args))
+                    asyncio.run(training.main(**args))
 
-                            finishExperiment = True
-                        except Exception as e:
-                            print(f"An error occurred: {e}")
-                            username = getpass.getuser()
-                            # Shut down the server forcefully
-                            # This will break VSCode if it is running from there
-                            subprocess.run(["pkill", "-u", username, "-f", "node"])
-
-        except Exception as e:
-            shutil.rmtree(
-                os.path.join(
-                    os.path.dirname(os.path.abspath(__file__)), "pokemon-showdown"
-                )
-            )
+                    finishExperiment = True
+                except Exception as e:
+                    print(f"An error occurred: {e}")
+                    username = getpass.getuser()
+                    # Shut down the server forcefully
+                    # This will break VSCode if it is running from there
+                    subprocess.run(["pkill", "-u", username, "-f", "node"])
+                    shutil.rmtree(
+                        os.path.join(
+                            os.path.dirname(os.path.abspath(__file__)),
+                            "pokemon-showdown",
+                        )
+                    )

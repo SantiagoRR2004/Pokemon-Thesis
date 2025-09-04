@@ -90,43 +90,32 @@ async def main(
 
     for epoch in range(nEpochs):
 
+        playerArgs = {
+            "network": actor,
+            "critic": critic,
+            "max_concurrent_battles": nEpisodes,
+            "pokemonFeatureExtractor": pokemonClass(moveClass),
+            "server_configuration": serverConfig,
+        }
+        randomArgs = {
+            "max_concurrent_battles": nEpisodes,
+            "server_configuration": serverConfig,
+        }
+
         if nTeams == float("inf"):
-            # We create the AI player
-            player: AbstractAIPlayer = playerClass(
-                battle_format="gen9randombattle",
-                network=actor,
-                critic=critic,
-                max_concurrent_battles=nEpisodes,
-                pokemonFeatureExtractor=pokemonClass(moveClass),
-                server_configuration=serverConfig,
-            )
+            playerArgs["battle_format"] = "gen9randombattle"
+            randomArgs["battle_format"] = "gen9randombattle"
 
-            # We create another random player
-            second_player = RandomPlayer(
-                battle_format="gen9randombattle",
-                max_concurrent_battles=nEpisodes,
-                server_configuration=serverConfig,
-            )
         else:
+            playerArgs["battle_format"] = "gen9purehackmons"
+            playerArgs["team"] = randomTeam.selectRandomTeam(nTeams)
+            randomArgs["battle_format"] = "gen9purehackmons"
+            randomArgs["team"] = randomTeam.selectRandomTeam(nTeams)
 
-            # We create the AI player
-            player: AbstractAIPlayer = playerClass(
-                battle_format="gen9purehackmons",
-                team=randomTeam.selectRandomTeam(nTeams),
-                network=actor,
-                critic=critic,
-                max_concurrent_battles=nEpisodes,
-                pokemonFeatureExtractor=pokemonClass(moveClass),
-                server_configuration=serverConfig,
-            )
-
-            # We create another random player
-            second_player = RandomPlayer(
-                battle_format="gen9purehackmons",
-                team=randomTeam.selectRandomTeam(nTeams),
-                max_concurrent_battles=nEpisodes,
-                server_configuration=serverConfig,
-            )
+        # We create the AI player
+        player: AbstractAIPlayer = playerClass(**playerArgs)
+        # We create another random player
+        second_player = RandomPlayer(**randomArgs)
 
         # Reset the player for new Episodes
         player.reset()
