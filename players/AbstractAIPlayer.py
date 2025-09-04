@@ -51,6 +51,22 @@ class AbstractAIPlayer(Player, ABC):
     N_WEATHERS = 8
     N_FIELDS = 12
 
+    ENTRY_HAZARDS = {
+        "SPIKES": 0,
+        "STEALTH_ROCK": 1,
+        "STICKY_WEB": 2,
+        "TOXIC_SPIKES": 3,
+    }
+    SCREENS_AND_MISC = [
+        "AURORA_VEIL",
+        "LIGHT_SCREEN",
+        "LUCKY_CHANT",
+        "MIST",
+        "REFLECT",
+        "SAFEGUARD",
+        "TAILWIND",
+    ]
+
     def reset(self) -> None:
         """
         Reset the internal lists for training

@@ -11,6 +11,8 @@ class AIPlayerS(AbstractAIPlayer):
         AbstractAIPlayer.N_WEATHERS
         + AbstractAIPlayer.N_FIELDS
         + 1
+        + len(AbstractAIPlayer.ENTRY_HAZARDS)
+        + len(AbstractAIPlayer.SCREENS_AND_MISC)
         + 1
         + 1
         + 1
@@ -19,6 +21,8 @@ class AIPlayerS(AbstractAIPlayer):
         + 1
         + 1
         + 6
+        + len(AbstractAIPlayer.ENTRY_HAZARDS)
+        + len(AbstractAIPlayer.SCREENS_AND_MISC)
         + 1
         + 1
         + 6
@@ -36,6 +40,11 @@ class AIPlayerS(AbstractAIPlayer):
                 The value is the number of turns the field has been
                 up for. 0 if the field is not present.
             - If the tera can be used (boolean)
+            - Entry hazards on our side (len(AbstractAIPlayer.ENTRY_HAZARDS) integers):
+                The value is the number of layers of the hazard.
+            - Side conditions that are not entry hazards (len(AbstractAIPlayer.SCREENS_AND_MISC) integers):
+                The value is the number of turns the condition has been
+                up for.
             - If the user has to select a pokemon to switch (boolean)
             - If the user has to select a pokemon to revive (boolean)
             - If the pokemon might be trapped (boolean)
@@ -46,6 +55,11 @@ class AIPlayerS(AbstractAIPlayer):
             - The player's team (1 + {self.N_F_POKEMON} features per pokemon):
                 - Presence indicator (1 if the pokemon is present, 0 otherwise)
                 - The encoding of the pokemon
+            - The opponent's entry hazards (len(AbstractAIPlayer.ENTRY_HAZARDS) integers):
+                The value is the number of layers of the hazard.
+            - The opponent's side conditions that are not entry hazards (len(AbstractAIPlayer.SCREENS_AND_MISC) integers):
+                The value is the number of turns the condition has been
+                up for.
             - If the opponent's tera has been used (boolean)
             - The index of the opponent's active pokemon in the opponent's team (integer)
             - The opponent's team (1 + {self.N_F_POKEMON} features per pokemon):
@@ -99,13 +113,23 @@ class AIPlayerS(AbstractAIPlayer):
             - battle.observations
                 It is a dictionary that contains the
                 current_observation for all turns of the battle.
+            - Field conditions that can not happen
+                - CRAFTY_SHIELD
+                - FIRE_PLEDGE
+                - G_MAX_CANNONADE
+                - G_MAX_STEELSURGE
+                - G_MAX_VINE_LASH
+                - G_MAX_VOLCALITH
+                - G_MAX_WILDFIRE
+                - GRASS_PLEDGE
+                - LUCKY_CHANT
+                - MATBLOCK
+                - QUICK_GUARD
+                - WATER_PLEDGE
+                - WIDE_GUARD
 
         Args:
             - battle (AbstractBattle): The current battle
-
-        Missing:
-            - battle.opponent_side_conditions
-            - battle.side_conditions
 
         Returns:
             - list: The inputs for the neural network
@@ -130,6 +154,22 @@ class AIPlayerS(AbstractAIPlayer):
 
         # If the tera can be used
         inputs.append(int(battle.can_tera))
+
+        # Entry hazards on our side
+        entryHazards = [0] * 4
+        for s, nStack in battle.side_conditions.items():
+            if self.ENTRY_HAZARDS.get(s.name):
+                entryHazards[self.ENTRY_HAZARDS[s.name]] = nStack
+
+        inputs.extend(entryHazards)
+
+        # Side conditions that are not entry hazards
+        screens = [0] * len(self.SCREENS_AND_MISC)
+        for s, turnStart in battle.side_conditions.items():
+            if s.name in self.SCREENS_AND_MISC:
+                screens[self.SCREENS_AND_MISC.index(s.name)] = turnStart - battle.turn
+
+        inputs.extend(screens)
 
         # If the user has to select a pokemon to switch
         inputs.append(int(battle.force_switch))
@@ -165,6 +205,24 @@ class AIPlayerS(AbstractAIPlayer):
             * (6 - len(battle.team))
             * (1 + self.pokemonFeatureExtractor.getNumberOfFeatures())
         )
+
+        # The opponent's entry hazards
+        opponentEntryHazards = [0] * 4
+        for s, nStack in battle.opponent_side_conditions.items():
+            if self.ENTRY_HAZARDS.get(s.name):
+                opponentEntryHazards[self.ENTRY_HAZARDS[s.name]] = nStack
+
+        inputs.extend(opponentEntryHazards)
+
+        # The opponent's not entry hazards
+        opponentScreens = [0] * len(self.SCREENS_AND_MISC)
+        for s, turnStart in battle.opponent_side_conditions.items():
+            if s.name in self.SCREENS_AND_MISC:
+                opponentScreens[self.SCREENS_AND_MISC.index(s.name)] = (
+                    turnStart - battle.turn
+                )
+
+        inputs.extend(opponentScreens)
 
         # If the opponent's tera has been used
         inputs.append(int(battle.opponent_used_tera))
