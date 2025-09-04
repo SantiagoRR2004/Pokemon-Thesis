@@ -48,6 +48,9 @@ class AbstractAIPlayer(Player, ABC):
         self.pokemonFeatureExtractor = pokemonFeatureExtractor
         self.reset()
 
+    N_WEATHERS = 8
+    N_FIELDS = 12
+
     def reset(self) -> None:
         """
         Reset the internal lists for training

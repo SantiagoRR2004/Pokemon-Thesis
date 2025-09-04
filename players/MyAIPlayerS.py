@@ -7,13 +7,34 @@ class AIPlayerS(AbstractAIPlayer):
     This will have all the information
     """
 
-    N_F_BATTLE = 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 6 + 1 + 1 + 6
+    N_F_BATTLE = (
+        AbstractAIPlayer.N_WEATHERS
+        + AbstractAIPlayer.N_FIELDS
+        + 1
+        + 1
+        + 1
+        + 1
+        + 1
+        + 1
+        + 1
+        + 1
+        + 6
+        + 1
+        + 1
+        + 6
+    )
 
     def getInputs(self, battle: AbstractBattle) -> list[float]:
         """
         This method will return the inputs for the neural network
 
         The feature vector will have:
+            - The weather conditions (AbstractAIPlayer.N_WEATHERS integers):
+                The value is the number of turns the weather has been
+                up for. 0 if the weather is not present.
+            - The field conditions (AbstractAIPlayer.N_FIELDS integers):
+                The value is the number of turns the field has been
+                up for. 0 if the field is not present.
             - If the tera can be used (boolean)
             - If the user has to select a pokemon to switch (boolean)
             - If the user has to select a pokemon to revive (boolean)
@@ -83,16 +104,29 @@ class AIPlayerS(AbstractAIPlayer):
             - battle (AbstractBattle): The current battle
 
         Missing:
-            - battle.fields
             - battle.opponent_side_conditions
             - battle.side_conditions
-            - battle.turn
-            - battle.weather
 
         Returns:
             - list: The inputs for the neural network
         """
         inputs = []
+
+        # Weather conditions
+        weather = [0] * self.N_WEATHERS
+
+        for w, nTurns in battle.weather.items():
+            weather[w.value - 2] = nTurns - battle.turn
+
+        inputs.extend(weather)
+
+        # Field conditions
+        fields = [0] * self.N_FIELDS
+
+        for f, nTurns in battle.fields.items():
+            fields[f.value - 2] = nTurns - battle.turn
+
+        inputs.extend(fields)
 
         # If the tera can be used
         inputs.append(int(battle.can_tera))
