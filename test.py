@@ -1,8 +1,9 @@
 from poke_env import ShowdownServerConfiguration, AccountConfiguration
-
-# from poke_env.player import RandomPlayer
-# from poke_env.player.baselines import SimpleHeuristicsPlayer
-from NEAT.MyRandomPlayer import CustomRandomPlayer
+from pokemons import Pokemon00
+from players import AIPlayer00
+from moves import Move00
+from critics import CriticNetwork01
+from actors import ActorNetwork01
 import asyncio
 import appSecrets
 
@@ -13,23 +14,26 @@ async def main():
         appSecrets.getShowdownUsername(), appSecrets.getShowdownPassword()
     )
 
-    player = CustomRandomPlayer(
+    testPlayer = AIPlayer00(
+        network="BlaBlaBla",
+        pokemonFeatureExtractor=Pokemon00(Move00),
+        account_configuration=account_config,
+        server_configuration=ShowdownServerConfiguration,
+    )
+
+    player = AIPlayer00(
         account_configuration=account_config,
         server_configuration=ShowdownServerConfiguration,
         battle_format="gen9randombattle",
+        network=ActorNetwork01(testPlayer),
+        critic=CriticNetwork01(testPlayer),
+        pokemonFeatureExtractor=Pokemon00(Move00),
     )
 
-    # # Sending challenges to 'your_username'
-    # await player.send_challenges("your_username", n_challenges=1)
-
-    # # Accepting one challenge from any user
-    # await player.accept_challenges(None, 1)
-
-    # # Accepting three challenges from 'your_username'
-    # await player.accept_challenges('your_username', 3)
+    del testPlayer
 
     # Playing 5 games on the ladder
-    await player.ladder(1)
+    await player.ladder(0)
 
     # Print the rating of the player and its opponent after each battle
     for battle in player.battles.values():
