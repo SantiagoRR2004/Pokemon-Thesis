@@ -36,11 +36,11 @@ async def main():
 
         # Print the rating of the player and its opponent after each battle
         for battle in player.battles.values():
-            print(battle.rating, battle.opponent_rating)
+            print(battle.rating, battle.turn)
 
             # Store the rating in a file
             with open("rating.txt", "a") as f:
-                f.write(f"{battle.rating},{battle.opponent_rating}\n")
+                f.write(f"{battle.rating},{battle.turn}\n")
 
         player.reset_battles()
 
