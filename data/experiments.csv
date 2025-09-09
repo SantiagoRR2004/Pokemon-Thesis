@@ -86,6 +86,7 @@ experiment84,actorCritic,inf,64,ActorNetwork03,CriticNetwork03,0.99,Move07,Pokem
 experiment85,actorCritic,inf,64,ActorNetwork03,CriticNetwork03,0.99,Move07,Pokemon10,AIPlayer02
 experiment86,actorCritic,inf,64,ActorNetwork03,CriticNetwork03,0.99,Move07,PokemonS,AIPlayer02
 experiment87,actorCritic,inf,64,ActorNetwork03,CriticNetwork03,0.99,MoveS,PokemonS,AIPlayer02
+experiment88,actorCritic,inf,64,ActorNetwork03,CriticNetwork03,0.99,Move07,Pokemon08,AIPlayerS
 random1,random,r2,r64,random,random,random,random,random,random
 random2,random,r10,r64,random,random,random,random,random,random
 random3,random,r100,r64,random,random,random,random,random,random

@@ -72,7 +72,7 @@ async def main(
     if criticClass:
         criticOptimizer = optim.Adam(critic.parameters(), lr=1e-3)
 
-    nEpochs = 1000
+    nEpochs = 4000
 
     victoryPercentage = []
     actorLosses = []
@@ -234,6 +234,11 @@ async def main(
             p.wait()
             p = serverControl.startServer()
 
+        if (epoch + 1) % 1000 == 0:
+            torch.save(actor.state_dict(), f"actor_epoch{epoch+1}.pth")
+            if criticClass:
+                torch.save(critic.state_dict(), f"critic_epoch{epoch+1}.pth")
+
     # Save the metrics
     kwargs = {
         "victoryPercentage": victoryPercentage,
@@ -242,14 +247,9 @@ async def main(
         "nTurns": nTurns,
     }
 
-    if False:
-        torch.save(actor.state_dict(), "actor.pth")
-
     if criticClass:
         kwargs["criticLosses"] = criticLosses
         kwargs["averageCriticRewards"] = averageCriticRewards
-        if False:
-            torch.save(critic.state_dict(), "critic.pth")
 
     if fileName is not None:
         kwargs["fileName"] = fileName
