@@ -202,16 +202,10 @@ async def main(
 
         # We can now print the results of the battles
         print(f"{epoch+1:0{len(str(nEpochs))}d}/{nEpochs}", end=" ", flush=True)
-        print(
-            time.strftime(
-                "%H:%M:%S",
-                time.gmtime(
-                    (time.time() - start) * (nEpochs - (epoch + 1)) / (epoch + 1)
-                ),
-            ),
-            end=" ",
-            flush=True,
-        )
+        secs = (time.time() - start) * (nEpochs - (epoch + 1)) / (epoch + 1)
+        hours, remainder = divmod(int(secs), 3600)
+        minutes, seconds = divmod(remainder, 60)
+        print(f"{hours:02}:{minutes:02}:{seconds:02}", end=" ", flush=True)
         print(
             f"{fileName} won {percentage*100:.2f}% of battles.",
             end=" ",
