@@ -41,17 +41,15 @@ async def main():
         server_configuration=ShowdownServerConfiguration,
     )
 
-    if True:
+    if False:
         await player.accept_challenges(opponent=None, n_challenges=20)
     else:
-        for _ in range(5):
+        for _ in range(100):
             # Playing games on the ladder
             await player.ladder(1)
 
-            await player.accept_challenges(opponent=None, n_challenges=1)
-
-            # Print the rating of the player and its opponent after each battle
             for battle in player.battles.values():
+                # This is the rating before the battle
                 print(battle.rating)
 
                 # Store the rating in a file
