@@ -63,6 +63,7 @@ if __name__ == "__main__":
                             "move",
                             "pokemon",
                             "player",
+                            "nInputs",
                         ]:
                             args[col] = getattr(row, col)
 

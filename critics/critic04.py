@@ -28,5 +28,5 @@ class CriticNetwork04(AbstractActor):
             nn.Linear(32, 16),
             nn.Dropout(0.25),
             nn.LeakyReLU(),
-            nn.Linear(256, 1),  # Output a single value for the state value
+            nn.Linear(16, 1),  # Output a single value for the state value
         )
