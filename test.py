@@ -1,10 +1,12 @@
 from poke_env import ShowdownServerConfiguration, AccountConfiguration
-from pokemons import Pokemon00
-from players import AIPlayer00
-from moves import Move00
-from actors import ActorNetwork01
+from pokemons import Pokemon08
+from players import AIPlayerS
+from actors import ActorNetwork03
+from moves import Move07
+import torch
 import asyncio
 import appSecrets
+import os
 
 
 async def main():
@@ -13,36 +15,50 @@ async def main():
         appSecrets.getShowdownUsername(), appSecrets.getShowdownPassword()
     )
 
-    testPlayer = AIPlayer00(
+    testPlayer = AIPlayerS(
         network="BlaBlaBla",
-        pokemonFeatureExtractor=Pokemon00(Move00),
-        account_configuration=account_config,
+        battle_format="gen9randombattle",
+        pokemonFeatureExtractor=Pokemon08(Move07),
+        account_configuration=None,
         server_configuration=ShowdownServerConfiguration,
     )
 
-    player = AIPlayer00(
-        account_configuration=account_config,
-        server_configuration=ShowdownServerConfiguration,
-        battle_format="gen9randombattle",
-        network=ActorNetwork01(testPlayer),
-        pokemonFeatureExtractor=Pokemon00(Move00),
+    currentDirectory = os.path.dirname(os.path.abspath(__file__))
+
+    actor = ActorNetwork03(testPlayer)
+    actor.load_state_dict(
+        torch.load(os.path.join(currentDirectory, "data", "experiment88Actor.pth"))
     )
+    actor.eval()
 
     del testPlayer
 
-    for _ in range(5):
-        # Playing games on the ladder
-        await player.ladder(0)
+    player = AIPlayerS(
+        network=actor,
+        battle_format="gen9randombattle",
+        pokemonFeatureExtractor=Pokemon08(Move07),
+        account_configuration=account_config,
+        server_configuration=ShowdownServerConfiguration,
+    )
 
-        # Print the rating of the player and its opponent after each battle
-        for battle in player.battles.values():
-            print(battle.rating, battle.turn)
+    if True:
+        await player.accept_challenges(opponent=None, n_challenges=20)
+    else:
+        for _ in range(5):
+            # Playing games on the ladder
+            await player.ladder(1)
 
-            # Store the rating in a file
-            with open("rating.txt", "a") as f:
-                f.write(f"{battle.rating},{battle.turn}\n")
+            await player.accept_challenges(opponent=None, n_challenges=1)
 
-        player.reset_battles()
+            # Print the rating of the player and its opponent after each battle
+            for battle in player.battles.values():
+                print(battle.rating)
+
+                # Store the rating in a file
+                with open("rating.txt", "a") as f:
+                    f.write(f"{battle.rating}\n")
+
+            player.reset_battles()
 
 
 if __name__ == "__main__":
