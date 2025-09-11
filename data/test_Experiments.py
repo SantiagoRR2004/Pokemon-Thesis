@@ -3,7 +3,6 @@ import pandas as pd
 import pokemons
 import players
 import moves
-import sys
 import os
 
 currentDirectory = os.path.dirname(os.path.abspath(__file__))
