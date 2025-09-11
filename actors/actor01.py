@@ -2,7 +2,7 @@ from actors.abstractActor import AbstractActor
 from torch import nn
 
 
-class ActorNetwork02(AbstractActor):
+class ActorNetwork01(AbstractActor):
 
     def generateNetwork(self, player):
         # Most basic actor network with 1 hidden layer

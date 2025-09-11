@@ -2,7 +2,7 @@ from critics.abstractCritic import AbstractCritic
 from torch import nn
 
 
-class CriticNetwork01(AbstractCritic):
+class CriticNetwork02(AbstractCritic):
 
     def generateNetwork(self, player):
         return nn.Sequential(

@@ -2,7 +2,7 @@ from actors.abstractActor import AbstractActor
 from torch import nn
 
 
-class ActorNetwork01(AbstractActor):
+class ActorNetwork02(AbstractActor):
 
     def generateNetwork(self, player):
         return nn.Sequential(
