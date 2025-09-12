@@ -55,16 +55,35 @@ async def main(
         "https://play.pokemonshowdown.com/action.php?",
     )
 
-    testPlayer: AbstractAIPlayer = playerClass(
+    nTeams = float(nTeams)
+    nEpisodes = int(nEpisodes)
+    gamma = float(gamma)
+
+    args = {
+        "max_concurrent_battles": nEpisodes,
+        "server_configuration": serverConfig,
+    }
+    if nTeams == float("inf"):
+        args["battle_format"] = "gen9randombattle"
+    else:
+        args["battle_format"] = "gen9purehackmons"
+        args["team"] = randomTeam.selectRandomTeam(nTeams)
+
+    player: AbstractAIPlayer = playerClass(
         network="BlaBlaBla",
         pokemonFeatureExtractor=pokemonClass(moveClass),
-        server_configuration=serverConfig,
+        **args,
     )
 
-    actor = actorClass(testPlayer)
+    # We create the random player
+    second_player = RandomPlayer(**args)
+
+    actor = actorClass(player)
+    player.neuralNetwork = actor
 
     if criticClass:
-        critic = criticClass(testPlayer)
+        critic = criticClass(player)
+        player.criticNetwork = critic
     else:
         critic = None
 
@@ -82,40 +101,9 @@ async def main(
         averageCriticRewards = []
     nTurns = []
 
-    nTeams = float(nTeams)
-    nEpisodes = int(nEpisodes)
-    gamma = float(gamma)
-
     start = time.time()
 
     for epoch in range(nEpochs):
-
-        playerArgs = {
-            "network": actor,
-            "critic": critic,
-            "max_concurrent_battles": nEpisodes,
-            "pokemonFeatureExtractor": pokemonClass(moveClass),
-            "server_configuration": serverConfig,
-        }
-        randomArgs = {
-            "max_concurrent_battles": nEpisodes,
-            "server_configuration": serverConfig,
-        }
-
-        if nTeams == float("inf"):
-            playerArgs["battle_format"] = "gen9randombattle"
-            randomArgs["battle_format"] = "gen9randombattle"
-
-        else:
-            playerArgs["battle_format"] = "gen9purehackmons"
-            playerArgs["team"] = randomTeam.selectRandomTeam(nTeams)
-            randomArgs["battle_format"] = "gen9purehackmons"
-            randomArgs["team"] = randomTeam.selectRandomTeam(nTeams)
-
-        # We create the AI player
-        player: AbstractAIPlayer = playerClass(**playerArgs)
-        # We create another random player
-        second_player = RandomPlayer(**randomArgs)
 
         # Reset the player for new Episodes
         player.reset()

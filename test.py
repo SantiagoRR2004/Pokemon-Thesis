@@ -15,31 +15,23 @@ async def main():
         appSecrets.getShowdownUsername(), appSecrets.getShowdownPassword()
     )
 
-    testPlayer = AIPlayerS(
-        network="BlaBlaBla",
-        battle_format="gen9randombattle",
-        pokemonFeatureExtractor=Pokemon08(Move07),
-        account_configuration=None,
-        server_configuration=ShowdownServerConfiguration,
-    )
-
-    currentDirectory = os.path.dirname(os.path.abspath(__file__))
-
-    actor = ActorNetwork03(testPlayer)
-    actor.load_state_dict(
-        torch.load(os.path.join(currentDirectory, "data", "experiment88Actor.pth"))
-    )
-    actor.eval()
-
-    del testPlayer
-
     player = AIPlayerS(
-        network=actor,
+        network="BlaBlaBla",
         battle_format="gen9randombattle",
         pokemonFeatureExtractor=Pokemon08(Move07),
         account_configuration=account_config,
         server_configuration=ShowdownServerConfiguration,
     )
+
+    currentDirectory = os.path.dirname(os.path.abspath(__file__))
+
+    actor = ActorNetwork03(player)
+    actor.load_state_dict(
+        torch.load(os.path.join(currentDirectory, "data", "experiment88Actor.pth"))
+    )
+    actor.eval()
+
+    player.neuralNetwork = actor
 
     if False:
         await player.accept_challenges(opponent=None, n_challenges=20)
