@@ -69,10 +69,12 @@ async def main(
         args["battle_format"] = "gen9purehackmons"
         args["team"] = randomTeam.selectRandomTeam(nTeams)
 
+    playerArgs = args.copy()
+    playerArgs["pokemonFeatureExtractor"] = pokemonClass(moveClass)
+
     player: AbstractAIPlayer = playerClass(
         network="BlaBlaBla",
-        pokemonFeatureExtractor=pokemonClass(moveClass),
-        **args,
+        **playerArgs,
     )
 
     # We create the random player
@@ -80,10 +82,12 @@ async def main(
 
     actor = actorClass(player)
     player.neuralNetwork = actor
+    playerArgs["network"] = actor
 
     if criticClass:
         critic = criticClass(player)
         player.criticNetwork = critic
+        playerArgs["critic"] = critic
     else:
         critic = None
 
@@ -215,6 +219,15 @@ async def main(
             serverControl.endProcess(p)
             p.wait()
             p = serverControl.startServer()
+
+            del player
+            del second_player
+
+            # We create the player again
+            player = playerClass(**playerArgs)
+
+            # We create the random player
+            second_player = otherPlayers.getRandomPlayer(args)
 
         if (epoch + 1) % 1000 == 0:
             torch.save(actor.state_dict(), f"actor_epoch{epoch+1}.pth")
