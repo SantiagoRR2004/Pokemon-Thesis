@@ -30,6 +30,7 @@ async def main(
     nEpisodes: int = 64,
     fileName: str = None,
     gamma: float = 0.99,
+    useRandom: bool = True,
 ) -> None:
     """
     Train an actor-critic model for a given number of episodes.
@@ -44,6 +45,7 @@ async def main(
         - nEpisodes (int): Number of episodes to run for training.
         - fileName (str, optional): The name of the file to save the metrics. If None, a default name will be used.
         - gamma (float): Discount factor for future rewards.
+        - useRandom (bool): Whether to include a random player as an opponent.
 
     Returns:
         - None
@@ -58,6 +60,7 @@ async def main(
     nTeams = float(nTeams)
     nEpisodes = int(nEpisodes)
     gamma = float(gamma)
+    useRandom = bool(useRandom)
 
     args = {
         "max_concurrent_battles": nEpisodes,
@@ -77,8 +80,12 @@ async def main(
         **playerArgs,
     )
 
-    # We create the random player
-    second_player = otherPlayers.getRandomPlayer(args)
+    opponents = []
+    if useRandom:
+        opponents.append(otherPlayers.getRandomPlayer(args))
+
+    # # We create the random player
+    # second_player = otherPlayers.getRandomPlayer(args)
 
     actor = actorClass(player)
     player.neuralNetwork = actor
@@ -114,10 +121,10 @@ async def main(
 
         # Reset the battle counters
         player.reset_battles()
-        second_player.reset_battles()
 
         # Run n_battles (Episodes)
-        await player.battle_against(second_player, n_battles=nEpisodes)
+        for enemy in opponents:
+            await player.battle_against(enemy, n_battles=nEpisodes)
 
         actorLoss = 0
         averageRewardsEpoch = 0
@@ -221,13 +228,19 @@ async def main(
             p = serverControl.startServer()
 
             del player
-            del second_player
+
+            for enemy in opponents:
+                del enemy
 
             # We create the player again
             player = playerClass(**playerArgs)
 
-            # We create the random player
-            second_player = otherPlayers.getRandomPlayer(args)
+            opponents = []
+            if useRandom:
+                opponents.append(otherPlayers.getRandomPlayer(args))
+
+            # # We create the random player
+            # second_player = otherPlayers.getRandomPlayer(args)
 
         if (epoch + 1) % 1000 == 0:
             torch.save(actor.state_dict(), f"actor_epoch{epoch+1}.pth")
