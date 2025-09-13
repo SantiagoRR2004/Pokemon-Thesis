@@ -2,11 +2,11 @@ from poke_env.ps_client.server_configuration import ServerConfiguration
 from pokemons import AbstractPokemon, Pokemon00
 from players import AbstractAIPlayer, AIPlayer00
 import randomTeams.randomTeam as randomTeam
-from poke_env.player import RandomPlayer
 from moves import AbstractMove, Move00
 from critics import CriticNetwork01
 from actors import ActorNetwork01
 from dotenv import load_dotenv
+import otherPlayers
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -76,7 +76,7 @@ async def main(
     )
 
     # We create the random player
-    second_player = RandomPlayer(**args)
+    second_player = otherPlayers.getRandomPlayer(args)
 
     actor = actorClass(player)
     player.neuralNetwork = actor
