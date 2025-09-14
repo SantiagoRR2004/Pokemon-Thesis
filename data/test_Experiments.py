@@ -58,15 +58,56 @@ def findSingleDifferenceGroups(df: pd.DataFrame, columnsToCompare: list) -> dict
     return groupsByVaryingColumn
 
 
-# Find and display the groups
+def rankExperiments(groupData: dict) -> list:
+    """
+    Rank experiments based on their victory percentage.
+
+    Args:
+        - groupData (dict): A dictionary where keys are experiment names
+            and values are DataFrames with experiment results.
+
+    Returns:
+        - list: A list of the ordered keys of the input dictionary,
+            first being the best experiment.
+    """
+    rankings = []
+
+    # TO DO: Better ranking system
+    for name, df in groupData.items():
+        if "victoryPercentage" in df.columns:
+            finalVictoryPercentage = df["victoryPercentage"].iloc[-1]
+            rankings.append((name, finalVictoryPercentage))
+
+    # Sort by victory percentage in descending order
+    rankings.sort(key=lambda x: x[1], reverse=True)
+
+    return [name for name, _ in rankings]
+
+
+# Find the groups
 groups = findSingleDifferenceGroups(data, subsetCols)
 
-# Summary
-totalGroups = sum(len(groups) for groups in groups.values())
-print(f"Found {totalGroups} groups across {len(groups)} columns")
+# Delete all the rows that have random in the fileName column
+groups = {
+    k: v
+    for k, v in groups.items()
+    if all("random" not in row["fileName"] for group in v for row in group)
+}
 
-for varyingColumn, groups in groups.items():
-    print(f"  {varyingColumn}: {len(groups)} groups")
+for differentColumn, groups in groups.items():
+    for g in groups:
+
+        groupData = {
+            row[differentColumn]: pd.read_parquet(
+                os.path.join(currentDirectory, row["fileName"] + ".parquet")
+            )
+            for row in g
+            if row["fileName"] + ".parquet" in os.listdir(currentDirectory)
+        }
+
+        if len(groupData) > 1:
+
+            print(rankExperiments(groupData))
 
 
 # Correctly calculate the nInputs column
