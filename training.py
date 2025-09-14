@@ -31,6 +31,7 @@ async def main(
     fileName: str = None,
     gamma: float = 0.99,
     useRandom: bool = True,
+    useMaxDamage: bool = True,
 ) -> None:
     """
     Train an actor-critic model for a given number of episodes.
@@ -61,6 +62,7 @@ async def main(
     nEpisodes = int(nEpisodes)
     gamma = float(gamma)
     useRandom = bool(useRandom)
+    useMaxDamage = bool(useMaxDamage)
 
     args = {
         "max_concurrent_battles": nEpisodes,
@@ -83,6 +85,8 @@ async def main(
     opponents = []
     if useRandom:
         opponents.append(otherPlayers.getRandomPlayer(args))
+    if useMaxDamage:
+        opponents.append(otherPlayers.getRandomMaxDamagePlayer(args))
 
     # # We create the random player
     # second_player = otherPlayers.getRandomPlayer(args)
@@ -238,6 +242,8 @@ async def main(
             opponents = []
             if useRandom:
                 opponents.append(otherPlayers.getRandomPlayer(args))
+            if useMaxDamage:
+                opponents.append(otherPlayers.getRandomMaxDamagePlayer(args))
 
             # # We create the random player
             # second_player = otherPlayers.getRandomPlayer(args)
