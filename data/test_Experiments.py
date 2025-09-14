@@ -9,7 +9,9 @@ currentDirectory = os.path.dirname(os.path.abspath(__file__))
 
 data = pd.read_csv(os.path.join(currentDirectory, "experiments.csv"))
 
-subsetCols = [col for col in data.columns if col != "fileName"]
+specialColumns = ["fileName", "nInputs", "TrainingMethod"]
+
+subsetCols = [col for col in data.columns if col not in specialColumns]
 
 
 # Check that all rows are unique
@@ -20,8 +22,54 @@ else:
     print("No duplicate rows found.")
 
 
-# Correctly calculate the nInputs column
+def findSingleDifferenceGroups(df: pd.DataFrame, columnsToCompare: list) -> dict:
+    """
+    Find groups of rows that have the same values in all columns except one.
 
+    Args:
+        - df (pd.DataFrame): The DataFrame to analyze.
+        - columnsToCompare (list): List of columns to consider for comparison.
+
+    Returns:
+        - dict: A dictionary where keys are the varying columns
+            and values are lists of rows
+    """
+    groupsByVaryingColumn = {}
+
+    for varyingCol in columnsToCompare:
+        # Get all other columns (fixed columns)
+        fixedCols = [col for col in columnsToCompare if col != varyingCol]
+
+        # Group by fixed columns
+        grouped = df.groupby(fixedCols)
+
+        # Find groups with multiple rows
+        multiRowGroups = []
+        for _, groupDf in grouped:
+            if len(groupDf) > 1:
+                # Check if they actually differ in the varying column
+                uniqueValues = groupDf[varyingCol].nunique()
+                if uniqueValues > 1:
+                    multiRowGroups.append(groupDf.to_dict("records"))
+
+        if multiRowGroups:
+            groupsByVaryingColumn[varyingCol] = multiRowGroups
+
+    return groupsByVaryingColumn
+
+
+# Find and display the groups
+groups = findSingleDifferenceGroups(data, subsetCols)
+
+# Summary
+totalGroups = sum(len(groups) for groups in groups.values())
+print(f"Found {totalGroups} groups across {len(groups)} columns")
+
+for varyingColumn, groups in groups.items():
+    print(f"  {varyingColumn}: {len(groups)} groups")
+
+
+# Correctly calculate the nInputs column
 for index, row in data.iterrows():
 
     try:
