@@ -1,5 +1,6 @@
 from contextlib import redirect_stdout, redirect_stderr
 import pandas as pd
+import numpy as np
 import pokemons
 import players
 import moves
@@ -70,18 +71,43 @@ def rankExperiments(groupData: dict) -> list:
         - list: A list of the ordered keys of the input dictionary,
             first being the best experiment.
     """
-    rankings = []
+    victories = {}
 
-    # TO DO: Better ranking system
     for name, df in groupData.items():
         if "victoryPercentage" in df.columns:
-            finalVictoryPercentage = df["victoryPercentage"].iloc[-1]
-            rankings.append((name, finalVictoryPercentage))
+            victories[name] = (
+                df["victoryPercentage"][:1000]
+                .rolling(window=100, center=True)
+                .mean()
+                .dropna()
+                .tolist()
+            )
 
-    # Sort by victory percentage in descending order
-    rankings.sort(key=lambda x: x[1], reverse=True)
+    keys = list(groupData.keys())
 
-    return [name for name, _ in rankings]
+    arr = np.full((len(victories), 1000), -np.inf)  # pad with -inf
+    for i, k in enumerate(keys):
+        arr[i, : len(victories[k])] = victories[k]
+
+    ranking = []
+    remaining = np.arange(len(victories))
+
+    while arr.shape[0] > 0:
+        # Column-wise maximum
+        colMax = np.nanmax(arr, axis=0)
+
+        # Count how many times each row equals the column max
+        counts = np.sum(arr == colMax, axis=1)
+
+        # Pick row with maximum count
+        bestIdx = np.argmax(counts)
+        ranking.append(keys[remaining[bestIdx]])
+
+        # Remove that row
+        arr = np.delete(arr, bestIdx, axis=0)
+        remaining = np.delete(remaining, bestIdx)
+
+    return ranking
 
 
 # Find the groups
