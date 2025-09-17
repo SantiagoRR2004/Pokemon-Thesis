@@ -1,4 +1,5 @@
 from contextlib import redirect_stdout, redirect_stderr
+from typing import Tuple
 import pandas as pd
 import numpy as np
 import pokemons
@@ -59,17 +60,17 @@ def findSingleDifferenceGroups(df: pd.DataFrame, columnsToCompare: list) -> dict
     return groupsByVaryingColumn
 
 
-def rankExperiments(groupData: dict) -> list:
+def makeVictoryMatrix(groupData: dict) -> Tuple[np.ndarray, list]:
     """
-    Rank experiments based on their victory percentage.
+    Create a matrix of victory percentages for experiments.
 
     Args:
         - groupData (dict): A dictionary where keys are experiment names
             and values are DataFrames with experiment results.
 
     Returns:
-        - list: A list of the ordered keys of the input dictionary,
-            first being the best experiment.
+        - Tuple[np.ndarray, list]: A tuple containing the victory matrix
+            and the list of experiment names (keys).
     """
     victories = {}
 
@@ -83,14 +84,33 @@ def rankExperiments(groupData: dict) -> list:
                 .tolist()
             )
 
+    nWindows = 1000 - 100 + 1
+
     keys = list(groupData.keys())
 
-    arr = np.full((len(victories), 1000), -np.inf)  # pad with -inf
+    arr = np.full((len(victories), nWindows), -np.inf)  # pad with -inf
     for i, k in enumerate(keys):
-        arr[i, : len(victories[k])] = victories[k]
+        arr[i, :] = victories[k]
+
+    return arr, keys
+
+
+def rankExperiments(groupData: dict) -> list:
+    """
+    Rank experiments based on their victory percentage.
+
+    Args:
+        - groupData (dict): A dictionary where keys are experiment names
+            and values are DataFrames with experiment results.
+
+    Returns:
+        - list: A list of the ordered keys of the input dictionary,
+            first being the best experiment.
+    """
+    arr, keys = makeVictoryMatrix(groupData)
 
     ranking = []
-    remaining = np.arange(len(victories))
+    remaining = np.arange(len(keys))
 
     while arr.shape[0] > 0:
         # Column-wise maximum
@@ -132,8 +152,32 @@ for differentColumn, groups in groups.items():
         }
 
         if len(groupData) > 1:
+            # rankExperiments(groupData)
+            pass
+            # I can use this later
 
-            print(rankExperiments(groupData))
+presetValues = {"nTeams": "inf", "nEpisodes": "64", "gamma": "0.99"}
+# Get the rows with those values
+
+rows = data[
+    (data["nTeams"] == presetValues["nTeams"])
+    & (data["nEpisodes"] == presetValues["nEpisodes"])
+    & (data["gamma"] == presetValues["gamma"])
+]
+
+rowData = {
+    row["fileName"]: pd.read_parquet(
+        os.path.join(currentDirectory, row["fileName"] + ".parquet")
+    )
+    for _, row in rows.iterrows()
+    if row["fileName"] + ".parquet" in os.listdir(currentDirectory)
+}
+
+arr, keys = makeVictoryMatrix(rowData)
+
+colMax = np.nanmax(arr, axis=0)
+maxCounts = np.sum(arr == colMax, axis=1)
+probabilities = maxCounts / maxCounts.sum()
 
 
 # Correctly calculate the nInputs column
