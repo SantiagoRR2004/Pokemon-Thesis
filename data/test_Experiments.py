@@ -179,6 +179,60 @@ colMax = np.nanmax(arr, axis=0)
 maxCounts = np.sum(arr == colMax, axis=1)
 probabilities = maxCounts / maxCounts.sum()
 
+# Get latest experiment int for experiment{int} in filename
+latestExperimentInt = max(
+    [
+        int(f.split("experiment")[-1].split(".")[0])
+        for f in data["fileName"]
+        if "experiment" in f
+    ]
+)
+
+nAdded = 0
+
+while nAdded < 5:
+    chosenIdx = np.random.choice(np.arange(len(keys)), p=probabilities)
+    chosenKey = keys[chosenIdx]
+
+    newRow = rows[rows["fileName"] == chosenKey].copy()
+
+    # Randomly change one of the columns to a different value
+    colToChange = np.random.choice(subsetCols)
+    possibleValues = data[colToChange].unique()
+    newValue = np.random.choice(
+        [v for v in possibleValues if v != newRow.iloc[0][colToChange]]
+    )
+    if isinstance(newValue, (str, np.str_)) and newValue.lower() == "nan":
+        newValue = ""
+    newRow.loc[newRow.index[0], colToChange] = newValue
+
+    # Change the fileName to experiment{latestExperimentInt + nAdded + 1}
+    newRow.loc[newRow.index[0], "fileName"] = (
+        f"experiment{latestExperimentInt + nAdded + 1}"
+    )
+
+    if newValue not in ["random", 0, "r1", "r2", "r10", "r64", "r100", "rinf"]:
+
+        newData = pd.concat([data, newRow], ignore_index=True)
+
+        newData = newData.drop_duplicates(subset=subsetCols, keep="first")
+
+        new_row_index = len(newData) - 1  # Index of the newly added row
+        is_duplicate = newData.duplicated(subset=subsetCols, keep="first").iloc[
+            new_row_index
+        ]
+        is_duplicate2 = any(
+            (data[subsetCols] == newRow[subsetCols].iloc[0]).all(axis=1)
+        )
+
+        if len(newData) == len(data) or is_duplicate or is_duplicate2:
+            # If the new row is a duplicate, don't add it
+            continue
+        else:
+            # Add the modified row to the dataframe
+            data = newData
+            nAdded += 1
+
 
 # Correctly calculate the nInputs column
 for index, row in data.iterrows():
@@ -198,5 +252,10 @@ for index, row in data.iterrows():
 
     except AttributeError as e:
         continue
+
+    if pd.isna(row["critic"]):
+        data.at[index, "TrainingMethod"] = "actor"
+    else:
+        data.at[index, "TrainingMethod"] = "actorCritic"
 
 data.to_csv(os.path.join(currentDirectory, "experiments.csv"), index=False)
