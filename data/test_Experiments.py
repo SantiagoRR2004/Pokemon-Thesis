@@ -6,6 +6,7 @@ import pokemons
 import players
 import moves
 import os
+import re
 
 currentDirectory = os.path.dirname(os.path.abspath(__file__))
 
@@ -257,5 +258,15 @@ for index, row in data.iterrows():
         data.at[index, "TrainingMethod"] = "actor"
     else:
         data.at[index, "TrainingMethod"] = "actorCritic"
+
+
+def naturalKey(s):
+    return [int(text) if text.isdigit() else text for text in re.split(r"(\d+)", s)]
+
+
+# Order the rows by fileName
+data = data.sort_values(by="fileName", key=lambda x: x.map(naturalKey)).reset_index(
+    drop=True
+)
 
 data.to_csv(os.path.join(currentDirectory, "experiments.csv"), index=False)
