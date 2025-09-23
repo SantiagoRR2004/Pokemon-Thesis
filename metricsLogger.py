@@ -157,9 +157,14 @@ def graphAllExperiments(windowSize: int = 1) -> None:
     for name, df in files.items():
         if "actorLosses" in df.columns:
             smoothed = df["actorLosses"].rolling(window=windowSize, center=True).mean()
-            fig.add_trace(
-                go.Scatter(y=smoothed, mode="lines", name=name, hoverinfo="name+y")
-            )
+            # Ensure losses are lower
+            if (
+                not smoothed.dropna().empty
+                and smoothed.dropna().iloc[-1] < smoothed.dropna().iloc[0]
+            ):
+                fig.add_trace(
+                    go.Scatter(y=smoothed, mode="lines", name=name, hoverinfo="name+y")
+                )
     fig.update_layout(
         title="Actor Loss Over Epochs",
         xaxis_title="Epochs",
@@ -172,9 +177,14 @@ def graphAllExperiments(windowSize: int = 1) -> None:
     for name, df in files.items():
         if "criticLosses" in df.columns:
             smoothed = df["criticLosses"].rolling(window=windowSize, center=True).mean()
-            fig.add_trace(
-                go.Scatter(y=smoothed, mode="lines", name=name, hoverinfo="name+y")
-            )
+            # Ensure losses are lower
+            if (
+                not smoothed.dropna().empty
+                and smoothed.dropna().iloc[-1] < smoothed.dropna().iloc[0]
+            ):
+                fig.add_trace(
+                    go.Scatter(y=smoothed, mode="lines", name=name, hoverinfo="name+y")
+                )
     fig.update_layout(
         title="Critic Loss Over Epochs",
         xaxis_title="Epochs",
@@ -190,20 +200,32 @@ def graphAllExperiments(windowSize: int = 1) -> None:
             smoothed = (
                 df["averageRewards"].rolling(window=windowSize, center=True).mean()
             )
-            fig.add_trace(
-                go.Scatter(y=smoothed, mode="lines", name=f"{name} Average Rewards")
-            )
-        if "averageCriticRewards" in df.columns:
-            smoothed = (
-                df["averageCriticRewards"]
-                .rolling(window=windowSize, center=True)
-                .mean()
-            )
-            fig.add_trace(
-                go.Scatter(
-                    y=smoothed, mode="lines", name=f"{name} Average Critic Rewards"
+            # Ensure rewards are higher
+            if (
+                not smoothed.dropna().empty
+                and smoothed.dropna().iloc[-1] > smoothed.dropna().iloc[0]
+            ):
+                fig.add_trace(
+                    go.Scatter(y=smoothed, mode="lines", name=f"{name} Average Rewards")
                 )
-            )
+                if "averageCriticRewards" in df.columns:
+                    smoothed = (
+                        df["averageCriticRewards"]
+                        .rolling(window=windowSize, center=True)
+                        .mean()
+                    )
+                    # Ensure rewards are higher
+                    if (
+                        not smoothed.dropna().empty
+                        and smoothed.dropna().iloc[-1] > smoothed.dropna().iloc[0]
+                    ):
+                        fig.add_trace(
+                            go.Scatter(
+                                y=smoothed,
+                                mode="lines",
+                                name=f"{name} Average Critic Rewards",
+                            )
+                        )
     fig.update_layout(
         title="Average Rewards Over Epochs",
         xaxis_title="Epochs",
