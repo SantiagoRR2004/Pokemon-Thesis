@@ -1,8 +1,10 @@
+from poke_env.ps_client.server_configuration import ServerConfiguration
+from poke_env.player import RandomPlayer
 import serverControl
 import asyncio
-from poke_env.player import RandomPlayer
 import warnings
 import logging
+import os
 
 # Set up logging to capture warnings into a file
 logging.basicConfig(
@@ -24,13 +26,22 @@ warnings.showwarning = log_warning
 async def main():
     serverControl.startServer()
 
+    serverConfig = ServerConfiguration(
+        f"ws://localhost:{int(os.getenv("SERVER_PORT"))}/showdown/websocket",
+        "https://play.pokemonshowdown.com/action.php?",
+    )
+
     # We create a random player
     player = RandomPlayer(
         battle_format="gen9randombattle",
+        server_configuration=serverConfig,
     )
 
     # We create another random player
-    second_player = RandomPlayer()
+    second_player = RandomPlayer(
+        battle_format="gen9randombattle",
+        server_configuration=serverConfig,
+    )
 
     # The battle_against method initiates a battle between two players.
     # Here we are using asynchronous programming (await) to start the battle.
