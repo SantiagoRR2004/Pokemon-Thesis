@@ -11,7 +11,6 @@ import getpass
 import subprocess
 import shutil
 
-
 if __name__ == "__main__":
 
     while True:
@@ -69,7 +68,9 @@ if __name__ == "__main__":
                             ]:
                                 args[col] = getattr(row, col)
 
-                        asyncio.run(training.main(**args))
+                        t = training.Trainer(**args)
+
+                        asyncio.run(t.main())
 
                         finishExperiment = True
                     except Exception as e:

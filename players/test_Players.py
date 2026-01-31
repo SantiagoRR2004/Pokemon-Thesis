@@ -1,7 +1,6 @@
 import players
 import inspect
 
-
 # Get all classes defined in the players module
 classes = inspect.getmembers(players, inspect.isclass)
 

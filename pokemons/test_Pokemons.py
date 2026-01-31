@@ -4,7 +4,6 @@ from moves import Move00
 import pokemons
 import inspect
 
-
 encoder = PokemonFeatureEncoder()
 
 

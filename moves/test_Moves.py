@@ -3,7 +3,6 @@ from poke_env.battle import Move
 import inspect
 import moves
 
-
 encoder = PokemonFeatureEncoder()
 
 
