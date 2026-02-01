@@ -6,6 +6,7 @@ import moves
 import pokemons
 import asyncio
 import players
+import rewards
 import training
 import getpass
 import subprocess
@@ -43,6 +44,8 @@ if __name__ == "__main__":
 
                         pokemon = getattr(pokemons, row.pokemon)
 
+                        rewardsClass = getattr(rewards, row.reward)
+
                         critic = None
                         if row.TrainingMethod == "actorCritic":
                             critic = getattr(critics, row.critic)
@@ -53,6 +56,7 @@ if __name__ == "__main__":
                             "moveClass": move,
                             "pokemonClass": pokemon,
                             "criticClass": critic,
+                            "rewardsClass": rewardsClass,
                         }
 
                         # Add the rest of the columns as arguments
@@ -65,6 +69,7 @@ if __name__ == "__main__":
                                 "pokemon",
                                 "player",
                                 "nInputs",
+                                "reward",
                             ]:
                                 args[col] = getattr(row, col)
 

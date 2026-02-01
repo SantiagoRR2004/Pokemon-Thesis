@@ -29,6 +29,7 @@ class Trainer:
         playerClass: AbstractAIPlayer,
         moveClass: AbstractMove,
         pokemonClass: AbstractPokemon,
+        rewardsClass: AbstractRewardFunction,
         nTeams: int = float("inf"),
         criticClass: AbstractCritic = None,
         nEpisodes: int = 64,
@@ -45,6 +46,7 @@ class Trainer:
             - playerClass (AbstractAIPlayer): The class player for which the actor is trained.
             - moveClass (AbstractMove): The class of move to be used by the player.
             - pokemonClass (AbstractPokemon): The class of pokemon to be used by the player.
+            - rewardsClass (AbstractRewardFunction): The class of reward function to be used for training.
             - nTeams (int): Number of teams to use for training. If float("inf"), random teams will be used.
             - criticClass (AbstractCritic, optional): The class of critic network to be trained. If None, only the actor will be trained.
             - nEpisodes (int): Number of episodes to run for training.
@@ -64,6 +66,7 @@ class Trainer:
         self.useMaxDamage = bool(useMaxDamage)
         self.playerClass = playerClass
         self.criticClass = criticClass
+        self.rewardsClass = rewardsClass
         self.fileName = fileName
 
         self.setArgs(nTeams=float(nTeams), nEpisodes=self.nEpisodes)
@@ -309,7 +312,7 @@ class Trainer:
         Returns:
             - List of rewards for each step.
         """
-        return RewardFunction01.calculateRewards(battle)
+        return self.rewardsClass.calculateRewards(battle)
 
     async def main(self) -> None:
         """
@@ -469,6 +472,7 @@ if __name__ == "__main__":
     t = Trainer(
         actorClass=ActorNetwork01,
         criticClass=CriticNetwork01,
+        rewardsClass=RewardFunction01,
         nTeams=float("inf"),
         playerClass=AIPlayer00,
         moveClass=Move00,
