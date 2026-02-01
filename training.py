@@ -5,6 +5,7 @@ import randomTeams.randomTeam as randomTeam
 from moves import AbstractMove, Move00
 from critics import AbstractCritic, CriticNetwork01
 from actors import AbstractActor, ActorNetwork01
+from rewards import AbstractRewardFunction, RewardFunction01
 from dotenv import load_dotenv
 import otherPlayers
 import torch
@@ -298,6 +299,18 @@ class Trainer:
 
         metricsLogger.saveData(**kwargs)
 
+    def calculateRewards(self, battle) -> list[float]:
+        """
+        Calculate the rewards for each step in a battle.
+
+        Args:
+            - battle: The battle object.
+
+        Returns:
+            - List of rewards for each step.
+        """
+        return RewardFunction01.calculateRewards(battle)
+
     async def main(self) -> None:
         """
         Train a model.
@@ -333,10 +346,9 @@ class Trainer:
                 actorLossBattle = 0
                 if self.criticClass:
                     criticLossBattle = 0
-                finalReward = 1000 if battle.won else -1000
 
                 # Reward sequence
-                rewards = [1] * (nSteps - 1) + [finalReward]
+                rewards = self.calculateRewards(battle)
 
                 # Compute discounted returns
                 discountedRewards = []
@@ -367,6 +379,7 @@ class Trainer:
                         discountedRewards, self.player.values[battle.battle_tag]
                     ):
                         criticLossBattle += (V - G).pow(2)
+
                 # Calculate the loss using only actor
                 else:
                     for log_prob, G in zip(
