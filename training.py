@@ -66,28 +66,13 @@ class Trainer:
         self.fileName = fileName
 
         self.setArgs(nTeams=float(nTeams), nEpisodes=self.nEpisodes)
+        self.setPlayerArgs(pokemonClass, moveClass, actorClass)
 
         # Create the opponents
         self.resetOpponents()
 
-        self.playerArgs = self.args.copy()
-        self.playerArgs["pokemonFeatureExtractor"] = pokemonClass(moveClass)
-
-        self.player: AbstractAIPlayer = self.playerClass(
-            network="BlaBlaBla",
-            **self.playerArgs,
-        )
-
-        self.actor = actorClass(self.player)
-        self.player.neuralNetwork = self.actor
-        self.playerArgs["network"] = self.actor
-
-        if criticClass:
-            self.critic = criticClass(self.player)
-            self.player.criticNetwork = self.critic
-            self.playerArgs["critic"] = self.critic
-        else:
-            self.critic = None
+        # Create the main player
+        self.resetPlayer()
 
         self.optimizer = optim.Adam(self.actor.parameters(), lr=1e-3)
         if self.criticClass:
@@ -95,6 +80,18 @@ class Trainer:
 
         self.nEpochs = 1000
 
+        self.createHistoryLists()
+
+    def createHistoryLists(self) -> None:
+        """
+        Create the lists to store the training metrics.
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
         self.victoryPercentage = []
         self.actorLosses = []
         self.averageRewards = []
@@ -133,6 +130,51 @@ class Trainer:
             self.args["battle_format"] = "gen9purehackmons"
             self.args["team"] = randomTeam.selectRandomTeam(nTeams)
 
+    def setPlayerArgs(
+        self,
+        pokemonClass: AbstractPokemon,
+        moveClass: AbstractMove,
+        actorClass: nn.Module,
+    ) -> None:
+        """
+        Set the arguments for the main player.
+
+        The arguments include the actor and critic networks
+        and to create those, a dummy player is needed.
+
+        So this function also creates the actor and critic
+        instances.
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        playerArgs = self.args.copy()
+        playerArgs["pokemonFeatureExtractor"] = pokemonClass(moveClass)
+
+        # Create a dummy player to create the networks
+        player: AbstractAIPlayer = self.playerClass(
+            network="BlaBlaBla",
+            **playerArgs,
+        )
+
+        # Create the actor
+        self.actor = actorClass(player)
+        playerArgs["network"] = self.actor
+
+        # Create the critic if needed
+        if self.criticClass:
+            self.critic = self.criticClass(player)
+            playerArgs["critic"] = self.critic
+
+        # Set the player arguments
+        self.playerArgs = playerArgs
+
+        # Delete the dummy player
+        del player
+
     def resetOpponents(self) -> None:
         """
         Reset the opponents list. It uses the flags
@@ -157,6 +199,22 @@ class Trainer:
             self.opponents.append(otherPlayers.getRandomPlayer(self.args))
         if self.useMaxDamage:
             self.opponents.append(otherPlayers.getRandomMaxDamagePlayer(self.args))
+
+    def resetPlayer(self) -> None:
+        """
+        Reset the main player.
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        if hasattr(self, "player"):
+            del self.player
+
+        # We create the player
+        self.player = self.playerClass(**self.playerArgs)
 
     async def main(self) -> None:
         """
@@ -294,10 +352,8 @@ class Trainer:
                 self.p.wait()
                 self.p = serverControl.startServer()
 
-                del self.player
-
-                # We create the player again
-                self.player = self.playerClass(**self.playerArgs)
+                # Reset the player
+                self.resetPlayer()
 
                 # Reset the opponents
                 self.resetOpponents()
