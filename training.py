@@ -100,6 +100,42 @@ class Trainer:
             self.averageCriticRewards = []
         self.nTurns = []
 
+    def updateHistoryLists(
+        self,
+        percentage: float,
+        actorLoss: torch.Tensor,
+        averageRewardsEpoch: float,
+        criticLoss: torch.Tensor = None,
+        averageCriticRewardsEpoch: float = None,
+    ) -> None:
+        """
+        Update the lists to store the training metrics.
+
+        Args:
+            - percentage (float): Victory percentage for the epoch.
+            - actorLoss (torch.Tensor): Actor loss for the epoch.
+            - averageRewardsEpoch (float): Average rewards for the epoch.
+            - criticLoss (torch.Tensor): Critic loss for the epoch.
+            - averageCriticRewardsEpoch (float): Average critic rewards for the epoch.
+
+        Returns:
+            - None
+        """
+        self.victoryPercentage.append(percentage)
+        self.actorLosses.append(actorLoss.item())
+        self.averageRewards.append(averageRewardsEpoch / len(self.player.battles))
+
+        if self.criticClass:
+            self.criticLosses.append(criticLoss.item())
+            self.averageCriticRewards.append(
+                averageCriticRewardsEpoch / len(self.player.battles)
+            )
+
+        self.nTurns.append(
+            sum(battle.turn for battle in self.player.battles.values())
+            / len(self.player.battles)
+        )
+
     def setArgs(self, nTeams: int, nEpisodes: int) -> None:
         """
         Set the arguments for all the players. The main player
@@ -215,6 +251,52 @@ class Trainer:
 
         # We create the player
         self.player = self.playerClass(**self.playerArgs)
+
+    def resetServer(self) -> None:
+        """
+        Reset the server by stopping and starting it again.
+
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        serverControl.endProcess(self.p)
+        self.p.wait()
+        self.p = serverControl.startServer()
+
+        # Reset all the players
+        self.resetPlayer()
+        self.resetOpponents()
+
+    def saveMetrics(self) -> None:
+        """
+        Save the training metrics to a file.
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        kwargs = {
+            "victoryPercentage": self.victoryPercentage,
+            "actorLosses": self.actorLosses,
+            "averageRewards": self.averageRewards,
+            "nTurns": self.nTurns,
+        }
+
+        # Include critic metrics if applicable
+        if self.criticClass:
+            kwargs["criticLosses"] = self.criticLosses
+            kwargs["averageCriticRewards"] = self.averageCriticRewards
+
+        if self.fileName is not None:
+            kwargs["fileName"] = self.fileName
+
+        metricsLogger.saveData(**kwargs)
 
     async def main(self) -> None:
         """
@@ -334,29 +416,18 @@ class Trainer:
             )
             print()
 
-            self.victoryPercentage.append(percentage)
-            self.actorLosses.append(actorLoss.item())
-            self.averageRewards.append(averageRewardsEpoch / len(self.player.battles))
-            if self.criticClass:
-                self.criticLosses.append(criticLoss.item())
-                self.averageCriticRewards.append(
-                    averageCriticRewardsEpoch / len(self.player.battles)
-                )
-            self.nTurns.append(
-                sum(battle.turn for battle in self.player.battles.values())
-                / len(self.player.battles)
+            # Update the history lists
+            self.updateHistoryLists(
+                percentage,
+                actorLoss,
+                averageRewardsEpoch,
+                criticLoss if self.criticClass else None,
+                averageCriticRewardsEpoch if self.criticClass else None,
             )
 
+            # Reset the server every 50 epochs to avoid memory leaks
             if (epoch + 1) % 50 == 0 and (epoch + 1) != self.nEpochs:
-                serverControl.endProcess(self.p)
-                self.p.wait()
-                self.p = serverControl.startServer()
-
-                # Reset the player
-                self.resetPlayer()
-
-                # Reset the opponents
-                self.resetOpponents()
+                self.resetServer()
 
             if (epoch + 1) % 1000 == 0:
                 torch.save(self.actor.state_dict(), f"actor_epoch{epoch+1}.pth")
@@ -364,21 +435,7 @@ class Trainer:
                     torch.save(self.critic.state_dict(), f"critic_epoch{epoch+1}.pth")
 
         # Save the metrics
-        kwargs = {
-            "victoryPercentage": self.victoryPercentage,
-            "actorLosses": self.actorLosses,
-            "averageRewards": self.averageRewards,
-            "nTurns": self.nTurns,
-        }
-
-        if self.criticClass:
-            kwargs["criticLosses"] = self.criticLosses
-            kwargs["averageCriticRewards"] = self.averageCriticRewards
-
-        if self.fileName is not None:
-            kwargs["fileName"] = self.fileName
-
-        metricsLogger.saveData(**kwargs)
+        self.saveMetrics()
 
         # Turn off the server
         serverControl.endProcess(self.p)
