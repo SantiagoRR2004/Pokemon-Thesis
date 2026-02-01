@@ -57,12 +57,6 @@ class Trainer:
         """
         self.p = serverControl.startServer()
 
-        serverConfig = ServerConfiguration(
-            f"ws://localhost:{int(os.getenv("SERVER_PORT"))}/showdown/websocket",
-            "https://play.pokemonshowdown.com/action.php?",
-        )
-
-        nTeams = float(nTeams)
         self.nEpisodes = int(nEpisodes)
         self.gamma = float(gamma)
         self.useRandom = bool(useRandom)
@@ -71,15 +65,10 @@ class Trainer:
         self.criticClass = criticClass
         self.fileName = fileName
 
-        self.args = {
-            "max_concurrent_battles": nEpisodes,
-            "server_configuration": serverConfig,
-        }
-        if nTeams == float("inf"):
-            self.args["battle_format"] = "gen9randombattle"
-        else:
-            self.args["battle_format"] = "gen9purehackmons"
-            self.args["team"] = randomTeam.selectRandomTeam(nTeams)
+        self.setArgs(nTeams=float(nTeams), nEpisodes=self.nEpisodes)
+
+        # Create the opponents
+        self.resetOpponents()
 
         self.playerArgs = self.args.copy()
         self.playerArgs["pokemonFeatureExtractor"] = pokemonClass(moveClass)
@@ -88,12 +77,6 @@ class Trainer:
             network="BlaBlaBla",
             **self.playerArgs,
         )
-
-        self.opponents = []
-        if self.useRandom:
-            self.opponents.append(otherPlayers.getRandomPlayer(self.args))
-        if self.useMaxDamage:
-            self.opponents.append(otherPlayers.getRandomMaxDamagePlayer(self.args))
 
         self.actor = actorClass(self.player)
         self.player.neuralNetwork = self.actor
@@ -119,6 +102,61 @@ class Trainer:
             self.criticLosses = []
             self.averageCriticRewards = []
         self.nTurns = []
+
+    def setArgs(self, nTeams: int, nEpisodes: int) -> None:
+        """
+        Set the arguments for all the players. The main player
+        will use more specific arguments.
+
+        Args:
+            - nTeams (int): Number of teams to use for training.
+                If float("inf"), random teams will be used.
+            - nEpisodes (int): Number of episodes to run for each epoch.
+
+        Returns:
+            - None
+        """
+        serverConfig = ServerConfiguration(
+            f"ws://localhost:{int(os.getenv("SERVER_PORT"))}/showdown/websocket",
+            "https://play.pokemonshowdown.com/action.php?",
+        )
+
+        self.args = {
+            "max_concurrent_battles": nEpisodes,
+            "server_configuration": serverConfig,
+        }
+
+        # Set the battle format and team
+        if nTeams == float("inf"):
+            self.args["battle_format"] = "gen9randombattle"
+        else:
+            self.args["battle_format"] = "gen9purehackmons"
+            self.args["team"] = randomTeam.selectRandomTeam(nTeams)
+
+    def resetOpponents(self) -> None:
+        """
+        Reset the opponents list. It uses the flags
+        useRandom and useMaxDamage to determine which
+        opponents to include.
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        if not hasattr(self, "opponents"):
+            self.opponents = []
+
+        for enemy in self.opponents:
+            del enemy
+
+        self.opponents = []
+
+        if self.useRandom:
+            self.opponents.append(otherPlayers.getRandomPlayer(self.args))
+        if self.useMaxDamage:
+            self.opponents.append(otherPlayers.getRandomMaxDamagePlayer(self.args))
 
     async def main(self) -> None:
         """
@@ -251,26 +289,18 @@ class Trainer:
                 / len(self.player.battles)
             )
 
-            if (epoch + 1) % 10 == 0 and (epoch + 1) != self.nEpochs:
+            if (epoch + 1) % 50 == 0 and (epoch + 1) != self.nEpochs:
                 serverControl.endProcess(self.p)
                 self.p.wait()
                 self.p = serverControl.startServer()
 
                 del self.player
 
-                for enemy in self.opponents:
-                    del enemy
-
                 # We create the player again
                 self.player = self.playerClass(**self.playerArgs)
 
-                self.opponents = []
-                if self.useRandom:
-                    self.opponents.append(otherPlayers.getRandomPlayer(self.args))
-                if self.useMaxDamage:
-                    self.opponents.append(
-                        otherPlayers.getRandomMaxDamagePlayer(self.args)
-                    )
+                # Reset the opponents
+                self.resetOpponents()
 
             if (epoch + 1) % 1000 == 0:
                 torch.save(self.actor.state_dict(), f"actor_epoch{epoch+1}.pth")
