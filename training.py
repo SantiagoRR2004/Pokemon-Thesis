@@ -3,8 +3,8 @@ from pokemons import AbstractPokemon, Pokemon00
 from players import AbstractAIPlayer, AIPlayer00
 import randomTeams.randomTeam as randomTeam
 from moves import AbstractMove, Move00
-from critics import CriticNetwork01
-from actors import ActorNetwork01
+from critics import AbstractCritic, CriticNetwork01
+from actors import AbstractActor, ActorNetwork01
 from dotenv import load_dotenv
 import otherPlayers
 import torch
@@ -24,12 +24,12 @@ class Trainer:
     def __init__(
         self,
         *,
-        actorClass: nn.Module,
+        actorClass: AbstractActor,
         playerClass: AbstractAIPlayer,
         moveClass: AbstractMove,
         pokemonClass: AbstractPokemon,
         nTeams: int = float("inf"),
-        criticClass: nn.Module = None,
+        criticClass: AbstractCritic = None,
         nEpisodes: int = 64,
         fileName: str = None,
         gamma: float = 0.99,
@@ -40,12 +40,12 @@ class Trainer:
         Initialize the Trainer class.
 
         Args:
-            - actor (nn.Module): The class of actor network to be trained.
+            - actor (AbstractActor): The class of actor network to be trained.
             - playerClass (AbstractAIPlayer): The class player for which the actor is trained.
             - moveClass (AbstractMove): The class of move to be used by the player.
             - pokemonClass (AbstractPokemon): The class of pokemon to be used by the player.
             - nTeams (int): Number of teams to use for training. If float("inf"), random teams will be used.
-            - criticClass (nn.Module, optional): The class of critic network to be trained. If None, only the actor will be trained.
+            - criticClass (AbstractCritic, optional): The class of critic network to be trained. If None, only the actor will be trained.
             - nEpisodes (int): Number of episodes to run for training.
             - fileName (str, optional): The name of the file to save the metrics. If None, a default name will be used.
             - gamma (float): Discount factor for future rewards.
@@ -197,12 +197,12 @@ class Trainer:
         )
 
         # Create the actor
-        self.actor = actorClass(player)
+        self.actor: AbstractActor = actorClass(player)
         playerArgs["network"] = self.actor
 
         # Create the critic if needed
         if self.criticClass:
-            self.critic = self.criticClass(player)
+            self.critic: AbstractCritic = self.criticClass(player)
             playerArgs["critic"] = self.critic
 
         # Set the player arguments
@@ -250,7 +250,7 @@ class Trainer:
             del self.player
 
         # We create the player
-        self.player = self.playerClass(**self.playerArgs)
+        self.player: AbstractAIPlayer = self.playerClass(**self.playerArgs)
 
     def resetServer(self) -> None:
         """
