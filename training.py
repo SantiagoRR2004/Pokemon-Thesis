@@ -20,6 +20,29 @@ import os
 load_dotenv()
 
 
+def str_to_bool(s: str) -> bool:
+    """
+    Convert a string to a boolean.
+
+    Args:
+        - s (str): The string to convert.
+
+    Returns:
+        - bool: The converted boolean.
+    """
+    if type(s) is bool:
+        return s
+
+    s = s.strip().lower()
+
+    if s in {"y", "yes", "t", "true", "on", "1"}:
+        return True
+    if s in {"n", "no", "f", "false", "off", "0"}:
+        return False
+
+    raise ValueError(f"Invalid boolean string: {s}")
+
+
 class Trainer:
 
     def __init__(
@@ -62,8 +85,8 @@ class Trainer:
 
         self.nEpisodes = int(nEpisodes)
         self.gamma = float(gamma)
-        self.useRandom = bool(useRandom)
-        self.useMaxDamage = bool(useMaxDamage)
+        self.useRandom = str_to_bool(useRandom)
+        self.useMaxDamage = str_to_bool(useMaxDamage)
         self.playerClass = playerClass
         self.criticClass = criticClass
         self.rewardsClass = rewardsClass
