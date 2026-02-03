@@ -27,8 +27,7 @@ update_repo() {
 
         echo "Checking out stable version..."
         git checkout "$LATEST_TAG"
-        echo "Running npm install..."
-        npm install
+
         if [ -f config/config-example.js ]; then
             echo "Copying config-example.js to config.js..."
             cp config/config-example.js config/config.js
@@ -39,6 +38,20 @@ update_repo() {
         # Configure the server
         ../serverConfiguration.sh config/config.js
 
+        # Build the server
+        node build
+
+        : <<'END_COMMENT'
+        Need to replace line 79 in lib/net.ts with:
+
+        const protocol = new URL(this.uri).protocol;
+
+        The old line uses 'url.parse', which is deprecated:
+        const protocol = url.parse(this.uri).protocol;
+END_COMMENT
+
+        echo "Modifying lib/net.ts to use URL instead of url.parse..."
+        sed -i 's/const protocol = url\.parse(this\.uri)\.protocol;/const protocol = new URL(this.uri).protocol;/g' lib/net.ts
     fi
 }
 
