@@ -61,7 +61,8 @@ def startServer() -> subprocess.Popen:
         print(f"An error occurred: {e}", flush=True)
     finally:
         atexit.register(endProcess, serverProcess)
-        return serverProcess
+
+    return serverProcess
 
 
 def downloadPokemonShowdown() -> None:
