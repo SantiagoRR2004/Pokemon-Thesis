@@ -337,6 +337,22 @@ class Trainer:
         """
         return self.rewardsClass.calculateRewards(battle)
 
+    async def playBattles(self) -> None:
+        """
+        Play the battles for the current epoch.
+
+        This is a method to be able to throw an error if all
+        battles take too long.
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        for enemy in self.opponents:
+            await self.player.battle_against(enemy, n_battles=self.nEpisodes)
+
     async def main(self) -> None:
         """
         Train a model.
@@ -359,8 +375,16 @@ class Trainer:
             self.player.reset_battles()
 
             # Run n_battles (Episodes)
-            for enemy in self.opponents:
-                await self.player.battle_against(enemy, n_battles=self.nEpisodes)
+            if epoch == 0:
+                # No timeout calculated
+                await self.playBattles()
+
+            else:
+                # Timeout of 3 times the average time
+                await asyncio.wait_for(
+                    self.playBattles(), timeout=3 * timeSpent / (epoch + 1)
+                )
+
             actorLoss = 0
             averageRewardsEpoch = 0
             if self.criticClass:
@@ -444,7 +468,7 @@ class Trainer:
             )
             print(f"{time.time() - start - timeSpent:.2f}", end=" ", flush=True)
             timeSpent = time.time() - start
-            secs = (time.time() - start) * (self.nEpochs - (epoch + 1)) / (epoch + 1)
+            secs = timeSpent * (self.nEpochs - (epoch + 1)) / (epoch + 1)
             hours, remainder = divmod(int(secs), 3600)
             minutes, seconds = divmod(remainder, 60)
             print(f"{hours:02}:{minutes:02}:{seconds:02}", end=" ", flush=True)
