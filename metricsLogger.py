@@ -52,8 +52,16 @@ class MetricsLogger:
             os.path.join(dataDirectory, "experiments.csv")
         )
 
+        # Remove rows with fileName that is not in the files dictionary
+        self.experimentData = self.experimentData[
+            self.experimentData["fileName"].isin(self.files.keys())
+        ].copy()
+
         # Create the comparisons DataFrame
         self.calculateComparisons()
+
+        # Calculate the best parameters
+        self.calculateBestParameters()
 
     @staticmethod
     def relativeQuality(A: pd.DataFrame, B: pd.DataFrame) -> float:
@@ -164,6 +172,69 @@ class MetricsLogger:
                 comparisonsDF.iloc[j, i] = -score
 
         self.comparisonsDF = comparisonsDF
+
+    def calculateBestParameters(self) -> None:
+        """
+        Calculate the best parameters for each variable in the experiments.csv file
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        for column in self.experimentData.columns:
+            if column != "fileName":
+
+                parameterValues = self.experimentData[column].unique()
+                parametersDF = pd.DataFrame(
+                    [[[] for _ in parameterValues] for _ in parameterValues],
+                    index=parameterValues,
+                    columns=parameterValues,
+                )
+
+                # Group rows that are identical except for `column` and fileName
+                grouped = self.experimentData.groupby(
+                    list(self.experimentData.columns.difference([column, "fileName"]))
+                )
+
+                for _, group in grouped:
+                    # Need at least 2 rows to compare
+                    if len(group) >= 2:
+                        # Iterate pairwise inside the group
+                        for i in range(len(group)):
+                            for j in range(i + 1, len(group)):
+                                row1 = group.iloc[i]
+                                row2 = group.iloc[j]
+
+                                value = self.comparisonsDF.loc[
+                                    row1["fileName"], row2["fileName"]
+                                ]
+
+                                parametersDF.loc[row1[column], row2[column]].append(
+                                    value
+                                )
+                                parametersDF.loc[row2[column], row1[column]].append(
+                                    -value
+                                )
+
+                # Remove rows and columns with all empty lists
+                parametersDF = parametersDF[
+                    parametersDF.map(lambda x: len(x) > 0).any(axis=1)
+                ]
+                parametersDF = parametersDF.loc[
+                    :, (parametersDF.map(lambda x: len(x) > 0)).any(axis=0)
+                ]
+
+                # If there are any values
+                if not parametersDF.empty:
+                    # Average the values in each cell or np.nan
+                    parametersDF = parametersDF.map(
+                        lambda x: np.mean(x) if len(x) > 0 else np.nan
+                    )
+
+                    # Graph the parameters
+                    self.graphHeatmap(parametersDF, column)
 
     def graphAllExperiments(self) -> None:
         """
