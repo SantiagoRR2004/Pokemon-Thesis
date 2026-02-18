@@ -105,7 +105,7 @@ class MetricsLogger:
             - None
         """
         data = matrix.to_numpy()
-        labels = matrix.columns
+        labels = matrix.index.astype(str).tolist()
 
         fig, ax = plt.subplots(figsize=(len(labels), len(labels)))
         im = ax.imshow(data, aspect="equal", cmap="coolwarm")
@@ -183,10 +183,15 @@ class MetricsLogger:
         Returns:
             - None
         """
-        for column in self.experimentData.columns:
+        # Only use non-random experiments
+        nonRandomExperiments = self.experimentData[
+            ~self.experimentData["fileName"].str.contains("random")
+        ].copy()
+
+        for column in nonRandomExperiments.columns:
             if column != "fileName":
 
-                parameterValues = self.experimentData[column].unique()
+                parameterValues = nonRandomExperiments[column].unique()
                 parametersDF = pd.DataFrame(
                     [[[] for _ in parameterValues] for _ in parameterValues],
                     index=parameterValues,
@@ -194,8 +199,8 @@ class MetricsLogger:
                 )
 
                 # Group rows that are identical except for `column` and fileName
-                grouped = self.experimentData.groupby(
-                    list(self.experimentData.columns.difference([column, "fileName"]))
+                grouped = nonRandomExperiments.groupby(
+                    list(nonRandomExperiments.columns.difference([column, "fileName"]))
                 )
 
                 for _, group in grouped:
@@ -231,6 +236,17 @@ class MetricsLogger:
                     # Average the values in each cell or np.nan
                     parametersDF = parametersDF.map(
                         lambda x: np.mean(x) if len(x) > 0 else np.nan
+                    )
+
+                    # Sort rows in ascending order
+                    allNumeric = all(
+                        (x in ["inf", "-inf"])
+                        or not np.isnan(pd.to_numeric(x, errors="coerce"))
+                        for x in parameterValues
+                    )
+
+                    parametersDF = parametersDF.sort_index(
+                        key=lambda idx: [float(x) if allNumeric else x for x in idx]
                     )
 
                     # Graph the parameters
