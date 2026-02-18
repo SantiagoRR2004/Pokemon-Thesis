@@ -191,6 +191,8 @@ class MetricsLogger:
             ~self.experimentData["fileName"].str.contains("random")
         ].copy()
 
+        self.bestParameters = {}
+
         for column in nonRandomExperiments.columns.difference(self.INVALID_COLUMNS):
 
             parameterValues = nonRandomExperiments[column].unique()
@@ -253,6 +255,24 @@ class MetricsLogger:
 
                 # Graph the parameters
                 self.graphHeatmap(parametersDF, column)
+
+                # Least-squares score method
+                n = parametersDF.shape[0]
+                A = np.eye(n) - np.ones((n, n)) / n
+                b = parametersDF.sum(axis=1).values
+                x_ls = np.linalg.lstsq(A, b, rcond=None)[0]
+
+                ranking = pd.Series(x_ls, index=parametersDF.index).sort_values(
+                    ascending=False
+                )
+
+                # Add missing values as 1 to make sure they appear more
+                ranking = ranking.reindex(parameterValues, fill_value=1)
+
+                # Apply softmax to get probabilities
+                ranking = np.exp(ranking) / np.sum(np.exp(ranking))
+
+                self.bestParameters[column] = ranking
 
     def graphAllExperiments(self) -> None:
         """
