@@ -18,6 +18,9 @@ class MetricsLogger:
         - nTurns: The average number of turns taken in the evaluation episodes.
     """
 
+    # Columns that depend on others
+    INVALID_COLUMNS = ["fileName", "TrainingMethod", "nInputs"]
+
     def __init__(self) -> None:
         """
         Initialize the MetricsLogger by loading the existing data from the data directory.
@@ -188,69 +191,68 @@ class MetricsLogger:
             ~self.experimentData["fileName"].str.contains("random")
         ].copy()
 
-        for column in nonRandomExperiments.columns:
-            if column != "fileName":
+        for column in nonRandomExperiments.columns.difference(self.INVALID_COLUMNS):
 
-                parameterValues = nonRandomExperiments[column].unique()
-                parametersDF = pd.DataFrame(
-                    [[[] for _ in parameterValues] for _ in parameterValues],
-                    index=parameterValues,
-                    columns=parameterValues,
+            parameterValues = nonRandomExperiments[column].unique()
+            parametersDF = pd.DataFrame(
+                [[[] for _ in parameterValues] for _ in parameterValues],
+                index=parameterValues,
+                columns=parameterValues,
+            )
+
+            # Group rows that are identical except for `column` and the invalid columns
+            grouped = nonRandomExperiments.groupby(
+                list(
+                    nonRandomExperiments.columns.difference(
+                        [column] + self.INVALID_COLUMNS
+                    )
+                )
+            )
+
+            for _, group in grouped:
+                # Need at least 2 rows to compare
+                if len(group) >= 2:
+                    # Iterate pairwise inside the group
+                    for i in range(len(group)):
+                        for j in range(i + 1, len(group)):
+                            row1 = group.iloc[i]
+                            row2 = group.iloc[j]
+
+                            value = self.comparisonsDF.loc[
+                                row1["fileName"], row2["fileName"]
+                            ]
+
+                            parametersDF.loc[row1[column], row2[column]].append(value)
+                            parametersDF.loc[row2[column], row1[column]].append(-value)
+
+            # Remove rows and columns with all empty lists
+            parametersDF = parametersDF[
+                parametersDF.map(lambda x: len(x) > 0).any(axis=1)
+            ]
+            parametersDF = parametersDF.loc[
+                :, (parametersDF.map(lambda x: len(x) > 0)).any(axis=0)
+            ]
+
+            # If there are any values
+            if not parametersDF.empty:
+                # Average the values in each cell or np.nan
+                parametersDF = parametersDF.map(
+                    lambda x: np.mean(x) if len(x) > 0 else np.nan
                 )
 
-                # Group rows that are identical except for `column` and fileName
-                grouped = nonRandomExperiments.groupby(
-                    list(nonRandomExperiments.columns.difference([column, "fileName"]))
+                # Sort rows in ascending order
+                allNumeric = all(
+                    (x in ["inf", "-inf"])
+                    or not np.isnan(pd.to_numeric(x, errors="coerce"))
+                    for x in parameterValues
                 )
 
-                for _, group in grouped:
-                    # Need at least 2 rows to compare
-                    if len(group) >= 2:
-                        # Iterate pairwise inside the group
-                        for i in range(len(group)):
-                            for j in range(i + 1, len(group)):
-                                row1 = group.iloc[i]
-                                row2 = group.iloc[j]
+                parametersDF = parametersDF.sort_index(
+                    key=lambda idx: [float(x) if allNumeric else x for x in idx]
+                )
 
-                                value = self.comparisonsDF.loc[
-                                    row1["fileName"], row2["fileName"]
-                                ]
-
-                                parametersDF.loc[row1[column], row2[column]].append(
-                                    value
-                                )
-                                parametersDF.loc[row2[column], row1[column]].append(
-                                    -value
-                                )
-
-                # Remove rows and columns with all empty lists
-                parametersDF = parametersDF[
-                    parametersDF.map(lambda x: len(x) > 0).any(axis=1)
-                ]
-                parametersDF = parametersDF.loc[
-                    :, (parametersDF.map(lambda x: len(x) > 0)).any(axis=0)
-                ]
-
-                # If there are any values
-                if not parametersDF.empty:
-                    # Average the values in each cell or np.nan
-                    parametersDF = parametersDF.map(
-                        lambda x: np.mean(x) if len(x) > 0 else np.nan
-                    )
-
-                    # Sort rows in ascending order
-                    allNumeric = all(
-                        (x in ["inf", "-inf"])
-                        or not np.isnan(pd.to_numeric(x, errors="coerce"))
-                        for x in parameterValues
-                    )
-
-                    parametersDF = parametersDF.sort_index(
-                        key=lambda idx: [float(x) if allNumeric else x for x in idx]
-                    )
-
-                    # Graph the parameters
-                    self.graphHeatmap(parametersDF, column)
+                # Graph the parameters
+                self.graphHeatmap(parametersDF, column)
 
     def graphAllExperiments(self) -> None:
         """
