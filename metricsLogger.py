@@ -30,6 +30,10 @@ class MetricsLogger:
         """
         currentDirectory = os.path.dirname(os.path.abspath(__file__))
         dataDirectory = os.path.join(currentDirectory, "data")
+        self.graphDirectory = os.path.join(currentDirectory, "graphs")
+
+        # Ensure the graph directory exists
+        os.makedirs(self.graphDirectory, exist_ok=True)
 
         # List all parquet files in the data directory
         files = {
@@ -80,6 +84,56 @@ class MetricsLogger:
         victoryPercentageScore = np.sum(weights * np.sign(diff)) / np.sum(weights)
 
         return victoryPercentageScore
+
+    def graphHeatmap(self, matrix: pd.DataFrame, fileName: str) -> None:
+        """
+        This function graphs the matrix as a heatmap.
+
+        Args:
+            - matrix (pd.DataFrame): The matrix to graph
+            - fileName (str): The name of the file to save the graph to
+
+        Returns:
+            - None
+        """
+        data = matrix.to_numpy()
+        labels = matrix.columns
+
+        fig, ax = plt.subplots(figsize=(len(labels), len(labels)))
+        im = ax.imshow(data, aspect="equal", cmap="coolwarm")
+
+        # Add numbers inside the cells
+        for i in range(data.shape[0]):
+            for j in range(data.shape[1]):
+                # Ensure the value is not NaN
+                if not np.isnan(data[i, j]):
+                    ax.text(
+                        j,
+                        i,
+                        f"{data[i, j]:.2f}",
+                        ha="center",
+                        va="center",
+                        color="black",
+                    )
+
+        # Remove x-axis labels
+        ax.set_xticks([])
+        ax.set_yticks(np.arange(len(labels)))
+        ax.set_yticklabels(labels)
+        ax.grid(False)
+
+        plt.title(fileName)
+        plt.colorbar(im)
+
+        # Save the figure
+        text = fileName.replace(" ", "")
+        plt.savefig(
+            os.path.join(
+                self.graphDirectory, f"Column{text[0].upper() + text[1:]}.png"
+            ),
+            bbox_inches="tight",
+        )
+        plt.close()
 
     def calculateComparisons(self) -> None:
         """
