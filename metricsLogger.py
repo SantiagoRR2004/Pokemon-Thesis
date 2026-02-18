@@ -1,7 +1,99 @@
 import matplotlib.pyplot as plt
 import plotly.graph_objs as go
 import pandas as pd
+import numpy as np
 import os
+
+
+class MetricsLogger:
+    """
+    A class to log and graph the training metrics of the reinforcement learning agent.
+
+    The metrics include:
+        - victoryPercentage: The percentage of victories in the evaluation episodes.
+        - actorLosses: The loss of the actor network during training.
+        - criticLosses: The loss of the critic network during training.
+        - averageRewards: The average rewards obtained in the evaluation episodes.
+        - averageCriticRewards: The average rewards obtained by the critic in the evaluation episodes.
+        - nTurns: The average number of turns taken in the evaluation episodes.
+    """
+
+    def __init__(self) -> None:
+        """
+        Initialize the MetricsLogger by loading the existing data from the data directory.
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        currentDirectory = os.path.dirname(os.path.abspath(__file__))
+        dataDirectory = os.path.join(currentDirectory, "data")
+
+        # List all parquet files in the data directory
+        files = {
+            fileName[: -len(".parquet")]: pd.read_parquet(
+                os.path.join(dataDirectory, fileName)
+            )
+            for fileName in os.listdir(dataDirectory)
+            if fileName.endswith(".parquet")
+        }
+        # Sort files by name
+        files = dict(sorted(files.items(), key=lambda item: item[0]))
+        self.files = files
+
+        # Load the experiments data
+        self.experimentData = pd.read_csv(
+            os.path.join(dataDirectory, "experiments.csv")
+        )
+
+        # Create the comparisons DataFrame
+        self.calculateComparisons()
+
+    @staticmethod
+    def relativeQuality(A: pd.DataFrame, B: pd.DataFrame) -> float:
+        """
+        Calculate the relative quality of two sets of metrics.
+
+        Args:
+            - A (pd.DataFrame): The first set of metrics.
+            - B (pd.DataFrame): The second set of metrics.
+
+        Returns:
+            - float: The relative quality of A compared to B.
+        """
+        return 0
+
+    def calculateComparisons(self) -> None:
+        """
+        Calculate the relative quality of all pairs of files and store the results in a DataFrame.
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        comparisonsDF = pd.DataFrame(
+            np.nan, index=list(self.files.keys()), columns=self.files.keys()
+        )
+
+        # Iterate across all pairs of files
+        for i in range(len(comparisonsDF.columns)):
+            for j in range(i + 1, len(comparisonsDF.columns)):
+
+                data1 = self.files[comparisonsDF.columns[i]]
+                data2 = self.files[comparisonsDF.columns[j]]
+
+                # Calculate score
+                score = self.relativeQuality(data1, data2)
+
+                # Skew-symmetric matrix
+                comparisonsDF.iloc[i, j] = score
+                comparisonsDF.iloc[j, i] = -score
+
+        self.comparisonsDF = comparisonsDF
 
 
 def saveData(
