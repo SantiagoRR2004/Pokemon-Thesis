@@ -38,10 +38,6 @@ update_repo() {
         # Configure the server
         ../serverConfiguration.sh config/config.js
 
-        # Build the server
-        npm install pg@8
-        node build
-
         : <<'END_COMMENT'
         Need to replace line 79 in lib/net.ts with:
 
@@ -53,6 +49,10 @@ END_COMMENT
 
         echo "Modifying lib/net.ts to use URL instead of url.parse..."
         sed -i 's/const protocol = url\.parse(this\.uri)\.protocol;/const protocol = new URL(this.uri).protocol;/g' lib/net.ts
+   
+        # Correctly build the server
+        rm -rf node_modules package-lock.json yarn.lock
+        node pokemon-showdown generate-team
     fi
 }
 
