@@ -32,7 +32,7 @@ class MetricsLogger:
             - None
         """
         currentDirectory = os.path.dirname(os.path.abspath(__file__))
-        dataDirectory = os.path.join(currentDirectory, "data")
+        self.dataDirectory = os.path.join(currentDirectory, "data")
         self.graphDirectory = os.path.join(currentDirectory, "graphs")
 
         # Ensure the graph directory exists
@@ -41,9 +41,9 @@ class MetricsLogger:
         # List all parquet files in the data directory
         files = {
             fileName[: -len(".parquet")]: pd.read_parquet(
-                os.path.join(dataDirectory, fileName)
+                os.path.join(self.dataDirectory, fileName)
             )
-            for fileName in os.listdir(dataDirectory)
+            for fileName in os.listdir(self.dataDirectory)
             if fileName.endswith(".parquet")
         }
         # Sort files by name
@@ -52,7 +52,7 @@ class MetricsLogger:
 
         # Load the experiments data
         self.experimentData = pd.read_csv(
-            os.path.join(dataDirectory, "experiments.csv")
+            os.path.join(self.dataDirectory, "experiments.csv")
         )
 
         # Remove rows with fileName that is not in the files dictionary
@@ -472,6 +472,48 @@ class MetricsLogger:
                         fig.add_trace(go.Scatter(y=combined, mode="lines", name=name))
 
                 fig.show()
+
+    def obtainNewExperiment(self) -> dict:
+        """
+        Obtain a new experiment by sampling from the best parameters.
+
+        Args:
+            - None
+
+        Returns:
+            - dict: A dictionary with the sampled parameters
+        """
+        return {
+            column: series.sample(n=1, weights=series).index[0]
+            for column, series in self.bestParameters.items()
+        }
+
+    def createNewExperiments(self, n: int = 5) -> list:
+        """
+        Create n new experiments by sampling from the best parameters.
+
+        Args:
+            - n (int): The number of new experiments to create
+
+        Returns:
+            - list: A list of dictionaries with the sampled parameters for each experiment
+        """
+        # Obtain all experiments
+        allExperiments = pd.read_csv(
+            os.path.join(self.dataDirectory, "experiments.csv")
+        )
+        latestExperimentInt = max(
+            [
+                int(f.split("experiment")[-1].split(".")[0])
+                for f in allExperiments["fileName"]
+                if "experiment" in f
+            ]
+        )
+
+        nAdded = 0
+
+        while nAdded < n:
+            nAdded += 1
 
 
 def saveData(
