@@ -99,12 +99,53 @@ class MetricsLogger:
         if len(B["epoch"]) > minEpochs:
             B = B.iloc[:minEpochs].copy()
 
-        # Calculate the victory percentage score
         weights = np.arange(1, minEpochs + 1) / minEpochs
+
+        # Calculate the victory percentage score
         diff = A["victoryPercentage"].to_numpy() - B["victoryPercentage"].to_numpy()
         victoryPercentageScore = np.sum(weights * np.sign(diff)) / np.sum(weights)
+        nScores = 1
 
-        return victoryPercentageScore
+        # Calculate the actor loss score
+        actorLossScore = 0
+        if "actorLosses" in A.columns and "actorLosses" in B.columns:
+            diff = A["actorLosses"].to_numpy() - B["actorLosses"].to_numpy()
+            actorLossScore = -np.sum(weights * np.sign(diff)) / np.sum(weights)
+            nScores += 1
+
+        # Calculate the critic loss score
+        criticLossScore = 0
+        if "criticLosses" in A.columns and "criticLosses" in B.columns:
+            diff = A["criticLosses"].to_numpy() - B["criticLosses"].to_numpy()
+            criticLossScore = -np.sum(weights * np.sign(diff)) / np.sum(weights)
+            nScores += 1
+
+        # Calculate the average rewards score
+        averageRewardsScore = 0
+        if "averageRewards" in A.columns and "averageRewards" in B.columns:
+            diff = A["averageRewards"].to_numpy() - B["averageRewards"].to_numpy()
+            averageRewardsScore = np.sum(weights * np.sign(diff)) / np.sum(weights)
+            nScores += 1
+
+        # Calculate the average critic rewards score
+        averageCriticRewardsScore = 0
+        if "averageCriticRewards" in A.columns and "averageCriticRewards" in B.columns:
+            diff = (
+                A["averageCriticRewards"].to_numpy()
+                - B["averageCriticRewards"].to_numpy()
+            )
+            averageCriticRewardsScore = np.sum(weights * np.sign(diff)) / np.sum(
+                weights
+            )
+            nScores += 1
+
+        return (
+            victoryPercentageScore
+            + actorLossScore
+            + criticLossScore
+            + averageRewardsScore
+            + averageCriticRewardsScore
+        ) / nScores
 
     def graphHeatmap(self, matrix: pd.DataFrame, fileName: str) -> None:
         """
@@ -144,7 +185,6 @@ class MetricsLogger:
         ax.grid(False)
 
         plt.title(fileName)
-        plt.colorbar(im)
 
         # Save the figure
         text = fileName.replace(" ", "")
@@ -185,6 +225,9 @@ class MetricsLogger:
                 comparisonsDF.iloc[j, i] = -score
 
         self.comparisonsDF = comparisonsDF
+
+        # Graph the comparisons matrix
+        self.graphHeatmap(comparisonsDF, "All")
 
     def calculateBestParameters(self) -> None:
         """
