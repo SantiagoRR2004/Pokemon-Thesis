@@ -1,8 +1,13 @@
+from contextlib import redirect_stdout, redirect_stderr
 import matplotlib.pyplot as plt
 import plotly.graph_objs as go
 import pandas as pd
 import numpy as np
+import pokemons
+import players
+import moves
 import os
+import re
 
 
 class MetricsLogger:
@@ -513,7 +518,68 @@ class MetricsLogger:
         nAdded = 0
 
         while nAdded < n:
-            nAdded += 1
+            # Sample new parameters
+            params = self.obtainNewExperiment()
+
+            # Check that the experiment does not already exist
+            exists = all(
+                (allExperiments[column] == value).any()
+                for column, value in params.items()
+            )
+
+            if not exists:
+                # Create a new file name
+                fileName = f"experiment{latestExperimentInt + nAdded + 1}"
+                params["fileName"] = fileName
+
+                # The TrainingMethod
+                if pd.isna(params["critic"]):
+                    params["TrainingMethod"] = "actor"
+                else:
+                    params["TrainingMethod"] = "actorCritic"
+
+                # Add nInputs as 0
+                params["nInputs"] = 0
+
+                # Add to allExperiments
+                allExperiments = pd.concat(
+                    [allExperiments, pd.DataFrame([params])], ignore_index=True
+                )
+
+                nAdded += 1
+
+        # Correctly calculate the nInputs column
+        for index, row in allExperiments.iterrows():
+
+            try:
+                # Least printing possible
+                with open(os.devnull, "w") as fnull:
+                    with redirect_stdout(fnull), redirect_stderr(fnull):
+                        move = getattr(moves, row.move)()
+                        pokemon = getattr(pokemons, row.pokemon)(move)
+                        player = getattr(players, row.player)(
+                            network="BlaBlaBla", pokemonFeatureExtractor=pokemon
+                        )
+
+                allExperiments.at[index, "nInputs"] = player.getNumberOfInputs()
+
+            except AttributeError as e:
+                continue
+
+        def naturalKey(s):
+            return [
+                int(text) if text.isdigit() else text for text in re.split(r"(\d+)", s)
+            ]
+
+        # Order the rows by fileName
+        allExperiments = allExperiments.sort_values(
+            by="fileName", key=lambda x: x.map(naturalKey)
+        ).reset_index(drop=True)
+
+        # Save the new experiments
+        allExperiments.to_csv(
+            os.path.join(self.dataDirectory, "experiments.csv"), index=False
+        )
 
 
 def saveData(
