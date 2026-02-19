@@ -39,6 +39,7 @@ update_repo() {
         ../serverConfiguration.sh config/config.js
 
         # Build the server
+        npm install pg@8
         node build
 
         : <<'END_COMMENT'
