@@ -263,6 +263,9 @@ class MetricsLogger:
                     key=lambda idx: [float(x) if allNumeric else x for x in idx]
                 )
 
+                # Sort columns in ascending order
+                parametersDF = parametersDF.reindex(columns=parametersDF.index)
+
                 # Graph the parameters
                 self.graphHeatmap(parametersDF, column)
 
