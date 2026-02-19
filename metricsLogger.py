@@ -60,6 +60,11 @@ class MetricsLogger:
             os.path.join(self.dataDirectory, "experiments.csv")
         )
 
+        # Ccheck that there are no duplicates
+        assert not self.experimentData.duplicated(
+            subset=self.experimentData.columns.difference(self.INVALID_COLUMNS)
+        ).any(), "There are duplicate rows in the experiments.csv file."
+
         # Remove rows with fileName that is not in the files dictionary
         self.experimentData = self.experimentData[
             self.experimentData["fileName"].isin(self.files.keys())

@@ -1,16 +1,17 @@
-import os
+import metricsLogger
 import pandas as pd
-import actors
-import critics
-import moves
+import subprocess
 import pokemons
+import training
 import asyncio
 import players
 import rewards
-import training
 import getpass
-import subprocess
+import critics
+import actors
 import shutil
+import moves
+import os
 
 if __name__ == "__main__":
 
@@ -92,4 +93,4 @@ if __name__ == "__main__":
                         )
 
         # Create new experiments
-        from data import test_Experiments
+        metricsLogger.MetricsLogger().createNewExperiments()
