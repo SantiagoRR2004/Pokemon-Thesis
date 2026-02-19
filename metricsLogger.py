@@ -271,13 +271,17 @@ class MetricsLogger:
                     ascending=False
                 )
 
-                # Add missing values as 1 to make sure they appear more
-                ranking = ranking.reindex(parameterValues, fill_value=1)
+            else:
+                # If there are no values, we just give a uniform ranking
+                ranking = pd.Series(1, index=parameterValues)
 
-                # Apply softmax to get probabilities
-                ranking = np.exp(ranking) / np.sum(np.exp(ranking))
+            # Add missing values as 1 to make sure they appear more
+            ranking = ranking.reindex(parameterValues, fill_value=1)
 
-                self.bestParameters[column] = ranking
+            # Apply softmax to get probabilities
+            ranking = np.exp(ranking) / np.sum(np.exp(ranking))
+
+            self.bestParameters[column] = ranking
 
     def graphAllExperiments(self) -> None:
         """
@@ -522,10 +526,9 @@ class MetricsLogger:
             params = self.obtainNewExperiment()
 
             # Check that the experiment does not already exist
-            exists = all(
-                (allExperiments[column] == value).any()
-                for column, value in params.items()
-            )
+            exists = (
+                (allExperiments[list(params)] == pd.Series(params)).all(axis=1)
+            ).any()
 
             if not exists:
                 # Create a new file name
