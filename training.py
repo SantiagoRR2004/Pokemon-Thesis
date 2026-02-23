@@ -380,10 +380,41 @@ class Trainer:
                 await self.playBattles()
 
             else:
-                # Timeout of 3 times the average time
-                await asyncio.wait_for(
-                    self.playBattles(), timeout=3 * timeSpent / (epoch + 1)
-                )
+                # Timeout of 3 times the average time (min 10)
+                timeout = max(3 * timeSpent / epoch, 10)
+
+                nTries = 0
+                # 3 tries
+                while nTries < 3:
+                    try:
+                        await asyncio.wait_for(self.playBattles(), timeout=timeout)
+                        # If successful, break the loop
+                        nTries = 3
+                    except asyncio.TimeoutError:
+                        nTries += 1
+                        print(
+                            f"Timeout occurred for epoch {epoch+1}. Retrying... ({nTries}/3)",
+                            flush=True,
+                        )
+
+                        if nTries == 2:
+                            # Reset the server on the second timeout
+                            self.resetServer()
+                        else:
+                            # Reset the players
+                            self.resetPlayer()
+                            self.resetOpponents()
+
+                        # Always set gradients to zero
+                        self.optimizer.zero_grad()
+                        if self.criticClass:
+                            self.criticOptimizer.zero_grad()
+
+                        # Raise the error on the last try
+                        if nTries == 3:
+                            raise RuntimeError(
+                                f"Epoch {epoch+1} failed after 3 tries due to timeouts."
+                            )
 
             actorLoss = 0
             averageRewardsEpoch = 0
