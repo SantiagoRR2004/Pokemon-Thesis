@@ -523,7 +523,8 @@ class Trainer:
             if (epoch + 1) % 50 == 0 and (epoch + 1) != self.nEpochs:
                 self.resetServer()
 
-            if (epoch + 1) % 1000 == 0:
+            # Save the model at the last epoch
+            if (epoch + 1) == self.nEpochs:
                 torch.save(self.actor.state_dict(), f"actor_epoch{epoch+1}.pth")
                 if self.criticClass:
                     torch.save(self.critic.state_dict(), f"critic_epoch{epoch+1}.pth")

@@ -92,5 +92,8 @@ if __name__ == "__main__":
                             )
                         )
 
-        # Create new experiments
-        metricsLogger.MetricsLogger().createNewExperiments()
+        # Do not create new experiments for now
+        break
+
+        # # Create new experiments
+        # metricsLogger.MetricsLogger().createNewExperiments()
