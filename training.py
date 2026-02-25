@@ -45,6 +45,9 @@ def str_to_bool(s: str) -> bool:
 
 class Trainer:
 
+    CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
+    DATA_DIRECTORY = os.path.join(CURRENT_DIRECTORY, "data")
+
     def __init__(
         self,
         *,
@@ -525,9 +528,15 @@ class Trainer:
 
             # Save the model at the last epoch
             if (epoch + 1) == self.nEpochs:
-                torch.save(self.actor.state_dict(), f"actor_epoch{epoch+1}.pth")
+                torch.save(
+                    self.actor.state_dict(),
+                    os.path.join(self.DATA_DIRECTORY, f"{self.fileName}Actor.pth"),
+                )
                 if self.criticClass:
-                    torch.save(self.critic.state_dict(), f"critic_epoch{epoch+1}.pth")
+                    torch.save(
+                        self.critic.state_dict(),
+                        os.path.join(self.DATA_DIRECTORY, f"{self.fileName}Critic.pth"),
+                    )
 
         # Save the metrics
         self.saveMetrics()
