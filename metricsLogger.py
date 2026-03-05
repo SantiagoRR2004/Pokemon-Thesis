@@ -83,8 +83,11 @@ class MetricsLogger:
         # Create another DataFrame by battling
         self.calculateTournament()
 
-        # Calculate the best parameters for the metrics
-        self.bestParameters = self.calculateBestParameters(self.comparisonsDF)
+        # Calculate the best parameters for the metrics (to create graphs)
+        self.bestParametersLogs = self.calculateBestParameters(self.comparisonsDF)
+
+        # Calculate the best parameters for the battles
+        self.bestParameters = self.calculateBestParameters(self.tournamentDF)
 
     @staticmethod
     def relativeQuality(A: pd.DataFrame, B: pd.DataFrame) -> float:
@@ -248,50 +251,69 @@ class MetricsLogger:
         Returns:
             - None
         """
+        battlesFile = os.path.join(self.dataDirectory, "battles.csv")
+
         files = [
             fileName[: -len("Actor.pth")]
             for fileName in os.listdir(self.dataDirectory)
             if fileName.endswith("Actor.pth")
         ]
 
-        # Start the server
-        p = serverControl.startServer()
+        if os.path.exists(battlesFile):
+            tournamentDF = pd.read_csv(battlesFile, index_col=0)
+
+            # Assert that the index and columns have the same elements
+            assert set(tournamentDF.index) == set(
+                tournamentDF.columns
+            ), "Square matrix required."
+
+        else:
+            # Create a DataFrame to store the results
+            tournamentDF = pd.DataFrame()
+
+        # Check which files are missing from the tournamentDF
+        missingFiles = set(files) - set(tournamentDF.index)
 
         serverConfig = ServerConfiguration(
             f"ws://localhost:{int(os.getenv("SERVER_PORT"))}/showdown/websocket",
             "https://play.pokemonshowdown.com/action.php?",
         )
 
-        # Create a DataFrame to store the results
-        tournamentDF = pd.DataFrame(np.nan, index=files, columns=files)
+        for file in missingFiles:
+            # Add nan row and column
+            tournamentDF[file] = np.nan
+            tournamentDF.loc[file] = np.nan
 
-        for i in range(len(tournamentDF.columns)):
-            for j in range(i + 1, len(tournamentDF.columns)):
+            # Iterate over existing columns
+            for opponent in tournamentDF.columns.difference([file]):
+
+                # Start the server
+                p = serverControl.startServer()
 
                 player1 = otherPlayers.getPlayerExperiment(
-                    int(files[i][len("experiment") :]), serverConfig=serverConfig
+                    int(file[len("experiment") :]), serverConfig=serverConfig
                 )
                 player2 = otherPlayers.getPlayerExperiment(
-                    int(files[j][len("experiment") :]), serverConfig=serverConfig
+                    int(opponent[len("experiment") :]), serverConfig=serverConfig
                 )
 
                 # Battle the two players
                 asyncio.run(player1.battle_against(player2, n_battles=100))
 
-                print(player1.win_rate)
-
-                tournamentDF.iloc[i, j] = player1.win_rate
-                tournamentDF.iloc[j, i] = 1 - player1.win_rate
+                tournamentDF.at[file, opponent] = player1.win_rate
+                tournamentDF.at[opponent, file] = 1 - player1.win_rate
 
                 # Need to restart the server
                 serverControl.endProcess(p)
                 p.wait()
-                p = serverControl.startServer()
 
         self.tournamentDF = tournamentDF
 
         # Graph the tournament matrix
         self.graphHeatmap(tournamentDF, "All")
+
+        # Save the tournament results
+        tournamentDF.to_csv(battlesFile, index=True)
 
     def calculateBestParameters(self, relativeMatrix: pd.DataFrame) -> dict:
         """
@@ -307,6 +329,11 @@ class MetricsLogger:
         # Only use non-random experiments
         nonRandomExperiments = self.experimentData[
             ~self.experimentData["fileName"].str.contains("random")
+        ].copy()
+
+        # Keep only those that are in the relativeMatrix
+        nonRandomExperiments = nonRandomExperiments[
+            nonRandomExperiments["fileName"].isin(relativeMatrix.index)
         ].copy()
 
         bestParameters = {}
