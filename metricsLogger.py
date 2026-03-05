@@ -45,6 +45,7 @@ class MetricsLogger:
         """
         currentDirectory = os.path.dirname(os.path.abspath(__file__))
         self.dataDirectory = os.path.join(currentDirectory, "data")
+        self.experimentsDirectory = os.path.join(self.dataDirectory, "experiments")
         self.graphDirectory = os.path.join(currentDirectory, "graphs")
 
         # Ensure the graph directory exists
@@ -53,9 +54,9 @@ class MetricsLogger:
         # List all parquet files in the data directory
         files = {
             fileName[: -len(".parquet")]: pd.read_parquet(
-                os.path.join(self.dataDirectory, fileName)
+                os.path.join(self.experimentsDirectory, fileName)
             )
-            for fileName in os.listdir(self.dataDirectory)
+            for fileName in os.listdir(self.experimentsDirectory)
             if fileName.endswith(".parquet")
         }
         # Sort files by name
@@ -257,7 +258,7 @@ class MetricsLogger:
 
         files = [
             fileName[: -len("Actor.pth")]
-            for fileName in os.listdir(self.dataDirectory)
+            for fileName in os.listdir(self.experimentsDirectory)
             if fileName.endswith("Actor.pth")
         ]
 
@@ -769,7 +770,7 @@ def saveData(
             df[key] = value
 
     currentDirectory = os.path.dirname(os.path.abspath(__file__))
-    dataDirectory = os.path.join(currentDirectory, "data")
+    dataDirectory = os.path.join(currentDirectory, "data", "experiments")
     # Ensure the directory exists
     os.makedirs(dataDirectory, exist_ok=True)
 

@@ -27,7 +27,11 @@ async def main():
 
     actor = ActorNetwork03(player)
     actor.load_state_dict(
-        torch.load(os.path.join(currentDirectory, "data", "experiment88Actor.pth"))
+        torch.load(
+            os.path.join(
+                currentDirectory, "data", "experiments", "experiment88Actor.pth"
+            )
+        )
     )
     actor.eval()
 

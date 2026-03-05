@@ -46,7 +46,7 @@ def str_to_bool(s: str) -> bool:
 class Trainer:
 
     CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
-    DATA_DIRECTORY = os.path.join(CURRENT_DIRECTORY, "data")
+    DATA_DIRECTORY = os.path.join(CURRENT_DIRECTORY, "data", "experiments")
 
     def __init__(
         self,

@@ -54,7 +54,7 @@ def getPlayerExperiment(
     """
     currentDirectory = os.path.dirname(os.path.abspath(__file__))
     dataPath = os.path.join(os.path.dirname(currentDirectory), "data")
-    modelFile = os.path.join(dataPath, f"experiment{n}Actor.pth")
+    modelFile = os.path.join(dataPath, "experiments", f"experiment{n}Actor.pth")
     dataFile = os.path.join(dataPath, f"experiments.csv")
 
     # Check if the model file exists
