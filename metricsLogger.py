@@ -60,7 +60,7 @@ class MetricsLogger:
             os.path.join(self.dataDirectory, "experiments.csv")
         )
 
-        # Ccheck that there are no duplicates
+        # Check that there are no duplicates
         assert not self.experimentData.duplicated(
             subset=self.experimentData.columns.difference(self.INVALID_COLUMNS)
         ).any(), "There are duplicate rows in the experiments.csv file."
@@ -70,11 +70,11 @@ class MetricsLogger:
             self.experimentData["fileName"].isin(self.files.keys())
         ].copy()
 
-        # Create the comparisons DataFrame
+        # Create the comparisons DataFrame from the metrics
         self.calculateComparisons()
 
-        # Calculate the best parameters
-        self.calculateBestParameters()
+        # Calculate the best parameters for the metrics
+        self.bestParameters = self.calculateBestParameters(self.comparisonsDF)
 
     @staticmethod
     def relativeQuality(A: pd.DataFrame, B: pd.DataFrame) -> float:
@@ -187,11 +187,9 @@ class MetricsLogger:
         plt.title(fileName)
 
         # Save the figure
-        text = fileName.replace(" ", "")
+        text = "".join([word[0].upper() + word[1:] for word in fileName.split()])
         plt.savefig(
-            os.path.join(
-                self.graphDirectory, f"Column{text[0].upper() + text[1:]}.png"
-            ),
+            os.path.join(self.graphDirectory, f"{text}.png"),
             bbox_inches="tight",
         )
         plt.close()
@@ -229,22 +227,23 @@ class MetricsLogger:
         # Graph the comparisons matrix
         self.graphHeatmap(comparisonsDF, "All")
 
-    def calculateBestParameters(self) -> None:
+    def calculateBestParameters(self, relativeMatrix: pd.DataFrame) -> dict:
         """
         Calculate the best parameters for each variable in the experiments.csv file
 
         Args:
-            - None
+            - relativeMatrix (pd.DataFrame): The matrix with the relative quality of each pair of files
+                It should be skew-symmetric.
 
         Returns:
-            - None
+            - dict: A dictionary with the best parameters for each variable
         """
         # Only use non-random experiments
         nonRandomExperiments = self.experimentData[
             ~self.experimentData["fileName"].str.contains("random")
         ].copy()
 
-        self.bestParameters = {}
+        bestParameters = {}
 
         for column in nonRandomExperiments.columns.difference(self.INVALID_COLUMNS):
 
@@ -273,7 +272,7 @@ class MetricsLogger:
                             row1 = group.iloc[i]
                             row2 = group.iloc[j]
 
-                            value = self.comparisonsDF.loc[
+                            value = relativeMatrix.loc[
                                 row1["fileName"], row2["fileName"]
                             ]
 
@@ -332,7 +331,9 @@ class MetricsLogger:
             # Apply softmax to get probabilities
             ranking = np.exp(ranking) / np.sum(np.exp(ranking))
 
-            self.bestParameters[column] = ranking
+            bestParameters[column] = ranking
+
+        return bestParameters
 
     def graphAllExperiments(self) -> None:
         """
