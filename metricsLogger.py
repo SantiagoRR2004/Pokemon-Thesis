@@ -174,6 +174,9 @@ class MetricsLogger:
         Returns:
             - None
         """
+        # Sort columns and rows
+        matrix = sortMatrix(matrix)
+
         data = matrix.to_numpy()
         labels = matrix.index.astype(str).tolist()
 
@@ -391,20 +394,6 @@ class MetricsLogger:
                 parametersDF = parametersDF.map(
                     lambda x: np.mean(x) if len(x) > 0 else np.nan
                 )
-
-                # Sort rows in ascending order
-                allNumeric = all(
-                    (x in ["inf", "-inf"])
-                    or not np.isnan(pd.to_numeric(x, errors="coerce"))
-                    for x in parameterValues
-                )
-
-                parametersDF = parametersDF.sort_index(
-                    key=lambda idx: [float(x) if allNumeric else x for x in idx]
-                )
-
-                # Sort columns in ascending order
-                parametersDF = parametersDF.reindex(columns=parametersDF.index)
 
                 # Graph the parameters
                 self.graphHeatmap(parametersDF, f"{name} {column}")
@@ -719,11 +708,6 @@ class MetricsLogger:
             except AttributeError as e:
                 continue
 
-        def naturalKey(s):
-            return [
-                int(text) if text.isdigit() else text for text in re.split(r"(\d+)", s)
-            ]
-
         # Order the rows by fileName
         allExperiments = allExperiments.sort_values(
             by="fileName", key=lambda x: x.map(naturalKey)
@@ -797,6 +781,49 @@ def sortLegend() -> None:
 
     # Apply sorted legend
     plt.legend(sorted_handles, sorted_labels)
+
+
+def naturalKey(s):
+    """
+    A key function for natural sorting of strings containing numbers.
+
+    Args:
+        - s (str): The string to generate the key for.
+
+    Returns:
+        - list: A list of integers and strings that can be used for natural sorting.
+    """
+    return [int(text) if text.isdigit() else text for text in re.split(r"(\d+)", s)]
+
+
+def sortMatrix(matrix: pd.DataFrame) -> pd.DataFrame:
+    """
+    Sort the rows and columns of the matrix in ascending order.
+
+    Args:
+        - matrix (pd.DataFrame): The matrix to sort
+
+    Returns:
+        - pd.DataFrame: The sorted matrix
+    """
+    parameterValues = matrix.index.astype(str).tolist()
+
+    # Check if all parameter values are numeric
+    allNumeric = all(
+        (x in ["inf", "-inf"]) or not np.isnan(pd.to_numeric(x, errors="coerce"))
+        for x in parameterValues
+    )
+
+    # Sort rows in ascending order
+    if allNumeric:
+        matrix = matrix.sort_index(key=lambda idx: [float(x) for x in idx])
+    else:
+        matrix = matrix.sort_index(key=lambda idx: [naturalKey(str(x)) for x in idx])
+
+    # Sort columns in ascending order
+    matrix = matrix.reindex(columns=matrix.index)
+
+    return matrix
 
 
 if __name__ == "__main__":
