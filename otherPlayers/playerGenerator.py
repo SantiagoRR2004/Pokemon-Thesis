@@ -11,12 +11,38 @@ import moves
 import os
 
 
-def getRandomPlayer(args: dict = {}) -> RandomPlayer:
+def getAnyPlayer(choice: str, **args) -> AbstractAIPlayer:
+    """
+    Returns a player instance based on the given choice.
+
+    Args:
+        - choice (str): The type of player to return. Can be "random", "maxDamage", or "experiment{n}".
+        - args: Additional positional arguments to pass to the player constructor.
+
+    Returns:
+        - AbstractAIPlayer: An instance of AbstractAIPlayer corresponding to the choice.
+    """
+    if choice == "random":
+        return getRandomPlayer(**args)
+    elif choice == "maxDamage":
+        return getRandomMaxDamagePlayer(**args)
+    elif choice.startswith("experiment"):
+        n = int(choice[len("experiment") :])
+        return getPlayerExperiment(n, **args)
+
+    raise ValueError(
+        f"Invalid choice: {choice}. Expected 'random', 'maxDamage', or an integer."
+    )
+
+
+def getRandomPlayer(*, args: dict = {}, **kwargs) -> RandomPlayer:
     """
     Returns a RandomPlayer instance with the given arguments.
 
     Args:
         - args (dict): A dictionary of arguments to pass to the RandomPlayer constructor.
+        - kwargs: Not used, but included to allow for additional
+            arguments without breaking the function.
 
     Returns:
         - RandomPlayer: An instance of RandomPlayer.
@@ -24,12 +50,14 @@ def getRandomPlayer(args: dict = {}) -> RandomPlayer:
     return RandomPlayer(**args)
 
 
-def getRandomMaxDamagePlayer(args: dict = {}) -> MaxRandomDamagePlayer:
+def getRandomMaxDamagePlayer(*, args: dict = {}, **kwargs) -> MaxRandomDamagePlayer:
     """
     Returns a MaxDamagePlayer instance with the given arguments.
 
     Args:
         - args (dict): A dictionary of arguments to pass to the MaxDamagePlayer constructor.
+        - kwargs: Not used, but included to allow for additional
+            arguments without breaking the function.
 
     Returns:
         - MaxDamagePlayer: An instance of MaxDamagePlayer.
@@ -38,7 +66,7 @@ def getRandomMaxDamagePlayer(args: dict = {}) -> MaxRandomDamagePlayer:
 
 
 def getPlayerExperiment(
-    n: int, serverConfig: ServerConfiguration, concurrentBattles: int = 100
+    n: int, serverConfig: ServerConfiguration, concurrentBattles: int = 100, **kwargs
 ) -> AbstractAIPlayer:
     """
     This function returns a player for a given experiment number.
@@ -48,6 +76,8 @@ def getPlayerExperiment(
         - serverConfig (ServerConfiguration): The server configuration to use for the player.
         - concurrentBattles (int): The number of concurrent battles the player
             allows (default is 100).
+        - kwargs: Not used, but included to allow for additional
+            arguments without breaking the function.
 
     Returns:
         - AbstractAIPlayer: An instance of AbstractAIPlayer corresponding to the experiment number.

@@ -263,7 +263,7 @@ class MetricsLogger:
             fileName[: -len("Actor.pth")]
             for fileName in os.listdir(self.experimentsDirectory)
             if fileName.endswith("Actor.pth")
-        ]
+        ] + ["random", "maxDamage"]
 
         if os.path.exists(battlesFile):
             tournamentDF = pd.read_csv(battlesFile, index_col=0)
@@ -280,10 +280,19 @@ class MetricsLogger:
         # Check which files are missing from the tournamentDF
         missingFiles = set(files) - set(tournamentDF.index)
 
-        serverConfig = ServerConfiguration(
-            f"ws://localhost:{int(os.getenv("SERVER_PORT"))}/showdown/websocket",
-            "https://play.pokemonshowdown.com/action.php?",
-        )
+        arguments = {
+            "serverConfig": ServerConfiguration(
+                f"ws://localhost:{int(os.getenv("SERVER_PORT"))}/showdown/websocket",
+                "https://play.pokemonshowdown.com/action.php?",
+            ),
+            "args": {
+                "max_concurrent_battles": 100,
+                "server_configuration": ServerConfiguration(
+                    f"ws://localhost:{int(os.getenv('SERVER_PORT'))}/showdown/websocket",
+                    "https://play.pokemonshowdown.com/action.php?",
+                ),
+            },
+        }
 
         for file in missingFiles:
             # Add nan row and column
@@ -296,12 +305,8 @@ class MetricsLogger:
                 # Start the server
                 p = serverControl.startServer()
 
-                player1 = otherPlayers.getPlayerExperiment(
-                    int(file[len("experiment") :]), serverConfig=serverConfig
-                )
-                player2 = otherPlayers.getPlayerExperiment(
-                    int(opponent[len("experiment") :]), serverConfig=serverConfig
-                )
+                player1 = otherPlayers.getAnyPlayer(file, **arguments)
+                player2 = otherPlayers.getAnyPlayer(opponent, **arguments)
 
                 # Battle the two players
                 asyncio.run(player1.battle_against(player2, n_battles=100))
@@ -313,13 +318,13 @@ class MetricsLogger:
                 serverControl.endProcess(p)
                 p.wait()
 
-        self.tournamentDF = tournamentDF
+        self.tournamentDF = sortMatrix(tournamentDF)
 
         # Graph the tournament matrix
-        self.graphHeatmap(tournamentDF, "Battles All")
+        self.graphHeatmap(self.tournamentDF, "Battles All")
 
         # Save the tournament results
-        tournamentDF.to_csv(battlesFile, index=True)
+        self.tournamentDF.to_csv(battlesFile, index=True)
 
     def calculateBestParameters(
         self, relativeMatrix: pd.DataFrame, name: str = ""
