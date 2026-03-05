@@ -1,5 +1,8 @@
 from poke_env.ps_client.server_configuration import ServerConfiguration
 from contextlib import redirect_stdout, redirect_stderr
+import matplotlib
+
+matplotlib.use("Agg")  # Use non-interactive backend
 import matplotlib.pyplot as plt
 import plotly.graph_objs as go
 import serverControl
@@ -199,7 +202,7 @@ class MetricsLogger:
             os.path.join(self.graphDirectory, f"{text}.png"),
             bbox_inches="tight",
         )
-        plt.close()
+        plt.close(fig)
 
     def calculateComparisons(self) -> None:
         """
@@ -259,21 +262,18 @@ class MetricsLogger:
             "https://play.pokemonshowdown.com/action.php?",
         )
 
-        players = {
-            experiment: otherPlayers.getPlayerExperiment(
-                int(experiment[len("experiment") :]), serverConfig=serverConfig
-            )
-            for experiment in files
-        }
-
         # Create a DataFrame to store the results
         tournamentDF = pd.DataFrame(np.nan, index=files, columns=files)
 
         for i in range(len(tournamentDF.columns)):
             for j in range(i + 1, len(tournamentDF.columns)):
 
-                player1 = players[tournamentDF.columns[i]]
-                player2 = players[tournamentDF.columns[j]]
+                player1 = otherPlayers.getPlayerExperiment(
+                    int(files[i][len("experiment") :]), serverConfig=serverConfig
+                )
+                player2 = otherPlayers.getPlayerExperiment(
+                    int(files[j][len("experiment") :]), serverConfig=serverConfig
+                )
 
                 # Battle the two players
                 asyncio.run(player1.battle_against(player2, n_battles=100))
@@ -282,6 +282,11 @@ class MetricsLogger:
 
                 tournamentDF.iloc[i, j] = player1.win_rate
                 tournamentDF.iloc[j, i] = 1 - player1.win_rate
+
+                # Need to restart the server
+                serverControl.endProcess(p)
+                p.wait()
+                p = serverControl.startServer()
 
         self.tournamentDF = tournamentDF
 
