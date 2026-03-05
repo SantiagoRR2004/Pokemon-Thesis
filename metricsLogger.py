@@ -84,10 +84,12 @@ class MetricsLogger:
         self.calculateTournament()
 
         # Calculate the best parameters for the metrics (to create graphs)
-        self.bestParametersLogs = self.calculateBestParameters(self.comparisonsDF)
+        self.bestParametersLogs = self.calculateBestParameters(
+            self.comparisonsDF, "Logs"
+        )
 
         # Calculate the best parameters for the battles
-        self.bestParameters = self.calculateBestParameters(self.tournamentDF)
+        self.bestParameters = self.calculateBestParameters(self.tournamentDF, "Battles")
 
     @staticmethod
     def relativeQuality(A: pd.DataFrame, B: pd.DataFrame) -> float:
@@ -310,12 +312,14 @@ class MetricsLogger:
         self.tournamentDF = tournamentDF
 
         # Graph the tournament matrix
-        self.graphHeatmap(tournamentDF, "All")
+        self.graphHeatmap(tournamentDF, "Battles All")
 
         # Save the tournament results
         tournamentDF.to_csv(battlesFile, index=True)
 
-    def calculateBestParameters(self, relativeMatrix: pd.DataFrame) -> dict:
+    def calculateBestParameters(
+        self, relativeMatrix: pd.DataFrame, name: str = ""
+    ) -> dict:
         """
         Calculate the best parameters for each variable in the experiments.csv file
 
@@ -402,7 +406,7 @@ class MetricsLogger:
                 parametersDF = parametersDF.reindex(columns=parametersDF.index)
 
                 # Graph the parameters
-                self.graphHeatmap(parametersDF, column)
+                self.graphHeatmap(parametersDF, f"{name} {column}")
 
                 # Least-squares score method
                 n = parametersDF.shape[0]
