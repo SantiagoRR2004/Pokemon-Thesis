@@ -1,9 +1,13 @@
+from poke_env.ps_client.server_configuration import ServerConfiguration
 from contextlib import redirect_stdout, redirect_stderr
 import matplotlib.pyplot as plt
 import plotly.graph_objs as go
+import serverControl
 import pandas as pd
+import otherPlayers
 import numpy as np
 import pokemons
+import asyncio
 import players
 import moves
 import os
@@ -72,6 +76,9 @@ class MetricsLogger:
 
         # Create the comparisons DataFrame from the metrics
         self.calculateComparisons()
+
+        # Create another DataFrame by battling
+        self.calculateTournament()
 
         # Calculate the best parameters for the metrics
         self.bestParameters = self.calculateBestParameters(self.comparisonsDF)
@@ -225,7 +232,61 @@ class MetricsLogger:
         self.comparisonsDF = comparisonsDF
 
         # Graph the comparisons matrix
-        self.graphHeatmap(comparisonsDF, "All")
+        self.graphHeatmap(comparisonsDF, "Logs All")
+
+    def calculateTournament(self) -> None:
+        """
+        Battle all the players against each other and store
+        the results in a DataFrame.
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        files = [
+            fileName[: -len("Actor.pth")]
+            for fileName in os.listdir(self.dataDirectory)
+            if fileName.endswith("Actor.pth")
+        ]
+
+        # Start the server
+        p = serverControl.startServer()
+
+        serverConfig = ServerConfiguration(
+            f"ws://localhost:{int(os.getenv("SERVER_PORT"))}/showdown/websocket",
+            "https://play.pokemonshowdown.com/action.php?",
+        )
+
+        players = {
+            experiment: otherPlayers.getPlayerExperiment(
+                int(experiment[len("experiment") :]), serverConfig=serverConfig
+            )
+            for experiment in files
+        }
+
+        # Create a DataFrame to store the results
+        tournamentDF = pd.DataFrame(np.nan, index=files, columns=files)
+
+        for i in range(len(tournamentDF.columns)):
+            for j in range(i + 1, len(tournamentDF.columns)):
+
+                player1 = players[tournamentDF.columns[i]]
+                player2 = players[tournamentDF.columns[j]]
+
+                # Battle the two players
+                asyncio.run(player1.battle_against(player2, n_battles=100))
+
+                print(player1.win_rate)
+
+                tournamentDF.iloc[i, j] = player1.win_rate
+                tournamentDF.iloc[j, i] = 1 - player1.win_rate
+
+        self.tournamentDF = tournamentDF
+
+        # Graph the tournament matrix
+        self.graphHeatmap(tournamentDF, "All")
 
     def calculateBestParameters(self, relativeMatrix: pd.DataFrame) -> dict:
         """

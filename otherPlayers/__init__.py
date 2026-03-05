@@ -1,1 +1,5 @@
-from .playerGenerator import getRandomPlayer, getRandomMaxDamagePlayer
+from .playerGenerator import (
+    getRandomPlayer,
+    getRandomMaxDamagePlayer,
+    getPlayerExperiment,
+)
