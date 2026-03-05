@@ -1,7 +1,9 @@
-,experiment88,experiment127,experiment125,experiment126,experiment128,experiment129
-experiment88,,0.49,0.61,0.52,0.42,0.52
-experiment127,0.51,,0.56,0.52,0.54,0.56
-experiment125,0.39,0.44,,0.3399999999999999,0.38,0.53
-experiment126,0.48,0.48,0.66,,0.4499999999999999,0.51
-experiment128,0.58,0.46,0.62,0.55,,0.45999999999999996
-experiment129,0.48,0.44,0.47,0.49,0.54,
+,experiment88,experiment125,experiment126,experiment127,experiment128,experiment129,maxDamage,random
+experiment88,0.49,0.61,0.52,0.49,0.42,0.52,0.07,0.64
+experiment125,0.39,0.51,0.34,0.44,0.38,0.53,0.02,0.46
+experiment126,0.48,0.66,0.48,0.48,0.45,0.51,0.1,0.54
+experiment127,0.51,0.56,0.52,0.5,0.54,0.56,0.1,0.55
+experiment128,0.58,0.62,0.55,0.46,0.45,0.46,0.08,0.59
+experiment129,0.48,0.47,0.49,0.44,0.54,0.43,0.05,0.53
+maxDamage,0.93,0.98,0.9,0.9,0.92,0.95,0.54,0.91
+random,0.36,0.54,0.46,0.45,0.41,0.47,0.09,0.55
