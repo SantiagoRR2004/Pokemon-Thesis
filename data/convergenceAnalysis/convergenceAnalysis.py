@@ -32,7 +32,7 @@ class RandomVictoryPercentage:
         self.decimalPrecision = decimalPrecision
 
         self.currentDirectory = os.path.dirname(os.path.abspath(__file__))
-        self.dataFile = os.path.join(self.currentDirectory, "random.json")
+        self.dataFile = os.path.join(self.currentDirectory, "convergenceResults.json")
 
         # Load the data from the JSON file
         if os.path.exists(self.dataFile):
@@ -41,17 +41,30 @@ class RandomVictoryPercentage:
         else:
             self.data = []
 
-        # Calculate the percentage needed
-        self.calculatePercentage()
+        # Start the server
+        self.resetServer()
+        self.serverCounter = 0
 
-        # End the server process
-        serverControl.endProcess(self.p)
-        self.p.wait()
+        try:
 
-        # Save the data to the JSON file
-        with open(self.dataFile, "w") as f:
-            json.dump(self.data, f, indent=4)
-            f.write("\n")
+            # Infinite loop
+            while True:
+                # Calculate the percentage needed
+                self.calculatePercentage()
+
+                # Save the data to the JSON file
+                with open(self.dataFile, "w") as f:
+                    json.dump(self.data, f, indent=4)
+                    f.write("\n")
+
+        except KeyboardInterrupt:
+            print("Program interrupted by user")
+
+        finally:
+            # End the server process
+            if getattr(self, "p", None) is not None:
+                serverControl.endProcess(self.p)
+                self.p.wait()
 
     def resetServer(self) -> None:
         """
@@ -69,6 +82,11 @@ class RandomVictoryPercentage:
             self.p.wait()
 
         self.p = serverControl.startServer()
+
+        if getattr(self, "player1", None) is not None:
+            del self.player1
+        if getattr(self, "player2", None) is not None:
+            del self.player2
 
         # Create the players
         self.player1 = otherPlayers.getRandomPlayer(
@@ -92,8 +110,6 @@ class RandomVictoryPercentage:
         # Add one extra row
         self.data.append([])
 
-        serverCounter = 0
-
         for row in self.data:
 
             percentage = sum(row) / len(row) if len(row) > 0 else 0
@@ -101,9 +117,9 @@ class RandomVictoryPercentage:
             while len(row) < 100 or round(percentage, self.decimalPrecision) != 0.5:
 
                 # Restart server every 100 battles
-                if serverCounter % 100 == 0:
+                if (self.serverCounter + 1) % 101 == 0:
                     self.resetServer()
-                    serverCounter = 0
+                    self.serverCounter = 0
 
                 # Play a single game
                 asyncio.run(self.player1.battle_against(self.player2, n_battles=1))
@@ -111,7 +127,7 @@ class RandomVictoryPercentage:
 
                 # Prepare for next iteration
                 percentage = sum(row) / len(row)
-                serverCounter += 1
+                self.serverCounter += 1
                 self.player1.reset_battles()
                 self.player2.reset_battles()
 
