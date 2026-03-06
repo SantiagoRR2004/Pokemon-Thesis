@@ -52,8 +52,15 @@ class RandomVictoryPercentage:
 
                 # Save the data to the JSON file
                 with open(self.dataFile, "w") as f:
-                    json.dump(self.data, f, indent=4)
-                    f.write("\n")
+                    f.write("[\n")
+
+                    for row in self.data:
+                        json.dump(row, f)
+                        f.write(",\n")
+
+                    # Remove the last comma and newline
+                    f.seek(f.tell() - 2, os.SEEK_SET)
+                    f.write("\n]\n")
 
                 # Percentage graph
                 self.plotPercentages()
@@ -176,11 +183,17 @@ class RandomVictoryPercentage:
         lengths = [len(row) for row in self.data]
         counts = Counter(lengths)
 
-        # Bar plot
-        plt.bar(counts.keys(), counts.values())
+        # Sort the counts by the number of battles
+        x, y = zip(*sorted((k, v) for k, v in counts.items()))
+
+        # Simply plot each point
+        plt.scatter(x, y)
         plt.xlabel("Number of Battles")
         plt.ylabel("Frequency")
         plt.title("Convergence of Victory Percentage")
+
+        # Y-axis from 0 to the max
+        plt.ylim(0, max(counts.values()) + 1)
 
         # Save the plot
         plt.savefig(os.path.join(self.currentDirectory, "convergenceFrequency.png"))
