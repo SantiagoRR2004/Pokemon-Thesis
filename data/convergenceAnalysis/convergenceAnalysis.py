@@ -1,4 +1,3 @@
-from poke_env.ps_client.server_configuration import ServerConfiguration
 import serverControl
 import otherPlayers
 import asyncio
@@ -25,10 +24,6 @@ class RandomVictoryPercentage:
         Returns:
             - None
         """
-        self.server = ServerConfiguration(
-            f"ws://localhost:{int(os.getenv('SERVER_PORT'))}/showdown/websocket",
-            "https://play.pokemonshowdown.com/action.php?",
-        )
         self.decimalPrecision = decimalPrecision
 
         self.currentDirectory = os.path.dirname(os.path.abspath(__file__))
@@ -90,10 +85,10 @@ class RandomVictoryPercentage:
 
         # Create the players
         self.player1 = otherPlayers.getRandomPlayer(
-            args={"server_configuration": self.server}
+            args={"server_configuration": serverControl.getServerConfiguration()}
         )
         self.player2 = otherPlayers.getRandomPlayer(
-            args={"server_configuration": self.server}
+            args={"server_configuration": serverControl.getServerConfiguration()}
         )
 
     def calculatePercentage(self) -> None:

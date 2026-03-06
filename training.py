@@ -1,4 +1,3 @@
-from poke_env.ps_client.server_configuration import ServerConfiguration
 from pokemons import AbstractPokemon, Pokemon00
 from players import AbstractAIPlayer, AIPlayer00
 import randomTeams.randomTeam as randomTeam
@@ -179,10 +178,7 @@ class Trainer:
         Returns:
             - None
         """
-        serverConfig = ServerConfiguration(
-            f"ws://localhost:{int(os.getenv("SERVER_PORT"))}/showdown/websocket",
-            "https://play.pokemonshowdown.com/action.php?",
-        )
+        serverConfig = serverControl.getServerConfiguration()
 
         self.args = {
             "max_concurrent_battles": nEpisodes,

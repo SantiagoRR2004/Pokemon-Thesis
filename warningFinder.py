@@ -1,4 +1,3 @@
-from poke_env.ps_client.server_configuration import ServerConfiguration
 from poke_env.player import RandomPlayer
 import serverControl
 import asyncio
@@ -26,10 +25,7 @@ warnings.showwarning = log_warning
 async def main():
     serverControl.startServer()
 
-    serverConfig = ServerConfiguration(
-        f"ws://localhost:{int(os.getenv("SERVER_PORT"))}/showdown/websocket",
-        "https://play.pokemonshowdown.com/action.php?",
-    )
+    serverConfig = serverControl.getServerConfiguration()
 
     # We create a random player
     player = RandomPlayer(

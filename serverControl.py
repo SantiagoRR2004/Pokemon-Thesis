@@ -1,3 +1,4 @@
+from poke_env.ps_client.server_configuration import ServerConfiguration
 import subprocess
 import signal
 import atexit
@@ -82,3 +83,19 @@ def downloadPokemonShowdown() -> None:
         print(result.stdout.strip(), flush=True)
     except subprocess.CalledProcessError as e:
         raise Exception(e.stderr)
+
+
+def getServerConfiguration() -> ServerConfiguration:
+    """
+    Returns a ServerConfiguration instance with the appropriate URLs.
+
+    Args:
+        - None
+
+    Returns:
+        - ServerConfiguration: An instance of ServerConfiguration with the appropriate URLs.
+    """
+    return ServerConfiguration(
+        f"ws://localhost:{int(os.getenv("SERVER_PORT"))}/showdown/websocket",
+        "https://play.pokemonshowdown.com/action.php?",
+    )

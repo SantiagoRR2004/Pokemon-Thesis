@@ -1,4 +1,3 @@
-from poke_env.ps_client.server_configuration import ServerConfiguration
 from contextlib import redirect_stdout, redirect_stderr
 import matplotlib
 
@@ -278,16 +277,10 @@ class MetricsLogger:
             tournamentDF = pd.DataFrame()
 
         arguments = {
-            "serverConfig": ServerConfiguration(
-                f"ws://localhost:{int(os.getenv("SERVER_PORT"))}/showdown/websocket",
-                "https://play.pokemonshowdown.com/action.php?",
-            ),
+            "serverConfig": serverControl.getServerConfiguration(),
             "args": {
                 "max_concurrent_battles": 100,
-                "server_configuration": ServerConfiguration(
-                    f"ws://localhost:{int(os.getenv('SERVER_PORT'))}/showdown/websocket",
-                    "https://play.pokemonshowdown.com/action.php?",
-                ),
+                "server_configuration": serverControl.getServerConfiguration(),
             },
         }
 
