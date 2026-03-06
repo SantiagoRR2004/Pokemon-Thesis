@@ -1,5 +1,8 @@
+import matplotlib.pyplot as plt
+from collections import Counter
 import serverControl
 import otherPlayers
+import numpy as np
 import asyncio
 import json
 import os
@@ -51,6 +54,12 @@ class RandomVictoryPercentage:
                 with open(self.dataFile, "w") as f:
                     json.dump(self.data, f, indent=4)
                     f.write("\n")
+
+                # Percentage graph
+                self.plotPercentages()
+
+                # Convergence graph
+                self.plotConvergence()
 
         except KeyboardInterrupt:
             print("Program interrupted by user")
@@ -125,6 +134,57 @@ class RandomVictoryPercentage:
                 self.serverCounter += 1
                 self.player1.reset_battles()
                 self.player2.reset_battles()
+
+    def plotPercentages(self) -> None:
+        """
+        Plots the percentages of the battles.
+
+        # For each row it plots the percentage until
+        that point, so we can see how the percentage converges to 50%.
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        for row in self.data:
+            plt.plot(
+                np.arange(1, len(row) + 1), np.cumsum(row) / np.arange(1, len(row) + 1)
+            )
+
+        plt.xlabel("Number of Battles")
+        plt.ylabel("Victory Percentage")
+        plt.title("Convergence of Victory Percentage")
+        plt.axhline(y=0.5, color="r", linestyle="--")
+
+        # Save the plot
+        plt.savefig(os.path.join(self.currentDirectory, "convergencePlot.png"))
+        plt.clf()
+
+    def plotConvergence(self) -> None:
+        """
+        Plots the convergence of the victory percentage by counting the frequency
+        of each number of battles needed to converge to 50%.
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        lengths = [len(row) for row in self.data]
+        counts = Counter(lengths)
+
+        # Bar plot
+        plt.bar(counts.keys(), counts.values())
+        plt.xlabel("Number of Battles")
+        plt.ylabel("Frequency")
+        plt.title("Convergence of Victory Percentage")
+
+        # Save the plot
+        plt.savefig(os.path.join(self.currentDirectory, "convergenceFrequency.png"))
+        plt.clf()
 
 
 if __name__ == "__main__":

@@ -11,3 +11,6 @@ data/experiment.parquet
 
 # Folder for graphs
 graphs/
+
+# Images in general
+*.png
