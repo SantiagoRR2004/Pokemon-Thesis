@@ -277,9 +277,6 @@ class MetricsLogger:
             # Create a DataFrame to store the results
             tournamentDF = pd.DataFrame()
 
-        # Check which files are missing from the tournamentDF
-        missingFiles = set(files) - set(tournamentDF.index)
-
         arguments = {
             "serverConfig": ServerConfiguration(
                 f"ws://localhost:{int(os.getenv("SERVER_PORT"))}/showdown/websocket",
@@ -294,13 +291,19 @@ class MetricsLogger:
             },
         }
 
-        for file in missingFiles:
+        for file in files:
             # Add nan row and column
-            tournamentDF[file] = np.nan
-            tournamentDF.loc[file] = np.nan
+            if file not in tournamentDF.columns:
+                tournamentDF[file] = np.nan
+                tournamentDF.loc[file] = np.nan
 
-            # Iterate over existing columns
-            for opponent in tournamentDF.columns.difference([file]):
+            # Iterate over all columns
+            # Against itself, it should be 0.5
+            for opponent in tournamentDF.columns:
+
+                if not pd.isna(tournamentDF.at[file, opponent]):
+                    # If we already have the result, we skip it
+                    continue
 
                 # Start the server
                 p = serverControl.startServer()
