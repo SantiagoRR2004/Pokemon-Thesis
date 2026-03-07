@@ -39,8 +39,7 @@ class RandomVictoryPercentage:
         else:
             self.data = []
 
-        # Start the server
-        self.resetServer()
+        # Counter to reset the server
         self.serverCounter = 0
 
         try:
@@ -76,6 +75,18 @@ class RandomVictoryPercentage:
             if getattr(self, "p", None) is not None:
                 serverControl.endProcess(self.p)
                 self.p.wait()
+
+            # Save the data to the JSON file
+            with open(self.dataFile, "w") as f:
+                f.write("[\n")
+
+                for row in self.data:
+                    json.dump(row, f)
+                    f.write(",\n")
+
+                # Remove the last comma and newline
+                f.seek(f.tell() - 2, os.SEEK_SET)
+                f.write("\n]\n")
 
     def resetServer(self) -> None:
         """
@@ -121,26 +132,55 @@ class RandomVictoryPercentage:
         # Add one extra row
         self.data.append([])
 
-        for row in self.data:
+        row = self.data[-1]
 
-            percentage = sum(row) / len(row) if len(row) > 0 else 0
+        percentage = sum(row) / len(row) if len(row) > 0 else 0
 
-            while len(row) < 100 or round(percentage, self.decimalPrecision) != 0.5:
+        while len(row) < 100 or round(percentage, self.decimalPrecision) != 0.5:
 
-                # Restart server every 100 battles
-                if (self.serverCounter + 1) % 101 == 0:
-                    self.resetServer()
-                    self.serverCounter = 0
+            self.simulateBattle(row)
 
-                # Play a single game
-                asyncio.run(self.player1.battle_against(self.player2, n_battles=1))
-                row.append(int(self.player1.win_rate))
+            # Prepare for next iteration
+            percentage = sum(row) / len(row)
 
-                # Prepare for next iteration
-                percentage = sum(row) / len(row)
-                self.serverCounter += 1
-                self.player1.reset_battles()
-                self.player2.reset_battles()
+    def simulateBattle(self, row: list) -> None:
+        """
+        Simulates a battle by randomly appending 0 or 1 to the row.
+
+        This is not neccesary to calculate the number of battles
+        needed for certain precision because this is a Bernoulli trial.
+
+        Args:
+            - row (list): The list to append the result of the battle to.
+
+        Returns:
+            - None
+        """
+        row.append(int(np.random.choice([0, 1])))
+
+    def playRealBattle(self, row: list) -> None:
+        """
+        This is not really useful because we can simply use
+        random to get the same result because the odds are 50%.
+
+        Args
+            - row (list): The list to append the result of the battle to.
+
+        Returns:
+            - None
+        """
+        # Restart server every 100 battles
+        if self.serverCounter % 100 == 0:
+            self.resetServer()
+            self.serverCounter = 0
+
+        # Play a single game
+        asyncio.run(self.player1.battle_against(self.player2, n_battles=1))
+        row.append(int(self.player1.win_rate))
+
+        self.serverCounter += 1
+        self.player1.reset_battles()
+        self.player2.reset_battles()
 
     def plotPercentages(self) -> None:
         """
