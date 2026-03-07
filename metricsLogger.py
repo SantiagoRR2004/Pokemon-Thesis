@@ -248,7 +248,7 @@ class MetricsLogger:
     def calculateTournament(self) -> None:
         """
         Battle all the players against each other and store
-        the results in a DataFrame.
+        the results in two separate DataFrames (won and played battles).
 
         Args:
             - None
@@ -256,7 +256,8 @@ class MetricsLogger:
         Returns:
             - None
         """
-        battlesFile = os.path.join(self.dataDirectory, "battles.csv")
+        battlesWonFile = os.path.join(self.dataDirectory, "battlesWon.csv")
+        battlesPlayedFile = os.path.join(self.dataDirectory, "battlesPlayed.csv")
 
         files = [
             fileName[: -len("Actor.pth")]
@@ -264,17 +265,22 @@ class MetricsLogger:
             if fileName.endswith("Actor.pth")
         ] + ["random", "maxDamage"]
 
-        if os.path.exists(battlesFile):
-            tournamentDF = pd.read_csv(battlesFile, index_col=0)
+        if os.path.exists(battlesWonFile) and os.path.exists(battlesPlayedFile):
+            tournamentWonDF = pd.read_csv(battlesWonFile, index_col=0)
+            tournamentPlayedDF = pd.read_csv(battlesPlayedFile, index_col=0)
 
             # Assert that the index and columns have the same elements
-            assert set(tournamentDF.index) == set(
-                tournamentDF.columns
+            assert set(tournamentWonDF.index) == set(
+                tournamentWonDF.columns
+            ), "Square matrix required."
+            assert set(tournamentPlayedDF.index) == set(
+                tournamentPlayedDF.columns
             ), "Square matrix required."
 
         else:
-            # Create a DataFrame to store the results
-            tournamentDF = pd.DataFrame()
+            # Create DataFrames to store the results
+            tournamentWonDF = pd.DataFrame()
+            tournamentPlayedDF = pd.DataFrame()
 
         arguments = {
             "serverConfig": serverControl.getServerConfiguration(),
@@ -286,15 +292,17 @@ class MetricsLogger:
 
         for file in files:
             # Add nan row and column
-            if file not in tournamentDF.columns:
-                tournamentDF[file] = np.nan
-                tournamentDF.loc[file] = np.nan
+            if file not in tournamentWonDF.columns:
+                tournamentWonDF[file] = np.nan
+                tournamentWonDF.loc[file] = np.nan
+                tournamentPlayedDF[file] = np.nan
+                tournamentPlayedDF.loc[file] = np.nan
 
             # Iterate over all columns
             # Against itself, it should be 0.5
-            for opponent in tournamentDF.columns:
+            for opponent in tournamentWonDF.columns:
 
-                if not pd.isna(tournamentDF.at[file, opponent]):
+                if not pd.isna(tournamentWonDF.at[file, opponent]):
                     # If we already have the result, we skip it
                     continue
 
@@ -307,20 +315,28 @@ class MetricsLogger:
                 # Battle the two players
                 asyncio.run(player1.battle_against(player2, n_battles=100))
 
-                tournamentDF.at[file, opponent] = player1.win_rate
-                tournamentDF.at[opponent, file] = 1 - player1.win_rate
+                # Calculate won battles
+                won = int(player1.win_rate * 100)
+
+                # Store won battles and total battles
+                tournamentWonDF.at[file, opponent] = won
+                tournamentWonDF.at[opponent, file] = 100 - won
+                tournamentPlayedDF.at[file, opponent] = 100
+                tournamentPlayedDF.at[opponent, file] = 100
 
                 # Need to restart the server
                 serverControl.endProcess(p)
                 p.wait()
 
-        self.tournamentDF = sortMatrix(tournamentDF)
+                # Save the tournament results to avoid losing data
+                sortMatrix(tournamentWonDF).to_csv(battlesWonFile, index=True)
+                sortMatrix(tournamentPlayedDF).to_csv(battlesPlayedFile, index=True)
+
+        # Calculate the comparisons matrix for the battles
+        self.tournamentDF = sortMatrix(tournamentWonDF / tournamentPlayedDF)
 
         # Graph the tournament matrix
         self.graphHeatmap(self.tournamentDF, "Battles All")
-
-        # Save the tournament results
-        self.tournamentDF.to_csv(battlesFile, index=True)
 
     def calculateBestParameters(
         self, relativeMatrix: pd.DataFrame, name: str = ""
