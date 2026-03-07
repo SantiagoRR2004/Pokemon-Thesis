@@ -1,3 +1,4 @@
+from statsmodels.stats.proportion import proportion_confint
 from contextlib import redirect_stdout, redirect_stderr
 import matplotlib
 
@@ -332,6 +333,9 @@ class MetricsLogger:
                 sortMatrix(tournamentWonDF).to_csv(battlesWonFile, index=True)
                 sortMatrix(tournamentPlayedDF).to_csv(battlesPlayedFile, index=True)
 
+        self.tournamentWonDF = sortMatrix(tournamentWonDF)
+        self.tournamentPlayedDF = sortMatrix(tournamentPlayedDF)
+
         # Calculate the comparisons matrix for the battles
         self.tournamentDF = sortMatrix(tournamentWonDF / tournamentPlayedDF)
 
@@ -452,14 +456,27 @@ class MetricsLogger:
         # Window size for smoothing
         windowSize = 100
 
-        # Get the important files
-        top10 = (
-            self.comparisonsDF.sum(axis=1).sort_values(ascending=False).head(10).index
+        # Get the files that beat random
+        better = set()
+
+        # We use the confidence interval
+        for opponent in self.tournamentDF.columns:
+            wins = self.tournamentWonDF["random"][opponent]
+            battles = self.tournamentPlayedDF["random"][opponent]
+
+            low, high = proportion_confint(wins, battles, alpha=0.05, method="wilson")
+
+            if low > 0.5:
+                better.add(opponent)
+
+        betterDF = sortMatrix(
+            self.tournamentDF.loc[list(better) + ["random"], list(better) + ["random"]]
         )
-        worst = (
-            self.comparisonsDF.sum(axis=1).sort_values(ascending=False).tail(1).index
-        )
-        files = {f: self.files[f] for f in top10.union(worst)}
+        self.graphHeatmap(betterDF, "Battles All Random")
+
+        files = {
+            f: self.files[f] for f in better.intersection(self.comparisonsDF.index)
+        }
 
         # Plot the victory percentage
         fig = go.Figure()
