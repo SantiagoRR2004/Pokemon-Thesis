@@ -42,6 +42,17 @@ class RandomVictoryPercentage:
         # Counter to reset the server
         self.serverCounter = 0
 
+        # Calculate Bernoulli
+        self.bernoulliTrial()
+
+        # Save the data to the JSON file
+        with open(self.dataFile, "w") as f:
+            f.write("[\n")
+
+            for row in self.data:
+                json.dump(row, f)
+                f.write(",\n")
+
         try:
 
             # Infinite loop
@@ -50,16 +61,10 @@ class RandomVictoryPercentage:
                 self.calculatePercentage()
 
                 # Save the data to the JSON file
-                with open(self.dataFile, "w") as f:
-                    f.write("[\n")
+                with open(self.dataFile, "a") as f:
 
-                    for row in self.data:
-                        json.dump(row, f)
-                        f.write(",\n")
-
-                    # Remove the last comma and newline
-                    f.seek(f.tell() - 2, os.SEEK_SET)
-                    f.write("\n]\n")
+                    json.dump(self.data[-1], f)
+                    f.write(",\n")
 
                 # Percentage graph
                 self.plotPercentages()
@@ -77,16 +82,11 @@ class RandomVictoryPercentage:
                 self.p.wait()
 
             # Save the data to the JSON file
-            with open(self.dataFile, "w") as f:
-                f.write("[\n")
-
-                for row in self.data:
-                    json.dump(row, f)
-                    f.write(",\n")
-
+            with open(self.dataFile, "r+b") as f:
                 # Remove the last comma and newline
-                f.seek(f.tell() - 2, os.SEEK_SET)
-                f.write("\n]\n")
+                f.seek(-2, os.SEEK_END)
+                f.truncate()
+                f.write(b"\n]\n")
 
     def resetServer(self) -> None:
         """
@@ -181,6 +181,28 @@ class RandomVictoryPercentage:
         self.serverCounter += 1
         self.player1.reset_battles()
         self.player2.reset_battles()
+
+    def bernoulliTrial(self) -> None:
+        """
+        Calculates the number of games need to be sure
+        with 95% confidence that the percentage is
+        within the decimal precision.
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        p = 0.5
+        z = 1.96  # 95% confidence
+        e = 10 ** (-self.decimalPrecision)
+
+        self.bernoulli = int(p * (1 - p) * (z / e) ** 2)
+
+        # Save it to a file
+        with open(os.path.join(self.currentDirectory, "convergence.txt"), "w") as f:
+            f.write(str(self.bernoulli))
 
     def plotPercentages(self) -> None:
         """
