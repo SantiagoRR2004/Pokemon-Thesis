@@ -329,6 +329,10 @@ class MetricsLogger:
                 serverControl.endProcess(p)
                 p.wait()
 
+                # Use ints
+                tournamentWonDF = tournamentWonDF.astype("Int64")
+                tournamentPlayedDF = tournamentPlayedDF.astype("Int64")
+
                 # Save the tournament results to avoid losing data
                 sortMatrix(tournamentWonDF).to_csv(battlesWonFile, index=True)
                 sortMatrix(tournamentPlayedDF).to_csv(battlesPlayedFile, index=True)
