@@ -398,12 +398,15 @@ class MetricsLogger:
                             row1 = group.iloc[i]
                             row2 = group.iloc[j]
 
-                            value = relativeMatrix.loc[
+                            value1 = relativeMatrix.loc[
                                 row1["fileName"], row2["fileName"]
                             ]
+                            value2 = relativeMatrix.loc[
+                                row2["fileName"], row1["fileName"]
+                            ]
 
-                            parametersDF.loc[row1[column], row2[column]].append(value)
-                            parametersDF.loc[row2[column], row1[column]].append(-value)
+                            parametersDF.loc[row1[column], row2[column]].append(value1)
+                            parametersDF.loc[row2[column], row1[column]].append(value2)
 
             # Remove rows and columns with all empty lists
             parametersDF = parametersDF[
