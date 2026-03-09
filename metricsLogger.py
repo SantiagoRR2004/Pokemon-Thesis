@@ -33,12 +33,12 @@ class MetricsLogger:
     # Columns that depend on others
     INVALID_COLUMNS = ["fileName", "TrainingMethod", "nInputs"]
 
-    def __init__(self) -> None:
+    def __init__(self, infiniteBattles: bool = False) -> None:
         """
         Initialize the MetricsLogger by loading the existing data from the data directory.
 
         Args:
-            - None
+            - infiniteBattles (bool): Whether to run infinite battles.
 
         Returns:
             - None
@@ -47,6 +47,7 @@ class MetricsLogger:
         self.dataDirectory = os.path.join(currentDirectory, "data")
         self.experimentsDirectory = os.path.join(self.dataDirectory, "experiments")
         self.graphDirectory = os.path.join(currentDirectory, "graphs")
+        self.infiniteBattles = infiniteBattles
 
         # Ensure the graph directory exists
         os.makedirs(self.graphDirectory, exist_ok=True)
@@ -91,6 +92,9 @@ class MetricsLogger:
 
         # Calculate the best parameters for the battles
         self.bestParameters = self.calculateBestParameters(self.tournamentDF, "Battles")
+
+        if self.infiniteBattles:
+            self.infiniteTournament()
 
     @staticmethod
     def relativeQuality(A: pd.DataFrame, B: pd.DataFrame) -> float:
@@ -246,6 +250,67 @@ class MetricsLogger:
         # Graph the comparisons matrix
         self.graphHeatmap(comparisonsDF, "Logs All")
 
+    def playBattles(self, name1: str, name2: str, nBattles: int = 100) -> None:
+        """
+        Play battles between two players and update the tournament results.
+
+        Args:
+            - name1 (str): The name of the first player.
+            - name2 (str): The name of the second player.
+            - nBattles (int): The number of battles to play.
+
+        Returns:
+            - None
+        """
+        arguments = {
+            "serverConfig": serverControl.getServerConfiguration(),
+            "args": {
+                "max_concurrent_battles": 100,
+                "server_configuration": serverControl.getServerConfiguration(),
+            },
+        }
+
+        # Start the server
+        p = serverControl.startServer()
+
+        player1 = otherPlayers.getAnyPlayer(name1, **arguments)
+        player2 = otherPlayers.getAnyPlayer(name2, **arguments)
+
+        # Battle the two players
+        asyncio.run(player1.battle_against(player2, n_battles=nBattles))
+
+        # Calculate won battles
+        won = int(player1.win_rate * nBattles)
+
+        # Store won battles and total battles
+        if pd.isna(self.tournamentWonDF.at[name1, name2]):
+            self.tournamentWonDF.at[name1, name2] = won
+            self.tournamentPlayedDF.at[name1, name2] = nBattles
+        else:
+            self.tournamentWonDF.at[name1, name2] += won
+            self.tournamentPlayedDF.at[name1, name2] += nBattles
+
+        # The battles are symmetric, so we can fill the other cell as well
+        self.tournamentWonDF.at[name2, name1] = (
+            self.tournamentPlayedDF.at[name1, name2]
+            - self.tournamentWonDF.at[name1, name2]
+        )
+        self.tournamentPlayedDF.at[name2, name1] = self.tournamentPlayedDF.at[
+            name1, name2
+        ]
+
+        # Need to restart the server
+        serverControl.endProcess(p)
+        p.wait()
+
+        # Use ints
+        self.tournamentWonDF = self.tournamentWonDF.astype("Int64")
+        self.tournamentPlayedDF = self.tournamentPlayedDF.astype("Int64")
+
+        # Save the tournament results to avoid losing data
+        sortMatrix(self.tournamentWonDF).to_csv(self.battlesWonFile, index=True)
+        sortMatrix(self.tournamentPlayedDF).to_csv(self.battlesPlayedFile, index=True)
+
     def calculateTournament(self) -> None:
         """
         Battle all the players against each other and store
@@ -257,8 +322,8 @@ class MetricsLogger:
         Returns:
             - None
         """
-        battlesWonFile = os.path.join(self.dataDirectory, "battlesWon.csv")
-        battlesPlayedFile = os.path.join(self.dataDirectory, "battlesPlayed.csv")
+        self.battlesWonFile = os.path.join(self.dataDirectory, "battlesWon.csv")
+        self.battlesPlayedFile = os.path.join(self.dataDirectory, "battlesPlayed.csv")
 
         files = [
             fileName[: -len("Actor.pth")]
@@ -266,9 +331,11 @@ class MetricsLogger:
             if fileName.endswith("Actor.pth")
         ] + ["random", "maxDamage"]
 
-        if os.path.exists(battlesWonFile) and os.path.exists(battlesPlayedFile):
-            tournamentWonDF = pd.read_csv(battlesWonFile, index_col=0)
-            tournamentPlayedDF = pd.read_csv(battlesPlayedFile, index_col=0)
+        if os.path.exists(self.battlesWonFile) and os.path.exists(
+            self.battlesPlayedFile
+        ):
+            tournamentWonDF = pd.read_csv(self.battlesWonFile, index_col=0)
+            tournamentPlayedDF = pd.read_csv(self.battlesPlayedFile, index_col=0)
 
             # Assert that the index and columns have the same elements
             assert set(tournamentWonDF.index) == set(
@@ -283,68 +350,74 @@ class MetricsLogger:
             tournamentWonDF = pd.DataFrame()
             tournamentPlayedDF = pd.DataFrame()
 
-        arguments = {
-            "serverConfig": serverControl.getServerConfiguration(),
-            "args": {
-                "max_concurrent_battles": 100,
-                "server_configuration": serverControl.getServerConfiguration(),
-            },
-        }
+        # Store as attributes
+        self.tournamentWonDF = tournamentWonDF
+        self.tournamentPlayedDF = tournamentPlayedDF
 
         for file in files:
             # Add nan row and column
-            if file not in tournamentWonDF.columns:
-                tournamentWonDF[file] = np.nan
-                tournamentWonDF.loc[file] = np.nan
-                tournamentPlayedDF[file] = np.nan
-                tournamentPlayedDF.loc[file] = np.nan
+            if file not in self.tournamentWonDF.columns:
+                self.tournamentWonDF[file] = np.nan
+                self.tournamentWonDF.loc[file] = np.nan
+                self.tournamentPlayedDF[file] = np.nan
+                self.tournamentPlayedDF.loc[file] = np.nan
 
             # Iterate over all columns
             # Against itself, it should be 0.5
-            for opponent in tournamentWonDF.columns:
+            for opponent in self.tournamentWonDF.columns:
 
-                if not pd.isna(tournamentWonDF.at[file, opponent]):
+                if not pd.isna(self.tournamentWonDF.at[file, opponent]):
                     # If we already have the result, we skip it
                     continue
 
-                # Start the server
-                p = serverControl.startServer()
+                self.playBattles(file, opponent)
 
-                player1 = otherPlayers.getAnyPlayer(file, **arguments)
-                player2 = otherPlayers.getAnyPlayer(opponent, **arguments)
-
-                # Battle the two players
-                asyncio.run(player1.battle_against(player2, n_battles=100))
-
-                # Calculate won battles
-                won = int(player1.win_rate * 100)
-
-                # Store won battles and total battles
-                tournamentWonDF.at[file, opponent] = won
-                tournamentWonDF.at[opponent, file] = 100 - won
-                tournamentPlayedDF.at[file, opponent] = 100
-                tournamentPlayedDF.at[opponent, file] = 100
-
-                # Need to restart the server
-                serverControl.endProcess(p)
-                p.wait()
-
-                # Use ints
-                tournamentWonDF = tournamentWonDF.astype("Int64")
-                tournamentPlayedDF = tournamentPlayedDF.astype("Int64")
-
-                # Save the tournament results to avoid losing data
-                sortMatrix(tournamentWonDF).to_csv(battlesWonFile, index=True)
-                sortMatrix(tournamentPlayedDF).to_csv(battlesPlayedFile, index=True)
-
-        self.tournamentWonDF = sortMatrix(tournamentWonDF)
-        self.tournamentPlayedDF = sortMatrix(tournamentPlayedDF)
+        self.tournamentWonDF = sortMatrix(self.tournamentWonDF)
+        self.tournamentPlayedDF = sortMatrix(self.tournamentPlayedDF)
 
         # Calculate the comparisons matrix for the battles
-        self.tournamentDF = sortMatrix(tournamentWonDF / tournamentPlayedDF)
+        self.tournamentDF = sortMatrix(self.tournamentWonDF / self.tournamentPlayedDF)
 
         # Graph the tournament matrix
         self.graphHeatmap(self.tournamentDF, "Battles All")
+
+    def infiniteTournament(self) -> None:
+        """
+        Play the combinations of players with the most uncertain results.
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        while True:
+
+            low, high = proportion_confint(
+                self.tournamentWonDF.values,
+                self.tournamentPlayedDF.values,
+                alpha=0.05,
+                method="wilson",
+            )
+            uncertaintyDF = pd.DataFrame(
+                high - low,
+                index=self.tournamentWonDF.index,
+                columns=self.tournamentWonDF.columns,
+            )
+
+            # Graph the uncertainty matrix
+            self.graphHeatmap(uncertaintyDF, "Uncertainty")
+
+            # Play battles for the most uncertain pair of players
+            mostUncertain = uncertaintyDF.stack().idxmax()
+            print(
+                mostUncertain[0],
+                "vs",
+                mostUncertain[1],
+                "with",
+                f"{uncertaintyDF.at[mostUncertain]:.2%}",
+            )
+            self.playBattles(mostUncertain[0], mostUncertain[1])
 
     def calculateBestParameters(
         self, relativeMatrix: pd.DataFrame, name: str = ""
