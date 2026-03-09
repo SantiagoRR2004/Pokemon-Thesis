@@ -265,7 +265,7 @@ class MetricsLogger:
         arguments = {
             "serverConfig": serverControl.getServerConfiguration(),
             "args": {
-                "max_concurrent_battles": 100,
+                "max_concurrent_battles": os.cpu_count(),
                 "server_configuration": serverControl.getServerConfiguration(),
             },
         }

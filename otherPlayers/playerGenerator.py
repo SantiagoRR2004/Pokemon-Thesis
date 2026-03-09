@@ -1,6 +1,7 @@
 from poke_env.ps_client.server_configuration import ServerConfiguration
 from otherPlayers.maxDamagePlayer import MaxRandomDamagePlayer
 from players.AbstractAIPlayer import AbstractAIPlayer
+from poke_env import AccountConfiguration
 from poke_env.player import RandomPlayer
 import pandas as pd
 import pokemons
@@ -47,6 +48,7 @@ def getRandomPlayer(*, args: dict = {}, **kwargs) -> RandomPlayer:
     Returns:
         - RandomPlayer: An instance of RandomPlayer.
     """
+    args = {"account_configuration": AccountConfiguration("Random", None)} | args
     return RandomPlayer(**args)
 
 
@@ -62,11 +64,15 @@ def getRandomMaxDamagePlayer(*, args: dict = {}, **kwargs) -> MaxRandomDamagePla
     Returns:
         - MaxDamagePlayer: An instance of MaxDamagePlayer.
     """
+    args = {"account_configuration": AccountConfiguration("MaxDamage", None)} | args
     return MaxRandomDamagePlayer(**args)
 
 
 def getPlayerExperiment(
-    n: int, serverConfig: ServerConfiguration, concurrentBattles: int = 100, **kwargs
+    n: int,
+    serverConfig: ServerConfiguration,
+    concurrentBattles: int = os.cpu_count(),
+    **kwargs,
 ) -> AbstractAIPlayer:
     """
     This function returns a player for a given experiment number.
@@ -75,7 +81,7 @@ def getPlayerExperiment(
         - n (int): The experiment number for which to return the player.
         - serverConfig (ServerConfiguration): The server configuration to use for the player.
         - concurrentBattles (int): The number of concurrent battles the player
-            allows (default is 100).
+            allows (default is the number of CPU cores).
         - kwargs: Not used, but included to allow for additional
             arguments without breaking the function.
 
@@ -107,6 +113,7 @@ def getPlayerExperiment(
         ),
         server_configuration=serverConfig,
         max_concurrent_battles=concurrentBattles,
+        account_configuration=AccountConfiguration(f"Experiment{n}", None),
     )
 
     actor: actors.AbstractActor = getattr(actors, data["actor"])(player)
