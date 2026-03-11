@@ -589,17 +589,15 @@ class MetricsLogger:
         # Window size for smoothing
         windowSize = 100
 
-        # Get the files that beat random
+        # Get the files that have better Bradley-Terry skill than random
         better = set()
+        randomSkill = self.bradleyTerry.set_index("model").at["random", "skill"]
 
-        # We use the confidence interval
+        # No longer using the confidence interval
         for opponent in self.tournamentDF.columns:
-            wins = self.tournamentWonDF["random"][opponent]
-            battles = self.tournamentPlayedDF["random"][opponent]
+            skill = self.bradleyTerry.set_index("model").at[opponent, "skill"]
 
-            low, high = proportion_confint(wins, battles, alpha=0.05, method="wilson")
-
-            if low > 0.5:
+            if skill > randomSkill:
                 better.add(opponent)
 
         betterDF = sortMatrix(
@@ -610,6 +608,17 @@ class MetricsLogger:
         files = {
             f: self.files[f] for f in better.intersection(self.comparisonsDF.index)
         }
+
+        # Sort the files by bradleyTerry skill
+        files = dict(
+            sorted(
+                files.items(),
+                key=lambda item: self.bradleyTerry.set_index("model").at[
+                    item[0], "skill"
+                ],
+                reverse=True,
+            )
+        )
 
         # Plot the victory percentage
         fig = go.Figure()
@@ -623,6 +632,7 @@ class MetricsLogger:
                 fig.add_trace(
                     go.Scatter(y=smoothed, mode="lines", name=name, hoverinfo="name+y")
                 )
+
         fig.update_layout(
             title="Victory Percentage Over Epochs",
             xaxis_title="Epochs",
@@ -638,16 +648,10 @@ class MetricsLogger:
                 smoothed = (
                     df["actorLosses"].rolling(window=windowSize, center=True).mean()
                 )
-                # Ensure losses are lower
-                if (
-                    not smoothed.dropna().empty
-                    and smoothed.dropna().iloc[-1] < smoothed.dropna().iloc[0]
-                ):
-                    fig.add_trace(
-                        go.Scatter(
-                            y=smoothed, mode="lines", name=name, hoverinfo="name+y"
-                        )
-                    )
+                fig.add_trace(
+                    go.Scatter(y=smoothed, mode="lines", name=name, hoverinfo="name+y")
+                )
+
         fig.update_layout(
             title="Actor Loss Over Epochs",
             xaxis_title="Epochs",
@@ -662,16 +666,10 @@ class MetricsLogger:
                 smoothed = (
                     df["criticLosses"].rolling(window=windowSize, center=True).mean()
                 )
-                # Ensure losses are lower
-                if (
-                    not smoothed.dropna().empty
-                    and smoothed.dropna().iloc[-1] < smoothed.dropna().iloc[0]
-                ):
-                    fig.add_trace(
-                        go.Scatter(
-                            y=smoothed, mode="lines", name=name, hoverinfo="name+y"
-                        )
-                    )
+                fig.add_trace(
+                    go.Scatter(y=smoothed, mode="lines", name=name, hoverinfo="name+y")
+                )
+
         fig.update_layout(
             title="Critic Loss Over Epochs",
             xaxis_title="Epochs",
@@ -687,34 +685,23 @@ class MetricsLogger:
                 smoothed = (
                     df["averageRewards"].rolling(window=windowSize, center=True).mean()
                 )
-                # Ensure rewards are higher
-                if (
-                    not smoothed.dropna().empty
-                    and smoothed.dropna().iloc[-1] > smoothed.dropna().iloc[0]
-                ):
+                fig.add_trace(
+                    go.Scatter(y=smoothed, mode="lines", name=f"{name} Average Rewards")
+                )
+                if "averageCriticRewards" in df.columns:
+                    smoothed = (
+                        df["averageCriticRewards"]
+                        .rolling(window=windowSize, center=True)
+                        .mean()
+                    )
                     fig.add_trace(
                         go.Scatter(
-                            y=smoothed, mode="lines", name=f"{name} Average Rewards"
+                            y=smoothed,
+                            mode="lines",
+                            name=f"{name} Average Critic Rewards",
                         )
                     )
-                    if "averageCriticRewards" in df.columns:
-                        smoothed = (
-                            df["averageCriticRewards"]
-                            .rolling(window=windowSize, center=True)
-                            .mean()
-                        )
-                        # Ensure rewards are higher
-                        if (
-                            not smoothed.dropna().empty
-                            and smoothed.dropna().iloc[-1] > smoothed.dropna().iloc[0]
-                        ):
-                            fig.add_trace(
-                                go.Scatter(
-                                    y=smoothed,
-                                    mode="lines",
-                                    name=f"{name} Average Critic Rewards",
-                                )
-                            )
+
         fig.update_layout(
             title="Average Rewards Over Epochs",
             xaxis_title="Epochs",
