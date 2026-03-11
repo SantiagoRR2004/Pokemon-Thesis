@@ -95,7 +95,9 @@ class MetricsLogger:
         )
 
         # Calculate the best parameters for the battles
-        self.bestParameters = self.calculateBestParameters(self.tournamentDF, "Battles")
+        self.bestParameters = self.calculateBestParameters(
+            self.tournamentDF, "Battles", True
+        )
 
         if self.infiniteBattles:
             self.infiniteTournament()
@@ -424,14 +426,19 @@ class MetricsLogger:
             self.playBattles(mostUncertain[0], mostUncertain[1])
 
     def calculateBestParameters(
-        self, relativeMatrix: pd.DataFrame, name: str = ""
+        self,
+        relativeMatrix: pd.DataFrame,
+        name: str = "",
+        bt: bool = False,
     ) -> dict:
         """
-        Calculate the best parameters for each variable in the experiments.csv file
+        Calculate the best parameters for each variable in the experiments.csv file.
 
         Args:
-            - relativeMatrix (pd.DataFrame): The matrix with the relative quality of each pair of files
+            - relativeMatrix (pd.DataFrame): The matrix with the relative quality of each pair of files.
                 It should be skew-symmetric.
+            - name (str): The name to use for the graphs.
+            - bt (bool): Whether to use Bradley-Terry values.
 
         Returns:
             - dict: A dictionary with the best parameters for each variable
@@ -475,12 +482,25 @@ class MetricsLogger:
                             row1 = group.iloc[i]
                             row2 = group.iloc[j]
 
-                            value1 = relativeMatrix.loc[
-                                row1["fileName"], row2["fileName"]
-                            ]
-                            value2 = relativeMatrix.loc[
-                                row2["fileName"], row1["fileName"]
-                            ]
+                            if bt:
+                                # Use BT skill difference: positive means row1 is stronger
+                                diff = (
+                                    self.bradleyTerry.set_index("model").at[
+                                        row1["fileName"], "skill"
+                                    ]
+                                    - self.bradleyTerry.set_index("model").at[
+                                        row2["fileName"], "skill"
+                                    ]
+                                )
+                                value1 = diff
+                                value2 = -diff
+                            else:
+                                value1 = relativeMatrix.loc[
+                                    row1["fileName"], row2["fileName"]
+                                ]
+                                value2 = relativeMatrix.loc[
+                                    row2["fileName"], row1["fileName"]
+                                ]
 
                             parametersDF.loc[row1[column], row2[column]].append(value1)
                             parametersDF.loc[row2[column], row1[column]].append(value2)
