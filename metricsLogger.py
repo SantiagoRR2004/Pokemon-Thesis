@@ -14,6 +14,7 @@ import pokemons
 import asyncio
 import players
 import moves
+import json
 import os
 import re
 
@@ -543,7 +544,24 @@ class MetricsLogger:
             # Apply softmax to get probabilities
             ranking = np.exp(ranking) / np.sum(np.exp(ranking))
 
+            # Sort the ranking by value
+            ranking = ranking.sort_values(ascending=False)
+
             bestParameters[column] = ranking
+
+        # Save it to a json file
+        with open(
+            os.path.join(self.graphDirectory, f"bestParameters{name}.json"),
+            "w",
+            encoding="utf-8",
+        ) as f:
+            json.dump(
+                {key: value.to_dict() for key, value in bestParameters.items()},
+                f,
+                indent=2,
+                ensure_ascii=False,
+            )
+            f.write("\n")
 
         return bestParameters
 
@@ -595,6 +613,20 @@ class MetricsLogger:
         self.bradleyTerry = pd.DataFrame(
             {"model": players, "skill": model.coef_[0]}
         ).sort_values("skill", ascending=False)
+
+        # Save it to a json file
+        with open(
+            os.path.join(self.graphDirectory, "bradleyTerry.json"),
+            "w",
+            encoding="utf-8",
+        ) as f:
+            json.dump(
+                self.bradleyTerry.set_index("model")["skill"].to_dict(),
+                f,
+                indent=2,
+                ensure_ascii=False,
+            )
+            f.write("\n")
 
     def graphAllExperiments(self) -> None:
         """
