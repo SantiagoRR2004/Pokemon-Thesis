@@ -8,3 +8,4 @@ pandas
 pyarrow
 python-dotenv
 statsmodels
+scikit-learn

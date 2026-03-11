@@ -1,5 +1,6 @@
 from statsmodels.stats.proportion import proportion_confint
 from contextlib import redirect_stdout, redirect_stderr
+from sklearn.linear_model import LogisticRegression
 import matplotlib
 
 matplotlib.use("Agg")  # Use non-interactive backend
@@ -84,6 +85,9 @@ class MetricsLogger:
 
         # Create another DataFrame by battling
         self.calculateTournament()
+
+        # Calculate the Bradley-Terry model with the tournament results
+        self.bradleyTerry()
 
         # Calculate the best parameters for the metrics (to create graphs)
         self.bestParametersLogs = self.calculateBestParameters(
@@ -522,6 +526,55 @@ class MetricsLogger:
             bestParameters[column] = ranking
 
         return bestParameters
+
+    def bradleyTerry(self) -> None:
+        """
+        Calculate the Bradley-Terry model for the tournament
+        results to get a skill rating for each player.
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        players = list(self.tournamentWonDF.columns)
+
+        X = []
+        y = []
+        weights = []
+
+        for i in range(len(players)):
+
+            for j in range(i + 1, len(players)):
+
+                winsI = int(self.tournamentWonDF.at[players[i], players[j]])
+                winsJ = int(self.tournamentWonDF.at[players[j], players[i]])
+
+                vec = np.zeros(len(players))
+                vec[i] = 1
+                vec[j] = -1
+
+                if winsI > 0:
+                    X.append(vec.copy())
+                    y.append(1)
+                    weights.append(winsI)
+
+                if winsJ > 0:
+                    X.append(vec.copy())
+                    y.append(0)
+                    weights.append(winsJ)
+
+        X = np.array(X)
+        y = np.array(y)
+        weights = np.array(weights, dtype=float)
+
+        model = LogisticRegression(fit_intercept=False)
+        model.fit(X, y, sample_weight=weights)
+
+        self.bradleyTerry = pd.DataFrame(
+            {"model": players, "skill": model.coef_[0]}
+        ).sort_values("skill", ascending=False)
 
     def graphAllExperiments(self) -> None:
         """
