@@ -5,7 +5,6 @@ from moves import AbstractMove, Move00
 from critics import AbstractCritic, CriticNetwork01
 from actors import AbstractActor, ActorNetwork01
 from rewards import AbstractRewardFunction, RewardFunction01
-from dotenv import load_dotenv
 import otherPlayers
 import torch
 import torch.nn as nn
@@ -15,8 +14,6 @@ import metricsLogger
 import asyncio
 import time
 import os
-
-load_dotenv()
 
 
 def str_to_bool(s: str) -> bool:

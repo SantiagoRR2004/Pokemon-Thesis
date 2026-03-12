@@ -1,9 +1,12 @@
 from poke_env.ps_client.server_configuration import ServerConfiguration
+from dotenv import load_dotenv
 import subprocess
 import signal
 import atexit
 import time
 import os
+
+load_dotenv()
 
 
 def endProcess(process: subprocess.Popen) -> None:
