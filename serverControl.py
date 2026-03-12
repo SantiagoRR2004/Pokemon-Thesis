@@ -28,6 +28,11 @@ def endProcess(process: subprocess.Popen) -> None:
     # Step 2: Wait for the process to finish
     process.wait()
 
+    # Reset the created players set
+    from otherPlayers import createdPlayers
+
+    createdPlayers.clear()
+
     print("Server shut down successfully.", flush=True)
 
 

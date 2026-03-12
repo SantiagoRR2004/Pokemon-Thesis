@@ -11,6 +11,32 @@ import torch
 import moves
 import os
 
+createdPlayers = set()
+
+
+def getUnusedName(name: str) -> str:
+    """
+    Returns an unused name based on the given name.
+
+    Args:
+        - name (str): The base name to use for generating an unused name.
+
+    Returns:
+        - str: An unused name based on the given name.
+    """
+    if name not in createdPlayers:
+        createdPlayers.add(name)
+        return name
+
+    number = 2
+
+    while f"{name} {number}" in createdPlayers:
+        number += 1
+
+    createdPlayers.add(f"{name} {number}")
+    print(f"{name} {number}")
+    return f"{name} {number}"
+
 
 def getAnyPlayer(choice: str, **args) -> AbstractAIPlayer:
     """
@@ -48,8 +74,13 @@ def getRandomPlayer(*, args: dict = {}, **kwargs) -> RandomPlayer:
     Returns:
         - RandomPlayer: An instance of RandomPlayer.
     """
-    args = {"account_configuration": AccountConfiguration("Random", None)} | args
-    return RandomPlayer(**args)
+    if args.get("account_configuration"):
+        return RandomPlayer(**args)
+
+    newArgs = {
+        "account_configuration": AccountConfiguration(getUnusedName("Random"), None)
+    } | args
+    return RandomPlayer(**newArgs)
 
 
 def getRandomMaxDamagePlayer(*, args: dict = {}, **kwargs) -> MaxRandomDamagePlayer:
@@ -64,8 +95,13 @@ def getRandomMaxDamagePlayer(*, args: dict = {}, **kwargs) -> MaxRandomDamagePla
     Returns:
         - MaxDamagePlayer: An instance of MaxDamagePlayer.
     """
-    args = {"account_configuration": AccountConfiguration("MaxDamage", None)} | args
-    return MaxRandomDamagePlayer(**args)
+    if args.get("account_configuration"):
+        return MaxRandomDamagePlayer(**args)
+
+    newArgs = {
+        "account_configuration": AccountConfiguration(getUnusedName("MaxDamage"), None)
+    } | args
+    return MaxRandomDamagePlayer(**newArgs)
 
 
 def getPlayerExperiment(
@@ -113,7 +149,9 @@ def getPlayerExperiment(
         ),
         server_configuration=serverConfig,
         max_concurrent_battles=concurrentBattles,
-        account_configuration=AccountConfiguration(f"Experiment{n}", None),
+        account_configuration=AccountConfiguration(
+            getUnusedName(f"Experiment{n}"), None
+        ),
     )
 
     actor: actors.AbstractActor = getattr(actors, data["actor"])(player)
