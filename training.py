@@ -255,9 +255,9 @@ class Trainer:
         self.opponents = []
 
         if self.useRandom:
-            self.opponents.append(otherPlayers.getRandomPlayer(self.args))
+            self.opponents.append(otherPlayers.getRandomPlayer(args=self.args))
         if self.useMaxDamage:
-            self.opponents.append(otherPlayers.getRandomMaxDamagePlayer(self.args))
+            self.opponents.append(otherPlayers.getRandomMaxDamagePlayer(args=self.args))
 
     def resetPlayer(self) -> None:
         """
@@ -370,6 +370,8 @@ class Trainer:
             # Reset the battle counters
             self.player.reset_battles()
 
+            startBattles = time.time()
+
             # Run n_battles (Episodes)
             if epoch == 0:
                 # No timeout calculated
@@ -411,6 +413,8 @@ class Trainer:
                             raise RuntimeError(
                                 f"Epoch {epoch+1} failed after 3 tries due to timeouts."
                             )
+
+            endBattles = time.time()
 
             actorLoss = 0
             averageRewardsEpoch = 0
@@ -493,8 +497,14 @@ class Trainer:
                 end=" ",
                 flush=True,
             )
-            print(f"{time.time() - start - timeSpent:.2f}", end=" ", flush=True)
-            timeSpent = time.time() - start
+            trainingEnd = time.time()
+            print(
+                f"({endBattles - startBattles:.2f}+{trainingEnd - endBattles:.2f})",
+                end=" ",
+                flush=True,
+            )
+            print(f"{trainingEnd - start - timeSpent:.2f}", end=" ", flush=True)
+            timeSpent = trainingEnd - start
             secs = timeSpent * (self.nEpochs - (epoch + 1)) / (epoch + 1)
             hours, remainder = divmod(int(secs), 3600)
             minutes, seconds = divmod(remainder, 60)
