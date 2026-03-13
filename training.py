@@ -416,10 +416,12 @@ class Trainer:
 
             endBattles = time.time()
 
-            actorLoss = 0
+            device = next(self.actor.parameters()).device
+
+            actorLoss = torch.tensor(0.0, device=device)
             averageRewardsEpoch = 0
             if self.criticClass:
-                criticLoss = 0
+                criticLoss = torch.tensor(0.0, device=device)
                 averageCriticRewardsEpoch = 0
 
             for battle in self.player.battles.values():
@@ -438,34 +440,49 @@ class Trainer:
                     cumulative = r + self.gamma * cumulative
                     discountedRewards.insert(0, cumulative)
 
-                averageRewardsEpoch += (
-                    torch.tensor(discountedRewards, dtype=torch.float32).mean().item()
+                discountedRewardsTensor = torch.tensor(
+                    discountedRewards, dtype=torch.float32, device=device
                 )
+
+                averageRewardsEpoch += discountedRewardsTensor.mean().item()
                 if self.criticClass:
                     averageCriticRewardsEpoch += (
-                        torch.stack(self.player.values[battle.battle_tag]).mean().item()
+                        torch.stack(self.player.values[battle.battle_tag])
+                        .to(device)
+                        .mean()
+                        .item()
                     )
 
                 # Calculate the loss using actor-critic
                 if self.criticClass:
                     for log_prob, G, V in zip(
                         self.player.log_probs[battle.battle_tag],
-                        discountedRewards,
+                        discountedRewardsTensor,
                         self.player.values[battle.battle_tag],
                     ):
-                        advantage = G - V.item()
+                        log_prob = log_prob.squeeze()
+                        G = G.squeeze()
+                        V = V.squeeze()
+
+                        # Detach critic value so actor and critic backprop use separate graphs.
+                        advantage = G - V.detach()
                         actorLossBattle += -log_prob * advantage
 
                     for G, V in zip(
-                        discountedRewards, self.player.values[battle.battle_tag]
+                        discountedRewardsTensor, self.player.values[battle.battle_tag]
                     ):
+                        G = G.squeeze()
+                        V = V.squeeze()
                         criticLossBattle += (V - G).pow(2)
 
                 # Calculate the loss using only actor
                 else:
                     for log_prob, G in zip(
-                        self.player.log_probs[battle.battle_tag], discountedRewards
+                        self.player.log_probs[battle.battle_tag],
+                        discountedRewardsTensor,
                     ):
+                        log_prob = log_prob.squeeze()
+                        G = G.squeeze()
                         actorLossBattle += -log_prob * G
 
                 # Normalize the loss by the episodes

@@ -1,12 +1,20 @@
 from players import AbstractAIPlayer
 from abc import ABC, abstractmethod
 from torch import nn
+import torch
 
 
 class AbstractCritic(nn.Module, ABC):
     def __init__(self, player: AbstractAIPlayer):
         super(AbstractCritic, self).__init__()
         self.net = self.generateNetwork(player)
+
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.to(device)
+
+    @property
+    def device(self):
+        return next(self.parameters()).device
 
     @abstractmethod
     def generateNetwork(self, player: AbstractAIPlayer) -> None:
@@ -22,5 +30,5 @@ class AbstractCritic(nn.Module, ABC):
         """
         pass
 
-    def forward(self, x):
-        return self.net(x)
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return self.net(x.to(self.device))
