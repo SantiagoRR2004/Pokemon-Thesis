@@ -76,6 +76,12 @@ class MetricsLogger:
             subset=self.experimentData.columns.difference(self.INVALID_COLUMNS)
         ).any(), "There are duplicate rows in the experiments.csv file."
 
+        # Calculate the missing rows
+        missingRows = self.experimentData[
+            ~self.experimentData["fileName"].isin(self.files.keys())
+        ].copy()
+        missingRows.to_csv(os.path.join(self.dataDirectory, "missing.csv"), index=False)
+
         # Remove rows with fileName that is not in the files dictionary
         self.experimentData = self.experimentData[
             self.experimentData["fileName"].isin(self.files.keys())

@@ -8,6 +8,7 @@ output.log
 
 # Ignore the basic parquet
 data/experiment.parquet
+data/missing.csv
 
 # Folder for graphs
 graphs/
