@@ -30,7 +30,8 @@ async def main():
         torch.load(
             os.path.join(
                 currentDirectory, "data", "experiments", "experiment88Actor.pth"
-            )
+            ),
+            map_location=torch.device("gpu" if torch.cuda.is_available() else "cpu"),
         )
     )
     actor.eval()

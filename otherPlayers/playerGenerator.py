@@ -155,7 +155,12 @@ def getPlayerExperiment(
     )
 
     actor: actors.AbstractActor = getattr(actors, data["actor"])(player)
-    actor.load_state_dict(torch.load(modelFile))
+    actor.load_state_dict(
+        torch.load(
+            modelFile,
+            map_location=torch.device("gpu" if torch.cuda.is_available() else "cpu"),
+        )
+    )
     actor.eval()
 
     # Set the correct network for the player
