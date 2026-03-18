@@ -263,6 +263,43 @@ class MetricsLogger:
         # Graph the comparisons matrix
         self.graphHeatmap(comparisonsDF, "Logs All")
 
+    async def playBattlesAsync(
+        self, name1: str, name2: str, nBattles: int = 100
+    ) -> float:
+        """
+        Play battles between two players asynchronously and return the win percentage.
+
+        Args:
+            - name1 (str): The name of the first player.
+            - name2 (str): The name of the second player.
+            - nBattles (int): The number of battles to play.
+
+        Returns:
+            - float: The win percentage of the first player.
+        """
+        arguments = {
+            "serverConfig": serverControl.getServerConfiguration(),
+            "args": {
+                "max_concurrent_battles": os.cpu_count(),
+                "server_configuration": serverControl.getServerConfiguration(),
+            },
+        }
+
+        # Start the server
+        self.p = serverControl.startServer()
+
+        player1 = otherPlayers.getAnyPlayer(name1, **arguments)
+        player2 = otherPlayers.getAnyPlayer(name2, **arguments)
+
+        # Battle the two players
+        await player1.battle_against(player2, n_battles=nBattles)
+
+        # Need to restart the server
+        serverControl.endProcess(self.p)
+        self.p.wait()
+
+        return player1.win_rate
+
     def playBattles(self, name1: str, name2: str, nBattles: int = 100) -> None:
         """
         Play battles between two players and update the tournament results.
@@ -275,25 +312,24 @@ class MetricsLogger:
         Returns:
             - None
         """
-        arguments = {
-            "serverConfig": serverControl.getServerConfiguration(),
-            "args": {
-                "max_concurrent_battles": os.cpu_count(),
-                "server_configuration": serverControl.getServerConfiguration(),
-            },
-        }
-
-        # Start the server
-        p = serverControl.startServer()
-
-        player1 = otherPlayers.getAnyPlayer(name1, **arguments)
-        player2 = otherPlayers.getAnyPlayer(name2, **arguments)
-
-        # Battle the two players
-        asyncio.run(player1.battle_against(player2, n_battles=nBattles))
+        continuePlaying = True
+        while continuePlaying:
+            try:
+                winPercentage = asyncio.run(
+                    asyncio.wait_for(
+                        self.playBattlesAsync(name1, name2, nBattles), timeout=200
+                    )
+                )
+                continuePlaying = False
+            except Exception as e:
+                print(f"Error playing battles between {name1} and {name2}: {e}")
+            finally:
+                # Need to restart the server
+                serverControl.endProcess(self.p)
+                self.p.wait()
 
         # Calculate won battles
-        won = int(player1.win_rate * nBattles)
+        won = int(winPercentage * nBattles)
 
         # Store won battles and total battles
         if pd.isna(self.tournamentWonDF.at[name1, name2]):
@@ -311,14 +347,6 @@ class MetricsLogger:
         self.tournamentPlayedDF.at[name2, name1] = self.tournamentPlayedDF.at[
             name1, name2
         ]
-
-        # Need to restart the server
-        serverControl.endProcess(p)
-        p.wait()
-
-        # Use ints
-        self.tournamentWonDF = self.tournamentWonDF.astype("Int64")
-        self.tournamentPlayedDF = self.tournamentPlayedDF.astype("Int64")
 
         # Save the tournament results to avoid losing data
         sortMatrix(self.tournamentWonDF).to_csv(self.battlesWonFile, index=True)
@@ -347,8 +375,12 @@ class MetricsLogger:
         if os.path.exists(self.battlesWonFile) and os.path.exists(
             self.battlesPlayedFile
         ):
-            tournamentWonDF = pd.read_csv(self.battlesWonFile, index_col=0)
-            tournamentPlayedDF = pd.read_csv(self.battlesPlayedFile, index_col=0)
+            tournamentWonDF = pd.read_csv(self.battlesWonFile, index_col=0).astype(
+                "Int64"
+            )
+            tournamentPlayedDF = pd.read_csv(
+                self.battlesPlayedFile, index_col=0
+            ).astype("Int64")
 
             # Assert that the index and columns have the same elements
             assert set(tournamentWonDF.index) == set(
@@ -360,8 +392,8 @@ class MetricsLogger:
 
         else:
             # Create DataFrames to store the results
-            tournamentWonDF = pd.DataFrame()
-            tournamentPlayedDF = pd.DataFrame()
+            tournamentWonDF = pd.DataFrame(dtype="Int64")
+            tournamentPlayedDF = pd.DataFrame(dtype="Int64")
 
         # Store as attributes
         self.tournamentWonDF = tournamentWonDF
@@ -374,6 +406,10 @@ class MetricsLogger:
                 self.tournamentWonDF.loc[file] = np.nan
                 self.tournamentPlayedDF[file] = np.nan
                 self.tournamentPlayedDF.loc[file] = np.nan
+
+                # Use ints
+                self.tournamentWonDF = self.tournamentWonDF.astype("Int64")
+                self.tournamentPlayedDF = self.tournamentPlayedDF.astype("Int64")
 
             # Iterate over all columns
             # Against itself, it should be 0.5
