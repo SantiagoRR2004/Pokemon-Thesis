@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Detect torch as Python
+*.pth linguist-language=Python linguist-detectable=true
