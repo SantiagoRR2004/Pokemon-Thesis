@@ -93,8 +93,5 @@ if __name__ == "__main__":
                             )
                         )
 
-        # Do not create new experiments for now
-        break
-
-        # # Create new experiments
-        # metricsLogger.MetricsLogger().createNewExperiments()
+        # Calculate infinite tournament results
+        metricsLogger.MetricsLogger(infiniteBattles=True)

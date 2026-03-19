@@ -260,8 +260,8 @@ class MetricsLogger:
 
         self.comparisonsDF = comparisonsDF
 
-        # Graph the comparisons matrix
-        self.graphHeatmap(comparisonsDF, "Logs All")
+        # Graph the comparisons matrix (Too big)
+        # self.graphHeatmap(comparisonsDF, "Logs All")
 
     async def playBattlesAsync(
         self, name1: str, name2: str, nBattles: int = 100
@@ -425,10 +425,12 @@ class MetricsLogger:
         self.tournamentPlayedDF = sortMatrix(self.tournamentPlayedDF)
 
         # Calculate the comparisons matrix for the battles
-        self.tournamentDF = sortMatrix(self.tournamentWonDF / self.tournamentPlayedDF)
+        self.tournamentDF = sortMatrix(
+            self.tournamentWonDF / self.tournamentPlayedDF
+        ).astype("float64")
 
-        # Graph the tournament matrix
-        self.graphHeatmap(self.tournamentDF, "Battles All")
+        # Graph the tournament matrix (Too big)
+        # self.graphHeatmap(self.tournamentDF, "Battles All")
 
     def infiniteTournament(self) -> None:
         """
@@ -454,8 +456,16 @@ class MetricsLogger:
                 columns=self.tournamentWonDF.columns,
             )
 
-            # Graph the uncertainty matrix
-            self.graphHeatmap(uncertaintyDF, "Uncertainty")
+            # Diagonal should be max between current and 0.5-percentage
+            diagonal = np.maximum(
+                np.diag(uncertaintyDF.values),
+                abs(0.5 - self.tournamentDF.values.diagonal()),
+            )
+            idx = uncertaintyDF.index
+            uncertaintyDF.loc[idx, idx] = diagonal
+
+            # Graph the uncertainty matrix (Too big)
+            # self.graphHeatmap(uncertaintyDF, "Uncertainty")
 
             # Play battles for the most uncertain pair of players
             mostUncertain = uncertaintyDF.stack().idxmax()
