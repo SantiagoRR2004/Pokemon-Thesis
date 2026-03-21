@@ -294,10 +294,6 @@ class MetricsLogger:
         # Battle the two players
         await player1.battle_against(player2, n_battles=nBattles)
 
-        # Need to restart the server
-        serverControl.endProcess(self.p)
-        self.p.wait()
-
         return player1.win_rate
 
     def playBattles(self, name1: str, name2: str, nBattles: int = 100) -> None:
@@ -419,6 +415,7 @@ class MetricsLogger:
                     # If we already have the result, we skip it
                     continue
 
+                print(f"Playing battles between {file} and {opponent}...")
                 self.playBattles(file, opponent)
 
         self.tournamentWonDF = sortMatrix(self.tournamentWonDF)
