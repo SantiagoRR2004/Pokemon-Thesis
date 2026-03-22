@@ -279,7 +279,6 @@ class Trainer:
         """
         Reset the server by stopping and starting it again.
 
-
         Args:
             - None
 

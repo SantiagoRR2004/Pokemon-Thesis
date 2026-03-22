@@ -18,6 +18,10 @@ def getUnusedName(name: str) -> str:
     """
     Returns an unused name based on the given name.
 
+    Need to use n as separator because showdown says:
+        - Experiment2_2 == Experiment22
+        - Experiment2@2 == Experiment22
+
     Args:
         - name (str): The base name to use for generating an unused name.
 
@@ -30,12 +34,12 @@ def getUnusedName(name: str) -> str:
 
     number = 2
 
-    while f"{name} {number}" in createdPlayers:
+    while f"{name}n{number}" in createdPlayers:
         number += 1
 
-    createdPlayers.add(f"{name} {number}")
-    print(f"{name} {number}")
-    return f"{name} {number}"
+    createdPlayers.add(f"{name}n{number}")
+
+    return f"{name}n{number}"
 
 
 def getAnyPlayer(choice: str, **args) -> AbstractAIPlayer:

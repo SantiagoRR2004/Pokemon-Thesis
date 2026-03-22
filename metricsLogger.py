@@ -263,6 +263,21 @@ class MetricsLogger:
         # Graph the comparisons matrix (Too big)
         # self.graphHeatmap(comparisonsDF, "Logs All")
 
+    def resetServer(self) -> None:
+        """
+        Reset the server by stopping and starting it again.
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        serverControl.endProcess(self.p)
+        self.p.wait()
+        self.p = serverControl.startServer()
+        self.serverCount = 0
+
     async def playBattlesAsync(
         self, name1: str, name2: str, nBattles: int = 100
     ) -> float:
@@ -285,9 +300,6 @@ class MetricsLogger:
             },
         }
 
-        # Start the server
-        self.p = serverControl.startServer()
-
         player1 = otherPlayers.getAnyPlayer(name1, **arguments)
         player2 = otherPlayers.getAnyPlayer(name2, **arguments)
 
@@ -300,6 +312,9 @@ class MetricsLogger:
         """
         Play battles between two players and update the tournament results.
 
+        It will reset the server if a timeout occurs or if the number of battles
+        played since the last reset exceeds 1000.
+
         Args:
             - name1 (str): The name of the first player.
             - name2 (str): The name of the second player.
@@ -308,7 +323,13 @@ class MetricsLogger:
         Returns:
             - None
         """
+        if not getattr(self, "p", None):
+            # Start the server if it is not already started
+            self.p = serverControl.startServer()
+            self.serverCount = 0
+
         continuePlaying = True
+
         while continuePlaying:
             try:
                 winPercentage = asyncio.run(
@@ -317,12 +338,15 @@ class MetricsLogger:
                     )
                 )
                 continuePlaying = False
-            except Exception as e:
-                print(f"Error playing battles between {name1} and {name2}: {e}")
+                self.serverCount += nBattles
+
+            except asyncio.TimeoutError:
+                print(f"Error playing battles between {name1} and {name2}: Timeout")
+                self.resetServer()
+
             finally:
-                # Need to restart the server
-                serverControl.endProcess(self.p)
-                self.p.wait()
+                if self.serverCount >= 1000:
+                    self.resetServer()
 
         # Calculate won battles
         won = int(winPercentage * nBattles)
