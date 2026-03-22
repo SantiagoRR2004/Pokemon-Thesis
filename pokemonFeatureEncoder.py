@@ -160,11 +160,11 @@ class PokemonFeatureEncoder:
 
         data = self.extractDict(pokedexPath)
 
-        # Eliminate the ones with negative numbers
+        # Eliminate the ones with negative (Create-A-Pokemon) or missing (isCosmeticForme) numbers
         validPokemon = {
             pokemon: pokemonDetails
             for pokemon, pokemonDetails in data.items()
-            if pokemonDetails["num"] > 0
+            if pokemonDetails.get("num") and pokemonDetails["num"] > 0
         }
 
         self.NUM_UNIQUE_FORMS = len(validPokemon)
