@@ -178,7 +178,7 @@ class Trainer:
         serverConfig = serverControl.getServerConfiguration()
 
         self.args = {
-            "max_concurrent_battles": nEpisodes,
+            "max_concurrent_battles": os.cpu_count(),
             "server_configuration": serverConfig,
         }
 

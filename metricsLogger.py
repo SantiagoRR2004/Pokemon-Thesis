@@ -440,7 +440,7 @@ class MetricsLogger:
                     continue
 
                 print(f"Playing battles between {file} and {opponent}...")
-                self.playBattles(file, opponent)
+                self.playBattles(file, opponent, nBattles=10)
 
         self.tournamentWonDF = sortMatrix(self.tournamentWonDF)
         self.tournamentPlayedDF = sortMatrix(self.tournamentPlayedDF)
@@ -497,7 +497,11 @@ class MetricsLogger:
                 "with",
                 f"{uncertaintyDF.at[mostUncertain]:.2%}",
             )
-            self.playBattles(mostUncertain[0], mostUncertain[1])
+            self.playBattles(
+                mostUncertain[0],
+                mostUncertain[1],
+                nBattles=100 - self.tournamentPlayedDF.at[mostUncertain] % 100,
+            )
 
     def calculateBestParameters(
         self,
