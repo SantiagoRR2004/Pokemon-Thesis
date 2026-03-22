@@ -341,7 +341,10 @@ class MetricsLogger:
                 self.serverCount += nBattles
 
             except asyncio.TimeoutError:
-                print(f"Error playing battles between {name1} and {name2}: Timeout")
+                print(
+                    f"Error playing battles between {name1} and {name2}: Timeout",
+                    flush=True,
+                )
                 self.resetServer()
 
             finally:
@@ -439,7 +442,7 @@ class MetricsLogger:
                     # If we already have the result, we skip it
                     continue
 
-                print(f"Playing battles between {file} and {opponent}...")
+                print(f"Playing battles between {file} and {opponent}...", flush=True)
                 self.playBattles(file, opponent, nBattles=10)
 
         self.tournamentWonDF = sortMatrix(self.tournamentWonDF)
@@ -496,6 +499,7 @@ class MetricsLogger:
                 mostUncertain[1],
                 "with",
                 f"{uncertaintyDF.at[mostUncertain]:.2%}",
+                flush=True,
             )
             self.playBattles(
                 mostUncertain[0],
