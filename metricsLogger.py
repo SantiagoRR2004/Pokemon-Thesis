@@ -481,12 +481,15 @@ class MetricsLogger:
             )
 
             # Diagonal should be max between current and 0.5-percentage
-            diagonal = np.maximum(
-                np.diag(uncertaintyDF.values),
-                abs(0.5 - self.tournamentDF.values.diagonal()),
-            )
-            idx = uncertaintyDF.index
-            uncertaintyDF.loc[idx, idx] = diagonal
+            for row in uncertaintyDF.index:
+                uncertaintyDF.at[row, row] = min(
+                    uncertaintyDF.at[row, row],
+                    abs(
+                        0.5
+                        - self.tournamentWonDF.at[row, row]
+                        / self.tournamentPlayedDF.at[row, row]
+                    ),
+                )
 
             # Graph the uncertainty matrix (Too big)
             # self.graphHeatmap(uncertaintyDF, "Uncertainty")
@@ -501,6 +504,7 @@ class MetricsLogger:
                 f"{uncertaintyDF.at[mostUncertain]:.2%}",
                 flush=True,
             )
+
             self.playBattles(
                 mostUncertain[0],
                 mostUncertain[1],
