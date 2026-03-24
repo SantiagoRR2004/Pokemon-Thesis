@@ -1,5 +1,6 @@
 from statsmodels.stats.proportion import proportion_confint
 from contextlib import redirect_stdout, redirect_stderr
+from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.linear_model import LogisticRegression
 import matplotlib
 
@@ -726,6 +727,43 @@ class MetricsLogger:
             )
             f.write("\n")
 
+    def createSurrogateModel(self) -> None:
+        """
+        Create a Gradient Boosted Tree surrogate model to predict the Bradley-Terry
+        skill of each player according to the parameters in the experiments.csv file.
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        # Only use non-random experiments
+        nonRandomExperiments = self.experimentData[
+            ~self.experimentData["fileName"].str.contains("random")
+        ].copy()
+
+        # Keep only those that are in the Bradley-Terry model
+        nonRandomExperiments = nonRandomExperiments[
+            nonRandomExperiments["fileName"].isin(self.bradleyTerry["model"])
+        ].copy()
+
+        # Need to one-hot encode all columns except the drop columns
+        X = nonRandomExperiments.drop(
+            ["fileName"] + self.INVALID_COLUMNS, axis=1
+        ).copy()
+        X = pd.get_dummies(
+            X, columns=[col for col in X.columns if col not in self.INVALID_COLUMNS]
+        )
+        y = nonRandomExperiments["fileName"].map(
+            self.bradleyTerry.set_index("model")["skill"]
+        )
+
+        model = GradientBoostingRegressor()
+        model.fit(X, y)
+
+        self.surrogateModel = model
+
     def graphAllExperiments(self) -> None:
         """
         Graph the multiple metrics for the experiments.
@@ -940,7 +978,7 @@ class MetricsLogger:
             for column, series in self.bestParameters.items()
         }
 
-    def createNewExperiments(self, n: int = 5) -> list:
+    def createNewExperiments(self, n: int = 5) -> None:
         """
         Create n new experiments by sampling from the best parameters.
 
@@ -948,7 +986,7 @@ class MetricsLogger:
             - n (int): The number of new experiments to create
 
         Returns:
-            - list: A list of dictionaries with the sampled parameters for each experiment
+            - None
         """
         # Obtain all experiments
         allExperiments = pd.read_csv(
@@ -1011,6 +1049,7 @@ class MetricsLogger:
 
             except AttributeError as e:
                 continue
+        allExperiments["nInputs"] = allExperiments["nInputs"].astype("Int64")
 
         # Order the rows by fileName
         allExperiments = allExperiments.sort_values(
