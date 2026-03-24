@@ -15,9 +15,11 @@ import pokemons
 import asyncio
 import players
 import moves
+import torch
 import json
 import os
 import re
+import gc
 
 
 class MetricsLogger:
@@ -281,6 +283,8 @@ class MetricsLogger:
             del player
 
         self.players = []
+        gc.collect()
+        torch.cuda.empty_cache()
 
         serverControl.endProcess(self.p)
         self.p.wait()
