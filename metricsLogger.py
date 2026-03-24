@@ -273,6 +273,14 @@ class MetricsLogger:
         Returns:
             - None
         """
+        if not hasattr(self, "players"):
+            self.players = []
+
+        for player in self.players:
+            del player
+
+        self.players = []
+
         serverControl.endProcess(self.p)
         self.p.wait()
         self.p = serverControl.startServer()
@@ -301,7 +309,9 @@ class MetricsLogger:
         }
 
         player1 = otherPlayers.getAnyPlayer(name1, **arguments)
+        self.players.append(player1)
         player2 = otherPlayers.getAnyPlayer(name2, **arguments)
+        self.players.append(player2)
 
         # Battle the two players
         await player1.battle_against(player2, n_battles=nBattles)
@@ -327,6 +337,9 @@ class MetricsLogger:
             # Start the server if it is not already started
             self.p = serverControl.startServer()
             self.serverCount = 0
+
+        if not hasattr(self, "players"):
+            self.players = []
 
         continuePlaying = True
 
