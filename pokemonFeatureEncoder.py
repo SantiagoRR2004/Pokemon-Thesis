@@ -22,10 +22,14 @@ class PokemonFeatureEncoder:
     NUM_UNIQUE_ITEMS: int
     NUM_UNIQUE_MOVES: int
 
+    serverControl.downloadPokemonShowdown()
+
     def __init__(self) -> None:
-        serverControl.downloadPokemonShowdown()
         currentDirectory = os.path.dirname(os.path.abspath(__file__))
         self.dataPath = os.path.join(currentDirectory, "pokemon-showdown", "data")
+        self.encoderFolder = os.path.join(currentDirectory, "encodings")
+        os.makedirs(self.encoderFolder, exist_ok=True)
+
         self.preparePokemonForms()
         self.prepareAbilities()
         self.prepareItems()
@@ -171,6 +175,13 @@ class PokemonFeatureEncoder:
 
         self.formEncoder = {pokemon: i for i, pokemon in enumerate(validPokemon.keys())}
 
+        # Save the form encoder to a JSON file
+        with open(
+            os.path.join(self.encoderFolder, "forms.json"), "w", encoding="utf-8"
+        ) as f:
+            json.dump(self.formEncoder, f, ensure_ascii=False, indent=2)
+            f.write("\n")
+
     def encodeForm(self, form: str) -> int:
         """
         Encodes a Pokemon form into an integer.
@@ -235,6 +246,13 @@ class PokemonFeatureEncoder:
             ability: i for i, ability in enumerate(validAbilities.keys())
         }
 
+        # Save the ability encoder to a JSON file
+        with open(
+            os.path.join(self.encoderFolder, "abilities.json"), "w", encoding="utf-8"
+        ) as f:
+            json.dump(self.abilityEncoder, f, ensure_ascii=False, indent=2)
+            f.write("\n")
+
     def encodeAbility(self, ability: str) -> int:
         """
         Encodes a Pokemon ability into an integer.
@@ -298,6 +316,13 @@ class PokemonFeatureEncoder:
 
         self.itemEncoder = {item: i for i, item in enumerate(validItems.keys())}
 
+        # Save the item encoder to a JSON file
+        with open(
+            os.path.join(self.encoderFolder, "items.json"), "w", encoding="utf-8"
+        ) as f:
+            json.dump(self.itemEncoder, f, ensure_ascii=False, indent=2)
+            f.write("\n")
+
     def encodeItem(self, item: str) -> int:
         """
         Encodes a Pokemon item into an integer.
@@ -356,6 +381,13 @@ class PokemonFeatureEncoder:
         self.NUM_UNIQUE_MOVES = len(validMoves)
 
         self.moveEncoder = {move: i for i, move in enumerate(validMoves.keys())}
+
+        # Save the move encoder to a JSON file
+        with open(
+            os.path.join(self.encoderFolder, "moves.json"), "w", encoding="utf-8"
+        ) as f:
+            json.dump(self.moveEncoder, f, ensure_ascii=False, indent=2)
+            f.write("\n")
 
     def encodeMove(self, move: str) -> int:
         """

@@ -5,6 +5,7 @@ secrets.json
 pokemon-showdown/
 warnings.log
 output.log
+encodings/
 
 # Ignore the basic parquet
 data/experiment.parquet
