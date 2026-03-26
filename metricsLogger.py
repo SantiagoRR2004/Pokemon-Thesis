@@ -110,7 +110,7 @@ class MetricsLogger:
         self.calculateTournament()
 
         # Calculate the Bradley-Terry model with the tournament results
-        self.bradleyTerry()
+        self.bradleyTerryDF = self.bradleyTerry(self.tournamentWonDF)
 
         # Use surrogate modeling
         self.createSurrogateModel()
@@ -619,10 +619,10 @@ class MetricsLogger:
                             if bt:
                                 # Use BT skill difference: positive means row1 is stronger
                                 diff = (
-                                    self.bradleyTerry.set_index("model").at[
+                                    self.bradleyTerryDF.set_index("model").at[
                                         row1["fileName"], "skill"
                                     ]
-                                    - self.bradleyTerry.set_index("model").at[
+                                    - self.bradleyTerryDF.set_index("model").at[
                                         row2["fileName"], "skill"
                                     ]
                                 )
@@ -803,18 +803,19 @@ class MetricsLogger:
 
         return bestParameters
 
-    def bradleyTerry(self) -> None:
+    def bradleyTerry(self, winsDF: pd.DataFrame, text: str = "") -> pd.DataFrame:
         """
         Calculate the Bradley-Terry model for the tournament
         results to get a skill rating for each player.
 
         Args:
-            - None
+            - winsDF (pd.DataFrame): A DataFrame containing the tournament results.
+            - text (str): A string to append to the filename for identification.
 
         Returns:
-            - None
+            - pd.DataFrame: A DataFrame containing the skill ratings for each player.
         """
-        players = list(self.tournamentWonDF.columns)
+        players = list(winsDF.columns)
 
         X = []
         y = []
@@ -824,8 +825,8 @@ class MetricsLogger:
 
             for j in range(i + 1, len(players)):
 
-                winsI = int(self.tournamentWonDF.at[players[i], players[j]])
-                winsJ = int(self.tournamentWonDF.at[players[j], players[i]])
+                winsI = int(winsDF.at[players[i], players[j]])
+                winsJ = int(winsDF.at[players[j], players[i]])
 
                 vec = np.zeros(len(players))
                 vec[i] = 1
@@ -848,23 +849,25 @@ class MetricsLogger:
         model = LogisticRegression(fit_intercept=False)
         model.fit(X, y, sample_weight=weights)
 
-        self.bradleyTerry = pd.DataFrame(
+        bradleyTerryDF = pd.DataFrame(
             {"model": players, "skill": model.coef_[0]}
         ).sort_values("skill", ascending=False)
 
         # Save it to a json file
         with open(
-            os.path.join(self.graphDirectory, "bradleyTerry.json"),
+            os.path.join(self.graphDirectory, f"bradleyTerry{text}.json"),
             "w",
             encoding="utf-8",
         ) as f:
             json.dump(
-                self.bradleyTerry.set_index("model")["skill"].to_dict(),
+                bradleyTerryDF.set_index("model")["skill"].to_dict(),
                 f,
                 indent=2,
                 ensure_ascii=False,
             )
             f.write("\n")
+
+        return bradleyTerryDF
 
     def createSurrogateModel(self) -> None:
         """
@@ -884,7 +887,7 @@ class MetricsLogger:
 
         # Keep only those that are in the Bradley-Terry model
         nonRandomExperiments = nonRandomExperiments[
-            nonRandomExperiments["fileName"].isin(self.bradleyTerry["model"])
+            nonRandomExperiments["fileName"].isin(self.bradleyTerryDF["model"])
         ].copy()
 
         # Need to one-hot encode all columns except the drop columns
@@ -895,7 +898,7 @@ class MetricsLogger:
             X, columns=[col for col in X.columns if col not in self.INVALID_COLUMNS]
         )
         y = nonRandomExperiments["fileName"].map(
-            self.bradleyTerry.set_index("model")["skill"]
+            self.bradleyTerryDF.set_index("model")["skill"]
         )
 
         model = GradientBoostingRegressor()
@@ -925,7 +928,7 @@ class MetricsLogger:
 
         # Add score column
         self.surrogateDF["score"] = self.surrogateDF["fileName"].map(
-            self.bradleyTerry.set_index("model")["skill"]
+            self.bradleyTerryDF.set_index("model")["skill"]
         )
         self.surrogateDF.drop(self.INVALID_COLUMNS, axis=1, inplace=True)
         usedCombinations = set(
@@ -1038,20 +1041,33 @@ class MetricsLogger:
         windowSize = 100
 
         # Get the files that have better Bradley-Terry skill than random
-        better = set()
-        randomSkill = self.bradleyTerry.set_index("model").at["random", "skill"]
+        worseThanRandom = True
+        currentBradleyTerryDF = self.bradleyTerryDF.copy()
+        counterR = 1
 
-        # No longer using the confidence interval
-        for opponent in self.tournamentDF.columns:
-            skill = self.bradleyTerry.set_index("model").at[opponent, "skill"]
+        while worseThanRandom:
 
-            if skill > randomSkill:
-                better.add(opponent)
+            better = {"random"}
+            randomSkill = currentBradleyTerryDF.set_index("model").at["random", "skill"]
 
-        betterDF = sortMatrix(
-            self.tournamentDF.loc[list(better) + ["random"], list(better) + ["random"]]
-        )
-        self.graphHeatmap(betterDF, "Battles All Random")
+            # No longer using the confidence interval
+            for opponent in currentBradleyTerryDF["model"]:
+                skill = currentBradleyTerryDF.set_index("model").at[opponent, "skill"]
+
+                if skill > randomSkill:
+                    better.add(opponent)
+
+            betterDF = sortMatrix(self.tournamentDF.loc[list(better), list(better)])
+            self.graphHeatmap(betterDF, f"Battles All Random {counterR}")
+
+            # Recalculate Bradley-Terry with only the better players
+            currentBradleyTerryDF = self.bradleyTerry(
+                self.tournamentWonDF.loc[list(better), list(better)], text=f"{counterR}"
+            )
+
+            # Until random is the worst
+            worseThanRandom = currentBradleyTerryDF.iloc[-1]["model"] != "random"
+            counterR += 1
 
         files = {
             f: self.files[f] for f in better.intersection(self.comparisonsDF.index)
@@ -1061,7 +1077,7 @@ class MetricsLogger:
         files = dict(
             sorted(
                 files.items(),
-                key=lambda item: self.bradleyTerry.set_index("model").at[
+                key=lambda item: self.bradleyTerryDF.set_index("model").at[
                     item[0], "skill"
                 ],
                 reverse=True,
