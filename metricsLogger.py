@@ -17,6 +17,8 @@ import players
 import moves
 import torch
 import json
+import tqdm
+import io
 import os
 import re
 import gc
@@ -43,7 +45,8 @@ class MetricsLogger:
         Initialize the MetricsLogger by loading the existing data from the data directory.
 
         Args:
-            - infiniteBattles (bool): Whether to run infinite battles.
+            - infiniteBattles (bool): Whether to run infinite battles. If False, it will
+                calculate the best parameters for the surrogate data.
 
         Returns:
             - None
@@ -115,6 +118,8 @@ class MetricsLogger:
 
         if self.infiniteBattles:
             self.infiniteTournament()
+        else:
+            self.surrogateBestParameters()
 
     @staticmethod
     def relativeQuality(A: pd.DataFrame, B: pd.DataFrame) -> float:
@@ -672,6 +677,111 @@ class MetricsLogger:
 
         return bestParameters
 
+    def surrogateBestParameters(self) -> dict:
+        """
+        Calculate the best parameters for the surrogate data.
+
+        We can't reuse the calculateBestParameters function because
+        the square matrix would be too big.
+
+        Args:
+            - None
+
+        Returns:
+            - dict: A dictionary with the best parameters for each variable
+        """
+        bestParameters = {}
+
+        for column in tqdm.tqdm(
+            self.surrogateDF.columns.difference(self.INVALID_COLUMNS + ["score"]),
+            desc="Surrogate Columns",
+        ):
+
+            parameterValues = self.surrogateDF[column].unique()
+            parametersDF = pd.DataFrame(
+                [[[] for _ in parameterValues] for _ in parameterValues],
+                index=parameterValues,
+                columns=parameterValues,
+            )
+
+            # Group rows that are identical except for `column` and the invalid columns
+            grouped = self.surrogateDF.groupby(
+                list(
+                    self.surrogateDF.columns.difference(
+                        [column] + self.INVALID_COLUMNS + ["score"]
+                    )
+                )
+            )
+
+            for _, group in grouped:
+                # Need at least 2 rows to compare
+                if len(group) >= 2:
+                    # Iterate pairwise inside the group
+                    for i in range(len(group)):
+                        for j in range(i + 1, len(group)):
+                            row1 = group.iloc[i]
+                            row2 = group.iloc[j]
+
+                            value1 = row1["score"] - row2["score"]
+                            value2 = -value1
+
+                            parametersDF.loc[row1[column], row2[column]].append(value1)
+                            parametersDF.loc[row2[column], row1[column]].append(value2)
+
+            # Remove rows and columns with all empty lists
+            parametersDF = parametersDF[
+                parametersDF.map(lambda x: len(x) > 0).any(axis=1)
+            ]
+            parametersDF = parametersDF.loc[
+                :, (parametersDF.map(lambda x: len(x) > 0)).any(axis=0)
+            ]
+
+            # Average the values in each cell or np.nan
+            parametersDF = parametersDF.map(
+                lambda x: np.mean(x) if len(x) > 0 else np.nan
+            )
+
+            # Graph the parameters
+            self.graphHeatmap(parametersDF, f"Surrogate {column}")
+
+            # Least-squares score method
+            n = parametersDF.shape[0]
+            A = np.eye(n) - np.ones((n, n)) / n
+            b = parametersDF.sum(axis=1).values
+            x_ls = np.linalg.lstsq(A, b, rcond=None)[0]
+
+            ranking = pd.Series(x_ls, index=parametersDF.index).sort_values(
+                ascending=False
+            )
+            ranking = ranking.reindex(parameterValues, fill_value=1)
+
+            # Add missing values as 1 to make sure they appear more
+            ranking = ranking.reindex(parameterValues, fill_value=1)
+
+            # Apply softmax to get probabilities
+            ranking = np.exp(ranking) / np.sum(np.exp(ranking))
+
+            # Sort the ranking by value
+            ranking = ranking.sort_values(ascending=False)
+
+            bestParameters[column] = ranking
+
+        # Save it to a json file
+        with open(
+            os.path.join(self.graphDirectory, "bestParametersSurrogate.json"),
+            "w",
+            encoding="utf-8",
+        ) as f:
+            json.dump(
+                {key: value.to_dict() for key, value in bestParameters.items()},
+                f,
+                indent=2,
+                ensure_ascii=False,
+            )
+            f.write("\n")
+
+        return bestParameters
+
     def bradleyTerry(self) -> None:
         """
         Calculate the Bradley-Terry model for the tournament
@@ -844,9 +954,19 @@ class MetricsLogger:
             ignore_index=True,
         )
 
-        # Turn every column into strings
-        for column in self.surrogateDF.columns:
-            self.surrogateDF[column] = self.surrogateDF[column].astype(str)
+        # Write to in-memory "file"
+        buffer = io.StringIO()
+
+        self.surrogateDF.to_csv(buffer, index=False)
+
+        # Move back to the beginning before reading
+        buffer.seek(0)
+
+        # Read from the same buffer
+        self.surrogateDF = pd.read_csv(buffer)
+        combinations = set(
+            tuple(row.drop("score").values) for _, row in self.surrogateDF.iterrows()
+        )
 
         # Add the old data
         if os.path.exists(os.path.join(self.dataDirectory, "surrogateData.csv")):
@@ -882,8 +1002,6 @@ class MetricsLogger:
         self.surrogateDF.to_csv(
             os.path.join(self.dataDirectory, "surrogateData.csv"), index=False
         )
-
-        pass
 
     def graphAllExperiments(self) -> None:
         """

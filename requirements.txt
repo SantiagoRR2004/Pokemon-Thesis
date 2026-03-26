@@ -9,3 +9,4 @@ pyarrow
 python-dotenv
 statsmodels
 scikit-learn
+tqdm
