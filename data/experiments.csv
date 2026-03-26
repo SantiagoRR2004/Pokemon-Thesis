@@ -128,6 +128,16 @@ experiment126,actorCritic,inf,64,ActorNetwork03,CriticNetwork03,0.99,RewardFunct
 experiment127,actorCritic,2,64,ActorNetwork02,CriticNetwork02,0.99,RewardFunction02,Move00,Pokemon03,AIPlayer02,182,True,False
 experiment128,actorCritic,inf,64,ActorNetwork03,CriticNetwork04,0.99,RewardFunction02,Move06,Pokemon05,AIPlayerS,4372,True,False
 experiment129,actor,inf,64,ActorNetwork03,,0.99,RewardFunction02,MoveS,Pokemon03,AIPlayer02,54710,True,False
+experiment130,actor,inf,64,ActorNetwork01,,0.99,RewardFunction02,Move09,PokemonS,AIPlayerS,37276,False,True
+experiment131,actor,inf,64,ActorNetwork02,,0.99,RewardFunction02,Move09,PokemonS,AIPlayerS,37276,False,True
+experiment132,actorCritic,inf,64,ActorNetwork01,CriticNetwork01,0.99,RewardFunction02,Move09,PokemonS,AIPlayerS,37276,False,True
+experiment133,actorCritic,inf,64,ActorNetwork02,CriticNetwork01,0.99,RewardFunction02,Move09,PokemonS,AIPlayerS,37276,False,True
+experiment134,actorCritic,inf,64,ActorNetwork01,CriticNetwork02,0.99,RewardFunction02,Move09,PokemonS,AIPlayerS,37276,False,True
+experiment135,actorCritic,inf,64,ActorNetwork02,CriticNetwork02,0.99,RewardFunction02,Move09,PokemonS,AIPlayerS,37276,False,True
+experiment136,actorCritic,inf,64,ActorNetwork01,CriticNetwork03,0.99,RewardFunction02,Move09,PokemonS,AIPlayerS,37276,False,True
+experiment137,actorCritic,inf,64,ActorNetwork02,CriticNetwork03,0.99,RewardFunction02,Move09,PokemonS,AIPlayerS,37276,False,True
+experiment138,actorCritic,inf,64,ActorNetwork01,CriticNetwork04,0.99,RewardFunction02,Move09,PokemonS,AIPlayerS,37276,False,True
+experiment139,actorCritic,inf,64,ActorNetwork02,CriticNetwork04,0.99,RewardFunction02,Move09,PokemonS,AIPlayerS,37276,False,True
 random1,random,r2,r64,random,random,random,random,random,random,random,0,random,random
 random2,random,r10,r64,random,random,random,random,random,random,random,0,random,random
 random3,random,r100,r64,random,random,random,random,random,random,random,0,random,random
