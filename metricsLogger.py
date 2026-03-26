@@ -40,13 +40,17 @@ class MetricsLogger:
     # Columns that depend on others
     INVALID_COLUMNS = ["fileName", "TrainingMethod", "nInputs"]
 
-    def __init__(self, infiniteBattles: bool = False) -> None:
+    def __init__(
+        self, infiniteBattles: bool = False, maxUncertainty: float = 0.01
+    ) -> None:
         """
         Initialize the MetricsLogger by loading the existing data from the data directory.
 
         Args:
             - infiniteBattles (bool): Whether to run infinite battles. If False, it will
                 calculate the best parameters for the surrogate data.
+            - maxUncertainty (float): The maximum uncertainty to consider for the infinite battles.
+                This is a percentage.
 
         Returns:
             - None
@@ -56,6 +60,7 @@ class MetricsLogger:
         self.experimentsDirectory = os.path.join(self.dataDirectory, "experiments")
         self.graphDirectory = os.path.join(currentDirectory, "graphs")
         self.infiniteBattles = infiniteBattles
+        self.maxUncertainty = maxUncertainty
 
         # Ensure the graph directory exists
         os.makedirs(self.graphDirectory, exist_ok=True)
@@ -493,7 +498,8 @@ class MetricsLogger:
         Returns:
             - None
         """
-        while True:
+        continuePlaying = True
+        while continuePlaying:
 
             low, high = proportion_confint(
                 self.tournamentWonDF.values,
@@ -523,20 +529,29 @@ class MetricsLogger:
 
             # Play battles for the most uncertain pair of players
             mostUncertain = uncertaintyDF.stack().idxmax()
-            print(
-                mostUncertain[0],
-                "vs",
-                mostUncertain[1],
-                "with",
-                f"{uncertaintyDF.at[mostUncertain]:.2%}",
-                flush=True,
-            )
 
-            self.playBattles(
-                mostUncertain[0],
-                mostUncertain[1],
-                nBattles=100 - self.tournamentPlayedDF.at[mostUncertain] % 100,
-            )
+            if uncertaintyDF.at[mostUncertain] < self.maxUncertainty:
+                print(
+                    "Maximum uncertainty reached. Stopping infinite tournament.",
+                    flush=True,
+                )
+                continuePlaying = False
+
+            else:
+                print(
+                    mostUncertain[0],
+                    "vs",
+                    mostUncertain[1],
+                    "with",
+                    f"{uncertaintyDF.at[mostUncertain]:.2%}",
+                    flush=True,
+                )
+
+                self.playBattles(
+                    mostUncertain[0],
+                    mostUncertain[1],
+                    nBattles=100 - self.tournamentPlayedDF.at[mostUncertain] % 100,
+                )
 
     def calculateBestParameters(
         self,
