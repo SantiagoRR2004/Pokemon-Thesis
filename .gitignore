@@ -6,10 +6,12 @@ pokemon-showdown/
 warnings.log
 output.log
 encodings/
+.~lock.*.csv#
 
 # Ignore the basic parquet
 data/experiment.parquet
 data/missing.csv
+data/surrogateData.csv
 
 # Folder for graphs
 graphs/

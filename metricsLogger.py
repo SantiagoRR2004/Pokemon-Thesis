@@ -99,6 +99,10 @@ class MetricsLogger:
         # Calculate the Bradley-Terry model with the tournament results
         self.bradleyTerry()
 
+        # Use surrogate modeling
+        self.createSurrogateModel()
+        self.surrogateData()
+
         # Calculate the best parameters for the metrics (to create graphs)
         self.bestParametersLogs = self.calculateBestParameters(
             self.comparisonsDF, "Logs"
@@ -766,7 +770,120 @@ class MetricsLogger:
         model = GradientBoostingRegressor()
         model.fit(X, y)
 
+        # Keep the training feature layout so inference rows can be aligned.
+        self.surrogateFeatureColumns = X.columns
         self.surrogateModel = model
+
+    def surrogateData(self) -> None:
+        """
+        Create a surrogate dataset by sampling combinations of parameters,
+        predicting their Bradley-Terry skill with the surrogate model.
+
+        Only 10% of the possible combinations are sampled, but the old
+        ones are kept in a file.
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        self.surrogateDF = self.experimentData[
+            ~self.experimentData["fileName"].str.contains("random")
+        ].copy()
+
+        # Add score column
+        self.surrogateDF["score"] = self.surrogateDF["fileName"].map(
+            self.bradleyTerry.set_index("model")["skill"]
+        )
+        self.surrogateDF.drop(self.INVALID_COLUMNS, axis=1, inplace=True)
+        usedCombinations = set(
+            tuple(row.drop("score").values) for _, row in self.surrogateDF.iterrows()
+        )
+
+        # Create the sets of possible values for each column
+        columnValues = {}
+        for column in self.surrogateDF.columns:
+            if column == "nTeams":
+                columnValues[column] = ["inf"]
+            elif column != "score":
+                columnValues[column] = self.surrogateDF[column].unique()
+
+        # Caculate the max number of combinations
+        maxCombinations = np.prod([len(values) for values in columnValues.values()])
+
+        # Obtain 20% of the combinations randomly
+        nCombinations = int(maxCombinations * 0.1)
+        combinations = set()
+        for _ in range(nCombinations):
+            combination = tuple(
+                np.random.choice(columnValues[column]) for column in columnValues
+            )
+            if combination not in usedCombinations:
+
+                # Check that useRandom and useMaxDamage are not both "False"
+                if not (
+                    combination[self.surrogateDF.columns.get_loc("useRandom")]
+                    == "False"
+                    and combination[self.surrogateDF.columns.get_loc("useMaxDamage")]
+                    == "False"
+                ):
+                    combinations.add(combination)
+
+        # Calculate the score for each combination
+        newRows = pd.DataFrame(
+            list(combinations),
+            columns=[col for col in self.surrogateDF.columns if col != "score"],
+        )
+        X = pd.get_dummies(newRows)
+        X = X.reindex(columns=self.surrogateFeatureColumns, fill_value=0)
+        newRows["score"] = self.surrogateModel.predict(X)
+
+        self.surrogateDF = pd.concat(
+            [self.surrogateDF, newRows],
+            ignore_index=True,
+        )
+
+        # Turn every column into strings
+        for column in self.surrogateDF.columns:
+            self.surrogateDF[column] = self.surrogateDF[column].astype(str)
+
+        # Add the old data
+        if os.path.exists(os.path.join(self.dataDirectory, "surrogateData.csv")):
+            oldSurrogateDF = pd.read_csv(
+                os.path.join(self.dataDirectory, "surrogateData.csv")
+            )
+
+            # Only add rows that are not already in the surrogateDF
+            oldCombinations = set(
+                tuple(row.drop("score").values) for _, row in oldSurrogateDF.iterrows()
+            )
+            oldCombinations = oldCombinations.difference(
+                usedCombinations.union(combinations)
+            )
+
+            oldSurrogateDF = oldSurrogateDF[
+                oldSurrogateDF.apply(
+                    lambda row: tuple(row.drop("score").values) in oldCombinations,
+                    axis=1,
+                )
+            ]
+
+            self.surrogateDF = pd.concat(
+                [self.surrogateDF, oldSurrogateDF],
+                ignore_index=True,
+            )
+
+        # Reorder columns, sort and save
+        cols = ["score"] + [col for col in self.surrogateDF.columns if col != "score"]
+        self.surrogateDF = self.surrogateDF[cols]
+        self.surrogateDF["score"] = self.surrogateDF["score"].astype(float)
+        self.surrogateDF = self.surrogateDF.sort_values("score", ascending=False)
+        self.surrogateDF.to_csv(
+            os.path.join(self.dataDirectory, "surrogateData.csv"), index=False
+        )
+
+        pass
 
     def graphAllExperiments(self) -> None:
         """
