@@ -41,7 +41,10 @@ class MetricsLogger:
     INVALID_COLUMNS = ["fileName", "TrainingMethod", "nInputs"]
 
     def __init__(
-        self, infiniteBattles: bool = False, maxUncertainty: float = 0.01
+        self,
+        infiniteBattles: bool = False,
+        maxUncertainty: float = 0.01,
+        surrogateGraphs: bool = False,
     ) -> None:
         """
         Initialize the MetricsLogger by loading the existing data from the data directory.
@@ -51,6 +54,7 @@ class MetricsLogger:
                 calculate the best parameters for the surrogate data.
             - maxUncertainty (float): The maximum uncertainty to consider for the infinite battles.
                 This is a percentage.
+            - surrogateGraphs (bool): Whether to calculate the best parameters for the surrogate data.
 
         Returns:
             - None
@@ -61,6 +65,7 @@ class MetricsLogger:
         self.graphDirectory = os.path.join(currentDirectory, "graphs")
         self.infiniteBattles = infiniteBattles
         self.maxUncertainty = maxUncertainty
+        self.surrogateRowIndex = 0
 
         # Ensure the graph directory exists
         os.makedirs(self.graphDirectory, exist_ok=True)
@@ -123,7 +128,8 @@ class MetricsLogger:
 
         if self.infiniteBattles:
             self.infiniteTournament()
-        else:
+
+        if surrogateGraphs:
             self.surrogateBestParameters()
 
     @staticmethod
@@ -1219,7 +1225,9 @@ class MetricsLogger:
 
     def obtainNewExperiment(self) -> dict:
         """
-        Obtain a new experiment by sampling from the best parameters.
+        Obtain a new experiment by taking the next row from the surrogate dataset.
+
+        Each call returns the next row sequentially, starting from the first.
 
         Args:
             - None
@@ -1227,10 +1235,9 @@ class MetricsLogger:
         Returns:
             - dict: A dictionary with the sampled parameters
         """
-        return {
-            column: series.sample(n=1, weights=series).index[0]
-            for column, series in self.bestParameters.items()
-        }
+        row = self.surrogateDF.iloc[self.surrogateRowIndex].drop("score")
+        self.surrogateRowIndex += 1
+        return row.to_dict()
 
     def createNewExperiments(self, n: int = 5) -> None:
         """
@@ -1424,6 +1431,6 @@ def sortMatrix(matrix: pd.DataFrame) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    logger = MetricsLogger()
+    logger = MetricsLogger(surrogateGraphs=True)
     logger.graphAllExperiments()
     logger.graphVictoryPercentage()
