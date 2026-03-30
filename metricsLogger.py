@@ -339,7 +339,8 @@ class MetricsLogger:
         self.players.append(player2)
 
         # Battle the two players
-        await player1.battle_against(player2, n_battles=nBattles)
+        with torch.no_grad():
+            await player1.battle_against(player2, n_battles=nBattles)
 
         return player1.win_rate
 

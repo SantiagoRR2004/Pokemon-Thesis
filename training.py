@@ -1,17 +1,19 @@
-from pokemons import AbstractPokemon, Pokemon00
-from players import AbstractAIPlayer, AIPlayer00
-import randomTeams.randomTeam as randomTeam
-from moves import AbstractMove, Move00
+from rewards import AbstractRewardFunction, RewardFunction01
 from critics import AbstractCritic, CriticNetwork01
 from actors import AbstractActor, ActorNetwork01
-from rewards import AbstractRewardFunction, RewardFunction01
+from players import AbstractAIPlayer, AIPlayer00
+from pokemons import AbstractPokemon, Pokemon00
+import randomTeams.randomTeam as randomTeam
+from moves import AbstractMove, Move00
 import otherPlayers
+from collections import Counter
 import torch
 import torch.nn as nn
 import torch.optim as optim
 import serverControl
 import metricsLogger
 import asyncio
+import random
 import time
 import os
 
@@ -43,6 +45,7 @@ class Trainer:
 
     CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
     DATA_DIRECTORY = os.path.join(CURRENT_DIRECTORY, "data", "experiments")
+    SELF_PLAY_WINDOW = 20
 
     def __init__(
         self,
@@ -59,6 +62,7 @@ class Trainer:
         gamma: float = 0.99,
         useRandom: bool = True,
         useMaxDamage: bool = True,
+        useSelfPlay: bool = True,
     ) -> None:
         """
         Initialize the Trainer class.
@@ -76,6 +80,7 @@ class Trainer:
             - gamma (float): Discount factor for future rewards.
             - useRandom (bool): Whether to include a random player as an opponent.
             - useMaxDamage (bool): Whether to include a max damage player as an opponent.
+            - useSelfPlay (bool): Whether to include self-play opponents from recent snapshots.
 
         Returns:
             - None
@@ -86,10 +91,15 @@ class Trainer:
         self.gamma = float(gamma)
         self.useRandom = str_to_bool(useRandom)
         self.useMaxDamage = str_to_bool(useMaxDamage)
+        self.useSelfPlay = str_to_bool(useSelfPlay)
         self.playerClass = playerClass
         self.criticClass = criticClass
         self.rewardsClass = rewardsClass
         self.fileName = fileName
+        self.actorClass = actorClass
+        self.moveClass = moveClass
+        self.pokemonClass = pokemonClass
+        self.selfPlaySnapshots: list[tuple[int, dict[str, torch.Tensor]]] = []
 
         self.setArgs(nTeams=float(nTeams), nEpisodes=self.nEpisodes)
         self.setPlayerArgs(pokemonClass, moveClass, actorClass)
@@ -107,6 +117,10 @@ class Trainer:
         self.nEpochs = 1000
 
         self.createHistoryLists()
+
+        if self.useSelfPlay:
+            # Seed with initial policy so self-play is available from epoch 1.
+            self.storeSelfPlaySnapshot(epoch=0)
 
     def createHistoryLists(self) -> None:
         """
@@ -348,6 +362,125 @@ class Trainer:
         for enemy in self.opponents:
             await self.player.battle_against(enemy, n_battles=self.nEpisodes)
 
+        if not self.useSelfPlay:
+            return
+
+        sampledEpochs = [
+            random.choice(self.selfPlaySnapshots)[0] for _ in range(self.nEpisodes)
+        ]
+
+        for snapshotNumber, nBattles in Counter(sampledEpochs).items():
+
+            opponent = self.buildSelfPlayOpponent(
+                snapshot_state_dict=self.getSnapshotState(snapshotNumber),
+            )
+
+            try:
+                await self.player.battle_against(opponent, n_battles=nBattles)
+            finally:
+                del opponent
+
+    def getSnapshotState(self, snapshotNumber: int) -> dict[str, torch.Tensor]:
+        """
+        Get a snapshot state dict for a stored epoch.
+
+        Args:
+            - snapshotNumber (int): Epoch identifier for the stored snapshot.
+
+        Returns:
+            - dict[str, torch.Tensor]: Actor state dict if found.
+        """
+        for epoch, snapshotState in self.selfPlaySnapshots:
+            if epoch == snapshotNumber:
+                return snapshotState
+
+        raise ValueError(f"Snapshot for epoch {snapshotNumber} not found.")
+
+    def buildSelfPlayOpponent(
+        self,
+        *,
+        snapshot_state_dict: dict[str, torch.Tensor],
+    ) -> AbstractAIPlayer:
+        """
+        Build an opponent using a frozen historical actor snapshot.
+
+        Args:
+            - snapshot_state_dict (dict[str, torch.Tensor]): Saved actor state dict.
+
+        Returns:
+            - AbstractAIPlayer: Opponent player instance.
+        """
+        opponentArgs = self.args.copy()
+        opponentArgs["pokemonFeatureExtractor"] = self.pokemonClass(self.moveClass)
+
+        dummyPlayer: AbstractAIPlayer = self.playerClass(
+            network="BlaBlaBla",
+            **opponentArgs,
+        )
+
+        snapshotActor: AbstractActor = self.actorClass(dummyPlayer)
+        snapshotActor.load_state_dict(snapshot_state_dict)
+        snapshotActor.eval()
+        for parameter in snapshotActor.parameters():
+            parameter.requires_grad = False
+
+        opponentArgs["network"] = snapshotActor
+        opponent: AbstractAIPlayer = self.playerClass(**opponentArgs)
+
+        del dummyPlayer
+
+        return opponent
+
+    def storeSelfPlaySnapshot(self, *, epoch: int) -> None:
+        """
+        Store a CPU snapshot of the current actor parameters.
+
+        Args:
+            - epoch (int): Epoch identifier associated with this snapshot.
+
+        Returns:
+            - None
+        """
+        snapshotState = {
+            key: value.detach().cpu().clone()
+            for key, value in self.actor.state_dict().items()
+        }
+        self.selfPlaySnapshots.append((epoch, snapshotState))
+
+        if len(self.selfPlaySnapshots) > self.SELF_PLAY_WINDOW:
+            self.selfPlaySnapshots = self.selfPlaySnapshots[-self.SELF_PLAY_WINDOW :]
+
+    def saveSelfPlaySnapshots(self) -> None:
+        """
+        Save all stored self-play snapshots.
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        if not self.useSelfPlay or not self.selfPlaySnapshots:
+            return
+
+        # The current epoch actor is already saved as the main model
+        snapshotsToSave = self.selfPlaySnapshots[:-1]
+        if not snapshotsToSave:
+            return
+
+        snapshotsDirectory = os.path.join(
+            self.DATA_DIRECTORY, f"{self.fileName}SelfPlaySnapshots"
+        )
+        os.makedirs(snapshotsDirectory, exist_ok=True)
+
+        for epoch, snapshotState in snapshotsToSave:
+            torch.save(
+                snapshotState,
+                os.path.join(
+                    snapshotsDirectory, f"{self.fileName}ActorEpoch{epoch}.pth"
+                ),
+            )
+
     async def main(self) -> None:
         """
         Train a model.
@@ -541,6 +674,9 @@ class Trainer:
                 averageCriticRewardsEpoch if self.criticClass else None,
             )
 
+            if self.useSelfPlay:
+                self.storeSelfPlaySnapshot(epoch=epoch + 1)
+
             # Reset the server every 50 epochs to avoid memory leaks
             if (epoch + 1) % 50 == 0 and (epoch + 1) != self.nEpochs:
                 self.resetServer()
@@ -556,6 +692,7 @@ class Trainer:
                         self.critic.state_dict(),
                         os.path.join(self.DATA_DIRECTORY, f"{self.fileName}Critic.pth"),
                     )
+                self.saveSelfPlaySnapshots()
 
         # Save the metrics
         self.saveMetrics()
