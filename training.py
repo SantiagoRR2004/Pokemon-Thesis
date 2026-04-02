@@ -677,8 +677,8 @@ class Trainer:
             if self.useSelfPlay:
                 self.storeSelfPlaySnapshot(epoch=epoch + 1)
 
-            # Reset the server every 50 epochs to avoid memory leaks
-            if (epoch + 1) % 50 == 0 and (epoch + 1) != self.nEpochs:
+            # Reset the server every 25 epochs to avoid memory leaks
+            if (epoch + 1) % 25 == 0 and (epoch + 1) != self.nEpochs:
                 self.resetServer()
 
             # Save the model at the last epoch
