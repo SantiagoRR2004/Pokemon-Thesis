@@ -26,12 +26,14 @@ async def main(player1: Player, player2: Player, nTeams: int) -> None:
             player = player1(
                 battle_format="gen9randombattle",
                 max_concurrent_battles=nEpisodes,
+                server_configuration=serverControl.getServerConfiguration(),
             )
 
             # We create another random player
             second_player = player2(
                 battle_format="gen9randombattle",
                 max_concurrent_battles=nEpisodes,
+                server_configuration=serverControl.getServerConfiguration(),
             )
         else:
 
@@ -40,6 +42,7 @@ async def main(player1: Player, player2: Player, nTeams: int) -> None:
                 battle_format="gen9purehackmons",
                 team=randomTeam.selectRandomTeam(nTeams),
                 max_concurrent_battles=nEpisodes,
+                server_configuration=serverControl.getServerConfiguration(),
             )
 
             # We create another random player
@@ -47,6 +50,7 @@ async def main(player1: Player, player2: Player, nTeams: int) -> None:
                 battle_format="gen9purehackmons",
                 team=randomTeam.selectRandomTeam(nTeams),
                 max_concurrent_battles=nEpisodes,
+                server_configuration=serverControl.getServerConfiguration(),
             )
 
         # Run n_battles (Episodes)

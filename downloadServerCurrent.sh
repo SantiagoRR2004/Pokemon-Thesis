@@ -22,7 +22,6 @@ update_repo() {
     ../serverConfiguration.sh config/config.js
 
     # Correctly build the server
-    rm -rf node_modules package-lock.json yarn.lock
     node pokemon-showdown generate-team
 }
 
