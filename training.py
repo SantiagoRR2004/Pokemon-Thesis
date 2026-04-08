@@ -15,6 +15,7 @@ import metricsLogger
 import asyncio
 import random
 import time
+import gc
 import os
 
 
@@ -306,6 +307,9 @@ class Trainer:
         # Reset all the players
         self.resetPlayer()
         self.resetOpponents()
+
+        gc.collect()
+        torch.cuda.empty_cache()
 
     def saveMetrics(self) -> None:
         """
