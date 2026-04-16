@@ -1046,17 +1046,57 @@ class MetricsLogger:
         currentBradleyTerryDF = self.bradleyTerryDF.copy()
         counterR = 1
 
+        remainingHyperparameterCounts = []
+        baselineExperiments = self.experimentData[
+            ~self.experimentData["fileName"].str.contains("random", na=False)
+        ].copy()
+
+        iterationCounts = {
+            "iteration": 0,
+            "nRows": len(baselineExperiments),
+            "counts": {},
+        }
+        for column in baselineExperiments.columns.difference(self.INVALID_COLUMNS):
+            valueCounts = baselineExperiments[column].value_counts(dropna=False)
+            iterationCounts["counts"][column] = {
+                str(value): int(count)
+                for value, count in valueCounts.sort_index().items()
+            }
+        remainingHyperparameterCounts.append(iterationCounts)
+
         while worseThanRandom:
 
             better = {"random"}
-            randomSkill = currentBradleyTerryDF.set_index("model").at["random", "skill"]
+            currentBradleyTerryByModel = currentBradleyTerryDF.set_index("model")
+            randomSkill = currentBradleyTerryByModel.at["random", "skill"]
 
             # No longer using the confidence interval
-            for opponent in currentBradleyTerryDF["model"]:
-                skill = currentBradleyTerryDF.set_index("model").at[opponent, "skill"]
+            for opponent in currentBradleyTerryByModel.index:
+                skill = currentBradleyTerryByModel.at[opponent, "skill"]
 
                 if skill > randomSkill:
                     better.add(opponent)
+
+            remainingExperiments = self.experimentData[
+                self.experimentData["fileName"].isin(better)
+            ].copy()
+            remainingExperiments = remainingExperiments[
+                ~remainingExperiments["fileName"].str.contains("random", na=False)
+            ].copy()
+
+            iterationCounts = {
+                "iteration": counterR,
+                "nRows": len(remainingExperiments),
+                "counts": {},
+            }
+
+            for column in remainingExperiments.columns.difference(self.INVALID_COLUMNS):
+                valueCounts = remainingExperiments[column].value_counts(dropna=False)
+                iterationCounts["counts"][column] = {
+                    str(value): int(count)
+                    for value, count in valueCounts.sort_index().items()
+                }
+            remainingHyperparameterCounts.append(iterationCounts)
 
             betterDF = sortMatrix(self.tournamentDF.loc[list(better), list(better)])
             self.graphHeatmap(betterDF, f"Battles All Random {counterR}")
@@ -1069,6 +1109,8 @@ class MetricsLogger:
             # Until random is the worst
             worseThanRandom = currentBradleyTerryDF.iloc[-1]["model"] != "random"
             counterR += 1
+
+        self.graphHyperparameterCount(remainingHyperparameterCounts)
 
         files = {
             f: self.files[f] for f in better.intersection(self.comparisonsDF.index)
@@ -1190,6 +1232,61 @@ class MetricsLogger:
             hovermode="closest",
         )
         fig.show()
+
+    def graphHyperparameterCount(self, remainingHyperparameterCounts: list) -> None:
+        """
+        Graph the count of remaining hyperparameters over iterations.
+
+        Args:
+            - remainingHyperparameterCounts (list): A list of dictionaries containing the counts of remaining hyperparameters for each iteration.
+
+        Returns:
+            - None
+        """
+        with open(
+            os.path.join(self.graphDirectory, "remainingHyperparameterCounts.json"),
+            "w",
+            encoding="utf-8",
+        ) as f:
+            json.dump(
+                remainingHyperparameterCounts,
+                f,
+                indent=2,
+                ensure_ascii=False,
+            )
+            f.write("\n")
+
+        for column in remainingHyperparameterCounts[0]["counts"].keys():
+
+            plt.figure()
+
+            for parameterValue in remainingHyperparameterCounts[0]["counts"][
+                column
+            ].keys():
+                x = []
+                y = []
+
+                baseline = remainingHyperparameterCounts[0]["counts"][column][
+                    parameterValue
+                ]
+
+                for iteration in remainingHyperparameterCounts[1:]:
+                    x.append(iteration["iteration"])
+                    currentCount = iteration["counts"][column].get(parameterValue, 0)
+                    y.append(currentCount / baseline * 100)
+                plt.plot(x, y, marker="o", label=str(parameterValue))
+
+            plt.title(column)
+            plt.xlabel("Iteration")
+            plt.ylabel("Percentage remaining")
+            plt.legend()
+
+            plt.savefig(
+                os.path.join(
+                    self.graphDirectory, f"Count{column[0].upper() + column[1:]}.png"
+                )
+            )
+            plt.close()
 
     def graphVictoryPercentage(self) -> None:
         """
