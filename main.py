@@ -94,7 +94,7 @@ if __name__ == "__main__":
                         )
 
         # Calculate infinite tournament results
-        metricsLogger.MetricsLogger(infiniteBattles=True, maxUncertainty=0.2)
+        metricsLogger.MetricsLogger(infiniteBattles=True)
         # Add a new experiment
         logger = metricsLogger.MetricsLogger()
         logger.createNewExperiments(1)
