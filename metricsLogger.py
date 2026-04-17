@@ -886,10 +886,13 @@ class MetricsLogger:
             ~self.experimentData["fileName"].str.contains("random")
         ].copy()
 
-        # Keep only those that are in the Bradley-Terry model
-        nonRandomExperiments = nonRandomExperiments[
-            nonRandomExperiments["fileName"].isin(self.bradleyTerryDF["model"])
-        ].copy()
+        # Calculate Bradley-Terry
+        currentBradleyTerry = self.bradleyTerry(
+            self.tournamentWonDF[nonRandomExperiments["fileName"]][
+                nonRandomExperiments["fileName"]
+            ],
+            text="Surrogate",
+        )
 
         # Need to one-hot encode all columns except the drop columns
         X = nonRandomExperiments.drop(
@@ -899,7 +902,7 @@ class MetricsLogger:
             X, columns=[col for col in X.columns if col not in self.INVALID_COLUMNS]
         )
         y = nonRandomExperiments["fileName"].map(
-            self.bradleyTerryDF.set_index("model")["skill"]
+            currentBradleyTerry.set_index("model")["skill"]
         )
 
         model = GradientBoostingRegressor()
@@ -1109,6 +1112,60 @@ class MetricsLogger:
             # Until random is the worst
             worseThanRandom = currentBradleyTerryDF.iloc[-1]["model"] != "random"
             counterR += 1
+
+        # Find groups that are notably worse and eliminate them
+        notableGroups = True
+        while notableGroups:
+
+            differences = currentBradleyTerryDF["skill"].diff()
+            meanDifference = differences.mean()
+
+            for i in range(len(currentBradleyTerryDF) - 2, 0, -1):
+                if (
+                    abs(differences.iloc[i]) > abs(meanDifference) * 1.5
+                    and i > len(currentBradleyTerryDF) * 0.75
+                ):
+                    better = set(currentBradleyTerryDF.iloc[:i]["model"])
+                    break
+            else:
+                notableGroups = False
+
+            if notableGroups:
+
+                remainingExperiments = self.experimentData[
+                    self.experimentData["fileName"].isin(better)
+                ].copy()
+                remainingExperiments = remainingExperiments[
+                    ~remainingExperiments["fileName"].str.contains("random", na=False)
+                ].copy()
+
+                iterationCounts = {
+                    "iteration": counterR,
+                    "nRows": len(remainingExperiments),
+                    "counts": {},
+                }
+
+                for column in remainingExperiments.columns.difference(
+                    self.INVALID_COLUMNS
+                ):
+                    valueCounts = remainingExperiments[column].value_counts(
+                        dropna=False
+                    )
+                    iterationCounts["counts"][column] = {
+                        str(value): int(count)
+                        for value, count in valueCounts.sort_index().items()
+                    }
+                remainingHyperparameterCounts.append(iterationCounts)
+
+                betterDF = sortMatrix(self.tournamentDF.loc[list(better), list(better)])
+                self.graphHeatmap(betterDF, f"Battles All Random {counterR}")
+
+                # Recalculate Bradley-Terry with only the better players
+                currentBradleyTerryDF = self.bradleyTerry(
+                    self.tournamentWonDF.loc[list(better), list(better)],
+                    text=f"{counterR}",
+                )
+                counterR += 1
 
         self.graphHyperparameterCount(remainingHyperparameterCounts)
 
