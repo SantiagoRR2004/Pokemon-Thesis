@@ -95,6 +95,24 @@
       "problemMatcher": []
     },
     {
+      "label": "Install LaTeX Workshop Extension",
+      "type": "shell",
+      "command": "code --install-extension James-Yu.latex-workshop",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "silent",
+        "focus": false,
+        "panel": "new"
+      },
+      "runOptions": {
+        "runOn": "folderOpen" // Run this task when the folder is opened
+      },
+      "problemMatcher": []
+    },
+    {
       "label": "Format Code with Black",
       "type": "shell",
       "command": "${workspaceFolder}/.venv/bin/python3",

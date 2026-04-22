@@ -3,3 +3,6 @@
 
 # Detect torch as Python
 *.pth linguist-language=Python linguist-detectable=true filter=lfs diff=lfs merge=lfs -text
+
+# Detect LaTeX
+*.tex linguist-language=TeX linguist-detectable=true
