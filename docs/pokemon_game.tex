@@ -47,7 +47,7 @@
 \date{\today}
 
 \begin{abstract}
-We formulate Pok\'emon-style competitive battles as a standard reinforcement-learning object, without graphons or continuum limits. The underlying game is a two-player partially observable stochastic game with simultaneous action selection, rule-based stochastic resolution, hidden opponent information, and terminal win/loss objectives. We define the full battle state, legal action sets, public and private observations, transition kernel, reward structure, and belief-state dynamics. We also describe the induced single-agent partially observable Markov decision process obtained by treating the opponent and game engine as part of the environment. Because the real game is combinatorially large, we then introduce a reduced \emph{mini-Pok\'emon} model that preserves the essential mechanisms of hidden team information, switching, move choice, resource depletion, and matchup structure while remaining analytically and computationally tractable. The purpose of the paper is not to approximate the full game by a new theory, but to place the game itself on a precise mathematical footing suitable for RL, world-modeling, and later coarse-grained analysis.
+We formulate Pok\'emon-style competitive (\emph{gen9randombattle}) battles as a standard reinforcement-learning object, without graphons or continuum limits. The underlying game is a two-player partially observable stochastic game with simultaneous action selection, rule-based stochastic resolution, hidden opponent information, and terminal win/loss objectives. We define the full battle state, legal action sets, public and private observations, transition kernel, reward structure, and belief-state dynamics. We also describe the induced single-agent partially observable Markov decision process obtained by treating the opponent and game engine as part of the environment. Because the real game is combinatorially large, we then introduce a reduced \emph{mini-Pok\'emon} model that preserves the essential mechanisms of hidden team information, switching, move choice, resource depletion, and matchup structure while remaining analytically and computationally tractable. The purpose of the paper is not to approximate the full game by a new theory, but to place the game itself on a precise mathematical footing suitable for RL, world-modeling, and later coarse-grained analysis.
 \end{abstract}
 
 \maketitle
@@ -126,7 +126,7 @@ Each team state may be written as
 \begin{equation}
 T_i^t = \big( X_{i,1}^t, \dots, X_{i,N_i}^t, A_i^t \big),
 \end{equation}
-where $N_i$ is the team size, $X_{i,k}^t$ is the detailed state of the $k$th unit, and $A_i^t$ indicates which unit or units are currently active. In singles, $A_i^t$ is a single active index; in doubles, it is an ordered or unordered active pair depending on the implementation.
+where $N_i$ is the team size, $X_{i,k}^t$ is the detailed state of the $k$th unit, and $A_i^t$ indicates which unit is currently active.
 
 Each unit state has both quasi-static and dynamic components:
 \begin{equation}
@@ -174,13 +174,11 @@ At turn $t$, each player chooses an action simultaneously. For player $i$, the l
 a_t^i \in \cA_i(s_t).
 \end{equation}
 
-For singles, a typical legal action set takes the schematic form
+For \emph{gen9randombattle}, a typical legal action set takes the schematic form
 \begin{equation}
-\cA_i(s_t) \subseteq \cA_i^{\mathrm{move}}(s_t) \cup \cA_i^{\mathrm{switch}}(s_t) \cup \cA_i^{\mathrm{special}}(s_t),
+\cA_i(s_t) \subseteq \cA_i^{\mathrm{move}}(s_t) \cup \cA_i^{\mathrm{switch}}(s_t) \cup \cA_i^{\mathrm{tera}}(s_t),
 \end{equation}
-where move actions correspond to selecting one legal move, switch actions correspond to switching to a legal reserve unit, and special actions encode format-dependent mechanics if present.
-
-In doubles, an action may include move choice together with target choice for each active slot, or a combination of move and switch decisions, subject to engine legality constraints.
+where move actions correspond to selecting one legal move, switch actions correspond to switching to a legal reserve unit, and where \(\cA_i^{\mathrm{tera}}(s_t) = \{0,1\}\) denotes the boolean decision of whether to Terastallize. This can only be done once per battle per player and has to be chosen with a move and not a switch.
 
 \subsection{Transition dynamics}
 
@@ -218,6 +216,7 @@ A typical observation contains:
 \item the current public battle board;
 \item the visible active units and their public conditions;
 \item all public events from the previous turn;
+\item full information about the agent's own team;
 \item the currently known revealed subset of the opponent's team information.
 \end{itemize}
 
@@ -443,7 +442,7 @@ and let each unit carry a small latent parameter vector
 \begin{equation}
 u \in \cV,
 \end{equation}
-for example a discrete attack style, hidden move profile, or hidden item class. Each player has a team of size $N$.
+for example a discrete attack stat, hidden move, or hidden item. Each player has a team of size $N$.
 
 For unit $k$ of player $i$, define the reduced latent specification
 \begin{equation}
@@ -455,13 +454,13 @@ y_{i,k}^t = (\lambda_{i,k}^t,\sigma_{i,k}^t,f_{i,k}^t),
 \end{equation}
 where $\lambda_{i,k}^t \in [0,1]$ is HP fraction, $\sigma_{i,k}^t$ is a small status label, and $f_{i,k}^t$ indicates fainting.
 
-\subsection{Singles battle version}
+\subsection{Final version}
 
-For clarity, consider first a singles version with one active unit per player. At turn $t$, the active indices are
+\emph{gen9randombattle} has one active unit per player. At turn $t$, the active indices are
 \begin{equation}
-a_t^{\mathrm{act},1} \in \{1,\dots,N\},
+a_t^{\mathrm{act},1} \in \{1,\dots,6\},
 \qquad
-a_t^{\mathrm{act},2} \in \{1,\dots,N\}.
+a_t^{\mathrm{act},2} \in \{1,\dots,6\}.
 \end{equation}
 The reduced full state is
 \begin{equation}
@@ -473,15 +472,15 @@ where $Y_i^t=(y_{i,1}^t,\dots,y_{i,N}^t)$ and $B_t^{\mathrm{mini}}$ contains a r
 
 At each turn, each player chooses one of the following:
 \begin{itemize}
-\item attack with move type $m \in \{1,\dots,M\}$ available to the active unit;
+\item attack with move type $m \in \{1,\dots,4\}$ available to the active unit;
 \item switch to one legal reserve unit;
-\item optionally use a small format-specific special action if included in the model.
+\item optionally terastallize if not already done.
 \end{itemize}
 Thus the reduced legal action set is finite and state dependent:
 \begin{equation}
 \cA_i^{\mathrm{mini}}(s_t^{\mathrm{mini}})
 \subseteq
-\{\text{moves}\}\cup\{\text{switches}\}\cup\{\text{special}\}.
+\{\text{moves}\}\cup\{\text{switches}\}\cup\{\text{tera}\}.
 \end{equation}
 
 \subsection{Matchup and damage law}
@@ -521,6 +520,7 @@ The mini-model remains partially observable. Player $i$ observes:
 \item the identity and public HP/status of the opponent's current active unit;
 \item any revealed move or latent tag previously exposed;
 \item the reduced public battle log and reduced field state.
+\item the full state of their own team, including the latent parameters of their own units.
 \end{itemize}
 The opponent's reserve composition and unrevealed latent parameters remain hidden until exposed through switches or move use.
 

@@ -6,3 +6,6 @@
 
 # Detect LaTeX
 *.tex linguist-language=TeX linguist-detectable=true
+
+# Include files under docs/ in language stats
+docs/* linguist-documentation=false
