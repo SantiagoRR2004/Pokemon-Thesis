@@ -47,7 +47,7 @@
 \date{\today}
 
 \begin{abstract}
-We formulate Pok\'emon-style competitive (\emph{gen9randombattle}) battles as a standard reinforcement-learning object, without graphons or continuum limits. The underlying game is a two-player partially observable stochastic game with simultaneous action selection, rule-based stochastic resolution, hidden opponent information, and terminal win/loss objectives. We define the full battle state, legal action sets, public and private observations, transition kernel, reward structure, and belief-state dynamics. We also describe the induced single-agent partially observable Markov decision process obtained by treating the opponent and game engine as part of the environment. Because the real game is combinatorially large, we then introduce a reduced \emph{mini-Pok\'emon} model that preserves the essential mechanisms of hidden team information, switching, move choice, resource depletion, and matchup structure while remaining analytically and computationally tractable. The purpose of the paper is not to approximate the full game by a new theory, but to place the game itself on a precise mathematical footing suitable for RL, world-modeling, and later coarse-grained analysis.
+    We formulate Pok\'emon-style competitive (\emph{gen9randombattle}) battles as a standard reinforcement-learning object, without graphons or continuum limits. The underlying game is a two-player partially observable stochastic game with simultaneous action selection, rule-based stochastic resolution, hidden opponent information, and terminal win/loss objectives. We define the full battle state, legal action sets, public and private observations, transition kernel, reward structure, and belief-state dynamics. We also describe the induced single-agent partially observable Markov decision process obtained by treating the opponent and game engine as part of the environment. Because the real game is combinatorially large, we then introduce a reduced \emph{mini-Pok\'emon} model that preserves the essential mechanisms of hidden team information, switching, move choice, resource depletion, and matchup structure while remaining analytically and computationally tractable. The purpose of the paper is not to approximate the full game by a new theory, but to place the game itself on a precise mathematical footing suitable for RL, world-modeling, and later coarse-grained analysis.
 \end{abstract}
 
 \maketitle
@@ -66,39 +66,39 @@ We proceed in two layers. First, we formalize a reasonably faithful full game mo
 We begin with a compact summary of the variables that appear throughout the paper.
 
 \begin{table*}[t]
-\centering
-\begin{tabular}{p{0.13\textwidth} p{0.77\textwidth}}
-\toprule
-Symbol & Meaning \\
-\midrule
-$t \in \{0,1,2,\dots\}$ & Turn index. \\
-$\cS$ & Full hidden state space of the battle. \\
-$s_t \in \cS$ & Full Markov state at turn $t$. \\
-$i \in \{1,2\}$ & Player index. \\
-$\cA_i(s)$ & Legal action set for player $i$ in state $s$. \\
-$a_t^i \in \cA_i(s_t)$ & Action chosen by player $i$ at turn $t$. \\
-$\cO_i$ & Observation space for player $i$. \\
-$o_t^i \in \cO_i$ & Observation received by player $i$ at turn $t$. \\
-$\Omega_i(o\mid s)$ & Observation kernel for player $i$. \\
-$P(s'\mid s,a^1,a^2)$ & State-transition kernel of the game engine. \\
-$h_t^i$ & Information history of player $i$ up to turn $t$. \\
-$\pi_i(a\mid h_t^i)$ & Policy of player $i$. \\
-$r_i(s_t,a_t^1,a_t^2,s_{t+1})$ & Per-turn reward for player $i$. \\
-$G_t^i$ & Discounted return for player $i$ starting at turn $t$. \\
-$\gamma \in (0,1]$ & Discount factor. \\
-$b_t^i$ & Belief state of player $i$, i.e. posterior over hidden states given $h_t^i$. \\
-$V^{\pi_1,\pi_2}$, $Q^{\pi_1,\pi_2}$ & Value and action-value functions. \\
-$\Xi$ & Set of species or type labels. \\
-$\cM$ & Space of latent move configurations. \\
-$\cU$ & Space of latent item/ability/stat configurations. \\
-$\mathsf{HP}$ & Hit-point variables for all active and reserve units. \\
-$\mathsf{Field}$ & Public field state (weather, terrain, hazards, screens, timers, etc.). \\
-$\mathsf{Priv}_i$ & Private hidden information held by player $i$. \\
-$\mathsf{Pub}$ & Publicly visible battle information. \\
-\bottomrule
-\end{tabular}
-\caption{Main variables and spaces used in the full Pok\'emon-style RL formulation.}
-\label{tab:variables}
+    \centering
+    \begin{tabular}{p{0.13\textwidth} p{0.77\textwidth}}
+        \toprule
+        Symbol                               & Meaning                                                                      \\
+        \midrule
+        $t \in \{0,1,2,\dots\}$              & Turn index.                                                                  \\
+        $\cS$                                & Full hidden state space of the battle.                                       \\
+        $s_t \in \cS$                        & Full Markov state at turn $t$.                                               \\
+        $i \in \{1,2\}$                      & Player index.                                                                \\
+        $\cA_i(s)$                           & Legal action set for player $i$ in state $s$.                                \\
+        $a_t^i \in \cA_i(s_t)$               & Action chosen by player $i$ at turn $t$.                                     \\
+        $\cO_i$                              & Observation space for player $i$.                                            \\
+        $o_t^i \in \cO_i$                    & Observation received by player $i$ at turn $t$.                              \\
+        $\Omega_i(o\mid s)$                  & Observation kernel for player $i$.                                           \\
+        $P(s'\mid s,a^1,a^2)$                & State-transition kernel of the game engine.                                  \\
+        $h_t^i$                              & Information history of player $i$ up to turn $t$.                            \\
+        $\pi_i(a\mid h_t^i)$                 & Policy of player $i$.                                                        \\
+        $r_i(s_t,a_t^1,a_t^2,s_{t+1})$       & Per-turn reward for player $i$.                                              \\
+        $G_t^i$                              & Discounted return for player $i$ starting at turn $t$.                       \\
+        $\gamma \in (0,1]$                   & Discount factor.                                                             \\
+        $b_t^i$                              & Belief state of player $i$, i.e. posterior over hidden states given $h_t^i$. \\
+        $V^{\pi_1,\pi_2}$, $Q^{\pi_1,\pi_2}$ & Value and action-value functions.                                            \\
+        $\Xi$                                & Set of species or type labels.                                               \\
+        $\cM$                                & Space of latent move configurations.                                         \\
+        $\cU$                                & Space of latent item/ability/stat configurations.                            \\
+        $\mathsf{HP}$                        & Hit-point variables for all active and reserve units.                        \\
+        $\mathsf{Field}$                     & Public field state (weather, terrain, hazards, screens, timers, etc.).       \\
+        $\mathsf{Priv}_i$                    & Private hidden information held by player $i$.                               \\
+        $\mathsf{Pub}$                       & Publicly visible battle information.                                         \\
+        \bottomrule
+    \end{tabular}
+    \caption{Main variables and spaces used in the full Pok\'emon-style RL formulation.}
+    \label{tab:variables}
 \end{table*}
 
 \section{Full battle model as a partially observable stochastic game}
@@ -108,61 +108,61 @@ $\mathsf{Pub}$ & Publicly visible battle information. \\
 
 The full battle state must be rich enough to make the game Markovian. We therefore define
 \begin{equation}
-\cS = \cS_{\mathrm{team},1} \times \cS_{\mathrm{team},2} \times \cS_{\mathrm{battle}}.
+    \cS = \cS_{\mathrm{team},1} \times \cS_{\mathrm{team},2} \times \cS_{\mathrm{battle}}.
 \end{equation}
 Here $\cS_{\mathrm{team},i}$ stores player $i$'s team-level information, and $\cS_{\mathrm{battle}}$ stores the evolving battle configuration.
 
 A convenient decomposition is
 \begin{equation}
-s_t = \big(T_1^t,T_2^t,B_t\big),
+    s_t = \big(T_1^t,T_2^t,B_t\big),
 \end{equation}
 where:
 \begin{itemize}
-\item $T_i^t$ is the full team state of player $i$ at turn $t$;
-\item $B_t$ is the shared battle state (field, weather, hazards, turn counters, pending effects, and so on).
+    \item $T_i^t$ is the full team state of player $i$ at turn $t$;
+    \item $B_t$ is the shared battle state (field, weather, hazards, turn counters, pending effects, and so on).
 \end{itemize}
 
 Each team state may be written as
 \begin{equation}
-T_i^t = \big( X_{i,1}^t, \dots, X_{i,N_i}^t, A_i^t \big),
+    T_i^t = \big( X_{i,1}^t, \dots, X_{i,N_i}^t, A_i^t \big),
 \end{equation}
 where $N_i$ is the team size, $X_{i,k}^t$ is the detailed state of the $k$th unit, and $A_i^t$ indicates which unit is currently active.
 
 Each unit state has both quasi-static and dynamic components:
 \begin{equation}
-X_{i,k}^t = \big(\xi_{i,k}, m_{i,k}, u_{i,k}, y_{i,k}^t\big).
+    X_{i,k}^t = \big(\xi_{i,k}, m_{i,k}, u_{i,k}, y_{i,k}^t\big).
 \end{equation}
 Here:
 \begin{itemize}
-\item $\xi_{i,k} \in \Xi$ is the species or archetype label;
-\item $m_{i,k} \in \cM$ denotes the move-set specification;
-\item $u_{i,k} \in \cU$ denotes latent item, ability, nature, stat parameters, or other hidden configuration;
-\item $y_{i,k}^t$ denotes the time-varying internal condition of the unit.
+    \item $\xi_{i,k} \in \Xi$ is the species or archetype label;
+    \item $m_{i,k} \in \cM$ denotes the move-set specification;
+    \item $u_{i,k} \in \cU$ denotes latent item, ability, nature, stat parameters, or other hidden configuration;
+    \item $y_{i,k}^t$ denotes the time-varying internal condition of the unit.
 \end{itemize}
 
 A detailed internal condition variable may be written as
 \begin{equation}
-y_{i,k}^t = \big(\mathrm{hp}_{i,k}^t,\mathrm{status}_{i,k}^t,\mathrm{boosts}_{i,k}^t,\mathrm{volatile}_{i,k}^t,\mathrm{fainted}_{i,k}^t\big).
+    y_{i,k}^t = \big(\mathrm{hp}_{i,k}^t,\mathrm{status}_{i,k}^t,\mathrm{boosts}_{i,k}^t,\mathrm{volatile}_{i,k}^t,\mathrm{fainted}_{i,k}^t\big).
 \end{equation}
 The shared battle state may likewise be written as
 \begin{equation}
-B_t = \big(\mathrm{weather}_t,\mathrm{terrain}_t,\mathrm{hazards}_t,\mathrm{screens}_t,\mathrm{trickroom}_t,\mathrm{timers}_t,\dots\big).
+    B_t = \big(\mathrm{weather}_t,\mathrm{terrain}_t,\mathrm{hazards}_t,\mathrm{screens}_t,\mathrm{trickroom}_t,\mathrm{timers}_t,\dots\big).
 \end{equation}
 
 \begin{rmk}
-The exact factorization is not unique. The essential requirement is that all information required by the battle engine to sample the next state must be contained in $s_t$.
+    The exact factorization is not unique. The essential requirement is that all information required by the battle engine to sample the next state must be contained in $s_t$.
 \end{rmk}
 
 \subsection{Public and private information}
 
 The full state is not fully observed by either player. It is useful to write
 \begin{equation}
-s_t = \big(\mathsf{Pub}_t,\mathsf{Priv}_{1,t},\mathsf{Priv}_{2,t}\big),
+    s_t = \big(\mathsf{Pub}_t,\mathsf{Priv}_{1,t},\mathsf{Priv}_{2,t}\big),
 \end{equation}
 where:
 \begin{itemize}
-\item $\mathsf{Pub}_t$ is the public component visible to both players;
-\item $\mathsf{Priv}_{i,t}$ is the private component known only to player $i$.
+    \item $\mathsf{Pub}_t$ is the public component visible to both players;
+    \item $\mathsf{Priv}_{i,t}$ is the private component known only to player $i$.
 \end{itemize}
 
 Typical public information includes currently revealed species, visible HP fractions, public status conditions, public field effects, revealed moves, revealed items or abilities, fainting events, and the public action log. Typical private information includes unrevealed reserve composition, hidden move slots not yet shown, latent held items, latent abilities before reveal, and exact stat configurations.
@@ -171,12 +171,12 @@ Typical public information includes currently revealed species, visible HP fract
 
 At turn $t$, each player chooses an action simultaneously. For player $i$, the legal action set depends on the current full state:
 \begin{equation}
-a_t^i \in \cA_i(s_t).
+    a_t^i \in \cA_i(s_t).
 \end{equation}
 
 For \emph{gen9randombattle}, a typical legal action set takes the schematic form
 \begin{equation}
-\cA_i(s_t) \subseteq \cA_i^{\mathrm{move}}(s_t) \cup \cA_i^{\mathrm{switch}}(s_t) \cup \cA_i^{\mathrm{tera}}(s_t),
+    \cA_i(s_t) \subseteq \cA_i^{\mathrm{move}}(s_t) \cup \cA_i^{\mathrm{switch}}(s_t) \cup \cA_i^{\mathrm{tera}}(s_t),
 \end{equation}
 where move actions correspond to selecting one legal move, switch actions correspond to switching to a legal reserve unit, and where \(\cA_i^{\mathrm{tera}}(s_t) = \{0,1\}\) denotes the boolean decision of whether to Terastallize. This can only be done once per battle per player and has to be chosen with a move and not a switch.
 
@@ -184,14 +184,14 @@ where move actions correspond to selecting one legal move, switch actions corres
 
 The game engine defines a stochastic transition kernel
 \begin{equation}
-P(s_{t+1}\mid s_t,a_t^1,a_t^2).
-\label{eq:transition_kernel}
+    P(s_{t+1}\mid s_t,a_t^1,a_t^2).
+    \label{eq:transition_kernel}
 \end{equation}
 This kernel includes all rule-based resolution, including ordering by priority and speed, move execution, switching, accuracy checks, damage variation, critical hits, secondary effects, effect triggers, end-of-turn updates, and fainting or forced switches when relevant.
 
 The state evolution is therefore
 \begin{equation}
-s_{t+1} \sim P(\cdot\mid s_t,a_t^1,a_t^2).
+    s_{t+1} \sim P(\cdot\mid s_t,a_t^1,a_t^2).
 \end{equation}
 
 \paragraph{Simultaneous actions and internal resolution.}
@@ -201,42 +201,42 @@ Although players act simultaneously at the level of strategic choice, the engine
 
 Player $i$ does not observe $s_t$ directly, but instead receives an observation
 \begin{equation}
-o_t^i \in \cO_i,
+    o_t^i \in \cO_i,
 \end{equation}
 produced by an observation kernel
 \begin{equation}
-\Omega_i(o_t^i\mid s_t).
-\label{eq:obs_kernel}
+    \Omega_i(o_t^i\mid s_t).
+    \label{eq:obs_kernel}
 \end{equation}
 
 Equivalently, one may write the observation as a deterministic function of the state and a visibility map, but the kernel notation is more general and allows for discretized or noisy observations.
 
 A typical observation contains:
 \begin{itemize}
-\item the current public battle board;
-\item the visible active units and their public conditions;
-\item all public events from the previous turn;
-\item full information about the agent's own team;
-\item the currently known revealed subset of the opponent's team information.
+    \item the current public battle board;
+    \item the visible active units and their public conditions;
+    \item all public events from the previous turn;
+    \item full information about the agent's own team;
+    \item the currently known revealed subset of the opponent's team information.
 \end{itemize}
 
 \subsection{Histories and policies}
 
 Because the game is partially observable, the agent acts on histories rather than on the full state. The information history of player $i$ up to turn $t$ is
 \begin{equation}
-h_t^i = (o_0^i,a_0^i,o_1^i,a_1^i,\dots,o_t^i).
+    h_t^i = (o_0^i,a_0^i,o_1^i,a_1^i,\dots,o_t^i).
 \end{equation}
 A stochastic history-dependent policy is therefore a family of conditional distributions
 \begin{equation}
-\pi_i(a\mid h_t^i),
-\qquad
-\mathrm{supp}\,\pi_i(\cdot\mid h_t^i) \subseteq \cA_i(s_t)
-\text{ almost surely.}
+    \pi_i(a\mid h_t^i),
+    \qquad
+    \mathrm{supp}\,\pi_i(\cdot\mid h_t^i) \subseteq \cA_i(s_t)
+    \text{ almost surely.}
 \end{equation}
 
 In implementations, the history is often compressed into a finite-dimensional memory state $m_t^i$, for example by a recurrent neural network, giving a policy of the form
 \begin{equation}
-\pi_i(a\mid m_t^i).
+    \pi_i(a\mid m_t^i).
 \end{equation}
 
 \section{Rewards, returns, and objectives}
@@ -246,33 +246,33 @@ In implementations, the history is often compressed into a finite-dimensional me
 
 The most natural reward is terminal win/loss reward. For player 1, define
 \begin{equation}
-R_T^1 =
-\begin{cases}
-+1, & \text{if player 1 wins},\\
-0, & \text{if the battle is a draw or no-contest},\\
--1, & \text{if player 1 loses}.
-\end{cases}
+    R_T^1 =
+    \begin{cases}
+        +1, & \text{if player 1 wins},                      \\
+        0,  & \text{if the battle is a draw or no-contest}, \\
+        -1, & \text{if player 1 loses}.
+    \end{cases}
 \end{equation}
 For zero-sum play,
 \begin{equation}
-R_T^2 = -R_T^1.
+    R_T^2 = -R_T^1.
 \end{equation}
 
 \subsection{Per-turn rewards}
 
 For RL training one often uses shaped per-turn rewards,
 \begin{equation}
-r_i(s_t,a_t^1,a_t^2,s_{t+1}),
+    r_i(s_t,a_t^1,a_t^2,s_{t+1}),
 \end{equation}
 for example based on HP differential change, faints, board advantage, or a calibrated change in estimated win probability. In the zero-sum setting one imposes
 \begin{equation}
-r_2 = -r_1.
+    r_2 = -r_1.
 \end{equation}
 
 A generic discounted return is then
 \begin{equation}
-G_t^i = \sum_{k=t}^{T-1} \gamma^{k-t} r_i(s_k,a_k^1,a_k^2,s_{k+1}),
-\qquad \gamma \in (0,1].
+    G_t^i = \sum_{k=t}^{T-1} \gamma^{k-t} r_i(s_k,a_k^1,a_k^2,s_{k+1}),
+    \qquad \gamma \in (0,1].
 \end{equation}
 If rewards are terminal only, then $r_i=0$ for $k<T-1$ and $r_i$ coincides with the terminal outcome at the end of the battle.
 
@@ -280,9 +280,9 @@ If rewards are terminal only, then $r_i=0$ for $k<T-1$ and $r_i$ coincides with 
 
 The strategic objective for player 1 is
 \begin{equation}
-\max_{\pi_1}\min_{\pi_2}
-\EE_{\pi_1,\pi_2,P,\Omega}[G_0^1],
-\label{eq:minimax_obj}
+    \max_{\pi_1}\min_{\pi_2}
+    \EE_{\pi_1,\pi_2,P,\Omega}[G_0^1],
+    \label{eq:minimax_obj}
 \end{equation}
 with player 2 solving the dual minimization problem. In practice, self-play learning approximates equilibrium-seeking behavior under this objective.
 
@@ -293,11 +293,11 @@ with player 2 solving the dual minimization problem. In practice, self-play lear
 
 From the viewpoint of player 1, the game is partially observable because the full state $s_t$ is hidden. Given the history $h_t^1$, define the posterior belief
 \begin{equation}
-b_t^1(s) = \PP(s_t=s \mid h_t^1).
+    b_t^1(s) = \PP(s_t=s \mid h_t^1).
 \end{equation}
 The set of all such probability measures forms the belief space
 \begin{equation}
-\cB_1 = \cP(\cS).
+    \cB_1 = \cP(\cS).
 \end{equation}
 In principle, $b_t^1$ is a sufficient statistic for control.
 
@@ -305,32 +305,32 @@ In principle, $b_t^1$ is a sufficient statistic for control.
 
 Suppose player 1 takes action $a_t^1$ and then receives observation $o_{t+1}^1$. If the opponent policy is modeled as $\pi_2$, then the Bayesian belief update is
 \begin{equation}
-b_{t+1}^1(s')
-\propto
-\Omega_1(o_{t+1}^1\mid s')
-\sum_{s\in\cS}
-\sum_{a_t^2\in \cA_2(s)}
-P(s'\mid s,a_t^1,a_t^2)
-\pi_2(a_t^2\mid h_t^2)
- b_t^1(s).
-\label{eq:belief_update}
+    b_{t+1}^1(s')
+    \propto
+    \Omega_1(o_{t+1}^1\mid s')
+    \sum_{s\in\cS}
+    \sum_{a_t^2\in \cA_2(s)}
+    P(s'\mid s,a_t^1,a_t^2)
+    \pi_2(a_t^2\mid h_t^2)
+    b_t^1(s).
+    \label{eq:belief_update}
 \end{equation}
 The proportionality constant is the normalizing factor that makes $b_{t+1}^1$ a probability distribution.
 
 \begin{rmk}
-Exact belief tracking is generally intractable in realistic battle domains. Practical agents therefore use approximate inference, learned latent states, recurrent hidden memory, particle approximations, or amortized posterior models.
+    Exact belief tracking is generally intractable in realistic battle domains. Practical agents therefore use approximate inference, learned latent states, recurrent hidden memory, particle approximations, or amortized posterior models.
 \end{rmk}
 
 \subsection{Induced POMDP viewpoint}
 
 If the opponent policy is fixed, then from the perspective of player 1 the game induces a POMDP with hidden state $s_t$, action $a_t^1$, observation $o_t^1$, reward $r_1$, and effective dynamics obtained by marginalizing over the opponent's action distribution. The effective transition-observation kernel is
 \begin{equation}
-\widetilde{P}(s',o'\mid s,a^1)
-=
-\sum_{a^2}
-P(s'\mid s,a^1,a^2)
-\Omega_1(o'\mid s')
-\pi_2(a^2\mid h^2).
+    \widetilde{P}(s',o'\mid s,a^1)
+    =
+    \sum_{a^2}
+    P(s'\mid s,a^1,a^2)
+    \Omega_1(o'\mid s')
+    \pi_2(a^2\mid h^2).
 \end{equation}
 This is the standard single-agent RL reduction of the hidden-information competitive game.
 
@@ -339,34 +339,34 @@ This is the standard single-agent RL reduction of the hidden-information competi
 
 For fixed policies $(\pi_1,\pi_2)$, define the belief-space value function for player 1 by
 \begin{equation}
-V^{\pi_1,\pi_2}(b)
-=
-\EE\big[G_t^1\mid b_t^1=b\big].
+    V^{\pi_1,\pi_2}(b)
+    =
+    \EE\big[G_t^1\mid b_t^1=b\big].
 \end{equation}
 The action-value function is
 \begin{equation}
-Q^{\pi_1,\pi_2}(b,a^1)
-=
-\EE\big[r_1 + \gamma V^{\pi_1,\pi_2}(b_{t+1}^1)
-\mid b_t^1=b, a_t^1=a^1\big].
+    Q^{\pi_1,\pi_2}(b,a^1)
+    =
+    \EE\big[r_1 + \gamma V^{\pi_1,\pi_2}(b_{t+1}^1)
+        \mid b_t^1=b, a_t^1=a^1\big].
 \end{equation}
 The expectation integrates over the hidden current state, the opponent action, the state transition, and the next observation.
 
 For a fixed opponent policy, the belief-state Bellman equation is
 \begin{equation}
-V^{\pi_1,\pi_2}(b)
-=
-\sum_{a^1} \pi_1(a^1\mid b)
-Q^{\pi_1,\pi_2}(b,a^1).
+    V^{\pi_1,\pi_2}(b)
+    =
+    \sum_{a^1} \pi_1(a^1\mid b)
+    Q^{\pi_1,\pi_2}(b,a^1).
 \end{equation}
 In the zero-sum game, an equilibrium value $V^\star$ formally satisfies a Bellman--Isaacs relation of the form
 \begin{equation}
-V^\star(b)
-=
-\max_{\sigma_1(\cdot\mid b)}
-\min_{\sigma_2(\cdot\mid b)}
-\EE\big[r_1 + \gamma V^\star(b')\mid b\big],
-\label{eq:bellman_isaacs}
+    V^\star(b)
+    =
+    \max_{\sigma_1(\cdot\mid b)}
+    \min_{\sigma_2(\cdot\mid b)}
+    \EE\big[r_1 + \gamma V^\star(b')\mid b\big],
+    \label{eq:bellman_isaacs}
 \end{equation}
 where $\sigma_1$ and $\sigma_2$ are local mixed actions conditioned on the current information state. In practice, solving Eq.~\eqref{eq:bellman_isaacs} exactly is infeasible for realistic games, but it provides the correct formal object.
 
@@ -379,11 +379,11 @@ To make the formulation concrete, it is helpful to isolate the main classes of s
 
 Each player begins with a team drawn from a constrained combinatorial space. At the mathematical level, this may be viewed as a latent roster variable
 \begin{equation}
-\Theta_i = \big(\theta_{i,1},\dots,\theta_{i,N_i}\big),
+    \Theta_i = \big(\theta_{i,1},\dots,\theta_{i,N_i}\big),
 \end{equation}
 where each unit specification is
 \begin{equation}
-\theta_{i,k} = (\xi_{i,k},m_{i,k},u_{i,k}).
+    \theta_{i,k} = (\xi_{i,k},m_{i,k},u_{i,k}).
 \end{equation}
 These variables affect long-range planning because they determine future switch options, matchup structure, unrevealed threat set, and the posterior beliefs of the opponent.
 
@@ -391,15 +391,15 @@ These variables affect long-range planning because they determine future switch 
 
 The most important dynamic resource is HP, but one typically requires several coupled unit-level variables:
 \begin{equation}
-y_{i,k}^t = \big(\lambda_{i,k}^t,\sigma_{i,k}^t,\beta_{i,k}^t,\nu_{i,k}^t,f_{i,k}^t\big),
+    y_{i,k}^t = \big(\lambda_{i,k}^t,\sigma_{i,k}^t,\beta_{i,k}^t,\nu_{i,k}^t,f_{i,k}^t\big),
 \end{equation}
 where:
 \begin{itemize}
-\item $\lambda_{i,k}^t \in [0,1]$ is HP fraction;
-\item $\sigma_{i,k}^t$ is persistent status;
-\item $\beta_{i,k}^t$ denotes stat-stage boosts or reductions;
-\item $\nu_{i,k}^t$ denotes volatile conditions;
-\item $f_{i,k}^t \in \{0,1\}$ indicates whether the unit has fainted.
+    \item $\lambda_{i,k}^t \in [0,1]$ is HP fraction;
+    \item $\sigma_{i,k}^t$ is persistent status;
+    \item $\beta_{i,k}^t$ denotes stat-stage boosts or reductions;
+    \item $\nu_{i,k}^t$ denotes volatile conditions;
+    \item $f_{i,k}^t \in \{0,1\}$ indicates whether the unit has fainted.
 \end{itemize}
 
 These variables mediate the main depletion dynamics of the battle.
@@ -408,7 +408,7 @@ These variables mediate the main depletion dynamics of the battle.
 
 Board state matters because the same team can behave very differently under different active matchups and field conditions. Important shared variables include:
 \begin{equation}
-B_t = (A_1^t,A_2^t,\mathrm{weather}_t,\mathrm{terrain}_t,\mathrm{hazards}_t,\mathrm{screens}_t,\tau_t),
+    B_t = (A_1^t,A_2^t,\mathrm{weather}_t,\mathrm{terrain}_t,\mathrm{hazards}_t,\mathrm{screens}_t,\tau_t),
 \end{equation}
 where $\tau_t$ schematically denotes the collection of effect timers and counters.
 
@@ -416,10 +416,10 @@ where $\tau_t$ schematically denotes the collection of effect timers and counter
 
 The dynamics therefore have at least four distinct coupled mechanisms:
 \begin{enumerate}
-\item \emph{resource depletion}: HP loss, status, fainting, and loss of board presence;
-\item \emph{configuration control}: switching and active matchup selection;
-\item \emph{hidden-information revelation}: moves, items, abilities, or reserve composition become partially revealed through play;
-\item \emph{stochastic tactical resolution}: accuracy, damage rolls, secondary effects, and ordering uncertainty.
+    \item \emph{resource depletion}: HP loss, status, fainting, and loss of board presence;
+    \item \emph{configuration control}: switching and active matchup selection;
+    \item \emph{hidden-information revelation}: moves, items, abilities, or reserve composition become partially revealed through play;
+    \item \emph{stochastic tactical resolution}: accuracy, damage rolls, secondary effects, and ordering uncertainty.
 \end{enumerate}
 These mechanisms are all already contained in the standard POSG/POMDP formulation above; they do not require any further theory to be mathematically well-defined.
 
@@ -436,21 +436,21 @@ The full game is a perfectly legitimate RL object, but its state and action spac
 
 Let there be a finite set of species or archetypes
 \begin{equation}
-\Xi = \{1,2,\dots,K\},
+    \Xi = \{1,2,\dots,K\},
 \end{equation}
 and let each unit carry a small latent parameter vector
 \begin{equation}
-u \in \cV,
+    u \in \cV,
 \end{equation}
 for example a discrete attack stat, hidden move, or hidden item. Each player has a team of size $N$.
 
 For unit $k$ of player $i$, define the reduced latent specification
 \begin{equation}
-\theta_{i,k} = (\xi_{i,k},\nu_{i,k}).
+    \theta_{i,k} = (\xi_{i,k},\nu_{i,k}).
 \end{equation}
 The dynamic state of the unit is reduced to
 \begin{equation}
-y_{i,k}^t = (\lambda_{i,k}^t,\sigma_{i,k}^t,f_{i,k}^t),
+    y_{i,k}^t = (\lambda_{i,k}^t,\sigma_{i,k}^t,f_{i,k}^t),
 \end{equation}
 where $\lambda_{i,k}^t \in [0,1]$ is HP fraction, $\sigma_{i,k}^t$ is a small status label, and $f_{i,k}^t$ indicates fainting.
 
@@ -458,13 +458,13 @@ where $\lambda_{i,k}^t \in [0,1]$ is HP fraction, $\sigma_{i,k}^t$ is a small st
 
 \emph{gen9randombattle} has one active unit per player. At turn $t$, the active indices are
 \begin{equation}
-a_t^{\mathrm{act},1} \in \{1,\dots,6\},
-\qquad
-a_t^{\mathrm{act},2} \in \{1,\dots,6\}.
+    a_t^{\mathrm{act},1} \in \{1,\dots,6\},
+    \qquad
+    a_t^{\mathrm{act},2} \in \{1,\dots,6\}.
 \end{equation}
 The reduced full state is
 \begin{equation}
-s_t^{\mathrm{mini}} = \big(\Theta_1,\Theta_2,Y_1^t,Y_2^t,a_t^{\mathrm{act},1},a_t^{\mathrm{act},2},B_t^{\mathrm{mini}}\big),
+    s_t^{\mathrm{mini}} = \big(\Theta_1,\Theta_2,Y_1^t,Y_2^t,a_t^{\mathrm{act},1},a_t^{\mathrm{act},2},B_t^{\mathrm{mini}}\big),
 \end{equation}
 where $Y_i^t=(y_{i,1}^t,\dots,y_{i,N}^t)$ and $B_t^{\mathrm{mini}}$ contains a reduced field state.
 
@@ -472,28 +472,28 @@ where $Y_i^t=(y_{i,1}^t,\dots,y_{i,N}^t)$ and $B_t^{\mathrm{mini}}$ contains a r
 
 At each turn, each player chooses one of the following:
 \begin{itemize}
-\item attack with move type $m \in \{1,\dots,4\}$ available to the active unit;
-\item switch to one legal reserve unit;
-\item optionally terastallize if not already done.
+    \item attack with move type $m \in \{1,\dots,4\}$ available to the active unit;
+    \item switch to one legal reserve unit;
+    \item optionally terastallize if not already done.
 \end{itemize}
 Thus the reduced legal action set is finite and state dependent:
 \begin{equation}
-\cA_i^{\mathrm{mini}}(s_t^{\mathrm{mini}})
-\subseteq
-\{\text{moves}\}\cup\{\text{switches}\}\cup\{\text{tera}\}.
+    \cA_i^{\mathrm{mini}}(s_t^{\mathrm{mini}})
+    \subseteq
+    \{\text{moves}\}\cup\{\text{switches}\}\cup\{\text{tera}\}.
 \end{equation}
 
 \subsection{Matchup and damage law}
 
 To encode the main tactical structure, define a matchup function
 \begin{equation}
-D\big((\xi,\nu),(\xi',\nu'),m,B\big) \ge 0,
+    D\big((\xi,\nu),(\xi',\nu'),m,B\big) \ge 0,
 \end{equation}
 representing the expected damage or pressure exerted by a move $m$ from attacker $(\xi,\nu)$ against defender $(\xi',\nu')$ under board state $B$.
 
 A simple stochastic damage model is
 \begin{equation}
-\Delta \lambda = - \alpha \, D\big((\xi,\nu),(\xi',\nu'),m,B\big) \, Z,
+    \Delta \lambda = - \alpha \, D\big((\xi,\nu),(\xi',\nu'),m,B\big) \, Z,
 \end{equation}
 where $Z$ is a bounded random multiplier accounting for accuracy and damage variation, and $\alpha$ is a scale constant. One may enrich the model by allowing status application probabilities or move-dependent secondary effects.
 
@@ -501,26 +501,26 @@ where $Z$ is a bounded random multiplier accounting for accuracy and damage vari
 
 Given current state $s_t^{\mathrm{mini}}$ and actions $a_t^1,a_t^2$, the next state is sampled from a reduced transition kernel
 \begin{equation}
-P_{\mathrm{mini}}(s_{t+1}^{\mathrm{mini}}\mid s_t^{\mathrm{mini}},a_t^1,a_t^2).
+    P_{\mathrm{mini}}(s_{t+1}^{\mathrm{mini}}\mid s_t^{\mathrm{mini}},a_t^1,a_t^2).
 \end{equation}
 A typical resolution sequence is:
 \begin{enumerate}
-\item determine which actions are switches and update active identities as required by the rules;
-\item determine move order stochastically or via a simplified speed rule;
-\item apply damage and status effects to the defender(s);
-\item mark units fainted if HP reaches zero;
-\item force replacement if an active unit faints;
-\item update reduced field variables and public reveals.
+    \item determine which actions are switches and update active identities as required by the rules;
+    \item determine move order stochastically or via a simplified speed rule;
+    \item apply damage and status effects to the defender(s);
+    \item mark units fainted if HP reaches zero;
+    \item force replacement if an active unit faints;
+    \item update reduced field variables and public reveals.
 \end{enumerate}
 
 \subsection{Observation structure in the mini-model}
 
 The mini-model remains partially observable. Player $i$ observes:
 \begin{itemize}
-\item the identity and public HP/status of the opponent's current active unit;
-\item any revealed move or latent tag previously exposed;
-\item the reduced public battle log and reduced field state.
-\item the full state of their own team, including the latent parameters of their own units.
+    \item the identity and public HP/status of the opponent's current active unit;
+    \item any revealed move or latent tag previously exposed;
+    \item the reduced public battle log and reduced field state.
+    \item the full state of their own team, including the latent parameters of their own units.
 \end{itemize}
 The opponent's reserve composition and unrevealed latent parameters remain hidden until exposed through switches or move use.
 
@@ -528,12 +528,12 @@ The opponent's reserve composition and unrevealed latent parameters remain hidde
 
 The reduced model retains the strategic ingredients that matter most for RL theory:
 \begin{enumerate}
-\item hidden opponent composition;
-\item sequential belief updating as reveals occur;
-\item simultaneous move/switch choice;
-\item resource depletion through HP and fainting;
-\item nontrivial matchup structure across unit types;
-\item long-horizon value of preserving or revealing resources.
+    \item hidden opponent composition;
+    \item sequential belief updating as reveals occur;
+    \item simultaneous move/switch choice;
+    \item resource depletion through HP and fainting;
+    \item nontrivial matchup structure across unit types;
+    \item long-horizon value of preserving or revealing resources.
 \end{enumerate}
 For many theoretical and algorithmic questions, these are the essential ingredients; the higher-resolution mechanics of the full game can be regarded as elaborations rather than qualitatively different mechanisms.
 
@@ -542,7 +542,7 @@ For many theoretical and algorithmic questions, these are the essential ingredie
 
 The full game and mini-game fit into the same formal template:
 \begin{equation}
-\cG = (\cS,\cA_1,\cA_2,P,\Omega_1,\Omega_2,r_1,r_2).
+    \cG = (\cS,\cA_1,\cA_2,P,\Omega_1,\Omega_2,r_1,r_2).
 \end{equation}
 The only difference is the granularity of the underlying spaces and kernels. The full game uses a large state space that attempts to reflect the actual battle engine in detail. The mini-model uses a reduced state space and reduced rules while preserving the same hidden-information RL structure.
 
