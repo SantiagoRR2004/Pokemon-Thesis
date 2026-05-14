@@ -1,0 +1,111 @@
+\documentclass[aps,pre,superscriptaddress,nofootinbib]{revtex4-2}
+
+\usepackage{fancyhdr}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue]{hyperref}
+
+% Page style with page numbers
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+% Set paragraph spacing
+\setlength{\parskip}{1em}
+
+\begin{document}
+
+\title{Aprendizaje por refuerzo en sistemas estratégicos: aplicación a un agente para Pokémon Showdown}
+\author{(Draft)}
+
+
+\maketitle
+
+% Front matter sections
+\section*{Portada}
+Portada según el modelo oficial, con los datos de identificación del trabajo.
+
+\newpage
+\section*{Dedicatoria}
+ (opcional)
+
+\newpage
+\section*{Agradecimientos}
+ (opcional)
+
+\newpage
+\begingroup
+\setlength{\parskip}{0pt}
+\tableofcontents
+\endgroup
+
+\section{Índice de ilustraciones}
+ (si procede)
+
+\section{Índice de tablas}
+ (si procede)
+
+\newpage
+\section{Introducción}
+En los últimos años ha habido muchas mejoras en el campo de aprendizaje por refuerzo. Con nuevos diseños de arquitecturas y grafos de recompensa se han superado a jugadores profesionales en juegos como el Go o el StarCraft II. Sin embargo, el campo de aprendizaje por refuerzo es todavía un campo abierto por explorar entornos muy complejos.
+
+En este TFG se propone un nuevo enfoque multiagente aplicado a un entorno particular de Pokémon: las batallas aleatorias individuales de la generación IX disponibles en la plataforma Pokémon Showdown~\cite{pokemonShowdown}. Se trata de un juego de suma cero, con información oculta y un alto grado de estocasticidad. Además, el simulador existente no permite repetir batallas ni comenzar desde un punto intermedio, lo cual constituye un desafío adicional. Este problema representa una considerable dificultad de investigación, por lo que se explorarán diferentes técnicas de aprendizaje multiagente y estrategias de reward shaping.
+
+Para entrenar el modelo se usarán distintas técnicas como Actor-Critic y grafos de recompensa complejos para encontrar un modelo y método de entrenamiento que funciona de manera eficiente.
+
+\section{Objetivos}
+En este trabajo se adoptarán los objetivos enunciados como marco de referencia para orientar el diseño, la implementación y la evaluación.
+
+\begin{description}
+    \item[H1] \textbf{Representación del estado:} añadir características estratégicamente informativas al espacio de observación mejora la eficiencia de aprendizaje y el rendimiento final de la política frente a una representación más básica del estado.
+
+    \item[H2] \textbf{Self-play:} el entrenamiento mediante self-play produce políticas más robustas y con mayor capacidad de generalización frente a oponentes no vistos que el entrenamiento frente a rivales fijos o heurísticos.
+
+    \item[H3] \textbf{Escalado con el tamaño del equipo:} aumentar el número de equipos incrementa la riqueza estratégica del problema, pero también hace más difícil la optimización por el aumento del espacio de estados, acciones y asignación de crédito; por tanto, el rendimiento no tiene por qué mejorar de forma monótona si la arquitectura y el entrenamiento no escalan adecuadamente.
+\end{description}
+
+\section{Antecedentes y contexto}
+Se explicarán los antecedentes del problema, así como el contexto del mismo.
+
+\section{Resumen de la solución propuesta}
+Se indicará la solución aportada para el problema presentado.
+
+\section{Marco teórico o práctico}
+Herramientas empleadas: se deberá detallar el marco teórico o práctico en el que se va a desarrollar el trabajo. Si procede, se incluirán las herramientas empleadas.
+
+\section{Planificación y seguimiento}
+Se deberá incluir alguna evidencia que muestre tanto la planificación del trabajo, con su distribución de fases y tareas, como su comparación con los datos reales obtenidos tras el desarrollo del trabajo.
+
+\section{Principales aportaciones}
+Se deberán destacar las aportaciones importantes del trabajo realizado, teniendo en cuenta los objetivos fijados.
+
+\section{Conclusiones}
+Se incluirán todas las conclusiones de tipo técnico y personal.
+
+\section{Vías de trabajo futuro}
+Se presentarán posibles ampliaciones y trabajos relacionados por realizar.
+
+\section{Referencias}
+Se deberán citar todas las fuentes de información empleadas para la realización del trabajo. Se deberá emplear un estilo uniforme para todas ellas y se aportará, en cada caso:
+\begin{itemize}
+    \item Autor/a/es/as.
+    \item Título del artículo, libro, monografía,...
+    \item Editorial o nombre de la revista.
+    \item Número de la revista, volumen y páginas (solo para revistas).
+    \item Año de publicación.
+    \item Dirección y fecha de consulta (solo para URL).
+\end{itemize}
+
+Se recomienda emplear para las referencias de artículos, revistas y otras fuentes de referencia el formato APA, ISO 690, IEEE o similares, y mantenerlo uniforme a lo largo de toda la sección.
+
+\begin{thebibliography}{1}
+    \bibitem{pokemonShowdown}
+    Pok\'emon Showdown,
+    \textit{Pok\'emon Showdown Battle Simulator}.
+    \newblock Disponible en: \url{https://play.pokemonshowdown.com/}
+    \newblock (consulta: 13 de mayo de 2026).
+\end{thebibliography}
+
+\section{Anexos (opcionales)}
+Se incluirán otros elementos de interés en el TFG que se consideren necesarios para una mejor comprensión del mismo.
+
+\end{document}
