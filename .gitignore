@@ -25,11 +25,11 @@ convergenceResults.json
 # Ignore the compiled LaTeX files
 docs/*.aux
 docs/*.bbl
-docs/*.bib
 docs/*.blg
 docs/*.fdb_latexmk
 docs/*.fls
 docs/*.log
+docs/*Notes.bib
 docs/*.out
 docs/*.pdf
 docs/*.synctex.gz

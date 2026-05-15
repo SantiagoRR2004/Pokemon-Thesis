@@ -46,7 +46,7 @@ Portada según el modelo oficial, con los datos de identificación del trabajo.
 
 \newpage
 \section{Introducción}
-En los últimos años ha habido muchas mejoras en el campo de aprendizaje por refuerzo. Con nuevos diseños de arquitecturas y grafos de recompensa se han superado a jugadores profesionales en juegos como el Go o el StarCraft II. Sin embargo, el campo de aprendizaje por refuerzo es todavía un campo abierto por explorar entornos muy complejos.
+En los últimos años ha habido muchas mejoras en el campo de aprendizaje por refuerzo. Con nuevos diseños de arquitecturas y grafos de recompensa se han superado a jugadores profesionales en juegos como el Go~\cite{silver2016go} o el StarCraft II~\cite{vinyals2019starcraft}. Sin embargo, el campo de aprendizaje por refuerzo es todavía un campo abierto por explorar entornos muy complejos.
 
 En este TFG se propone un nuevo enfoque multiagente aplicado a un entorno particular de Pokémon: las batallas aleatorias individuales de la generación IX disponibles en la plataforma Pokémon Showdown~\cite{pokemonShowdown}. Se trata de un juego de suma cero, con información oculta y un alto grado de estocasticidad. Además, el simulador existente no permite repetir batallas ni comenzar desde un punto intermedio, lo cual constituye un desafío adicional. Este problema representa una considerable dificultad de investigación, por lo que se explorarán diferentes técnicas de aprendizaje multiagente y estrategias de reward shaping.
 
@@ -85,25 +85,8 @@ Se incluirán todas las conclusiones de tipo técnico y personal.
 Se presentarán posibles ampliaciones y trabajos relacionados por realizar.
 
 \section{Referencias}
-Se deberán citar todas las fuentes de información empleadas para la realización del trabajo. Se deberá emplear un estilo uniforme para todas ellas y se aportará, en cada caso:
-\begin{itemize}
-    \item Autor/a/es/as.
-    \item Título del artículo, libro, monografía,...
-    \item Editorial o nombre de la revista.
-    \item Número de la revista, volumen y páginas (solo para revistas).
-    \item Año de publicación.
-    \item Dirección y fecha de consulta (solo para URL).
-\end{itemize}
-
-Se recomienda emplear para las referencias de artículos, revistas y otras fuentes de referencia el formato APA, ISO 690, IEEE o similares, y mantenerlo uniforme a lo largo de toda la sección.
-
-\begin{thebibliography}{1}
-    \bibitem{pokemonShowdown}
-    Pok\'emon Showdown,
-    \textit{Pok\'emon Showdown Battle Simulator}.
-    \newblock Disponible en: \url{https://play.pokemonshowdown.com/}
-    \newblock (consulta: 13 de mayo de 2026).
-\end{thebibliography}
+\bibliographystyle{unsrtnat}
+\bibliography{refs}
 
 \section{Anexos (opcionales)}
 Se incluirán otros elementos de interés en el TFG que se consideren necesarios para una mejor comprensión del mismo.
