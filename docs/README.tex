@@ -64,7 +64,27 @@ En este trabajo se adoptarán los objetivos enunciados como marco de referencia 
 \end{description}
 
 \section{Antecedentes y contexto}
-Se explicarán los antecedentes del problema, así como el contexto del mismo.
+
+En 1983 se solucionó el primer problema de aprendizaje por refuerzo con una red neuronal~\cite{barto1983invertedpendulum}. Era el problema del péndulo invertido, un sistema de control clásico. Usar redes neuronales se extendió a otros campos más allá del control, como el aprendizaje de juegos.
+
+En 1993 el programa TD-Gammon de Gerald Tesauro~\cite{tesauro1995gammon} alcanzó un nivel de juego que solo estaba por debajo de los mejores jugadores del momento de backgammon. Backgammon es un juego estocástico (usa dados), de dos agentes, sin información oculta y sin actuación simultánea. Otro factor importante es que el estado inicial siempre es el mismo y no hay tantos estados posibles como en otros juegos.
+
+En 2013 se presentó el programa DQN de DeepMind~\cite{mnih2013dqn}, que fue el primer programa de aprendizaje por refuerzo profundo que superó a los humanos en una variedad de juegos de Atari. Son juegos con observaciones continuas, sin información oculta y sin planificación a largo plazo. Todos estos juegos también daban su puntuación durante cada instante, lo que facilitaba el aprendizaje.
+
+En 2019 el programa AlphaStar de DeepMind~\cite{vinyals2019starcraft} superó a jugadores profesionales en el juego de estrategia en tiempo real StarCraft II. Es un juego con información oculta, actuación simultánea, planificación a largo plazo y un espacio de estados y acciones enorme. Las mayores diferencias con nuestro formato de Pokémon son que Starcraft II es en tiempo real y determinista. Otra diferencia crucial es que no tenemos herramientas para usar aprendizaje supervisado como AlphaStar.
+
+Pokémon es una franquicia de videojuegos que se ha extendido a otros medios como el anime, el manga o los juegos de cartas. Tiene varios juegos competitivos (Unite, GO, TCG), pero en el que se centra este TFG es en las batallas de los juegos principales.
+
+Dentro de los juegos principales, hay distintos formatos de batalla. Cada uno tiene sus propias reglas y restricciones. Los Pokémon y movimientos disponibles, si tienes que elegir un equipo de antemano o no, el número de Pokémon que controlas en el campo, el número de jugadores, etc. Todos estos formatos se caracterizan por tener un elevadísmo número de estados, información oculta, actuación simultánea y un alto grado de estocasticidad. El que se estudia en este TFG es el formato de batallas aleatorias individuales de la generación IX \emph{gen9randombattle}, que se caracteriza por que el simulador genera un equipo aleatorio por jugador. Esto significa que hay investigaciones en distintos formatos.
+
+\begin{sloppypar}
+En enero de 2024 presentó Jett Wang su tesis~\cite{wang2024pokemon}. Conseguió ser el octavo mejor jugador del formato \emph{gen4randombattle} entrenando PPO con Self-play para después guiar un Monte Carlo. Lo bueno de usar la cuarta generación es que no es tan inestable como las tres primeras y es la que tiene menos estados posibles (menos Pokémon, movimientos, objetos, etc.) que las generaciones posteriores.
+\end{sloppypar}
+
+En marzo de 2025 el agente PokéChamp~\cite{karten2025pokechamp} logra jugar al nivel de los 30\%-10\% mejores jugadores humanos en el formato \emph{gen9ou} usando Minimax LLM. En vez de simular los siguientes turnos de la batalla, usan un modelo de lenguaje y también para decidir la siguiente acción.
+
+En junio de 2025 se publicó la herramienta VGC-Bench~\cite{cameronangliss2025vgcbench}. Es una herramienta para entrenar agentes y compararlos en el formato de batalla de dobles de la generación IX. Consiguieron ganarle al jugador experto Aaron Traylor una vez de cada 5 partidas con una pareja de equipos. La diferencia es que para entrenar su agente usaron aprendizaje supervisado a partir de partidas de jugadores humanos. Otro factor importante que descubrieron es la pérdida de rendimiento de todos sus modelos cuando entrenaban con más equipos.
+
 
 \section{Resumen de la solución propuesta}
 Se indicará la solución aportada para el problema presentado.
