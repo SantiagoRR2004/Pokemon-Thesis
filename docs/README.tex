@@ -1,6 +1,6 @@
 \documentclass[aps,pre,superscriptaddress,nofootinbib]{revtex4-2}
 
-\usepackage{fancyhdr}
+\usepackage{fancyhdr, booktabs}
 \usepackage[colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue]{hyperref}
 
 % Page style with page numbers
@@ -11,6 +11,14 @@
 
 % Set paragraph spacing
 \setlength{\parskip}{1em}
+
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cO}{\mathcal{O}}
+\newcommand{\cU}{\mathcal{U}}
+
+\newcommand{\subsubsubsection}[1]{\begin{center}\bfseries #1\end{center}}
 
 \begin{document}
 
@@ -41,8 +49,44 @@ Portada según el modelo oficial, con los datos de identificación del trabajo.
 \section{Índice de ilustraciones}
  (si procede)
 
+\newpage
 \section{Índice de tablas}
- (si procede)
+
+\begin{table}[h]
+      \centering
+      \begin{tabular}{ll}
+            \toprule
+            Símbolo                              & Significado                                                                            \\
+            \midrule
+            $t \in \{0,1,2,\dots\}$              & Índice del turno.                                                                      \\
+            $\cS$                                & Espacio de estados completo oculto de la batalla.                                      \\
+            $s_t \in \cS$                        & Estado markoviano completo en el turno $t$.                                            \\
+            $i \in \{1,2\}$                      & Índice del jugador.                                                                    \\
+            $\cA_i(s)$                           & Conjunto de acciones legales para el jugador $i$ en el estado $s$.                     \\
+            $a_t^i \in \cA_i(s_t)$               & Acción elegida por el jugador $i$ en el turno $t$.                                     \\
+            $\cO_i$                              & Espacio de observaciones para el jugador $i$.                                          \\
+            $o_t^i \in \cO_i$                    & Observación recibida por el jugador $i$ en el turno $t$.                               \\
+            $\Omega_i(o\mid s)$                  & Núcleo de observación para el jugador $i$.                                             \\
+            $P(s'\mid s,a^1,a^2)$                & Núcleo de transición de estado del motor del juego.                                    \\
+            $h_t^i$                              & Historia de información del jugador $i$ hasta el turno $t$.                            \\
+            $\pi_i(a\mid h_t^i)$                 & Política del jugador $i$.                                                              \\
+            $r_i(s_t,a_t^1,a_t^2,s_{t+1})$       & Recompensa por turno para el jugador $i$.                                              \\
+            $G_t^i$                              & Retorno descontado para el jugador $i$ comenzando en el turno $t$.                     \\
+            $\gamma \in (0,1]$                   & Factor de descuento.                                                                   \\
+            $b_t^i$                              & Estado de creencias del jugador $i$ habiéndose dados los estados ocultos dado $h_t^i$. \\
+            $V^{\pi_1,\pi_2}$, $Q^{\pi_1,\pi_2}$ & Funciones de valor y valor-acción.                                                     \\
+            $\Xi$                                & Conjunto de etiquetas de especies o tipos.                                             \\
+            $\cM$                                & Espacio de configuraciones latentes de movimientos.                                    \\
+            $\cU$                                & Espacio de configuraciones latentes de objetos/habilidades/estadísticas.               \\
+            $\mathsf{HP}$                        & Variables de puntos de vida para todas las unidades activas y de reserva.              \\
+            $\mathsf{Field}$                     & Estado público del campo (clima, terreno, trampas, pantallas, contadores, etc.).       \\
+            $\mathsf{Priv}_i$                    & Información privada oculta del jugador $i$.                                            \\
+            $\mathsf{Pub}$                       & Información de la batalla visible públicamente.                                        \\
+            \bottomrule
+      \end{tabular}
+      \caption{Variables y espacios principales usados en la formulación completa de aprendizaje por refuerzo al estilo Pokémon.}
+      \label{tab:caracteristicas}
+\end{table}
 
 \newpage
 \section{Introducción}
@@ -56,11 +100,11 @@ Para entrenar el modelo se usarán distintas técnicas como Actor-Critic y grafo
 En este trabajo se adoptarán los objetivos enunciados como marco de referencia para orientar el diseño, la implementación y la evaluación.
 
 \begin{description}
-    \item[H1] \textbf{Representación del estado:} añadir características estratégicamente informativas al espacio de observación mejora la eficiencia de aprendizaje y el rendimiento final de la política frente a una representación más básica del estado.
+      \item[H1] \textbf{Representación del estado:} añadir características estratégicamente informativas al espacio de observación mejora la eficiencia de aprendizaje y el rendimiento final de la política frente a una representación más básica del estado.
 
-    \item[H2] \textbf{Self-play:} el entrenamiento mediante self-play produce políticas más robustas y con mayor capacidad de generalización frente a oponentes no vistos que el entrenamiento frente a rivales fijos o heurísticos.
+      \item[H2] \textbf{Self-play:} el entrenamiento mediante self-play produce políticas más robustas y con mayor capacidad de generalización frente a oponentes no vistos que el entrenamiento frente a rivales fijos o heurísticos.
 
-    \item[H3] \textbf{Escalado con el tamaño del equipo:} aumentar el número de equipos incrementa la riqueza estratégica del problema, pero también hace más difícil la optimización por el aumento del espacio de estados, acciones y asignación de crédito; por tanto, el rendimiento no tiene por qué mejorar de forma monótona si la arquitectura y el entrenamiento no escalan adecuadamente.
+      \item[H3] \textbf{Escalado con el tamaño del equipo:} aumentar el número de equipos incrementa la riqueza estratégica del problema, pero también hace más difícil la optimización por el aumento del espacio de estados, acciones y asignación de crédito; por tanto, el rendimiento no tiene por qué mejorar de forma monótona si la arquitectura y el entrenamiento no escalan adecuadamente.
 \end{description}
 
 \section{Antecedentes y contexto}
@@ -78,7 +122,7 @@ Pokémon es una franquicia de videojuegos que se ha extendido a otros medios com
 Dentro de los juegos principales, hay distintos formatos de batalla. Cada uno tiene sus propias reglas y restricciones. Los Pokémon y movimientos disponibles, si tienes que elegir un equipo de antemano o no, el número de Pokémon que controlas en el campo, el número de jugadores, etc. Todos estos formatos se caracterizan por tener un elevadísmo número de estados, información oculta, actuación simultánea y un alto grado de estocasticidad. El que se estudia en este TFG es el formato de batallas aleatorias individuales de la generación IX \emph{gen9randombattle}, que se caracteriza por que el simulador genera un equipo aleatorio por jugador. Esto significa que hay investigaciones en distintos formatos.
 
 \begin{sloppypar}
-    En enero de 2024 presentó Jett Wang su tesis~\cite{wang2024pokemon}. Conseguió ser el octavo mejor jugador del formato \emph{gen4randombattle} entrenando PPO con Self-play para después guiar un Monte Carlo. Lo bueno de usar la cuarta generación es que no es tan inestable como las tres primeras y es la que tiene menos estados posibles (menos Pokémon, movimientos, objetos, etc.) que las generaciones posteriores.
+      En enero de 2024 presentó Jett Wang su tesis~\cite{wang2024pokemon}. Conseguió ser el octavo mejor jugador del formato \emph{gen4randombattle} entrenando PPO con Self-play para después guiar un Monte Carlo. Lo bueno de usar la cuarta generación es que no es tan inestable como las tres primeras y es la que tiene menos estados posibles (menos Pokémon, movimientos, objetos, etc.) que las generaciones posteriores.
 \end{sloppypar}
 
 En marzo de 2025 el agente PokéChamp~\cite{karten2025pokechamp} logra jugar al nivel de los 30\%-10\% mejores jugadores humanos en el formato \emph{gen9ou} usando Minimax LLM. En vez de simular los siguientes turnos de la batalla, usan un modelo de lenguaje y también para decidir la siguiente acción.
@@ -93,6 +137,88 @@ Se indicará la solución aportada para el problema presentado.
 Herramientas empleadas: se deberá detallar el marco teórico o práctico en el que se va a desarrollar el trabajo. Si procede, se incluirán las herramientas empleadas.
 
 Para el desarrollo de este TFG se ha tenido que implementar una solución para tener un entorno de entrenamiento y se ha tenido que modelar el problema.
+
+\subsection{Marco teórico}
+
+Para entrenar un modelo y saber la complejidad del problema, es necesario saber las caraterísticas y modelar el formato \emph{gen9randombattle}.
+
+\subsubsection{Características generales}
+
+\begin{itemize}
+
+      \item Decisiones secuenciales
+
+            Cada batalla tiene turnos discretos en los que hay que elegir una acción. Las acciones tomadas afectan al estado de la batalla, lo que hace que sea secuencial.
+
+      \item Adversarial
+
+            En cada batalla hay dos jugadores que compiten y solo puede ganar uno de ellos. Como no hay cooperación, el problema es de suma cero.
+
+      \item Información oculta
+
+            Del propio equipo se conoce toda la información, pero del oponente solo se conoce la información que va revelando. Inicialmente solo se conoce el Pokémon inicial y si alguna característica se activa al entrar en el campo. Casi nunca se conoce toda la información completa del oponente.
+
+      \item Alto grado de estocasticidad
+
+            Una vez elegidas las acciones, el resultado del turno no es determinista. Cada ataque tiene una probabilidad de acertar, una de golpe crítico (alrededor de 1/24), algunos tienen posibles efectos secundarios y un rango de daño (se multiplica por un entero entre 85 y 100 dividido 100). Por turno puede haber dos ataques más hay ciertas habilidades o objetos cuya activación es aleatoria. Todo esto hace que pueda haber turnos con muy poca variabilidad y otros con muchísima.
+
+      \item Acciones simultáneas
+
+            Al inicio de cada turno, ambos jugadores eligen su acción sin conocer la acción del oponente. Esto lleva a situaciones en las que conseguir la victoria dependa de predecir la acción del oponente. De esto provienen las situaciones llamadas \emph{50/50}. El juego más conocido de este tipo es el piedra-papel-tijera.
+
+      \item Recompensas retrasadas
+
+            Solo se recibe una recompensa al final de la batalla cuando todos los Pokémon de un jugador han sido derrotados. Se puede intentar medir los recursos restantes o el estado de la batalla para dar recompensas intermedias, pero por la complejidad del entorno, no se puede medir de manera objetiva o cuantificable.
+
+\end{itemize}
+
+\subsubsection{Especificación y notación}
+
+\subsubsubsection{Descomposición del estado}
+
+El estado completo de la batalla debe ser lo suficientemente rico para que el juego sea markoviano. Por tanto, definimos
+\begin{equation}
+      \cS = \cS_{\mathrm{team},1} \times \cS_{\mathrm{team},2} \times \cS_{\mathrm{battle}}.
+\end{equation}
+Aquí $\cS_{\mathrm{team},i}$ almacena la información a nivel de equipo del jugador $i$, y $\cS_{\mathrm{battle}}$ guarda la configuración de la batalla en evolución.
+
+Una factorización conveniente es
+\begin{equation}
+      s_t = \big(T_1^t,T_2^t,B_t\big),
+\end{equation}
+donde:
+\begin{itemize}
+      \item $T_i^t$ es el estado completo del equipo del jugador $i$ en el turno $t$;
+      \item $B_t$ es el estado compartido de la batalla (campo, clima, trampas, contadores de turno, efectos pendientes, etc.).
+\end{itemize}
+
+Cada estado de equipo puede escribirse como
+\begin{equation}
+      T_i^t = \big( X_{i,1}^t, \dots, X_{i,6}^t, A_i^t \big),
+\end{equation}
+donde $X_{i,k}^t$ es el estado detallado de la $k$-ésima unidad, y $A_i^t$ indica qué unidad está actualmente activa.
+
+Cada estado de unidad tiene componentes cuasi-estáticos y dinámicos:
+\begin{equation}
+      X_{i,k}^t = \big(\xi_{i,k}, m_{i,k}, u_{i,k}, y_{i,k}^t\big).
+\end{equation}
+Aquí:
+\begin{itemize}
+      \item $\xi_{i,k} \in \Xi$ es la etiqueta de especie o arquetipo;
+      \item $m_{i,k} \in \cM$ denota la especificación del conjunto de movimientos;
+      \item $u_{i,k} \in \cU$ denota objetos latentes, habilidad, naturaleza, parámetros de estadísticas u otra configuración oculta;
+      \item $y_{i,k}^t$ denota la condición interna dependiente del tiempo de la unidad.
+\end{itemize}
+
+Una variable de condición interna detallada puede escribirse como
+\begin{equation}
+      y_{i,k}^t = \big(\mathrm{hp}_{i,k}^t,\mathrm{status}_{i,k}^t,\mathrm{boosts}_{i,k}^t,\mathrm{volatile}_{i,k}^t,\mathrm{fainted}_{i,k}^t\big).
+\end{equation}
+
+El estado compartido de la batalla puede igualmente escribirse como
+\begin{equation}
+      B_t = \big(\mathrm{weather}_t,\mathrm{terrain}_t,\mathrm{hazards}_t,\mathrm{screens}_t,\mathrm{trickroom}_t,\mathrm{timers}_t,\dots\big).
+\end{equation}
 
 \subsection{Entorno de entrenamiento}
 
