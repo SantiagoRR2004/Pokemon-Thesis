@@ -1,6 +1,6 @@
 \documentclass[aps,pre,superscriptaddress,nofootinbib]{revtex4-2}
 
-\usepackage{fancyhdr, booktabs}
+\usepackage{fancyhdr, booktabs, amsmath}
 \usepackage[colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue]{hyperref}
 
 % Page style with page numbers
@@ -84,11 +84,74 @@ Portada según el modelo oficial, con los datos de identificación del trabajo.
             $\mathsf{Pub}$                       & Información de la batalla visible públicamente.                                        \\
             \bottomrule
       \end{tabular}
-      \caption{Variables y espacios principales usados en la formulación completa de aprendizaje por refuerzo al estilo Pokémon.}
+      \caption{Variables y espacios principales usados en la formulación completa de aprendizaje por refuerzo al estilo Pokémon}
       \label{tab:caracteristicas}
 \end{table}
 
-\newpage
+\begin{table}[h]
+      \centering
+      \begin{tabular}{lr}
+            \toprule
+            Clase      & Número de parámetros \\
+            \midrule
+            AIPlayer00 & 0                    \\
+            AIPlayer01 & 2                    \\
+            AIPlayer02 & 14                   \\
+            AIPlayerS  & 64                   \\
+            \bottomrule
+      \end{tabular}
+      \caption{Número de parámetros que se obtienen del entorno para el campo de batalla}
+      \label{tab:battleParameters}
+\end{table}
+
+\begin{table}[h]
+      \centering
+      \begin{tabular}{lr}
+            \toprule
+            Clase     & Número de parámetros \\
+            \midrule
+            Pokemon00 & 1                    \\
+            Pokemon01 & 5                    \\
+            Pokemon02 & 8                    \\
+            Pokemon03 & 10                   \\
+            Pokemon04 & 15                   \\
+            Pokemon05 & 55                   \\
+            Pokemon06 & 81                   \\
+            Pokemon07 & 152                  \\
+            Pokemon08 & 175                  \\
+            Pokemon09 & 183                  \\
+            Pokemon10 & 1025                 \\
+            PokemonS  & 2353                 \\
+            \bottomrule
+      \end{tabular}
+      \caption{Número de parámetros que se obtienen del entorno para cada Pokémon}
+      \label{tab:pokemonParameters}
+\end{table}
+
+\begin{table}[h]
+      \centering
+      \begin{tabular}{lr}
+            \toprule
+            Clase  & Número de parámetros \\
+            \midrule
+            Move00 & 1                    \\
+            Move01 & 26                   \\
+            Move02 & 39                   \\
+            Move03 & 48                   \\
+            Move04 & 55                   \\
+            Move05 & 64                   \\
+            Move06 & 76                   \\
+            Move07 & 90                   \\
+            Move08 & 155                  \\
+            Move09 & 187                  \\
+            MoveS  & 1137                 \\
+            \bottomrule
+      \end{tabular}
+      \caption{Número de parámetros que se obtienen del entorno para cada movimiento}
+      \label{tab:moveParameters}
+\end{table}
+
+\clearpage
 \section{Introducción}
 En los últimos años ha habido muchas mejoras en el campo de aprendizaje por refuerzo. Con nuevos diseños de arquitecturas y grafos de recompensa se han superado a jugadores profesionales en juegos como el Go~\cite{silver2016go} o el StarCraft II~\cite{vinyals2019starcraft}. Sin embargo, el campo de aprendizaje por refuerzo es todavía un campo abierto por explorar entornos muy complejos.
 
@@ -156,7 +219,7 @@ Para entrenar un modelo y saber la complejidad del problema, es necesario saber 
 
       \item Información oculta
 
-            Del propio equipo se conoce toda la información, pero del oponente solo se conoce la información que va revelando. Inicialmente solo se conoce el Pokémon inicial y si alguna característica se activa al entrar en el campo. Casi nunca se conoce toda la información completa del oponente.
+            Del propio equipo se conoce toda la información, pero del oponente solo se conoce la información que va revelando (información observada e historial de la batalla). Inicialmente solo se conoce el Pokémon inicial y si alguna característica se activa al entrar en el campo. Casi nunca se conoce toda la información completa del oponente.
 
       \item Alto grado de estocasticidad
 
@@ -172,9 +235,7 @@ Para entrenar un modelo y saber la complejidad del problema, es necesario saber 
 
 \end{itemize}
 
-\subsubsection{Especificación y notación}
-
-\subsubsubsection{Descomposición del estado}
+\subsubsection{Descomposición del estado}
 
 El estado completo de la batalla debe ser lo suficientemente rico para que el juego sea markoviano. Por tanto, definimos
 \begin{equation}
@@ -220,6 +281,37 @@ El estado compartido de la batalla puede igualmente escribirse como
       B_t = \big(\mathrm{weather}_t,\mathrm{terrain}_t,\mathrm{hazards}_t,\mathrm{screens}_t,\mathrm{trickroom}_t,\mathrm{timers}_t,\dots\big).
 \end{equation}
 
+\subsubsection{Acciones y restricciones legales}
+
+En el turno $t$, cada jugador elige una acción simultáneamente. Para el jugador $i$, el conjunto de acciones legales depende del estado completo actual:
+\begin{equation}
+      a_t^i \in \cA_i(s_t).
+\end{equation}
+
+En \emph{gen9randombattle}, un conjunto de acciones legales típico tiene la forma esquemática
+\begin{equation}
+      \cA_i(s_t) \subseteq \cA_i^{\mathrm{move}}(s_t) \cup \cA_i^{\mathrm{switch}}(s_t) \cup \cA_i^{\mathrm{tera}}(s_t),
+\end{equation}
+
+donde las acciones de movimiento corresponden a seleccionar un movimiento legal, las acciones de cambio corresponden a cambiar a una unidad de reserva legal, y donde $\cA_i^{\mathrm{tera}}(s_t) = \{0,1\}$ denota la decisión booleana de si Terastallizar o no. Esto solo se puede hacer una vez por batalla por jugador y debe elegirse con un movimiento y no con un cambio.
+
+\subsubsection{Transiciones}
+
+El motor del juego define un núcleo de transición estocástico
+\begin{equation}
+      P(s_{t+1}\mid s_t,a_t^1,a_t^2).
+      \label{eq:transition_kernel}
+\end{equation}
+Este núcleo incluye toda la resolución basada en reglas, incluyendo el orden por prioridad y velocidad, la ejecución de movimientos, cambios, precisión, variación de daño, golpes críticos, efectos secundarios, activaciones de efectos, actualizaciones al final del turno y debilitaciones o cambios forzados cuando corresponda.
+
+El siguiente estado evoluciona por tanto como
+\begin{equation}
+      s_{t+1} \sim P(\cdot\mid s_t,a_t^1,a_t^2).
+\end{equation}
+
+\paragraph{Acciones simultaneas y resolución interna.}
+Aunque los jugadores eligen sus acciones de manera simultánea a nivel estratégico, el motor del juego resuelve la acción conjunta siguiendo un orden interno que puede ser complejo; dicho orden forma parte del núcleo de transición y no necesita representarse por separado una vez definida la Ec.~\eqref{eq:transition_kernel}.
+
 \subsection{Entorno de entrenamiento}
 
 Para jugar múltiples partidas se necesita un simulador. El más popular pero no oficial es Pokémon Showdown~\cite{pokemonShowdown}. Es un simulador de código abierto que no tiene una API oficial, pero existe la librería de python poke-env~\cite{poke_env} que permite conectarse a un servidor de Pokémon Showdown y jugar partidas. El servidor no permite repetir partidas (estocástica no repetible) ni empezar desde un punto intermedio, lo que hace el problema más difícil.
@@ -253,6 +345,7 @@ Se presentarán posibles ampliaciones y trabajos relacionados por realizar.
 \bibliographystyle{unsrtnat}
 \bibliography{refs}
 
+\clearpage
 \section{Anexos (opcionales)}
 Se incluirán otros elementos de interés en el TFG que se consideren necesarios para una mejor comprensión del mismo.
 
