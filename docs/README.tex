@@ -18,6 +18,10 @@
 \newcommand{\cO}{\mathcal{O}}
 \newcommand{\cU}{\mathcal{U}}
 
+\newcommand{\HOne}{\hyperref[hyp:h1]{H1}}
+\newcommand{\HTwo}{\hyperref[hyp:h2]{H2}}
+\newcommand{\HThree}{\hyperref[hyp:h3]{H3}}
+
 \newcommand{\subsubsubsection}[1]{\begin{center}\bfseries #1\end{center}}
 
 \begin{document}
@@ -86,6 +90,32 @@ Portada según el modelo oficial, con los datos de identificación del trabajo.
       \end{tabular}
       \caption{Variables y espacios principales usados en la formulación completa de aprendizaje por refuerzo al estilo Pokémon}
       \label{tab:caracteristicas}
+\end{table}
+
+\begin{table}[h]
+      \centering
+      \begin{tabular}{lr}
+            \toprule
+            Hipeparámetro & Espacio de búsqueda \\
+            \midrule
+            nTeams        & 5                   \\
+            nEpisodes     & 5                   \\
+            actor         & 4                   \\
+            critic        & 5                   \\
+            gamma         & 2                   \\
+            reward        & 2                   \\
+            move          & 11                  \\
+            pokemon       & 12                  \\
+            player        & 2                   \\
+            useRandom     & 2                   \\
+            useMaxDamage  & 2                   \\
+            useSelfPlay   & 2                   \\
+            \midrule
+            Combinaciones & 422399              \\
+            \bottomrule
+      \end{tabular}
+      \caption{Hiperparámetros con sus espacios de búsqueda}
+      \label{tab:hyperparameters}
 \end{table}
 
 \begin{table}[h]
@@ -163,11 +193,11 @@ Para entrenar el modelo se usarán distintas técnicas como Actor-Critic y grafo
 En este trabajo se adoptarán los objetivos enunciados como marco de referencia para orientar el diseño, la implementación y la evaluación.
 
 \begin{description}
-      \item[H1] \textbf{Representación del estado:} añadir características estratégicamente informativas al espacio de observación mejora la eficiencia de aprendizaje y el rendimiento final de la política frente a una representación más básica del estado.
+      \item[H1]\phantomsection\label{hyp:h1} \textbf{Representación del estado:} añadir características estratégicamente informativas al espacio de observación mejora la eficiencia de aprendizaje y el rendimiento final de la política frente a una representación más básica del estado.
 
-      \item[H2] \textbf{Self-play:} el entrenamiento mediante self-play produce políticas más robustas y con mayor capacidad de generalización frente a oponentes no vistos que el entrenamiento frente a rivales fijos o heurísticos.
+      \item[H2]\phantomsection\label{hyp:h2} \textbf{Self-play:} el entrenamiento mediante self-play produce políticas más robustas y con mayor capacidad de generalización frente a oponentes no vistos que el entrenamiento frente a rivales fijos o heurísticos.
 
-      \item[H3] \textbf{Escalado con el tamaño del equipo:} aumentar el número de equipos incrementa la riqueza estratégica del problema, pero también hace más difícil la optimización por el aumento del espacio de estados, acciones y asignación de crédito; por tanto, el rendimiento no tiene por qué mejorar de forma monótona si la arquitectura y el entrenamiento no escalan adecuadamente.
+      \item[H3]\phantomsection\label{hyp:h3} \textbf{Escalado con el tamaño del equipo:} aumentar el número de equipos incrementa la riqueza estratégica del problema, pero también hace más difícil la optimización por el aumento del espacio de estados, acciones y asignación de crédito; por tanto, el rendimiento no tiene por qué mejorar de forma monótona si la arquitectura y el entrenamiento no escalan adecuadamente.
 \end{description}
 
 \section{Antecedentes y contexto}
@@ -193,7 +223,22 @@ En marzo de 2025 el agente PokéChamp~\cite{karten2025pokechamp} logra jugar al 
 En junio de 2025 se publicó la herramienta VGC-Bench~\cite{cameronangliss2025vgcbench}. Es una herramienta para entrenar agentes y compararlos en el formato de batalla de dobles de la generación IX. Consiguieron ganarle al jugador experto Aaron Traylor una vez de cada 5 partidas con una pareja de equipos. La diferencia es que para entrenar su agente usaron aprendizaje supervisado a partir de partidas de jugadores humanos. Otro factor importante que descubrieron es la pérdida de rendimiento de todos sus modelos cuando entrenaban con más equipos.
 
 \section{Resumen de la solución propuesta}
-Se indicará la solución aportada para el problema presentado.
+
+Para obtener los datos necesarios para aceptar o rechazar las hipótesis planteadas, se han entrenado distintos modelos con diferentes hiperparámetros:
+
+\begin{description}
+      \item[\HOne] Para la hipótesis \HOne~se han usado los hiperparámetros de \emph{move}~\ref{tab:moveParameters}, \emph{pokemon}~\ref{tab:pokemonParameters} y \emph{player}~\ref{tab:battleParameters}. Estos escogen las clases que se usan para representar el estado de la batalla. Para el campo de batalla se usa \emph{player}, para cada uno de los 12 Pokémon se usa \emph{pokemon} y para cada uno de los 4 movimientos \emph{move} (48 movimientos en total). Estos determinan el número de parámetros de la primera capa de la red neuronal que está en el rango de 60-82876.
+
+      \item[\HTwo] Para la hipótesis \HTwo~se ha usado el hiperparámetro \emph{useSelfPlay}, que determina si el agente se entrena contra sí mismo o no. Se van guardando una ventana de los últimos 20 epochs y se juegan \emph{nEpisodes} partidas en total (se elige aleatoriamente el oponente de cada partida). También están relacionados con esta hipótesis los hiperparámetros \emph{useRandom} y \emph{useMaxDamage}, que determinan si el agente se entrena contra un oponente aleatorio o un oponente que siempre elige el movimiento que hace más daño. Es necesario que al menos uno de estos tres hiperparámetros esté activo para que el agente tenga un oponente contra el que entrenar.
+
+      \item[\HThree] Para la hipótesis \HThree~ se ha usado el hiperparámetro \emph{nTeams}, que determina el número de equipos que se usan para entrenar. Se han probado 5 valores distintos: 1, 2, 10, 100 y inf. Para los valores finitos, se tiene una carpeta con los equipos creados y los primeros n para el jugador y su oponente que se usan en un formato cuya diferencia es que se elige el equipo. Para el valor infinito, se usa el formato \emph{gen9randombattle}, en el que el equipo se genera aleatoriamente para cada partida.
+\end{description}
+
+También se han usado otros hiperparámetros ~\ref{tab:hyperparameters} para poder probar la variabilidad de los resultados en relación con los hiperparámetros de las hipótesis. Entre estos se incluye el tamaño de la red (\emph{actor} y \emph{critic}), si usar critic (\emph{critic} vacío), el número de episodios por epoch (\emph{nEpisodes}), el factor de descuento (\emph{gamma}) y la función de recompensa (\emph{reward}).
+
+Como no hay tiempo disponible para probar todas las combinaciones (422399 totales), se han probado 151. Durante el entrenamiento se guarda el porcentaje de victoria, la pérdida, la recompensa y el número de turnos por cada epoch. Si tiene crítico, también se guarda su pérdida y recompensa. Cuando acaba el entrenamiento, se guardan las redes para que puedan jugar partidas entre ellas y calcular los mejores hiperparámetros.
+
+Con la matriz de victorias se aplica Bradley-Terry para obtener la puntuación relativa de cada experimento. También se usa un modelo sustituto para intentar predecir la puntuación relativa de cada experimento a partir de sus hiperparámetros.
 
 \section{Marco teórico o práctico}
 
