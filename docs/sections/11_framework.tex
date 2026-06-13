@@ -1,0 +1,133 @@
+\section{Marco teórico o práctico}
+
+Herramientas empleadas: se deberá detallar el marco teórico o práctico en el que se va a desarrollar el trabajo. Si procede, se incluirán las herramientas empleadas.
+
+Para el desarrollo de este TFG se ha tenido que implementar una solución para tener un entorno de entrenamiento y se ha tenido que modelar el problema.
+
+\subsection{Marco teórico}
+
+Para entrenar un modelo y saber la complejidad del problema, es necesario saber las caraterísticas y modelar el formato \emph{gen9randombattle}.
+
+\subsubsection{Características generales}
+
+\begin{itemize}
+
+    \item Decisiones secuenciales
+
+          Cada batalla tiene turnos discretos en los que hay que elegir una acción. Las acciones tomadas afectan al estado de la batalla, lo que hace que sea secuencial.
+
+    \item Adversarial
+
+          En cada batalla hay dos jugadores que compiten y solo puede ganar uno de ellos. Como no hay cooperación, el problema es de suma cero.
+
+    \item Información oculta
+
+          Del propio equipo se conoce toda la información, pero del oponente solo se conoce la información que va revelando (información observada e historial de la batalla). Inicialmente solo se conoce el Pokémon inicial y si alguna característica se activa al entrar en el campo. Casi nunca se conoce toda la información completa del oponente.
+
+    \item Alto grado de estocasticidad
+
+          Una vez elegidas las acciones, el resultado del turno no es determinista. Cada ataque tiene una probabilidad de acertar, una de golpe crítico (alrededor de 1/24), algunos tienen posibles efectos secundarios y un rango de daño (se multiplica por un entero entre 85 y 100 dividido 100). Por turno puede haber dos ataques más hay ciertas habilidades o objetos cuya activación es aleatoria. Todo esto hace que pueda haber turnos con muy poca variabilidad y otros con muchísima.
+
+    \item Acciones simultáneas
+
+          Al inicio de cada turno, ambos jugadores eligen su acción sin conocer la acción del oponente. Esto lleva a situaciones en las que conseguir la victoria dependa de predecir la acción del oponente. De esto provienen las situaciones llamadas \emph{50/50}. El juego más conocido de este tipo es el piedra-papel-tijera.
+
+    \item Recompensas retrasadas
+
+          Solo se recibe una recompensa al final de la batalla cuando todos los Pokémon de un jugador han sido derrotados. Se puede intentar medir los recursos restantes o el estado de la batalla para dar recompensas intermedias, pero por la complejidad del entorno, no se puede medir de manera objetiva o cuantificable.
+
+\end{itemize}
+
+\subsubsection{Descomposición del estado}
+
+El estado completo de la batalla debe ser lo suficientemente rico para que el juego sea markoviano. Por tanto, definimos
+\begin{equation}
+    \cS = \cS_{\mathrm{team},1} \times \cS_{\mathrm{team},2} \times \cS_{\mathrm{battle}}.
+\end{equation}
+Aquí $\cS_{\mathrm{team},i}$ almacena la información a nivel de equipo del jugador $i$, y $\cS_{\mathrm{battle}}$ guarda la configuración de la batalla en evolución.
+
+Una factorización conveniente es
+\begin{equation}
+    s_t = \big(T_1^t,T_2^t,B_t\big),
+\end{equation}
+donde:
+\begin{itemize}
+    \item $T_i^t$ es el estado completo del equipo del jugador $i$ en el turno $t$;
+    \item $B_t$ es el estado compartido de la batalla (campo, clima, trampas, contadores de turno, efectos pendientes, etc.).
+\end{itemize}
+
+Cada estado de equipo puede escribirse como
+\begin{equation}
+    T_i^t = \big( X_{i,1}^t, \dots, X_{i,6}^t, A_i^t \big),
+\end{equation}
+donde $X_{i,k}^t$ es el estado detallado de la $k$-ésima unidad, y $A_i^t$ indica qué unidad está actualmente activa.
+
+Cada estado de unidad tiene componentes cuasi-estáticos y dinámicos:
+\begin{equation}
+    X_{i,k}^t = \big(\xi_{i,k}, m_{i,k}, u_{i,k}, y_{i,k}^t\big).
+\end{equation}
+Aquí:
+\begin{itemize}
+    \item $\xi_{i,k} \in \Xi$ es la etiqueta de especie o arquetipo;
+    \item $m_{i,k} \in \cM$ denota la especificación del conjunto de movimientos;
+    \item $u_{i,k} \in \cU$ denota objetos latentes, habilidad, naturaleza, parámetros de estadísticas u otra configuración oculta;
+    \item $y_{i,k}^t$ denota la condición interna dependiente del tiempo de la unidad.
+\end{itemize}
+
+Una variable de condición interna detallada puede escribirse como
+\begin{equation}
+    y_{i,k}^t = \big(\mathrm{hp}_{i,k}^t,\mathrm{status}_{i,k}^t,\mathrm{boosts}_{i,k}^t,\mathrm{volatile}_{i,k}^t,\mathrm{fainted}_{i,k}^t\big).
+\end{equation}
+
+El estado compartido de la batalla puede igualmente escribirse como
+\begin{equation}
+    B_t = \big(\mathrm{weather}_t,\mathrm{terrain}_t,\mathrm{hazards}_t,\mathrm{screens}_t,\mathrm{trickroom}_t,\mathrm{timers}_t,\dots\big).
+\end{equation}
+
+\subsubsection{Acciones y restricciones legales}
+
+En el turno $t$, cada jugador elige una acción simultáneamente. Para el jugador $i$, el conjunto de acciones legales depende del estado completo actual:
+\begin{equation}
+    a_t^i \in \cA_i(s_t).
+\end{equation}
+
+En \emph{gen9randombattle}, un conjunto de acciones legales típico tiene la forma esquemática
+\begin{equation}
+    \cA_i(s_t) \subseteq \cA_i^{\mathrm{move}}(s_t) \cup \cA_i^{\mathrm{switch}}(s_t) \cup \cA_i^{\mathrm{tera}}(s_t),
+\end{equation}
+
+donde las acciones de movimiento corresponden a seleccionar un movimiento legal, las acciones de cambio corresponden a cambiar a una unidad de reserva legal, y donde $\cA_i^{\mathrm{tera}}(s_t) = \{0,1\}$ denota la decisión booleana de si Terastallizar o no. Esto solo se puede hacer una vez por batalla por jugador y debe elegirse con un movimiento y no con un cambio.
+
+\subsubsection{Transiciones}
+
+El motor del juego define un núcleo de transición estocástico
+\begin{equation}
+    P(s_{t+1}\mid s_t,a_t^1,a_t^2).
+    \label{eq:transition_kernel}
+\end{equation}
+Este núcleo incluye toda la resolución basada en reglas, incluyendo el orden por prioridad y velocidad, la ejecución de movimientos, cambios, precisión, variación de daño, golpes críticos, efectos secundarios, activaciones de efectos, actualizaciones al final del turno y debilitaciones o cambios forzados cuando corresponda.
+
+El siguiente estado evoluciona por tanto como
+\begin{equation}
+    s_{t+1} \sim P(\cdot\mid s_t,a_t^1,a_t^2).
+\end{equation}
+
+\paragraph{Acciones simultaneas y resolución interna.}
+Aunque los jugadores eligen sus acciones de manera simultánea a nivel estratégico, el motor del juego resuelve la acción conjunta siguiendo un orden interno que puede ser complejo; dicho orden forma parte del núcleo de transición y no necesita representarse por separado una vez definida la Ec.~\eqref{eq:transition_kernel}.
+
+\subsection{Entorno de entrenamiento}
+
+Para jugar múltiples partidas se necesita un simulador. El más popular pero no oficial es Pokémon Showdown~\cite{pokemonShowdown}. Es un simulador de código abierto que no tiene una API oficial, pero existe la librería de python poke-env~\cite{poke_env} que permite conectarse a un servidor de Pokémon Showdown y jugar partidas. El servidor no permite repetir partidas (estocástica no repetible) ni empezar desde un punto intermedio, lo que hace el problema más difícil.
+
+Como se requiere jugar millones de partidas, no se puede usar el servidor público de Pokémon Showdown, pero al ser código abierto, se puede montar un servidor privado en el que se puede quitar las limitaciones de comunicación. Se ha usado la última versión estable de Pokémon Showdown, que es la v0.11.10. No se puede usar la versión actual de GitHub porque se actualiza todos los días y no es estable.
+
+La librería poke-env ya viene preparada para conectarse a cualquier servidor y permitir que un agente juegue múltiples partidas a la vez. Así se conecta a un servidor:
+
+\begin{verbatim}
+ServerConfiguration(
+    f"ws://localhost:{int(os.getenv('SERVER_PORT'))}/showdown/websocket",
+    "https://play.pokemonshowdown.com/action.php?",
+)
+\end{verbatim}
+
+Para que el agente pueda jugar, simplemente tiene que heredar de la clase \texttt{poke\_env.player.Player} e implementar el método \texttt{choose\_move}. En ese método es donde se recibe el estado de la batalla, se procesa por nuestra red neuronal y se devuelve la acción a realizar.

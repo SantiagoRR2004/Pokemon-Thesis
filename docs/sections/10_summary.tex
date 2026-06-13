@@ -1,0 +1,17 @@
+\section{Resumen de la solución propuesta}
+
+Para obtener los datos necesarios para aceptar o rechazar las hipótesis planteadas, se han entrenado distintos modelos con diferentes hiperparámetros:
+
+\begin{description}
+    \item[\HOne] Para la hipótesis \HOne~se han usado los hiperparámetros de \emph{move}~\ref{tab:moveParameters}, \emph{pokemon}~\ref{tab:pokemonParameters} y \emph{player}~\ref{tab:battleParameters}. Estos escogen las clases que se usan para representar el estado de la batalla. Para el campo de batalla se usa \emph{player}, para cada uno de los 12 Pokémon se usa \emph{pokemon} y para cada uno de los 4 movimientos \emph{move} (48 movimientos en total). Estos determinan el número de parámetros de la primera capa de la red neuronal que está en el rango de 60-82876.
+
+    \item[\HTwo] Para la hipótesis \HTwo~se ha usado el hiperparámetro \emph{useSelfPlay}, que determina si el agente se entrena contra sí mismo o no. Se van guardando una ventana de los últimos 20 epochs y se juegan \emph{nEpisodes} partidas en total (se elige aleatoriamente el oponente de cada partida). También están relacionados con esta hipótesis los hiperparámetros \emph{useRandom} y \emph{useMaxDamage}, que determinan si el agente se entrena contra un oponente aleatorio o un oponente que siempre elige el movimiento que hace más daño. Es necesario que al menos uno de estos tres hiperparámetros esté activo para que el agente tenga un oponente contra el que entrenar.
+
+    \item[\HThree] Para la hipótesis \HThree~ se ha usado el hiperparámetro \emph{nTeams}, que determina el número de equipos que se usan para entrenar. Se han probado 5 valores distintos: 1, 2, 10, 100 y inf. Para los valores finitos, se tiene una carpeta con los equipos creados y los primeros n para el jugador y su oponente que se usan en un formato cuya diferencia es que se elige el equipo. Para el valor infinito, se usa el formato \emph{gen9randombattle}, en el que el equipo se genera aleatoriamente para cada partida.
+\end{description}
+
+También se han usado otros hiperparámetros ~\ref{tab:hyperparameters} para poder probar la variabilidad de los resultados en relación con los hiperparámetros de las hipótesis. Entre estos se incluye el tamaño de la red (\emph{actor} y \emph{critic}), si usar critic (\emph{critic} vacío), el número de episodios por epoch (\emph{nEpisodes}), el factor de descuento (\emph{gamma}) y la función de recompensa (\emph{reward}).
+
+Como no hay tiempo disponible para probar todas las combinaciones (422399 totales), se han probado 151. Durante el entrenamiento se guarda el porcentaje de victoria, la pérdida, la recompensa y el número de turnos por cada epoch. Si tiene crítico, también se guarda su pérdida y recompensa. Cuando acaba el entrenamiento, se guardan las redes para que puedan jugar partidas entre ellas y calcular los mejores hiperparámetros.
+
+Con la matriz de victorias se aplica Bradley-Terry para obtener la puntuación relativa de cada experimento. También se usa un modelo sustituto para intentar predecir la puntuación relativa de cada experimento a partir de sus hiperparámetros.

@@ -22,7 +22,12 @@
 \newcommand{\HTwo}{\hyperref[hyp:h2]{H2}}
 \newcommand{\HThree}{\hyperref[hyp:h3]{H3}}
 
-\newcommand{\subsubsubsection}[1]{\begin{center}\bfseries #1\end{center}}
+\makeatletter
+\renewcommand\bibsection{%
+  \section{Referencias}%
+}
+\makeatother
+\renewcommand{\refname}{Referencias}
 
 \begin{document}
 
@@ -37,12 +42,10 @@
 Portada según el modelo oficial, con los datos de identificación del trabajo.
 
 \newpage
-\section*{Dedicatoria}
- (opcional)
+\input{sections/02_dedication.tex}
 
 \newpage
-\section*{Agradecimientos}
- (opcional)
+\input{sections/03_acknowledgements.tex}
 
 \newpage
 \begingroup
@@ -50,347 +53,28 @@ Portada según el modelo oficial, con los datos de identificación del trabajo.
 \tableofcontents
 \endgroup
 
-\section{Índice de ilustraciones}
- (si procede)
+\input{sections/05_illustrations.tex}
 
 \newpage
-\section{Índice de tablas}
-
-\begin{table}[h]
-      \centering
-      \begin{tabular}{ll}
-            \toprule
-            Símbolo                              & Significado                                                                            \\
-            \midrule
-            $t \in \{0,1,2,\dots\}$              & Índice del turno.                                                                      \\
-            $\cS$                                & Espacio de estados completo oculto de la batalla.                                      \\
-            $s_t \in \cS$                        & Estado markoviano completo en el turno $t$.                                            \\
-            $i \in \{1,2\}$                      & Índice del jugador.                                                                    \\
-            $\cA_i(s)$                           & Conjunto de acciones legales para el jugador $i$ en el estado $s$.                     \\
-            $a_t^i \in \cA_i(s_t)$               & Acción elegida por el jugador $i$ en el turno $t$.                                     \\
-            $\cO_i$                              & Espacio de observaciones para el jugador $i$.                                          \\
-            $o_t^i \in \cO_i$                    & Observación recibida por el jugador $i$ en el turno $t$.                               \\
-            $\Omega_i(o\mid s)$                  & Núcleo de observación para el jugador $i$.                                             \\
-            $P(s'\mid s,a^1,a^2)$                & Núcleo de transición de estado del motor del juego.                                    \\
-            $h_t^i$                              & Historia de información del jugador $i$ hasta el turno $t$.                            \\
-            $\pi_i(a\mid h_t^i)$                 & Política del jugador $i$.                                                              \\
-            $r_i(s_t,a_t^1,a_t^2,s_{t+1})$       & Recompensa por turno para el jugador $i$.                                              \\
-            $G_t^i$                              & Retorno descontado para el jugador $i$ comenzando en el turno $t$.                     \\
-            $\gamma \in (0,1]$                   & Factor de descuento.                                                                   \\
-            $b_t^i$                              & Estado de creencias del jugador $i$ habiéndose dados los estados ocultos dado $h_t^i$. \\
-            $V^{\pi_1,\pi_2}$, $Q^{\pi_1,\pi_2}$ & Funciones de valor y valor-acción.                                                     \\
-            $\Xi$                                & Conjunto de etiquetas de especies o tipos.                                             \\
-            $\cM$                                & Espacio de configuraciones latentes de movimientos.                                    \\
-            $\cU$                                & Espacio de configuraciones latentes de objetos/habilidades/estadísticas.               \\
-            $\mathsf{HP}$                        & Variables de puntos de vida para todas las unidades activas y de reserva.              \\
-            $\mathsf{Field}$                     & Estado público del campo (clima, terreno, trampas, pantallas, contadores, etc.).       \\
-            $\mathsf{Priv}_i$                    & Información privada oculta del jugador $i$.                                            \\
-            $\mathsf{Pub}$                       & Información de la batalla visible públicamente.                                        \\
-            \bottomrule
-      \end{tabular}
-      \caption{Variables y espacios principales usados en la formulación completa de aprendizaje por refuerzo al estilo Pokémon}
-      \label{tab:caracteristicas}
-\end{table}
-
-\begin{table}[h]
-      \centering
-      \begin{tabular}{lr}
-            \toprule
-            Hipeparámetro & Espacio de búsqueda \\
-            \midrule
-            nTeams        & 5                   \\
-            nEpisodes     & 5                   \\
-            actor         & 4                   \\
-            critic        & 5                   \\
-            gamma         & 2                   \\
-            reward        & 2                   \\
-            move          & 11                  \\
-            pokemon       & 12                  \\
-            player        & 2                   \\
-            useRandom     & 2                   \\
-            useMaxDamage  & 2                   \\
-            useSelfPlay   & 2                   \\
-            \midrule
-            Combinaciones & 422399              \\
-            \bottomrule
-      \end{tabular}
-      \caption{Hiperparámetros con sus espacios de búsqueda}
-      \label{tab:hyperparameters}
-\end{table}
-
-\begin{table}[h]
-      \centering
-      \begin{tabular}{lr}
-            \toprule
-            Clase      & Número de parámetros \\
-            \midrule
-            AIPlayer00 & 0                    \\
-            AIPlayer01 & 2                    \\
-            AIPlayer02 & 14                   \\
-            AIPlayerS  & 64                   \\
-            \bottomrule
-      \end{tabular}
-      \caption{Número de parámetros que se obtienen del entorno para el campo de batalla}
-      \label{tab:battleParameters}
-\end{table}
-
-\begin{table}[h]
-      \centering
-      \begin{tabular}{lr}
-            \toprule
-            Clase     & Número de parámetros \\
-            \midrule
-            Pokemon00 & 1                    \\
-            Pokemon01 & 5                    \\
-            Pokemon02 & 8                    \\
-            Pokemon03 & 10                   \\
-            Pokemon04 & 15                   \\
-            Pokemon05 & 55                   \\
-            Pokemon06 & 81                   \\
-            Pokemon07 & 152                  \\
-            Pokemon08 & 175                  \\
-            Pokemon09 & 183                  \\
-            Pokemon10 & 1025                 \\
-            PokemonS  & 2353                 \\
-            \bottomrule
-      \end{tabular}
-      \caption{Número de parámetros que se obtienen del entorno para cada Pokémon}
-      \label{tab:pokemonParameters}
-\end{table}
-
-\begin{table}[h]
-      \centering
-      \begin{tabular}{lr}
-            \toprule
-            Clase  & Número de parámetros \\
-            \midrule
-            Move00 & 1                    \\
-            Move01 & 26                   \\
-            Move02 & 39                   \\
-            Move03 & 48                   \\
-            Move04 & 55                   \\
-            Move05 & 64                   \\
-            Move06 & 76                   \\
-            Move07 & 90                   \\
-            Move08 & 155                  \\
-            Move09 & 187                  \\
-            MoveS  & 1137                 \\
-            \bottomrule
-      \end{tabular}
-      \caption{Número de parámetros que se obtienen del entorno para cada movimiento}
-      \label{tab:moveParameters}
-\end{table}
+\input{sections/06_tables.tex}
 
 \clearpage
-\section{Introducción}
-En los últimos años ha habido muchas mejoras en el campo de aprendizaje por refuerzo. Con nuevos diseños de arquitecturas y grafos de recompensa se han superado a jugadores profesionales en juegos como el Go~\cite{silver2016go} o el StarCraft II~\cite{vinyals2019starcraft}. Sin embargo, el campo de aprendizaje por refuerzo es todavía un campo abierto por explorar entornos muy complejos.
 
-En este TFG se propone un nuevo enfoque multiagente aplicado a un entorno particular de Pokémon: las batallas aleatorias individuales de la generación IX disponibles en la plataforma Pokémon Showdown~\cite{pokemonShowdown}. Se trata de un juego de suma cero, con información oculta y un alto grado de estocasticidad. Además, el simulador existente no permite repetir batallas ni comenzar desde un punto intermedio, lo cual constituye un desafío adicional. Este problema representa una considerable dificultad de investigación, por lo que se explorarán diferentes técnicas de aprendizaje multiagente y estrategias de reward shaping.
+\input{sections/07_introduction.tex}
+\input{sections/08_objectives.tex}
+\input{sections/09_context.tex}
+\input{sections/10_summary.tex}
+\input{sections/11_framework.tex}
+\input{sections/12_planning.tex}
+\input{sections/13_contributions.tex}
+\input{sections/14_conclusions.tex}
+\input{sections/15_futureWork.tex}
 
-Para entrenar el modelo se usarán distintas técnicas como Actor-Critic y grafos de recompensa complejos para encontrar un modelo y método de entrenamiento que funciona de manera eficiente.
-
-\section{Objetivos}
-En este trabajo se adoptarán los objetivos enunciados como marco de referencia para orientar el diseño, la implementación y la evaluación.
-
-\begin{description}
-      \item[H1]\phantomsection\label{hyp:h1} \textbf{Representación del estado:} añadir características estratégicamente informativas al espacio de observación mejora la eficiencia de aprendizaje y el rendimiento final de la política frente a una representación más básica del estado.
-
-      \item[H2]\phantomsection\label{hyp:h2} \textbf{Self-play:} el entrenamiento mediante self-play produce políticas más robustas y con mayor capacidad de generalización frente a oponentes no vistos que el entrenamiento frente a rivales fijos o heurísticos.
-
-      \item[H3]\phantomsection\label{hyp:h3} \textbf{Escalado con el tamaño del equipo:} aumentar el número de equipos incrementa la riqueza estratégica del problema, pero también hace más difícil la optimización por el aumento del espacio de estados, acciones y asignación de crédito; por tanto, el rendimiento no tiene por qué mejorar de forma monótona si la arquitectura y el entrenamiento no escalan adecuadamente.
-\end{description}
-
-\section{Antecedentes y contexto}
-
-En 1983 se solucionó el primer problema de aprendizaje por refuerzo con una red neuronal~\cite{barto1983invertedpendulum}. Era el problema del péndulo invertido, un sistema de control clásico. Usar redes neuronales se extendió a otros campos más allá del control, como el aprendizaje de juegos.
-
-En 1993 el programa TD-Gammon de Gerald Tesauro~\cite{tesauro1995gammon} alcanzó un nivel de juego que solo estaba por debajo de los mejores jugadores del momento de backgammon. Backgammon es un juego estocástico (usa dados), de dos agentes, sin información oculta y sin actuación simultánea. Otro factor importante es que el estado inicial siempre es el mismo y no hay tantos estados posibles como en otros juegos.
-
-En 2013 se presentó el programa DQN de DeepMind~\cite{mnih2013dqn}, que fue el primer programa de aprendizaje por refuerzo profundo que superó a los humanos en una variedad de juegos de Atari. Son juegos con observaciones continuas, sin información oculta y sin planificación a largo plazo. Todos estos juegos también daban su puntuación durante cada instante, lo que facilitaba el aprendizaje.
-
-En 2019 el programa AlphaStar de DeepMind~\cite{vinyals2019starcraft} superó a jugadores profesionales en el juego de estrategia en tiempo real StarCraft II. Es un juego con información oculta, actuación simultánea, planificación a largo plazo y un espacio de estados y acciones enorme. Las mayores diferencias con nuestro formato de Pokémon son que Starcraft II es en tiempo real y determinista. Otra diferencia crucial es que no tenemos herramientas para usar aprendizaje supervisado como AlphaStar.
-
-Pokémon es una franquicia de videojuegos que se ha extendido a otros medios como el anime, el manga o los juegos de cartas. Tiene varios juegos competitivos (Unite, GO, TCG), pero en el que se centra este TFG es en las batallas de los juegos principales.
-
-Dentro de los juegos principales, hay distintos formatos de batalla. Cada uno tiene sus propias reglas y restricciones. Los Pokémon y movimientos disponibles, si tienes que elegir un equipo de antemano o no, el número de Pokémon que controlas en el campo, el número de jugadores, etc. Todos estos formatos se caracterizan por tener un elevadísmo número de estados, información oculta, actuación simultánea y un alto grado de estocasticidad. El que se estudia en este TFG es el formato de batallas aleatorias individuales de la generación IX \emph{gen9randombattle}, que se caracteriza por que el simulador genera un equipo aleatorio por jugador. Esto significa que hay investigaciones en distintos formatos.
-
-\begin{sloppypar}
-      En enero de 2024 presentó Jett Wang su tesis~\cite{wang2024pokemon}. Conseguió ser el octavo mejor jugador del formato \emph{gen4randombattle} entrenando PPO con Self-play para después guiar un Monte Carlo. Lo bueno de usar la cuarta generación es que no es tan inestable como las tres primeras y es la que tiene menos estados posibles (menos Pokémon, movimientos, objetos, etc.) que las generaciones posteriores.
-\end{sloppypar}
-
-En marzo de 2025 el agente PokéChamp~\cite{karten2025pokechamp} logra jugar al nivel de los 30\%-10\% mejores jugadores humanos en el formato \emph{gen9ou} usando Minimax LLM. En vez de simular los siguientes turnos de la batalla, usan un modelo de lenguaje y también para decidir la siguiente acción.
-
-En junio de 2025 se publicó la herramienta VGC-Bench~\cite{cameronangliss2025vgcbench}. Es una herramienta para entrenar agentes y compararlos en el formato de batalla de dobles de la generación IX. Consiguieron ganarle al jugador experto Aaron Traylor una vez de cada 5 partidas con una pareja de equipos. La diferencia es que para entrenar su agente usaron aprendizaje supervisado a partir de partidas de jugadores humanos. Otro factor importante que descubrieron es la pérdida de rendimiento de todos sus modelos cuando entrenaban con más equipos.
-
-\section{Resumen de la solución propuesta}
-
-Para obtener los datos necesarios para aceptar o rechazar las hipótesis planteadas, se han entrenado distintos modelos con diferentes hiperparámetros:
-
-\begin{description}
-      \item[\HOne] Para la hipótesis \HOne~se han usado los hiperparámetros de \emph{move}~\ref{tab:moveParameters}, \emph{pokemon}~\ref{tab:pokemonParameters} y \emph{player}~\ref{tab:battleParameters}. Estos escogen las clases que se usan para representar el estado de la batalla. Para el campo de batalla se usa \emph{player}, para cada uno de los 12 Pokémon se usa \emph{pokemon} y para cada uno de los 4 movimientos \emph{move} (48 movimientos en total). Estos determinan el número de parámetros de la primera capa de la red neuronal que está en el rango de 60-82876.
-
-      \item[\HTwo] Para la hipótesis \HTwo~se ha usado el hiperparámetro \emph{useSelfPlay}, que determina si el agente se entrena contra sí mismo o no. Se van guardando una ventana de los últimos 20 epochs y se juegan \emph{nEpisodes} partidas en total (se elige aleatoriamente el oponente de cada partida). También están relacionados con esta hipótesis los hiperparámetros \emph{useRandom} y \emph{useMaxDamage}, que determinan si el agente se entrena contra un oponente aleatorio o un oponente que siempre elige el movimiento que hace más daño. Es necesario que al menos uno de estos tres hiperparámetros esté activo para que el agente tenga un oponente contra el que entrenar.
-
-      \item[\HThree] Para la hipótesis \HThree~ se ha usado el hiperparámetro \emph{nTeams}, que determina el número de equipos que se usan para entrenar. Se han probado 5 valores distintos: 1, 2, 10, 100 y inf. Para los valores finitos, se tiene una carpeta con los equipos creados y los primeros n para el jugador y su oponente que se usan en un formato cuya diferencia es que se elige el equipo. Para el valor infinito, se usa el formato \emph{gen9randombattle}, en el que el equipo se genera aleatoriamente para cada partida.
-\end{description}
-
-También se han usado otros hiperparámetros ~\ref{tab:hyperparameters} para poder probar la variabilidad de los resultados en relación con los hiperparámetros de las hipótesis. Entre estos se incluye el tamaño de la red (\emph{actor} y \emph{critic}), si usar critic (\emph{critic} vacío), el número de episodios por epoch (\emph{nEpisodes}), el factor de descuento (\emph{gamma}) y la función de recompensa (\emph{reward}).
-
-Como no hay tiempo disponible para probar todas las combinaciones (422399 totales), se han probado 151. Durante el entrenamiento se guarda el porcentaje de victoria, la pérdida, la recompensa y el número de turnos por cada epoch. Si tiene crítico, también se guarda su pérdida y recompensa. Cuando acaba el entrenamiento, se guardan las redes para que puedan jugar partidas entre ellas y calcular los mejores hiperparámetros.
-
-Con la matriz de victorias se aplica Bradley-Terry para obtener la puntuación relativa de cada experimento. También se usa un modelo sustituto para intentar predecir la puntuación relativa de cada experimento a partir de sus hiperparámetros.
-
-\section{Marco teórico o práctico}
-
-Herramientas empleadas: se deberá detallar el marco teórico o práctico en el que se va a desarrollar el trabajo. Si procede, se incluirán las herramientas empleadas.
-
-Para el desarrollo de este TFG se ha tenido que implementar una solución para tener un entorno de entrenamiento y se ha tenido que modelar el problema.
-
-\subsection{Marco teórico}
-
-Para entrenar un modelo y saber la complejidad del problema, es necesario saber las caraterísticas y modelar el formato \emph{gen9randombattle}.
-
-\subsubsection{Características generales}
-
-\begin{itemize}
-
-      \item Decisiones secuenciales
-
-            Cada batalla tiene turnos discretos en los que hay que elegir una acción. Las acciones tomadas afectan al estado de la batalla, lo que hace que sea secuencial.
-
-      \item Adversarial
-
-            En cada batalla hay dos jugadores que compiten y solo puede ganar uno de ellos. Como no hay cooperación, el problema es de suma cero.
-
-      \item Información oculta
-
-            Del propio equipo se conoce toda la información, pero del oponente solo se conoce la información que va revelando (información observada e historial de la batalla). Inicialmente solo se conoce el Pokémon inicial y si alguna característica se activa al entrar en el campo. Casi nunca se conoce toda la información completa del oponente.
-
-      \item Alto grado de estocasticidad
-
-            Una vez elegidas las acciones, el resultado del turno no es determinista. Cada ataque tiene una probabilidad de acertar, una de golpe crítico (alrededor de 1/24), algunos tienen posibles efectos secundarios y un rango de daño (se multiplica por un entero entre 85 y 100 dividido 100). Por turno puede haber dos ataques más hay ciertas habilidades o objetos cuya activación es aleatoria. Todo esto hace que pueda haber turnos con muy poca variabilidad y otros con muchísima.
-
-      \item Acciones simultáneas
-
-            Al inicio de cada turno, ambos jugadores eligen su acción sin conocer la acción del oponente. Esto lleva a situaciones en las que conseguir la victoria dependa de predecir la acción del oponente. De esto provienen las situaciones llamadas \emph{50/50}. El juego más conocido de este tipo es el piedra-papel-tijera.
-
-      \item Recompensas retrasadas
-
-            Solo se recibe una recompensa al final de la batalla cuando todos los Pokémon de un jugador han sido derrotados. Se puede intentar medir los recursos restantes o el estado de la batalla para dar recompensas intermedias, pero por la complejidad del entorno, no se puede medir de manera objetiva o cuantificable.
-
-\end{itemize}
-
-\subsubsection{Descomposición del estado}
-
-El estado completo de la batalla debe ser lo suficientemente rico para que el juego sea markoviano. Por tanto, definimos
-\begin{equation}
-      \cS = \cS_{\mathrm{team},1} \times \cS_{\mathrm{team},2} \times \cS_{\mathrm{battle}}.
-\end{equation}
-Aquí $\cS_{\mathrm{team},i}$ almacena la información a nivel de equipo del jugador $i$, y $\cS_{\mathrm{battle}}$ guarda la configuración de la batalla en evolución.
-
-Una factorización conveniente es
-\begin{equation}
-      s_t = \big(T_1^t,T_2^t,B_t\big),
-\end{equation}
-donde:
-\begin{itemize}
-      \item $T_i^t$ es el estado completo del equipo del jugador $i$ en el turno $t$;
-      \item $B_t$ es el estado compartido de la batalla (campo, clima, trampas, contadores de turno, efectos pendientes, etc.).
-\end{itemize}
-
-Cada estado de equipo puede escribirse como
-\begin{equation}
-      T_i^t = \big( X_{i,1}^t, \dots, X_{i,6}^t, A_i^t \big),
-\end{equation}
-donde $X_{i,k}^t$ es el estado detallado de la $k$-ésima unidad, y $A_i^t$ indica qué unidad está actualmente activa.
-
-Cada estado de unidad tiene componentes cuasi-estáticos y dinámicos:
-\begin{equation}
-      X_{i,k}^t = \big(\xi_{i,k}, m_{i,k}, u_{i,k}, y_{i,k}^t\big).
-\end{equation}
-Aquí:
-\begin{itemize}
-      \item $\xi_{i,k} \in \Xi$ es la etiqueta de especie o arquetipo;
-      \item $m_{i,k} \in \cM$ denota la especificación del conjunto de movimientos;
-      \item $u_{i,k} \in \cU$ denota objetos latentes, habilidad, naturaleza, parámetros de estadísticas u otra configuración oculta;
-      \item $y_{i,k}^t$ denota la condición interna dependiente del tiempo de la unidad.
-\end{itemize}
-
-Una variable de condición interna detallada puede escribirse como
-\begin{equation}
-      y_{i,k}^t = \big(\mathrm{hp}_{i,k}^t,\mathrm{status}_{i,k}^t,\mathrm{boosts}_{i,k}^t,\mathrm{volatile}_{i,k}^t,\mathrm{fainted}_{i,k}^t\big).
-\end{equation}
-
-El estado compartido de la batalla puede igualmente escribirse como
-\begin{equation}
-      B_t = \big(\mathrm{weather}_t,\mathrm{terrain}_t,\mathrm{hazards}_t,\mathrm{screens}_t,\mathrm{trickroom}_t,\mathrm{timers}_t,\dots\big).
-\end{equation}
-
-\subsubsection{Acciones y restricciones legales}
-
-En el turno $t$, cada jugador elige una acción simultáneamente. Para el jugador $i$, el conjunto de acciones legales depende del estado completo actual:
-\begin{equation}
-      a_t^i \in \cA_i(s_t).
-\end{equation}
-
-En \emph{gen9randombattle}, un conjunto de acciones legales típico tiene la forma esquemática
-\begin{equation}
-      \cA_i(s_t) \subseteq \cA_i^{\mathrm{move}}(s_t) \cup \cA_i^{\mathrm{switch}}(s_t) \cup \cA_i^{\mathrm{tera}}(s_t),
-\end{equation}
-
-donde las acciones de movimiento corresponden a seleccionar un movimiento legal, las acciones de cambio corresponden a cambiar a una unidad de reserva legal, y donde $\cA_i^{\mathrm{tera}}(s_t) = \{0,1\}$ denota la decisión booleana de si Terastallizar o no. Esto solo se puede hacer una vez por batalla por jugador y debe elegirse con un movimiento y no con un cambio.
-
-\subsubsection{Transiciones}
-
-El motor del juego define un núcleo de transición estocástico
-\begin{equation}
-      P(s_{t+1}\mid s_t,a_t^1,a_t^2).
-      \label{eq:transition_kernel}
-\end{equation}
-Este núcleo incluye toda la resolución basada en reglas, incluyendo el orden por prioridad y velocidad, la ejecución de movimientos, cambios, precisión, variación de daño, golpes críticos, efectos secundarios, activaciones de efectos, actualizaciones al final del turno y debilitaciones o cambios forzados cuando corresponda.
-
-El siguiente estado evoluciona por tanto como
-\begin{equation}
-      s_{t+1} \sim P(\cdot\mid s_t,a_t^1,a_t^2).
-\end{equation}
-
-\paragraph{Acciones simultaneas y resolución interna.}
-Aunque los jugadores eligen sus acciones de manera simultánea a nivel estratégico, el motor del juego resuelve la acción conjunta siguiendo un orden interno que puede ser complejo; dicho orden forma parte del núcleo de transición y no necesita representarse por separado una vez definida la Ec.~\eqref{eq:transition_kernel}.
-
-\subsection{Entorno de entrenamiento}
-
-Para jugar múltiples partidas se necesita un simulador. El más popular pero no oficial es Pokémon Showdown~\cite{pokemonShowdown}. Es un simulador de código abierto que no tiene una API oficial, pero existe la librería de python poke-env~\cite{poke_env} que permite conectarse a un servidor de Pokémon Showdown y jugar partidas. El servidor no permite repetir partidas (estocástica no repetible) ni empezar desde un punto intermedio, lo que hace el problema más difícil.
-
-Como se requiere jugar millones de partidas, no se puede usar el servidor público de Pokémon Showdown, pero al ser código abierto, se puede montar un servidor privado en el que se puede quitar las limitaciones de comunicación. Se ha usado la última versión estable de Pokémon Showdown, que es la v0.11.10. No se puede usar la versión actual de GitHub porque se actualiza todos los días y no es estable.
-
-La librería poke-env ya viene preparada para conectarse a cualquier servidor y permitir que un agente juegue múltiples partidas a la vez. Así se conecta a un servidor:
-
-\begin{verbatim}
-ServerConfiguration(
-    f"ws://localhost:{int(os.getenv('SERVER_PORT'))}/showdown/websocket",
-    "https://play.pokemonshowdown.com/action.php?",
-)
-\end{verbatim}
-
-Para que el agente pueda jugar, simplemente tiene que heredar de la clase \texttt{poke\_env.player.Player} e implementar el método \texttt{choose\_move}. En ese método es donde se recibe el estado de la batalla, se procesa por nuestra red neuronal y se devuelve la acción a realizar.
-
-\section{Planificación y seguimiento}
-Se deberá incluir alguna evidencia que muestre tanto la planificación del trabajo, con su distribución de fases y tareas, como su comparación con los datos reales obtenidos tras el desarrollo del trabajo.
-
-\section{Principales aportaciones}
-Se deberán destacar las aportaciones importantes del trabajo realizado, teniendo en cuenta los objetivos fijados.
-
-\section{Conclusiones}
-Se incluirán todas las conclusiones de tipo técnico y personal.
-
-\section{Vías de trabajo futuro}
-Se presentarán posibles ampliaciones y trabajos relacionados por realizar.
-
-\section{Referencias}
 \bibliographystyle{unsrtnat}
 \bibliography{refs}
 
 \clearpage
+
 \section{Anexos (opcionales)}
 Se incluirán otros elementos de interés en el TFG que se consideren necesarios para una mejor comprensión del mismo.
 
