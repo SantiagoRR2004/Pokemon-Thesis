@@ -40,6 +40,30 @@ Para entrenar un modelo y saber la complejidad del problema, es necesario saber 
 
 \subsubsection{Descomposición del estado}
 
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ll}
+        \toprule
+        Símbolo                 & Significado                                                                      \\
+        \midrule
+        $t \in \{0,1,2,\dots\}$ & Índice del turno.                                                                \\
+        $\cS$                   & Espacio de estados completo oculto de la batalla.                                \\
+        $s_t \in \cS$           & Estado markoviano completo en el turno $t$.                                      \\
+        $i \in \{1,2\}$         & Índice del jugador.                                                              \\
+        $\cA_i(s)$              & Conjunto de acciones legales para el jugador $i$ en el estado $s$.               \\
+        $a_t^i \in \cA_i(s_t)$  & Acción elegida por el jugador $i$ en el turno $t$.                               \\
+        $\gamma \in (0,1]$      & Factor de descuento.                                                             \\
+        $\Xi$                   & Conjunto de etiquetas de especies o tipos.                                       \\
+        $\cM$                   & Espacio de configuraciones latentes de movimientos.                              \\
+        $\cU$                   & Espacio de configuraciones latentes de objetos/habilidades/estadísticas.         \\
+        $\mathsf{HP}$           & Variables de puntos de vida para todas las unidades activas y de reserva.        \\
+        $\mathsf{Field}$        & Estado público del campo (clima, terreno, trampas, pantallas, contadores, etc.). \\
+        \bottomrule
+    \end{tabular}
+    \caption{Variables y espacios principales usados en la formulación completa de aprendizaje por refuerzo de Pokémon}
+    \label{tab:caracteristicas}
+\end{table}
+
 El estado completo de la batalla debe ser lo suficientemente rico para que el juego sea markoviano. Por tanto, definimos
 \begin{equation}
     \cS = \cS_{\mathrm{team},1} \times \cS_{\mathrm{team},2} \times \cS_{\mathrm{battle}}.
