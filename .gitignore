@@ -16,9 +16,6 @@ data/surrogateData.csv
 # Folder for graphs
 graphs/
 
-# Images in general
-*.png
-
 # The convergence analysis data
 convergenceResults.json
 
@@ -34,3 +31,4 @@ docs/*.out
 docs/*.pdf
 docs/*.synctex.gz
 docs/*.toc
+docs/svg-inkscape/
