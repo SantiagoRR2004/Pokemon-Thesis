@@ -11,20 +11,22 @@
   "latex-workshop.formatting.latex": "latexindent",
   "latex-workshop.latex.tools": [
     {
-      "name": "pdflatex-shell",
-      "command": "pdflatex",
+      "name": "latexmk-shell",
+      "command": "latexmk",
       "args": [
         "--shell-escape",
+        "-pdf",
         "-synctex=1",
         "-interaction=nonstopmode",
+        "-file-line-error",
         "%DOC%"
       ]
     }
   ],
   "latex-workshop.latex.recipes": [
     {
-      "name": "pdflatex (shell escape)",
-      "tools": ["pdflatex-shell"]
+      "name": "latexmk (shell escape)",
+      "tools": ["latexmk-shell"]
     }
   ]
 }
