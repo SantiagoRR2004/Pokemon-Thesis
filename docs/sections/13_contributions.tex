@@ -1,2 +1,54 @@
 \section{Principales aportaciones}
-Se deberán destacar las aportaciones importantes del trabajo realizado, teniendo en cuenta los objetivos fijados.
+
+Para explicar las aportaciones, las dividiremos por hipótesis.
+
+\subsection{Hipótesis \HOne}
+
+Podemos ver el número de parámetros para la representación del estado global o ver cada clase de manera individual. Si nos fijamos en la ilustración \ref{fig:experimentsByNInputs}, podemos ver que la representación más utilizada es la que tiene $182$ parámetros, y que el resto sigue una distribución algo uniforme.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../graphs/ExperimentsByNInputs.png}
+    \caption{Número de experimentos por representación del estado}
+    \label{fig:experimentsByNInputs}
+\end{figure}
+
+Podemos ver como fue la media de cada entrenamiento para los que tienen el mismo número de parámetros en la ilustración \ref{fig:victoriesByNInputs}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/showdownLogo.png}
+    \caption{Porcentaje medio de victorias por representación del estado}
+    \label{fig:victoriesByNInputs}
+\end{figure}
+
+También podemos ver el porcentaje de victorias entre los experimentos que tienen solo los hiperparámetros de la representación distintos, en la ilustración \ref{fig:victoriesByNInputsAndHyperparameters}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/showdownLogo.png}
+    \caption{Matriz de calor en la cual se enseñan para los experimentos en los que solo cambia la representación del estado y los hiperparámetros, el porcentaje de victorias.}
+    \label{fig:victoriesByNInputsAndHyperparameters}
+\end{figure}
+
+Finalmente también tenemos la ilustración \ref{fig:nInputsBradleyTerry}, que muestra la gráfica del valor Bradley-Terry para los experimentos hechos y la gráfica \ref{fig:nInputsSurrogateBradleyTerry} que muestra los valores de Bradley-Terry mediante el modelo sustitito.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/showdownLogo.png}
+    \caption{Valores de Bradley-Terry para los experimentos hechos}
+    \label{fig:nInputsBradleyTerry}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/showdownLogo.png}
+    \caption{Valores de Bradley-Terry para los experimentos del modelo sustituto}
+    \label{fig:nInputsSurrogateBradleyTerry}
+\end{figure}
+
+Para la manera de representar el campo de batalla, pokémon y movimiento, podemos observar las mismas ilustraciones.
+
+\subsection{Hipótesis \HTwo}
+
+\subsection{Hipótesis \HThree}

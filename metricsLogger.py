@@ -87,6 +87,8 @@ class MetricsLogger:
             os.path.join(self.dataDirectory, "experiments.csv")
         )
 
+        self.generalGraphs()
+
         # Check that there are no duplicates
         assert not self.experimentData.duplicated(
             subset=self.experimentData.columns.difference(self.INVALID_COLUMNS)
@@ -559,6 +561,42 @@ class MetricsLogger:
                     mostUncertain[1],
                     nBattles=100 - self.tournamentPlayedDF.at[mostUncertain] % 100,
                 )
+
+    def generalGraphs(self) -> None:
+        """
+        Graph the bar plot for the different nInputs
+        values.
+
+        Args:
+            - None
+
+        Returns:
+            - None
+        """
+        # Count the number of experiments for each nInputs value
+        nInputsCounts = (
+            self.experimentData["nInputs"].value_counts().sort_index().reset_index()
+        )
+
+        # Remove nInputs = 0
+        nInputsCounts = nInputsCounts[nInputsCounts["nInputs"] != 0]
+
+        # Create a bar plot
+        plt.figure()
+        plt.bar(nInputsCounts["nInputs"].astype(str), nInputsCounts["count"])
+
+        plt.xlabel("Number of Inputs")
+        plt.ylabel("Count")
+        plt.title("Count of Experiments by Number of Inputs")
+        plt.xticks(rotation=45, fontsize=5)
+        plt.tight_layout()
+
+        # Save the figure
+        plt.savefig(
+            os.path.join(self.graphDirectory, "ExperimentsByNInputs.png"),
+            bbox_inches="tight",
+        )
+        plt.close()
 
     def calculateBestParameters(
         self,
