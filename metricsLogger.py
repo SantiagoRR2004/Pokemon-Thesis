@@ -503,6 +503,9 @@ class MetricsLogger:
             self.tournamentWonDF / self.tournamentPlayedDF
         ).astype("float64")
 
+        # Print number of battles played (diagonal + low triangle)
+        print(f"Total battles played: {np.tril(self.tournamentPlayedDF).sum()}")
+
         # Graph the tournament matrix (Too big)
         # self.graphHeatmap(self.tournamentDF, "Battles All")
 
@@ -1873,6 +1876,6 @@ def sortMatrix(matrix: pd.DataFrame) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    logger = MetricsLogger(surrogateGraphs=True)
+    logger = MetricsLogger(surrogateGraphs=False, infiniteBattles=False)
     logger.graphAllExperiments()
     logger.graphVictoryPercentage()

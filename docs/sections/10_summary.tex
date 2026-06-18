@@ -115,6 +115,25 @@ Para obtener los datos necesarios para aceptar o rechazar las hipótesis plantea
 
 También se han usado otros hiperparámetros (tabla \ref{tab:hyperparameters}) para poder probar la variabilidad de los resultados en relación con los hiperparámetros de las hipótesis. Entre estos se incluye el tamaño de la red (\emph{actor} y \emph{critic}), si usar critic (\emph{critic} vacío), el número de episodios por epoch (\emph{nEpisodes}), el factor de descuento (\emph{gamma}) y la función de recompensa (\emph{reward}).
 
-Como no hay tiempo disponible para probar todas las combinaciones (3520000 totales), se han probado 151. Durante el entrenamiento se guarda el porcentaje de victoria, la pérdida, la recompensa y el número de turnos por cada epoch. Si tiene crítico, también se guarda su pérdida y recompensa. Cuando acaba el entrenamiento, se guardan las redes para que puedan jugar partidas entre ellas y calcular los mejores hiperparámetros.
+Como no hay tiempo disponible para probar todas las combinaciones (3520000 totales), se han probado 151 combinaciones de hiperparámetros. Cada una se entrena con una única semilla y el entrenamiento dura 1000 epochs. Una vez que acabado el entrenamiento se guardan las redes para poder jugar partidas para validación.
 
-Con la matriz de victorias se aplica Bradley-Terry para obtener la puntuación relativa de cada experimento. También se usa un modelo sustituto para intentar predecir la puntuación relativa de cada experimento a partir de sus hiperparámetros.
+Podemos dividir las métricas obtenidas en dos tipos: las obtenidas durante el entrenamiento y las obtenidas después del entrenamiento. Durante el entrenamiento se obtienen las siguientes métricas de cada epoch:
+
+\begin{itemize}
+    \item El porcentaje de victoria del agente de todos los episodios jugados en ese epoch. Puede no indicar que un agente sea más fuerte si este se entrena contra oponentes más débiles.
+    \item La pérdida media del actor por todos los turnos en ese epoch.
+    \item La recompensa media del agente por todos los turnos en ese epoch.
+    \item El número medio de turnos por todos los episodios jugados en ese epoch.
+    \item Si se usa crítico, la pérdida media del crítico por todos los turnos en ese epoch.
+    \item Si se usa crítico, la recompensa media del crítico por todos los turnos en ese epoch.
+\end{itemize}
+
+Una vez que se tienen modelos, se pueden jugar partidas entre ellos para obtener una matriz de victorias. La fila representa el porcentaje de victorias contra el modelo de la columna. Al seguir el mismo orden de filas y de columnas, dos casillas opuestas suman 1. La diagonal se rellena para comprobar que se han jugado suficientes partidas y so porcentaje de victorias es cercano a 0.5. La imagen generada por la matriz es tan grande que no se puede incluir en el documento, pero se puede consultar en el pie de página\footnote{Porcentaje victorias: \url{https://drive.google.com/file/d/1FIfLRBHuJ33bC_FBJho3Hk0I-aJ2glsp/view?usp=sharing}}.
+
+Esta matriz tiene todos los experimentos más el jugador aleatorio y el jugador que siempre elige el movimiento que hace más daño como referencias. Inicialmente cada celda se rellena con 10 partidas, pero posteriormente se van jugando más partidas para las casillas que tienen más incertidumbre.
+
+La incertidumbre se estima mediante el intervalo de Wilson con un 95\% de confianza, utilizando la amplitud del intervalo (diferencia entre el límite superior y el inferior). En total se han jugado $3711670$ partidas. Los valores de incertidumbre también se puede consultar en el pie de página\footnote{Incertidumbre: \url{https://drive.google.com/file/d/1eJBiV4Dtwemnvf0MvkRXA4L6FiXguRy6/view?usp=sharing}}.
+
+Una vez que se tiene la matriz de victorias, se puede aplicar un modelo Bradley-Terry~\cite{bradleyterry1952} para calcular una puntuación de fuerza para cada modelo. Esto es implementado manualmente usando un modelo de regresión logística. Con esto podemos ver que el modelo que siempre elige el movimiento de máxima potencia está notablemente por encima de los demás y que los experimentos pueden ser superiores al jugador aleatorio o ser inferiores a este. La tabla completa está en su propio anexo (Anexo~\ref{anexo:bradleyterry}).
+
+TODO: Hablar del modelo substituto

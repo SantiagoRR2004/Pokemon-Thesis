@@ -1,6 +1,6 @@
 \documentclass[aps,pre,superscriptaddress,nofootinbib]{revtex4-2}
 
-\usepackage{fancyhdr, booktabs, amsmath, svg}
+\usepackage{fancyhdr, booktabs, amsmath, svg, longtable}
 \usepackage[spanish]{babel}
 \usepackage[colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue]{hyperref}
 
@@ -29,6 +29,15 @@
 }
 \makeatother
 \renewcommand{\refname}{Referencias}
+
+\newcounter{anexo}
+\renewcommand{\theanexo}{\Roman{anexo}}
+
+\newcommand{\anexo}[2]{%
+  \refstepcounter{anexo}%
+  \section*{Anexo~\theanexo: #2}%
+  \label{#1}%
+}
 
 \begin{document}
 
@@ -64,10 +73,15 @@ Portada según el modelo oficial, con los datos de identificación del trabajo.
 
 \input{sections/07_introduction.tex}
 \input{sections/08_objectives.tex}
+\clearpage
 \input{sections/09_context.tex}
+\clearpage
 \input{sections/10_summary.tex}
+\clearpage
 \input{sections/11_framework.tex}
+\clearpage
 \input{sections/12_planning.tex}
+\clearpage
 \input{sections/13_contributions.tex}
 \clearpage
 \input{sections/14_conclusions.tex}
@@ -79,8 +93,9 @@ Portada según el modelo oficial, con los datos de identificación del trabajo.
 
 \clearpage
 
-\section{Anexos (opcionales)}
-Se incluirán otros elementos de interés en el TFG que se consideren necesarios para una mejor comprensión del mismo.
+% Sección para los anexos
+\input{sections/16_bradleyTerry.tex}
+\clearpage
 \input{sections/16_icarus.tex}
 
 \end{document}

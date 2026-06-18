@@ -621,7 +621,7 @@ class Trainer:
                         G = G.squeeze()
                         actorLossBattle += -log_prob * G
 
-                # Normalize the loss by the episodes
+                # Normalize the loss by the number of steps in the battle
                 actorLoss += actorLossBattle / nSteps
                 if self.criticClass:
                     criticLoss += criticLossBattle / nSteps
