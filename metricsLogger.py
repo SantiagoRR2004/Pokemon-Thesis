@@ -11,6 +11,7 @@ import serverControl
 import pandas as pd
 import otherPlayers
 import numpy as np
+import itertools
 import pokemons
 import asyncio
 import players
@@ -82,11 +83,16 @@ class MetricsLogger:
         files = dict(sorted(files.items(), key=lambda item: item[0]))
         self.files = files
 
+        # Remove all epochs over 1000
+        for fileName, df in self.files.items():
+            self.files[fileName] = df[df["epoch"] < 1000].copy()
+
         # Load the experiments data
         self.experimentData = pd.read_csv(
             os.path.join(self.dataDirectory, "experiments.csv")
         )
 
+        # Create the graphs for the general metrics
         self.generalGraphs()
 
         # Check that there are no duplicates
@@ -115,8 +121,11 @@ class MetricsLogger:
         self.bradleyTerryDF = self.bradleyTerry(self.tournamentWonDF)
 
         # Use surrogate modeling
-        self.createSurrogateModel()
-        self.surrogateData()
+        # self.createSurrogateModel()
+        # self.surrogateData()
+        self.surrogateDF = pd.read_csv(
+            os.path.join(self.dataDirectory, "surrogateData.csv")
+        )
 
         # Calculate the best parameters for the metrics (to create graphs)
         self.bestParametersLogs = self.calculateBestParameters(
@@ -581,6 +590,11 @@ class MetricsLogger:
         # Remove nInputs = 0
         nInputsCounts = nInputsCounts[nInputsCounts["nInputs"] != 0]
 
+        # Save it to a csv file
+        nInputsCounts.to_csv(
+            os.path.join(self.graphDirectory, "ExperimentsByNInputs.csv"), index=False
+        )
+
         # Create a bar plot
         plt.figure()
         plt.bar(nInputsCounts["nInputs"].astype(str), nInputsCounts["count"])
@@ -588,7 +602,7 @@ class MetricsLogger:
         plt.xlabel("Number of Inputs")
         plt.ylabel("Count")
         plt.title("Count of Experiments by Number of Inputs")
-        plt.xticks(rotation=45, fontsize=5)
+        plt.xticks(range(0, len(nInputsCounts), 5), rotation=45)
         plt.tight_layout()
 
         # Save the figure
@@ -826,19 +840,19 @@ class MetricsLogger:
 
             bestParameters[column] = ranking
 
-        # Save it to a json file
-        with open(
-            os.path.join(self.graphDirectory, "bestParametersSurrogate.json"),
-            "w",
-            encoding="utf-8",
-        ) as f:
-            json.dump(
-                {key: value.to_dict() for key, value in bestParameters.items()},
-                f,
-                indent=2,
-                ensure_ascii=False,
-            )
-            f.write("\n")
+            # Save it to a json file
+            with open(
+                os.path.join(self.graphDirectory, "bestParametersSurrogate.json"),
+                "w",
+                encoding="utf-8",
+            ) as f:
+                json.dump(
+                    {key: value.to_dict() for key, value in bestParameters.items()},
+                    f,
+                    indent=2,
+                    ensure_ascii=False,
+                )
+                f.write("\n")
 
         return bestParameters
 
@@ -950,7 +964,7 @@ class MetricsLogger:
         self.surrogateFeatureColumns = X.columns
         self.surrogateModel = model
 
-    def surrogateData(self) -> None:
+    def surrogateData(self, sampleNew: bool = False) -> None:
         """
         Create a surrogate dataset by sampling combinations of parameters,
         predicting their Bradley-Terry skill with the surrogate model.
@@ -959,7 +973,7 @@ class MetricsLogger:
         ones are kept in a file.
 
         Args:
-            - None
+            - sampleNew (bool): Whether to sample new combinations or not.
 
         Returns:
             - None
@@ -980,31 +994,58 @@ class MetricsLogger:
         # Create the sets of possible values for each column
         columnValues = {}
         for column in self.surrogateDF.columns:
-            if column == "nTeams":
-                columnValues[column] = ["inf"]
-            elif column != "score":
+            if column != "score":
                 columnValues[column] = self.surrogateDF[column].unique()
 
         # Caculate the max number of combinations
-        maxCombinations = np.prod([len(values) for values in columnValues.values()])
+        maxCombinations = min(
+            3520000, np.prod([len(values) for values in columnValues.values()])
+        )
 
-        # Obtain 20% of the combinations randomly
-        nCombinations = int(maxCombinations * 0.1)
-        combinations = set()
-        for _ in range(nCombinations):
-            combination = tuple(
-                np.random.choice(columnValues[column]) for column in columnValues
+        if sampleNew:
+            # Obtain 20% of the combinations randomly
+            nCombinations = int(maxCombinations * 0.1)
+            combinations = set()
+            for _ in range(nCombinations):
+                combination = tuple(
+                    np.random.choice(columnValues[column]) for column in columnValues
+                )
+                if combination not in usedCombinations:
+
+                    # Check that useRandom and useMaxDamage and useSelfPlay are not both "False"
+                    if not (
+                        combination[self.surrogateDF.columns.get_loc("useRandom")]
+                        == "False"
+                        and combination[
+                            self.surrogateDF.columns.get_loc("useMaxDamage")
+                        ]
+                        == "False"
+                        and combination[self.surrogateDF.columns.get_loc("useSelfPlay")]
+                        == "False"
+                    ):
+                        combinations.add(combination)
+        else:
+            # Obtain all missing combinations
+            allCombinations = set(
+                itertools.product(*[columnValues[column] for column in columnValues])
             )
-            if combination not in usedCombinations:
 
-                # Check that useRandom and useMaxDamage are not both "False"
+            # Remove the all false combination for useRandom, useMaxDamage, and useSelfPlay
+            allCombinations = {
+                combination
+                for combination in allCombinations
                 if not (
                     combination[self.surrogateDF.columns.get_loc("useRandom")]
                     == "False"
                     and combination[self.surrogateDF.columns.get_loc("useMaxDamage")]
                     == "False"
-                ):
-                    combinations.add(combination)
+                    and combination[self.surrogateDF.columns.get_loc("useSelfPlay")]
+                    == "False"
+                )
+            }
+            print(f"Total combinations: {len(allCombinations)}", flush=True)
+
+            combinations = allCombinations.difference(usedCombinations)
 
         # Calculate the score for each combination
         newRows = pd.DataFrame(
@@ -1385,7 +1426,7 @@ class MetricsLogger:
 
     def graphVictoryPercentage(self) -> None:
         """
-        Graph the victory percentage for the different
+        Graph all the variables for the different
         variables in the experiments.csv file.
 
         Args:
@@ -1394,6 +1435,7 @@ class MetricsLogger:
         Returns:
             - None
         """
+        # Victory percentage
         for column in self.experimentData.columns:
 
             if column != "fileName":
@@ -1430,7 +1472,198 @@ class MetricsLogger:
 
                         fig.add_trace(go.Scatter(y=combined, mode="lines", name=name))
 
-                fig.show()
+                fig.write_image(
+                    os.path.join(
+                        self.graphDirectory,
+                        f"VictoryPercentage{column[0].upper() + column[1:]}.png",
+                    )
+                )
+
+        # Average rewards (includes critic)
+        for column in self.experimentData.columns:
+
+            if column != "fileName":
+
+                fig = go.Figure()
+                fig.update_layout(
+                    title=f"Average Rewards for {column}",
+                    xaxis_title="Epochs",
+                    yaxis_title="Average Rewards",
+                    hovermode="closest",
+                )
+
+                # Group values by the column
+                grouped = self.experimentData.groupby(column)
+
+                for name, group in grouped:
+
+                    smoothedTotal = []
+
+                    # Now we average the data of all files in the group
+                    for fileName in group["fileName"]:
+
+                        if (
+                            self.files.get(fileName) is not None
+                            and "averageRewards" in self.files[fileName].columns
+                        ):
+                            df = self.files[fileName]
+                            smoothed = (
+                                df["averageRewards"]
+                                .rolling(window=100, center=True)
+                                .mean()
+                            )
+                            smoothedTotal.append(smoothed)
+
+                    if smoothedTotal:
+                        combined = pd.concat(smoothedTotal, axis=1).mean(axis=1)
+
+                        fig.add_trace(go.Scatter(y=combined, mode="lines", name=name))
+
+                fig.write_image(
+                    os.path.join(
+                        self.graphDirectory,
+                        f"AverageRewards{column[0].upper() + column[1:]}.png",
+                    )
+                )
+
+        # Average actor losses
+        for column in self.experimentData.columns:
+
+            if column != "fileName":
+
+                fig = go.Figure()
+                fig.update_layout(
+                    title=f"Average Actor Losses for {column}",
+                    xaxis_title="Epochs",
+                    yaxis_title="Average Actor Losses",
+                    hovermode="closest",
+                )
+
+                # Group values by the column
+                grouped = self.experimentData.groupby(column)
+
+                for name, group in grouped:
+
+                    smoothedTotal = []
+
+                    # Now we average the data of all files in the group
+                    for fileName in group["fileName"]:
+
+                        if (
+                            self.files.get(fileName) is not None
+                            and "actorLosses" in self.files[fileName].columns
+                        ):
+                            df = self.files[fileName]
+                            smoothed = (
+                                df["actorLosses"]
+                                .rolling(window=100, center=True)
+                                .mean()
+                            )
+                            smoothedTotal.append(smoothed)
+
+                    if smoothedTotal:
+                        combined = pd.concat(smoothedTotal, axis=1).mean(axis=1)
+
+                        fig.add_trace(go.Scatter(y=combined, mode="lines", name=name))
+
+                fig.write_image(
+                    os.path.join(
+                        self.graphDirectory,
+                        f"AverageActorLosses{column[0].upper() + column[1:]}.png",
+                    )
+                )
+
+        # Average critic losses
+        for column in self.experimentData.columns:
+
+            if column != "fileName":
+
+                fig = go.Figure()
+                fig.update_layout(
+                    title=f"Average Critic Losses for {column}",
+                    xaxis_title="Epochs",
+                    yaxis_title="Average Critic Losses",
+                    hovermode="closest",
+                )
+
+                # Group values by the column
+                grouped = self.experimentData.groupby(column)
+
+                for name, group in grouped:
+
+                    smoothedTotal = []
+
+                    # Now we average the data of all files in the group
+                    for fileName in group["fileName"]:
+
+                        if (
+                            self.files.get(fileName) is not None
+                            and "criticLosses" in self.files[fileName].columns
+                        ):
+                            df = self.files[fileName]
+                            smoothed = (
+                                df["criticLosses"]
+                                .rolling(window=100, center=True)
+                                .mean()
+                            )
+                            smoothedTotal.append(smoothed)
+
+                    if smoothedTotal:
+                        combined = pd.concat(smoothedTotal, axis=1).mean(axis=1)
+
+                        fig.add_trace(go.Scatter(y=combined, mode="lines", name=name))
+
+                fig.write_image(
+                    os.path.join(
+                        self.graphDirectory,
+                        f"AverageCriticLosses{column[0].upper() + column[1:]}.png",
+                    )
+                )
+
+        # Average number of turns
+        for column in self.experimentData.columns:
+
+            if column != "fileName":
+
+                fig = go.Figure()
+                fig.update_layout(
+                    title=f"Average Number of Turns for {column}",
+                    xaxis_title="Epochs",
+                    yaxis_title="Average Number of Turns",
+                    hovermode="closest",
+                )
+
+                # Group values by the column
+                grouped = self.experimentData.groupby(column)
+
+                for name, group in grouped:
+
+                    smoothedTotal = []
+
+                    # Now we average the data of all files in the group
+                    for fileName in group["fileName"]:
+
+                        if (
+                            self.files.get(fileName) is not None
+                            and "nTurns" in self.files[fileName].columns
+                        ):
+                            df = self.files[fileName]
+                            smoothed = (
+                                df["nTurns"].rolling(window=100, center=True).mean()
+                            )
+                            smoothedTotal.append(smoothed)
+
+                    if smoothedTotal:
+                        combined = pd.concat(smoothedTotal, axis=1).mean(axis=1)
+
+                        fig.add_trace(go.Scatter(y=combined, mode="lines", name=name))
+
+                fig.write_image(
+                    os.path.join(
+                        self.graphDirectory,
+                        f"AverageNumberOfTurns{column[0].upper() + column[1:]}.png",
+                    )
+                )
 
     def obtainNewExperiment(self) -> dict:
         """

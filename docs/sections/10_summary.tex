@@ -21,7 +21,7 @@ Para obtener los datos necesarios para aceptar o rechazar las hipótesis plantea
         useMaxDamage  & 2                   \\
         useSelfPlay   & 2                   \\
         \midrule
-        Combinaciones & 422399              \\
+        Combinaciones & 3520000             \\
         \bottomrule
     \end{tabular}
     \caption{Hiperparámetros con sus números de valores posibles}
@@ -115,6 +115,6 @@ Para obtener los datos necesarios para aceptar o rechazar las hipótesis plantea
 
 También se han usado otros hiperparámetros (tabla \ref{tab:hyperparameters}) para poder probar la variabilidad de los resultados en relación con los hiperparámetros de las hipótesis. Entre estos se incluye el tamaño de la red (\emph{actor} y \emph{critic}), si usar critic (\emph{critic} vacío), el número de episodios por epoch (\emph{nEpisodes}), el factor de descuento (\emph{gamma}) y la función de recompensa (\emph{reward}).
 
-Como no hay tiempo disponible para probar todas las combinaciones (422399 totales), se han probado 151. Durante el entrenamiento se guarda el porcentaje de victoria, la pérdida, la recompensa y el número de turnos por cada epoch. Si tiene crítico, también se guarda su pérdida y recompensa. Cuando acaba el entrenamiento, se guardan las redes para que puedan jugar partidas entre ellas y calcular los mejores hiperparámetros.
+Como no hay tiempo disponible para probar todas las combinaciones (3520000 totales), se han probado 151. Durante el entrenamiento se guarda el porcentaje de victoria, la pérdida, la recompensa y el número de turnos por cada epoch. Si tiene crítico, también se guarda su pérdida y recompensa. Cuando acaba el entrenamiento, se guardan las redes para que puedan jugar partidas entre ellas y calcular los mejores hiperparámetros.
 
 Con la matriz de victorias se aplica Bradley-Terry para obtener la puntuación relativa de cada experimento. También se usa un modelo sustituto para intentar predecir la puntuación relativa de cada experimento a partir de sus hiperparámetros.

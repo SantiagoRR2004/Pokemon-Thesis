@@ -4,31 +4,77 @@ Para explicar las aportaciones, las dividiremos por hipótesis.
 
 \subsection{Hipótesis \HOne}
 
-Podemos ver el número de parámetros para la representación del estado global o ver cada clase de manera individual. Si nos fijamos en la ilustración \ref{fig:experimentsByNInputs}, podemos ver que la representación más utilizada es la que tiene $182$ parámetros, y que el resto sigue una distribución algo uniforme.
+Podemos ver el número de parámetros para la representación del estado global o ver cada clase de manera individual. Si nos fijamos en la ilustración \ref{fig:experimentsByNInputs} y tabla \ref{tab:experimentsByNInputs}, podemos ver que la representación más utilizada es la que tiene $182$ parámetros, y que el resto se usaron más o menos un mismo número de veces.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{lr}
+        \toprule
+        Número de parámetros & Número de experimentos \\
+        \midrule
+        182                  & 26                     \\
+        1382                 & 5                      \\
+        1898                 & 1                      \\
+        1946                 & 1                      \\
+        1982                 & 1                      \\
+        2006                 & 1                      \\
+        2066                 & 1                      \\
+        2438                 & 8                      \\
+        2546                 & 1                      \\
+        2774                 & 5                      \\
+        2834                 & 1                      \\
+        2858                 & 2                      \\
+        3206                 & 6                      \\
+        3710                 & 1                      \\
+        3724                 & 1                      \\
+        3772                 & 2                      \\
+        3782                 & 1                      \\
+        3808                 & 3                      \\
+        3832                 & 2                      \\
+        3892                 & 2                      \\
+        3986                 & 1                      \\
+        4082                 & 1                      \\
+        4346                 & 1                      \\
+        4372                 & 3                      \\
+        4394                 & 1                      \\
+        4430                 & 1                      \\
+        4454                 & 5                      \\
+        4514                 & 1                      \\
+        4684                 & 3                      \\
+        4994                 & 1                      \\
+        5044                 & 1                      \\
+        5306                 & 1                      \\
+        5536                 & 2                      \\
+        5812                 & 2                      \\
+        5908                 & 4                      \\
+        6158                 & 3                      \\
+        6434                 & 1                      \\
+        6484                 & 2                      \\
+        6530                 & 2                      \\
+        7574                 & 4                      \\
+        7634                 & 5                      \\
+        9110                 & 6                      \\
+        9328                 & 1                      \\
+        14186                & 1                      \\
+        16012                & 4                      \\
+        16634                & 1                      \\
+        30122                & 1                      \\
+        31948                & 2                      \\
+        32570                & 1                      \\
+        37276                & 10                     \\
+        54710                & 7                      \\
+        82826                & 1                      \\
+        \bottomrule
+    \end{tabular}
+    \caption{Número de experimentos por representación del estado}
+    \label{tab:experimentsByNInputs}
+\end{table}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{../graphs/ExperimentsByNInputs.png}
     \caption{Número de experimentos por representación del estado}
     \label{fig:experimentsByNInputs}
-\end{figure}
-
-Podemos ver como fue la media de cada entrenamiento para los que tienen el mismo número de parámetros en la ilustración \ref{fig:victoriesByNInputs}.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/showdownLogo.png}
-    \caption{Porcentaje medio de victorias por representación del estado}
-    \label{fig:victoriesByNInputs}
-\end{figure}
-
-También podemos ver el porcentaje de victorias entre los experimentos que tienen solo los hiperparámetros de la representación distintos, en la ilustración \ref{fig:victoriesByNInputsAndHyperparameters}.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/showdownLogo.png}
-    \caption{Matriz de calor en la cual se enseñan para los experimentos en los que solo cambia la representación del estado y los hiperparámetros, el porcentaje de victorias.}
-    \label{fig:victoriesByNInputsAndHyperparameters}
 \end{figure}
 
 Finalmente también tenemos la ilustración \ref{fig:nInputsBradleyTerry}, que muestra la gráfica del valor Bradley-Terry para los experimentos hechos y la gráfica \ref{fig:nInputsSurrogateBradleyTerry} que muestra los valores de Bradley-Terry mediante el modelo sustitito.
@@ -47,8 +93,34 @@ Finalmente también tenemos la ilustración \ref{fig:nInputsBradleyTerry}, que m
     \label{fig:nInputsSurrogateBradleyTerry}
 \end{figure}
 
-Para la manera de representar el campo de batalla, pokémon y movimiento, podemos observar las mismas ilustraciones.
+Para representar el campo de batalla (\emph{player}), solo se usaron dos representaciones. Si comparamos su uso en experimentos iguales que solo cambian en este hiperparámetro (ilustración \ref{fig:battlesPlayer}), podemos ver que claramente que la representación más compleja tiene un porcentaje de victorias positivo contra la representación simple.
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../graphs/BattlesPlayer.png}
+    \caption{Porcentaje de victorias de los experimentos que solo cambian en la representación del campo de batalla}
+    \label{fig:battlesPlayer}
+\end{figure}
+
+El uso de la representación de cada Pokémon (\emph{pokemon}) de manera invidual, nos da la imagen \ref{fig:battlesPokemon}. En ella podemos ver que la representación más compleja (\emph{PokemonS}) y la que no representa nada (\emph{Pokemon00}) tienen los porcentajes de victorias positivos contra el resto. Al contrario, las representaciones intermedias de número impar, son las que suelen perder contra el resto (\emph{Pokemon03}, \emph{Pokemon05}, \emph{Pokemon07} y \emph{Pokemon09}). 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../graphs/BattlesPokemon.png}
+    \caption{Porcentaje de victorias de los experimentos que solo cambian en la representación de cada Pokémon}
+    \label{fig:battlesPokemon}
+\end{figure}
+
+Si pasamos a la representación de cada movimiento (\emph{move}), podemos ver en la ilustración \ref{fig:battlesMove} que en este caso, la representación más compleja (\emph{MoveS}) y la vacía (\emph{Move00}) son las que tienen el peor porcentaje de victorias contra el resto. En general, las representaciones van mejorando a medida que se aumenta el número de parámetros excepto con la final.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../graphs/BattlesMove.png}
+    \caption{Porcentaje de victorias de los experimentos que solo cambian en la representación de cada movimiento}
+    \label{fig:battlesMove}
+\end{figure}
+
+\clearpage
 \subsection{Hipótesis \HTwo}
 
 \subsection{Hipótesis \HThree}
