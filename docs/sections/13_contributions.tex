@@ -102,7 +102,7 @@ Para representar el campo de batalla (\emph{player}), solo se usaron dos represe
     \label{fig:battlesPlayer}
 \end{figure}
 
-El uso de la representación de cada Pokémon (\emph{pokemon}) de manera invidual, nos da la imagen \ref{fig:battlesPokemon}. En ella podemos ver que la representación más compleja (\emph{PokemonS}) y la que no representa nada (\emph{Pokemon00}) tienen los porcentajes de victorias positivos contra el resto. Al contrario, las representaciones intermedias de número impar, son las que suelen perder contra el resto (\emph{Pokemon03}, \emph{Pokemon05}, \emph{Pokemon07} y \emph{Pokemon09}). 
+El uso de la representación de cada Pokémon (\emph{pokemon}) de manera invidual, nos da la imagen \ref{fig:battlesPokemon}. En ella podemos ver que la representación más compleja (\emph{PokemonS}) y la que no representa nada (\emph{Pokemon00}) tienen los porcentajes de victorias positivos contra el resto. Al contrario, las representaciones intermedias de número impar, son las que suelen perder contra el resto (\emph{Pokemon03}, \emph{Pokemon05}, \emph{Pokemon07} y \emph{Pokemon09}).
 
 \begin{figure}[h]
     \centering
@@ -123,4 +123,65 @@ Si pasamos a la representación de cada movimiento (\emph{move}), podemos ver en
 \clearpage
 \subsection{Hipótesis \HTwo}
 
+Para analizar esta hipótesis, solo tenemos que ver las distintas gráficas y tablas que genera el hiperparámetro \emph{useSelfPlay}. Lo primero que se puede observar es que durante el entrenamiento, si se juega contra uno mismo, el porcentaje de victorias (ilustración \ref{fig:VictoryPercentageUseSelfPlay}) es mucho más bajo que si se juega contra un oponente fijo. Esto ocurre por los casos en los que si se juega contra más de un oponente, la retropropagación no es lo suficiente rápida para evitar que solo se gane la mitad de los combates.
+
+El hecho de que si juegan dos oponentes del mismo nivel, el porcentaje de victorias sea del 50\%, es una realidad que se puede ver en la representación de \emph{random}. Esto son dos jugadores que eligen movimientos de manera aleatoria (nunca aprenden) y vemos que el porcentaje de victorias durante los epochs se mantiene en torno al 50\% (ilustración \ref{fig:VictoryPercentageUseSelfPlay}).
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../graphs/VictoryPercentageUseSelfPlay.png}
+    \caption{Porcentaje de victorias durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}}
+    \label{fig:VictoryPercentageUseSelfPlay}
+\end{figure}
+
+Si uno se fija en la pérdida del actor (ilustración \ref{fig:AverageActorLossesUseSelfPlay}) y en la del crítico (ilustración \ref{fig:AverageCriticLossesUseSelfPlay}), podemos ver que si se juega contra uno mismo, la pérdida es menor, pero esto ocurre sobre todo porque al enfrentarse contra más tipos de oponentes, hay más episodios por epoch y el promedio se acerca más a cero. Esto no quiere decir que no se vea que durante el entrenamiento, usar self-play hace que la pérdida descienda relativamente más rápido que si se juega contra un oponente fijo.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../graphs/AverageActorLossesUseSelfPlay.png}
+    \caption{Pérdida promedio del actor durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}}
+    \label{fig:AverageActorLossesUseSelfPlay}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../graphs/AverageCriticLossesUseSelfPlay.png}
+    \caption{Pérdida promedio del crítico durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}}
+    \label{fig:AverageCriticLossesUseSelfPlay}
+\end{figure}
+
+El hecho de que luchar contra uno mismo sea enfrentarse a oponentes de un nivel similar, hace que la recompensa promedio sea negativa porque se pierden más combates de los que se ganan. Esto se puede ver en la ilustración \ref{fig:AverageRewardsUseSelfPlay}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../graphs/AverageRewardsUseSelfPlay.png}
+    \caption{Recompensa promedio durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}}
+    \label{fig:AverageRewardsUseSelfPlay}
+\end{figure}
+
+Como en ningún momento se ha probado con dos experimentos iguales que solo varía el hiperparámetro \emph{useSelfPlay}, no se puede calcular una matriz de comparaciones directas como se ha hecho con otros hiperparámetros. Lo que sí que se puede hacer es ver la puntuación Bradley-Terry de los experimentos comparados contra el jugador aleatorio (tabla \ref{tab:bradleyTerryUseSelfPlay}). La mayoría de experimentos son notablemente superiores al jugador aleatorio, uno está a su mismo nivel (\emph{experiment141}) y dos son inferiores.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{lr}
+        \toprule
+        Experimento   & Bradley-Terry        \\
+        \midrule
+        experiment143 & 0.14913762472826522  \\
+        experiment150 & 0.14676426261293493  \\
+        experiment144 & 0.13804202270368776  \\
+        experiment142 & 0.13682787891237694  \\
+        experiment151 & 0.1361622822613397   \\
+        experiment149 & 0.12308271949197952  \\
+        random        & -0.18696613198852752 \\
+        experiment141 & -0.19322670737746436 \\
+        experiment140 & -0.31631550058251660 \\
+        experiment145 & -0.31782070570510285 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Puntuación Bradley-Terry de los experimentos con \emph{useSelfPlay} comparados contra el jugador aleatorio}
+    \label{tab:bradleyTerryUseSelfPlay}
+\end{table}
+
+\clearpage
 \subsection{Hipótesis \HThree}
