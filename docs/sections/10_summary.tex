@@ -4,24 +4,24 @@ Para obtener los datos necesarios para aceptar o rechazar las hipótesis plantea
 
 \begin{table}[h]
     \centering
-    \begin{tabular}{lr}
+    \begin{tabular}{llcr}
         \toprule
-        Hipeparámetro & Espacio de búsqueda \\
+        Hiperparámetro & Significado                                                & Anexo                    & Espacio de búsqueda \\
         \midrule
-        nTeams        & 5                   \\
-        nEpisodes     & 5                   \\
-        actor         & 4                   \\
-        critic        & 5                   \\
-        gamma         & 2                   \\
-        reward        & 2                   \\
-        move          & 11                  \\
-        pokemon       & 12                  \\
-        player        & 2                   \\
-        useRandom     & 2                   \\
-        useMaxDamage  & 2                   \\
-        useSelfPlay   & 2                   \\
+        nTeams         & Número de equipos vistos.                                  &                          & 5                   \\
+        nEpisodes      & Número de batallas contra cada oponente por epoch.         &                          & 5                   \\
+        actor          & Arquitectura de la red neuronal del actor.                 &                          & 4                   \\
+        critic         & Arquitectura de la red neuronal del crítico (o si se usa). &                          & 5                   \\
+        gamma          & Factor de descuento.                                       &                          & 2                   \\
+        reward         & Función que determina la recompensa de cada acción.        &                          & 2                   \\
+        player         & Representación del campo en común.                         & \ref{anexo:hyperPlayer}  & 2                   \\
+        pokemon        & Representación de cada Pokémon.                            & \ref{anexo:hyperPokemon} & 12                  \\
+        move           & Representación de cada movimiento.                         & \ref{anexo:hyperMove}    & 11                  \\
+        useRandom      & Entrenarse contra el oponente aleatorio.                   &                          & 2                   \\
+        useMaxDamage   & Entrenarse contra el oponente de máximo daño.              &                          & 2                   \\
+        useSelfPlay    & Entrenarse contra uno mismo.                               &                          & 2                   \\
         \midrule
-        Combinaciones & 3520000             \\
+        Combinaciones  &                                                            &                          & 3520000             \\
         \bottomrule
     \end{tabular}
     \caption{Hiperparámetros con sus números de valores posibles}
@@ -35,71 +35,8 @@ Para obtener los datos necesarios para aceptar o rechazar las hipótesis plantea
     \label{fig:general}
 \end{figure}
 
-\begin{table}[h]
-    \centering
-    \begin{tabular}{lrr}
-        \toprule
-        Clase      & Número de parámetros & Número de experimentos \\
-        \midrule
-        AIPlayer00 & 0                    & 0                      \\
-        AIPlayer01 & 2                    & 0                      \\
-        AIPlayer02 & 14                   & 107                    \\
-        AIPlayerS  & 64                   & 44                     \\
-        \bottomrule
-    \end{tabular}
-    \caption{Número de parámetros que se obtienen del entorno para el campo de batalla y número de experimentos que se han hecho con cada clase}
-    \label{tab:battleParameters}
-\end{table}
-
-\begin{table}[h]
-    \centering
-    \begin{tabular}{lrr}
-        \toprule
-        Clase     & Número de parámetros & Número de experimentos \\
-        \midrule
-        Pokemon00 & 1                    & 3                      \\
-        Pokemon01 & 5                    & 4                      \\
-        Pokemon02 & 8                    & 5                      \\
-        Pokemon03 & 10                   & 76                     \\
-        Pokemon04 & 15                   & 10                     \\
-        Pokemon05 & 55                   & 6                      \\
-        Pokemon06 & 81                   & 6                      \\
-        Pokemon07 & 152                  & 7                      \\
-        Pokemon08 & 175                  & 8                      \\
-        Pokemon09 & 183                  & 7                      \\
-        Pokemon10 & 1025                 & 6                      \\
-        PokemonS  & 2353                 & 15                     \\
-        \bottomrule
-    \end{tabular}
-    \caption{Número de parámetros que se obtienen del entorno para cada Pokémon y número de experimentos que se han hecho con cada clase}
-    \label{tab:pokemonParameters}
-\end{table}
-
-\begin{table}[h]
-    \centering
-    \begin{tabular}{lrr}
-        \toprule
-        Clase  & Número de parámetros & Número de experimentos \\
-        \midrule
-        Move00 & 1                    & 26                     \\
-        Move01 & 26                   & 5                      \\
-        Move02 & 39                   & 13                     \\
-        Move03 & 48                   & 8                      \\
-        Move04 & 55                   & 6                      \\
-        Move05 & 64                   & 6                      \\
-        Move06 & 76                   & 31                     \\
-        Move07 & 90                   & 22                     \\
-        Move08 & 155                  & 10                     \\
-        Move09 & 187                  & 16                     \\
-        MoveS  & 1137                 & 8                      \\
-        \bottomrule
-    \end{tabular}
-    \caption{Número de parámetros que se obtienen del entorno para cada movimiento y número de experimentos que se han hecho con cada clase}
-    \label{tab:moveParameters}
-\end{table}
-
 \begin{description}
-    \item[\HOne] Para la hipótesis \HOne~se han usado los hiperparámetros de \emph{player} (tabla \ref{tab:battleParameters}), \emph{pokemon} (tabla \ref{tab:pokemonParameters}) y \emph{move} (tabla \ref{tab:moveParameters}). Estos escogen las clases que se usan para representar el estado de la batalla. Para el campo de batalla se usa \emph{player}, para cada uno de los 12 Pokémon se usa \emph{pokemon} y para cada uno de los 4 movimientos \emph{move} (48 movimientos en total). Estos determinan el número de parámetros de la primera capa de la red neuronal que está en el rango de 60-82876.
+    \item[\HOne] Para la hipótesis \HOne~se han usado los hiperparámetros de \emph{player} (anexo \ref{anexo:hyperPlayer}), \emph{pokemon} (anexo \ref{anexo:hyperPokemon}) y \emph{move} (anexo \ref{anexo:hyperMove}). Estos escogen las clases que se usan para representar el estado de la batalla. Para el campo de batalla se usa \emph{player}, para cada uno de los 12 Pokémon se usa \emph{pokemon} y para cada uno de los 4 movimientos \emph{move} (48 movimientos en total). Estos determinan el número de parámetros de la primera capa de la red neuronal que está en el rango de 60-82876.
 
     \item[\HTwo] Para la hipótesis \HTwo~se ha usado el hiperparámetro \emph{useSelfPlay}, que determina si el agente se entrena contra sí mismo o no. Se van guardando una ventana de los últimos 20 epochs y se juegan \emph{nEpisodes} partidas en total (se elige aleatoriamente el oponente de cada partida). También están relacionados con esta hipótesis los hiperparámetros \emph{useRandom} y \emph{useMaxDamage}, que determinan si el agente se entrena contra un oponente aleatorio o un oponente que siempre elige el movimiento que hace más daño. Es necesario que al menos uno de estos tres hiperparámetros esté activo para que el agente tenga un oponente contra el que entrenar (figura \ref{fig:training}).
 

@@ -1,0 +1,92 @@
+\anexo{anexo:hyperPlayer}{Hiperparámetro \emph{player}}
+
+\emph{player} es un hiperparámetro que define qué representación se usará del campo en común entre los jugadores (todo aquello que no sean Pokémon). Este, junto con los hiperparámetros \emph{pokemon} y \emph{move}, determinan el número de parámetros que tiene la primera capa de las redes neuronales (observación). La tabla \ref{tab:battleParameters} muestra que hay $4$ clases de representación, pero que solo se ha experimentado con dos de ellas. Los nombres de las clases son sacados del código implementado en el proyecto y siguen la nomenclatura de \emph{AIPlayerXX}, donde \emph{XX} representa como de compleja es la representación. La clase que tiene un número superior engloba a la clase que tiene un número inferior, es decir, tiene todos los atributos de la clase inferior y algunos más. \emph{S} significa que es la clase más compleja y que intenta representar todo lo posible sin importar que se generen demasiados parámetros.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{lrr}
+        \toprule
+        Clase      & Número de parámetros & Número de experimentos \\
+        \midrule
+        AIPlayer00 & 0                    & 0                      \\
+        AIPlayer01 & 2                    & 0                      \\
+        AIPlayer02 & 14                   & 107                    \\
+        AIPlayerS  & 64                   & 44                     \\
+        \bottomrule
+    \end{tabular}
+    \caption{Número de parámetros que se obtienen del entorno para el campo de batalla y número de experimentos que se han hecho con cada clase}
+    \label{tab:battleParameters}
+\end{table}
+
+\subsection*{AIPlayer00}
+
+Esto ocurrirá para todas las representaciones del campo de batalla; en su interior, va a tener el vector que representa a cada uno de los $12$ Pokémon que se obtiene de la clase que representa el hiperparámetro \emph{pokemon}. En una misma batalla, el orden de estos no va a cambiar y se va a ir añadiendo más información. Si todavía no se conoce nada de un Pokémon, se usa un vector de ceros. Primero van los seis Pokémon propios y después los seis del oponente.
+
+\subsection*{AIPlayer01}
+
+Esta representación añade dos enteros. El primero es el índice del propio Pokémon activo y el segundo es el índice del Pokémon activo del oponente. Son números enteros que van de 1 a 6 y el 0 queda reservado para cuando no se pueda conocer.
+
+\subsection*{AIPlayer02}
+
+Esta representación añade $12$ booleanos que indican si exite representación de su respectivo Pokémon. Si esta representación está vacía, se usa un 0 y si hay representación, se usa un 1.
+
+\subsection*{AIPlayerS}
+
+Se intenta añadir todo lo posible:
+
+\begin{itemize}
+    \item Para cada uno de los 8 tiempo atmosférico, un entero que representa el número de turnos que lleva activo. Si no está activo, se usa un 0. Son:
+          \begin{enumerate}
+              \item Sol abrasador
+              \item Turbulencias
+              \item Granizo
+              \item Diluvio
+              \item Lluvia
+              \item Tormenta de arena
+              \item Nieve
+              \item Sol
+          \end{enumerate}
+    \item Para cada uno de los 12 campos/efectos, un entero que representa el número de turnos que lleva activo. Si no está activo, se usa un 0. Son:
+          \begin{enumerate}
+              \item Campo eléctrico
+              \item Cerrojo feérico
+              \item Campo de hierba
+              \item Gravedad
+              \item Anticura
+              \item Zona Mágica
+              \item Campo de niebla
+              \item Chapoteo Lodo
+              \item Chapoteo Lodo (repetido en la librería externa)
+              \item Campo psíquico
+              \item Espacio Raro
+              \item Hidrochorro
+              \item Zona Extraña
+          \end{enumerate}
+    \item Si el propio jugador puede teracristalizar (booleano).
+    \item Para cada uno de los 4 enteros peligros de entrada del propio jugador, un entero que representa el número de capas que hay de ese peligro. Son:
+          \begin{enumerate}
+              \item Púas
+              \item Trampa Rocas
+              \item Red viscosa
+              \item Púas Tóxicas
+          \end{enumerate}
+    \item Los 7 efectos que se encuentran en el campo del propio jugador que no son peligros de entrada. Cada uno es un entero que representa el número de turnos que lleva activo. Son:
+          \begin{enumerate}
+              \item Velo aurora
+              \item Pantalla de Luz
+              \item Conjuro
+              \item Neblina
+              \item Reflejo
+              \item Velo Sagrado
+              \item Viento Afín
+          \end{enumerate}
+    \item Si el propio jugador tiene que cambiar de Pokémon (booleano).
+    \item Si el propio jugador tiene que elegir un Pokémon para revivir (booleano).
+    \item Si el propio Pokémon activo puede estar atrapado (booleano).
+    \item Si el propio Pokémon activo está atrapado (booleano).
+    \item Si el propio Pokémon está en tierra (booleano).
+    \item Para cada uno de los 4 enteros peligros de entrada del oponente, un entero que representa el número de capas que hay de ese peligro.
+    \item Los 7 efectos que se encuentran en el campo del oponente que no son peligros de entrada. Cada uno es un entero que representa el número de turnos que lleva activo.
+    \item Si el oponente puede teracristalizar (booleano).
+\end{itemize}
+

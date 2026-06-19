@@ -1,0 +1,27 @@
+\anexo{anexo:hyperPokemon}{Hiperparámetro \emph{pokemon}}
+
+\emph{pokemon} es un hiperparámetro que define qué representación se usará cada Pokémon (no incluye los movimientos). Este, junto con los hiperparámetros \emph{player} y \emph{move}, determinan el número de parámetros que tiene la primera capa de las redes neuronales (observación). La tabla \ref{tab:pokemonParameters} muestra las $12$ clases de representación. Los nombres de las clases son sacados del código implementado en el proyecto y siguen la nomenclatura de \emph{PokemonXX}, donde \emph{XX} representa como de compleja es la representación. La clase que tiene un número superior engloba a la clase que tiene un número inferior, es decir, tiene todos los atributos de la clase inferior y algunos más. \emph{S} significa que es la clase más compleja y que intenta representar todo lo posible sin importar que se generen demasiados parámetros.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{lrr}
+        \toprule
+        Clase     & Número de parámetros & Número de experimentos \\
+        \midrule
+        Pokemon00 & 1                    & 3                      \\
+        Pokemon01 & 5                    & 4                      \\
+        Pokemon02 & 8                    & 5                      \\
+        Pokemon03 & 10                   & 76                     \\
+        Pokemon04 & 15                   & 10                     \\
+        Pokemon05 & 55                   & 6                      \\
+        Pokemon06 & 81                   & 6                      \\
+        Pokemon07 & 152                  & 7                      \\
+        Pokemon08 & 175                  & 8                      \\
+        Pokemon09 & 183                  & 7                      \\
+        Pokemon10 & 1025                 & 6                      \\
+        PokemonS  & 2353                 & 15                     \\
+        \bottomrule
+    \end{tabular}
+    \caption{Número de parámetros que se obtienen del entorno para cada Pokémon y número de experimentos que se han hecho con cada clase}
+    \label{tab:pokemonParameters}
+\end{table}
