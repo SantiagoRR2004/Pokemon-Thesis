@@ -13,7 +13,7 @@ El hecho de que si juegan dos oponentes del mismo nivel, el porcentaje de victor
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{../graphs/VictoryPercentageUseSelfPlay.png}
+    \includegraphics[width=0.7\textwidth]{../graphs/VictoryPercentageUseSelfPlay.png}
     \caption{Porcentaje de victorias durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}}
     \label{fig:VictoryPercentageUseSelfPlay}
 \end{figure}
@@ -22,14 +22,14 @@ Si uno se fija en la pérdida del actor (ilustración \ref{fig:AverageActorLosse
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{../graphs/AverageActorLossesUseSelfPlay.png}
+    \includegraphics[width=0.7\textwidth]{../graphs/AverageActorLossesUseSelfPlay.png}
     \caption{Pérdida promedio del actor durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}}
     \label{fig:AverageActorLossesUseSelfPlay}
 \end{figure}
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{../graphs/AverageCriticLossesUseSelfPlay.png}
+    \includegraphics[width=0.7\textwidth]{../graphs/AverageCriticLossesUseSelfPlay.png}
     \caption{Pérdida promedio del crítico durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}}
     \label{fig:AverageCriticLossesUseSelfPlay}
 \end{figure}
@@ -38,7 +38,7 @@ El hecho de que luchar contra uno mismo sea enfrentarse a oponentes de un nivel 
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{../graphs/AverageRewardsUseSelfPlay.png}
+    \includegraphics[width=0.7\textwidth]{../graphs/AverageRewardsUseSelfPlay.png}
     \caption{Recompensa promedio durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}}
     \label{fig:AverageRewardsUseSelfPlay}
 \end{figure}
@@ -66,6 +66,15 @@ Como en ningún momento se ha probado con dos experimentos iguales que solo var�
     \caption{Puntuación Bradley-Terry de los experimentos con \emph{useSelfPlay} comparados contra el jugador aleatorio}
     \label{tab:bradleyTerryUseSelfPlay}
 \end{table}
+
+También puede fijarse uno en la imagen \ref{fig:SurrogateUseSelfPlay}, que muestra la puntuación relativa que le da el modelo sustituto a todas las combinaciones que usan self-play y las que no.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.25\textwidth]{../graphs/SurrogateUseSelfPlay.png}
+    \caption{Puntuación relativa del modelo sustituto para diferentes valores del hiperparámetro \emph{useSelfPlay}}
+    \label{fig:SurrogateUseSelfPlay}
+\end{figure}
 
 \clearpage
 \subsection{Hipótesis \HThree}
