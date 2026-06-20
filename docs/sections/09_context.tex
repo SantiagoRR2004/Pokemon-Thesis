@@ -1,21 +1,35 @@
 \section{Antecedentes y contexto}
 
-En 1983 se solucionó el primer problema de aprendizaje por refuerzo con una red neuronal~\cite{barto1983invertedpendulum}. Era el problema del péndulo invertido, un sistema de control clásico. Usar redes neuronales se extendió a otros campos más allá del control, como el aprendizaje de juegos.
+Según la Wikipedia, \textit{<<El aprendizaje por refuerzo o aprendizaje reforzado (en inglés: reinforcement learning) es un área del aprendizaje automático (AA) inspirada en la psicología conductista, cuya ocupación es determinar qué acciones debe escoger un agente de software en un entorno dado con el fin de maximizar alguna noción de ``recompensa'' o premio acumulado>>}. \cite{wikipedia_rl}
 
-En 1993 el programa TD-Gammon de Gerald Tesauro~\cite{tesauro1995gammon} alcanzó un nivel de juego que solo estaba por debajo de los mejores jugadores del momento de backgammon. Backgammon es un juego estocástico (usa dados), de dos agentes, sin información oculta y sin actuación simultánea. Otro factor importante es que el estado inicial siempre es el mismo y no hay tantos estados posibles como en otros juegos.
+\begin{figure}[h]
+      \centering
+      \includegraphics[width=0.3\textwidth]{images/ReinforcementLearningDiagram.png}
+      \caption{Diagrama del ciclo básico del aprendizaje por refuerzo}
+      \label{fig:ReinforcementLearningDiagram}
+\end{figure}
 
-En 2013 se presentó el programa DQN de DeepMind~\cite{mnih2013dqn}, que fue el primer programa de aprendizaje por refuerzo profundo que superó a los humanos en una variedad de juegos de Atari. Son juegos con observaciones continuas, sin información oculta y sin planificación a largo plazo. Todos estos juegos también daban su puntuación durante cada instante, lo que facilitaba el aprendizaje.
+El aprendizaje por refuerzo ha experimentado una evolución significativa desde sus fundamentos teóricos iniciales hasta convertirse en un área destacada de la inteligencia artificial. A lo largo de las últimas décadas, diversos avances metodológicos y tecnológicos han permitido desarrollar agentes capaces de resolver problemas cada vez más complejos, especialmente en el ámbito de los juegos, que han servido como banco de pruebas para evaluar nuevas técnicas y algoritmos. A continuación se presentan algunos de los hitos más relevantes en la evolución del aprendizaje por refuerzo y de su aplicación a distintos juegos:
 
-En 2019 el programa AlphaStar de DeepMind~\cite{vinyals2019starcraft} superó a jugadores profesionales en el juego de estrategia en tiempo real StarCraft II. Es un juego con información oculta, actuación simultánea, planificación a largo plazo y un espacio de estados y acciones enorme. Las mayores diferencias con nuestro formato de Pokémon son que Starcraft II es en tiempo real y determinista. Otra diferencia crucial es que no tenemos herramientas para usar aprendizaje supervisado como AlphaStar.
+\begin{itemize}
 
-Pokémon es una franquicia de videojuegos que se ha extendido a otros medios como el anime, el manga o los juegos de cartas. Tiene varios juegos competitivos (Unite, GO, TCG), pero en el que se centra este TFG es en las batallas de los juegos principales.
+      \item En 1983 se resolvió el primer problema de aprendizaje por refuerzo mediante el uso de una red neuronal~\cite{barto1983invertedpendulum}. Se trataba del problema del péndulo invertido, un sistema clásico de control. El uso de redes neuronales se extendió posteriormente a otros ámbitos más allá del control, incluyendo el aprendizaje de juegos.
 
-Dentro de los juegos principales, hay distintos formatos de batalla. Cada uno tiene sus propias reglas y restricciones. Los Pokémon y movimientos disponibles, si tienes que elegir un equipo de antemano o no, el número de Pokémon que controlas en el campo, el número de jugadores, etc. Todos estos formatos se caracterizan por tener un elevadísmo número de estados, información oculta, actuación simultánea y un alto grado de estocasticidad. El que se estudia en este TFG es el formato de batallas aleatorias individuales de la generación IX \emph{gen9randombattle}, que se caracteriza por que el simulador genera un equipo aleatorio por jugador. Esto significa que hay investigaciones en distintos formatos.
+      \item En 1993 el programa TD-Gammon de Gerald Tesauro~\cite{tesauro1995gammon} alcanzó un nivel de juego solo superado por los mejores jugadores profesionales del momento de backgammon. Backgammon es un juego estocástico (usa dados), con dos agentes, sin información oculta y sin actuación simultánea. Otros factores importantes son que el estado inicial siempre es fijo y el número estados posibles es menor al de otros juegos que veremos a continuación.
 
-\begin{sloppypar}
-      En enero de 2024 presentó Jett Wang su tesis~\cite{wang2024pokemon}. Conseguió ser el octavo mejor jugador del formato \emph{gen4randombattle} entrenando PPO con Self-play para después guiar un Monte Carlo. Lo bueno de usar la cuarta generación es que no es tan inestable como las tres primeras y es la que tiene menos estados posibles (menos Pokémon, movimientos, objetos, etc.) que las generaciones posteriores.
-\end{sloppypar}
 
-En marzo de 2025 el agente PokéChamp~\cite{karten2025pokechamp} logra jugar al nivel de los 30\%-10\% mejores jugadores humanos en el formato \emph{gen9ou} usando Minimax LLM. En vez de simular los siguientes turnos de la batalla, usan un modelo de lenguaje y también para decidir la siguiente acción.
+      \item En 2013 se presentó el sistema DQN de DeepMind~\cite{mnih2013dqn}, el primer agente de aprendizaje por refuerzo profundo capaz de superar el rendimiento humano en una amplia variedad de juegos de Atari. Estos juegos se caracterizan por proporcionar observaciones continuas, información completamente observable (sin estados ocultos) y una dinámica que favorece principalmente la planificación a corto plazo. Además, la recompensa se expresa en forma de puntuación en cada instante del juego, lo que facilita el proceso de aprendizaje del agente.
 
-En junio de 2025 se publicó la herramienta VGC-Bench~\cite{cameronangliss2025vgcbench}. Es una herramienta para entrenar agentes y compararlos en el formato de batalla de dobles de la generación IX. Consiguieron ganarle al jugador experto Aaron Traylor una vez de cada 5 partidas con una pareja de equipos. La diferencia es que para entrenar su agente usaron aprendizaje supervisado a partir de partidas de jugadores humanos. Otro factor importante que descubrieron es la pérdida de rendimiento de todos sus modelos cuando entrenaban con más equipos.
+      \item En 2019 el programa AlphaStar de DeepMind~\cite{vinyals2019starcraft} superó a jugadores profesionales en el juego de estrategia en tiempo real StarCraft II. StarCraft II es un juego con información oculta, actuación simultánea, planificación a largo plazo y un espacio de estados y acciones de gran tamaño. Diferencias importantes frente a nuestro formato de Pokémon son que Starcraft II es un juego determinista y en tiempo real. Otra diferencia crucial es que no se dispone de herramientas para usar aprendizaje supervisado como AlphaStar, que ofrece un registro de partidas con el que se puede inicializar la red.
+
+\end{itemize}
+
+Ciñéndose a la aplicación de técnicas de aprendizaje profundo a formatos de Pokémon, podemos destacar los siguientes hitos recientes:
+
+\begin{itemize}
+      \item En enero de 2024, Jett Wang presentó su tesis~\cite{wang2024pokemon}. El autor logró alcanzar el octavo puesto en el formato \emph{gen4randombattle} mediante el entrenamiento de un agente PPO con self-play, complementado posteriormente con una política guiada por Monte Carlo. El uso de la cuarta generación resulta especialmente adecuado, ya que presenta una menor complejidad en comparación con generaciones posteriores, al disponer de un espacio de estados más reducido (menor número de Pokémon, movimientos y objetos). Asimismo, se considera menos inestable que las tres primeras generaciones, lo que facilita el entrenamiento del agente.
+
+      \item En marzo de 2025, el agente PokéChamp~\cite{karten2025pokechamp} logró alcanzar un nivel de rendimiento comparable al del 30-10\% de los mejores jugadores humanos en el formato \emph{gen9ou}, utilizando un enfoque basado en Minimax con modelos de lenguaje (LLM). En lugar de simular explícitamente los siguientes turnos de la batalla, el sistema emplea un modelo de lenguaje tanto para la predicción del desarrollo de la partida como para la selección de la acción a ejecutar.
+
+      \item En junio de 2025 se publicó la herramienta VGC-Bench~\cite{cameronangliss2025vgcbench}. EL objetivo de dicha herramienta es poder entrenar agentes y compararlos en el formato de batalla de dobles de la generación IX. Un agente entrenado usando VGC-Bench consiguió derrotar al jugador experto Aaron Traylor una partida de cada 5 con una pareja de equipos. Una particularidad a destacar es el hecho de que para entrenar su agente usaron aprendizaje supervisado a partir de partidas de jugadores humanos. Un hecho importante que descubrieron es que usar menos equipos en el entrenamiento produce una mejora de rendimiento de los modelos, y por ello los mejores resultados contra el jugador experto Aaron Traylor se lograron entrenando el modelo con una pareja de equipos.
+\end{itemize}

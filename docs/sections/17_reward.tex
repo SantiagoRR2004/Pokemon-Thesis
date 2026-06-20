@@ -1,20 +1,10 @@
 \anexo{anexo:hyperReward}{Hiperparámetro \emph{reward}}
 
-\emph{reward} es un hiperparámetro que define qué función de recompensa se usará durante el entrenamiento. Hay dos implementaciones (tabla \ref{tab:rewardParameters}) y siguen el nombre de las clases del código. Ambas tienen la siguiente recompensa terminal:
-
-\begin{equation}
-    R_T^1 =
-    \begin{cases}
-        +1000, & \text{el jugador 1 gana},   \\
-        -1000, & \text{el jugador 1 pierde}.
-    \end{cases}
-\end{equation}
-
-En lo que se diferencian es en las recompensas de los turnos intermedios.
+El hiperparámetro \emph{reward} define qué función de recompensa se usará durante el entrenamiento. Hay dos opciones (ver tabla \ref{tab:rewardParameters}) que se nombran igual que la implementación de sus correspondientes clases en el código.
 
 \begin{table}[h]
     \centering
-    \begin{tabular}{lrr}
+    \begin{tabular}{lr}
         \toprule
         Clase            & Número de experimentos \\
         \midrule
@@ -26,19 +16,29 @@ En lo que se diferencian es en las recompensas de los turnos intermedios.
     \label{tab:rewardParameters}
 \end{table}
 
-\subsection*{RewardFunction01}
+Estas funciones comparten la siguiente recompensa terminal:
 
-Para cada turno intermedio que el jugador continue en la batalla, se le da una recompensa de $+1$.
+$$
+    R_T^1 =
+    \begin{cases}
+        +1000, & \text{el jugador 1 gana},   \\
+        -1000, & \text{el jugador 1 pierde}.
+    \end{cases}
+$$
 
-\subsection*{RewardFunction02}
+Lo que diferencia a estas funciones es la recompensa de los turnos intermedios, tal como se explica a continuación:
 
-Para los dos jugadores, siempre es conocido el porcentaje de vida restante de todos sus Pokémon ($\mathsf{HP}$). Se puede tener en cuenta la diferencia de vida entro dos turnos consecutivos y usarla como recompensa. Incrementar la vida de un Pokémon propio es una acción positiva, mientras que perder vida es una acción negativa y lo contrario para el oponente.
+\begin{itemize}
+    \item \textbf{RewardFunction01}: cada turno intermedio que el jugador continua en la batalla, es recompensado con $+1$.
 
-Un ejemplo se puede ver en la ilustración \ref{fig:turn6}, que muestra un turno de una batalla en la que el \emph{Grafaiai} propio le hace 11\% de daño al \emph{Mightyena} del oponente, mientras que \emph{Mightyena} le hace 31\% de daño a \emph{Grafaiai}. La recompensa para el jugador propio sería $-0.31 - (-0.11) = -0.2$.
+    \item \textbf{RewardFunction02}: para ambos jugadores, el porcentaje de vida restante de todos sus Pokémon ($\mathsf{HP}$) siempre es conocido. Es posible tener en cuenta la diferencia de vida entre dos turnos consecutivos y usar esta diferencia como recompensa. Un incremento en la vida de un Pokémon propio es una acción positiva, mientras que una reducción en la vida de un Pokémon propio es una acción negativa. Lógicamente (es un problema de suma cero), ocurre lo contrario con la vida del oponente.
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/turn6.png}
-    \caption{Turno para ilustrar la función de recompensa \emph{RewardFunction02}}
-    \label{fig:turn6}
-\end{figure}
+          Un ejemplo de esto se puede ver en la ilustración \ref{fig:turn6}, que muestra un turno de una batalla un Pokémon \emph{Grafaiai} propio y un Pokémon \emph{Mightyena} del oponente. El \emph{Grafaiai} propio le inflinge 11\% de daño al \emph{Mightyena}, mientras que \emph{Mightyena} le ocasiona 31\% de daño a \emph{Grafaiai}. La recompensa para el jugador propio será entonces $-0.31 - (-0.11) = -0.2$.
+
+          \begin{figure}[h]
+              \centering
+              \includegraphics[width=0.8\textwidth]{images/turn6.png}
+              \caption{Turno de un combate Pokémon que ejemplifica la función de recompensa \emph{RewardFunction02}}
+              \label{fig:turn6}
+          \end{figure}
+\end{itemize}
