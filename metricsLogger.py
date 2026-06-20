@@ -249,7 +249,8 @@ class MetricsLogger:
                     )
 
         # Remove x-axis labels
-        ax.set_xticks([])
+        ax.set_xticks(np.arange(len(labels)))
+        ax.set_xticklabels(labels, rotation=45)
         ax.set_yticks(np.arange(len(labels)))
         ax.set_yticklabels(labels)
         ax.grid(False)
@@ -279,7 +280,9 @@ class MetricsLogger:
         )
 
         # Iterate across all pairs of files
-        for i in range(len(comparisonsDF.columns)):
+        for i in tqdm.tqdm(
+            range(len(comparisonsDF.columns)), desc="Logs individual comparisons"
+        ):
             for j in range(i + 1, len(comparisonsDF.columns)):
 
                 data1 = self.files[comparisonsDF.columns[i]]
@@ -645,7 +648,10 @@ class MetricsLogger:
 
         bestParameters = {}
 
-        for column in nonRandomExperiments.columns.difference(self.INVALID_COLUMNS):
+        for column in tqdm.tqdm(
+            nonRandomExperiments.columns.difference(self.INVALID_COLUMNS),
+            desc=f"Best parameters {name}",
+        ):
 
             parameterValues = nonRandomExperiments[column].unique()
             parametersDF = pd.DataFrame(
@@ -790,6 +796,13 @@ class MetricsLogger:
                 )
             )
 
+            pBar = tqdm.tqdm(
+                total=len(grouped),
+                desc=f"Surrogate {column}",
+                position=1,
+                leave=False,
+            )
+
             for _, group in grouped:
                 # Need at least 2 rows to compare
                 if len(group) >= 2:
@@ -804,6 +817,10 @@ class MetricsLogger:
 
                             parametersDF.loc[row1[column], row2[column]].append(value1)
                             parametersDF.loc[row2[column], row1[column]].append(value2)
+
+                pBar.update(1)
+
+            pBar.close()
 
             # Remove rows and columns with all empty lists
             parametersDF = parametersDF[
@@ -877,7 +894,7 @@ class MetricsLogger:
         y = []
         weights = []
 
-        for i in range(len(players)):
+        for i in tqdm.tqdm(range(len(players)), desc=f"Bradley-Terry {text}"):
 
             for j in range(i + 1, len(players)):
 
@@ -1439,7 +1456,9 @@ class MetricsLogger:
             - None
         """
         # Victory percentage
-        for column in self.experimentData.columns:
+        for column in tqdm.tqdm(
+            self.experimentData.columns, desc="Hyperparameter Victory Percentage"
+        ):
 
             if column != "fileName":
 
@@ -1483,7 +1502,9 @@ class MetricsLogger:
                 )
 
         # Average rewards (includes critic)
-        for column in self.experimentData.columns:
+        for column in tqdm.tqdm(
+            self.experimentData.columns, desc="Hyperparameter Average Rewards"
+        ):
 
             if column != "fileName":
 
@@ -1530,7 +1551,9 @@ class MetricsLogger:
                 )
 
         # Average actor losses
-        for column in self.experimentData.columns:
+        for column in tqdm.tqdm(
+            self.experimentData.columns, desc="Hyperparameter Actor Losses"
+        ):
 
             if column != "fileName":
 
@@ -1577,7 +1600,9 @@ class MetricsLogger:
                 )
 
         # Average critic losses
-        for column in self.experimentData.columns:
+        for column in tqdm.tqdm(
+            self.experimentData.columns, desc="Hyperparameter Critic Losses"
+        ):
 
             if column != "fileName":
 
@@ -1624,7 +1649,9 @@ class MetricsLogger:
                 )
 
         # Average number of turns
-        for column in self.experimentData.columns:
+        for column in tqdm.tqdm(
+            self.experimentData.columns, desc="Hyperparameter Number of Turns"
+        ):
 
             if column != "fileName":
 
@@ -1876,6 +1903,6 @@ def sortMatrix(matrix: pd.DataFrame) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    logger = MetricsLogger(surrogateGraphs=False, infiniteBattles=False)
+    logger = MetricsLogger(surrogateGraphs=True, infiniteBattles=False)
     logger.graphAllExperiments()
     logger.graphVictoryPercentage()
