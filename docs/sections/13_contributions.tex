@@ -1,24 +1,23 @@
 \section{Principales aportaciones}
 
-Para explicar las aportaciones, las dividiremos por hipótesis.
+Para exponer las contribuciones de este proyecto, estas se organizarán en torno a las distintas hipótesis formuladas.
 
 \subsection{Hipótesis \HOne}
 
 \clearpage
 \subsection{Hipótesis \HTwo}
 
-Para analizar esta hipótesis, solo tenemos que ver las distintas gráficas y tablas que genera el hiperparámetro \emph{useSelfPlay}. Lo primero que se puede observar es que durante el entrenamiento, si se juega contra uno mismo, el porcentaje de victorias (ilustración \ref{fig:VictoryPercentageUseSelfPlay}) es mucho más bajo que si se juega contra un oponente fijo. Esto ocurre por los casos en los que si se juega contra más de un oponente, la retropropagación no es lo suficiente rápida para evitar que solo se gane la mitad de los combates.
 
-El hecho de que si juegan dos oponentes del mismo nivel, el porcentaje de victorias sea del 50\%, es una realidad que se puede ver en la representación de \emph{random}. Esto son dos jugadores que eligen movimientos de manera aleatoria (nunca aprenden) y vemos que el porcentaje de victorias durante los epochs se mantiene en torno al 50\% (ilustración \ref{fig:VictoryPercentageUseSelfPlay}).
+Para el análisis de esta hipótesis, se examinan las diversas gráficas y tablas correspondientes a los distintos valores posibles del hiperparámetro \emph{useSelfPlay}. En primer lugar, se observa que durante el proceso de entrenamiento, la inclusión de \texttt{useSelfPlay=True} da lugar a una proporción de victorias (véase la Ilustración \ref{fig:VictoryPercentageUseSelfPlay}) significativamente inferior en comparación con el entrenamiento frente a un oponente fijo (ya sea el de máximo daño y/o el aleatorio). Este comportamiento se debe a que, en muchas configuraciones en las que se activa \texttt{useSelfPlay=True}, también se emplea \texttt{useMaxDamage=True} (como consecuencia del procedimiento seguido en la implementación de los oponentes). Dado que el oponente de máximo daño presenta un elevado nivel de dificultad, su inclusión reduce considerablemente la proporción de victorias observada.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.7\textwidth]{../graphs/VictoryPercentageUseSelfPlay.png}
-    \caption{Porcentaje de victorias durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}}
+    \caption{Proporción de victorias durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}. \texttt{random} se corresponde con batallas en las que los dos jugadores realizan movimientos aleatorios (nunca aprenden).}
     \label{fig:VictoryPercentageUseSelfPlay}
 \end{figure}
 
-Si uno se fija en la pérdida del actor (ilustración \ref{fig:AverageActorLossesUseSelfPlay}) y en la del crítico (ilustración \ref{fig:AverageCriticLossesUseSelfPlay}), podemos ver que si se juega contra uno mismo, la pérdida es menor, pero esto ocurre sobre todo porque al enfrentarse contra más tipos de oponentes, hay más episodios por epoch y el promedio se acerca más a cero. Esto no quiere decir que no se vea que durante el entrenamiento, usar self-play hace que la pérdida descienda relativamente más rápido que si se juega contra un oponente fijo.
+Estudiando la pérdida del actor (ilustración \ref{fig:AverageActorLossesUseSelfPlay}) y la del crítico (ilustración \ref{fig:AverageCriticLossesUseSelfPlay}), podemos ver que jugando contra uno mismo la pérdida es menor. Esto también ocurre porque al enfrentarse contra más tipos de oponentes, hay más episodios por epoch y el promedio se acerca más a cero. Esto no quiere decir que no se vea que durante el entrenamiento, usar \texttt{useSelfPlay=True} hace que la pérdida descienda relativamente más rápido que si se juega contra un oponente fijo.
 
 \begin{figure}[h]
     \centering
@@ -34,7 +33,7 @@ Si uno se fija en la pérdida del actor (ilustración \ref{fig:AverageActorLosse
     \label{fig:AverageCriticLossesUseSelfPlay}
 \end{figure}
 
-El hecho de que luchar contra uno mismo sea enfrentarse a oponentes de un nivel similar, hace que la recompensa promedio sea negativa porque se pierden más combates de los que se ganan. Esto se puede ver en la ilustración \ref{fig:AverageRewardsUseSelfPlay}.
+El hecho de estar correlacionado con \texttt{useMaxDamage=True}, hace que la recompensa promedio sea negativa porque se pierden más combates de los que se ganan. Esto se puede ver en las ilustraciones \ref{fig:AverageRewardsUseSelfPlay} y \ref{fig:AverageRewardsUseMaxDamage}.
 
 \begin{figure}[h]
     \centering
@@ -43,38 +42,57 @@ El hecho de que luchar contra uno mismo sea enfrentarse a oponentes de un nivel 
     \label{fig:AverageRewardsUseSelfPlay}
 \end{figure}
 
-Como en ningún momento se ha probado con dos experimentos iguales que solo varía el hiperparámetro \emph{useSelfPlay}, no se puede calcular una matriz de comparaciones directas como se ha hecho con otros hiperparámetros. Lo que sí que se puede hacer es ver la puntuación Bradley-Terry de los experimentos comparados contra el jugador aleatorio (tabla \ref{tab:bradleyTerryUseSelfPlay}). La mayoría de experimentos son notablemente superiores al jugador aleatorio, uno está a su mismo nivel (\emph{experiment141}) y dos son inferiores.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{../graphs/AverageRewardsUseMaxDamage.png}
+    \caption{Recompensa promedio durante el entrenamiento para diferentes valores del hiperparámetro \emph{useMaxDamage}}
+    \label{fig:AverageRewardsUseMaxDamage}
+\end{figure}
+
+Como entre las $151$ combinaciones ejecutadas de los hiperparámetros no se encuentra ninguna pareja en la cual solo varía el hiperparámetro \emph{useSelfPlay}, no se puede calcular una matriz de comparaciones directas como se ha hecho con otros hiperparámetros. Lo que sí que se puede hacer es ver la puntuación Bradley-Terry de los experimentos comparados contra el jugador aleatorio (tabla \ref{tab:bradleyTerryUseSelfPlay}). La mayoría de experimentos son notablemente superiores al jugador aleatorio, uno está a su mismo nivel (\emph{experiment141}) y dos son inferiores.
 
 \begin{table}[h]
     \centering
-    \begin{tabular}{lr}
+    \begin{tabular}{lccr}
         \toprule
-        Experimento   & Bradley-Terry \\
+        Experimento   & useRandom               & useMaxDamage            & Bradley-Terry \\
         \midrule
-        experiment143 & 0.1491        \\
-        experiment150 & 0.1467        \\
-        experiment144 & 0.1380        \\
-        experiment142 & 0.1368        \\
-        experiment151 & 0.1361        \\
-        experiment149 & 0.1230        \\
-        random        & -0.1869       \\
-        experiment141 & -0.1932       \\
-        experiment140 & -0.3163       \\
-        experiment145 & -0.3178       \\
+        experiment143 & True                    & True                    & 0.1491        \\
+        experiment150 & True                    & True                    & 0.1467        \\
+        experiment146 & True                    & \cellcolor{red!25}False & 0.1405        \\
+        experiment144 & True                    & True                    & 0.1380        \\
+        experiment142 & True                    & True                    & 0.1368        \\
+        experiment151 & True                    & True                    & 0.1361        \\
+        experiment149 & True                    & True                    & 0.1230        \\
+        random        & True                    & True                    & -0.1869       \\
+        experiment141 & True                    & True                    & -0.1932       \\
+        experiment140 & True                    & True                    & -0.3163       \\
+        experiment145 & \cellcolor{red!25}False & \cellcolor{red!25}False & -0.3178       \\
         \bottomrule
     \end{tabular}
     \caption{Puntuación Bradley-Terry de los experimentos con \emph{useSelfPlay} comparados contra el jugador aleatorio}
     \label{tab:bradleyTerryUseSelfPlay}
 \end{table}
 
-También puede fijarse uno en la imagen \ref{fig:SurrogateUseSelfPlay}, que muestra la puntuación relativa que le da el modelo sustituto a todas las combinaciones que usan self-play y las que no.
+Otra comparación que se puede hacer es usar la puntuación relativa que le da el modelo predictor a todas las combinaciones que usan self-play y las que no (imagen  \ref{fig:SurrogateUseSelfPlay}). 
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.25\textwidth]{images/SurrogateUseSelfPlay.png}
-    \caption{Puntuación relativa del modelo sustituto para diferentes valores del hiperparámetro \emph{useSelfPlay}}
+    \caption{Puntuación relativa del modelo predictor para diferentes valores del hiperparámetro \emph{useSelfPlay}. Obsérvese que la puntuación está redondeada a dos decimales, pero que la opción de True sobre False es positiva.}
     \label{fig:SurrogateUseSelfPlay}
 \end{figure}
+
+Con las observaciones de la tabla \ref{tab:bradleyTerryUseSelfPlay}, uno podría plantearse que los modelos entrenados usando \texttt{useSelfPlay=True} solo son mejores por el hecho de estar casi siempre con \texttt{useMaxDamage=True}. No obstante, esto se rechaza por la imagen que muestra la proporción de victorias para el susodicho hiperparámetro \emph{useMaxDamage} (ilustración \ref{fig:BattlesUseMaxDamage}) es ligeramente inclinada al favor de no usar el agente de máximo daño.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.25\textwidth]{../graphs/BattlesUseMaxDamage.png}
+    \caption{Proporción de victorias de los experimentos que solo cambian \emph{useMaxDamage}}
+    \label{fig:BattlesUseMaxDamage}
+\end{figure}
+
+Todo esto nos lleva a la conclusión que usar más oponentes (en el caso de nuestros 3) y \texttt{useSelfPlay=True} producen mejores resultados.
 
 \clearpage
 \subsection{Hipótesis \HThree}
