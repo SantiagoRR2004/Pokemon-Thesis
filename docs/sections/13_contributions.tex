@@ -74,7 +74,7 @@ Como entre las $151$ combinaciones ejecutadas de los hiperparámetros no se encu
     \label{tab:bradleyTerryUseSelfPlay}
 \end{table}
 
-Otra comparación que se puede hacer es usar la puntuación relativa que le da el modelo predictor a todas las combinaciones que usan self-play y las que no (imagen  \ref{fig:SurrogateUseSelfPlay}). 
+Otra comparación que se puede hacer es usar la puntuación relativa que le da el modelo predictor a todas las combinaciones que usan self-play y las que no (imagen  \ref{fig:SurrogateUseSelfPlay}).
 
 \begin{figure}[h]
     \centering
@@ -83,7 +83,7 @@ Otra comparación que se puede hacer es usar la puntuación relativa que le da e
     \label{fig:SurrogateUseSelfPlay}
 \end{figure}
 
-Con las observaciones de la tabla \ref{tab:bradleyTerryUseSelfPlay}, uno podría plantearse que los modelos entrenados usando \texttt{useSelfPlay=True} solo son mejores por el hecho de estar casi siempre con \texttt{useMaxDamage=True}. No obstante, esto se rechaza por la imagen que muestra la proporción de victorias para el susodicho hiperparámetro \emph{useMaxDamage} (ilustración \ref{fig:BattlesUseMaxDamage}) es ligeramente inclinada al favor de no usar el agente de máximo daño.
+A partir de las observaciones recogidas en la tabla \ref{tab:bradleyTerryUseSelfPlay}, podría plantearse la hipótesis de que los modelos entrenados con \texttt{useSelfPlay=True} obtienen mejores resultados únicamente porque, en la mayoría de los casos, coinciden con la configuración \texttt{useMaxDamage=True}. Sin embargo, esta hipótesis no parece estar respaldada por los datos. Como muestra la ilustración \ref{fig:BattlesUseMaxDamage}, correspondiente a la proporción de victorias para el hiperparámetro \emph{useMaxDamage}, se observa un ligero predominio de las configuraciones que no utilizan el agente de máximo daño.
 
 \begin{figure}[h]
     \centering
@@ -92,7 +92,7 @@ Con las observaciones de la tabla \ref{tab:bradleyTerryUseSelfPlay}, uno podría
     \label{fig:BattlesUseMaxDamage}
 \end{figure}
 
-Todo esto nos lleva a la conclusión que usar más oponentes (en el caso de nuestros 3) y \texttt{useSelfPlay=True} producen mejores resultados.
+Todo ello conduce a la conclusión de que el uso de un mayor número de oponentes (tres en los experimentos realizados) y la configuración \texttt{useSelfPlay=True} están asociados a un mejor rendimiento del modelo. Por tanto, la hipótesis \HTwo no se puede rechazar.
 
 \clearpage
 \subsection{Hipótesis \HThree}
