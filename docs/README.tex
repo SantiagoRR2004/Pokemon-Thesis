@@ -1,9 +1,10 @@
-\documentclass[aps,pre,superscriptaddress,nofootinbib]{revtex4-2}
+\documentclass[a4paper,11pt]{article}
 
 \usepackage{fancyhdr, booktabs, amsmath, multirow, graphicx, pgffor, multirow}
 \usepackage[spanish]{babel}
 \usepackage[colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue]{hyperref}
 \usepackage[table]{xcolor}
+\usepackage[a4paper,margin=2cm]{geometry}
 
 % Page style with page numbers
 \pagestyle{fancy}
@@ -23,21 +24,6 @@
 \newcommand{\HOne}{\hyperref[hyp:h1]{H1}}
 \newcommand{\HTwo}{\hyperref[hyp:h2]{H2}}
 \newcommand{\HThree}{\hyperref[hyp:h3]{H3}}
-
-\makeatletter
-\renewcommand\bibsection{%
-  \section{Referencias}%
-}
-\makeatother
-\renewcommand{\refname}{Referencias}
-
-\newcounter{anexo}
-\renewcommand{\theanexo}{\Roman{anexo}}
-\newcommand{\anexo}[2]{%
-  \refstepcounter{anexo}%
-  \section*{Anexo~\theanexo: #2}%
-  \label{#1}%
-}
 
 \begin{document}
 
@@ -88,12 +74,14 @@ Portada según el modelo oficial, con los datos de identificación del trabajo.
 \clearpage
 \input{sections/15_futureWork.tex}
 
-\bibliographystyle{unsrtnat}
+\addcontentsline{toc}{section}{Referencias}
+\bibliographystyle{plainurl}
 \bibliography{refs}
 
 \clearpage
 
 % Sección para los anexos
+\appendix
 \input{sections/17_actor.tex}
 \clearpage
 \input{sections/17_critic.tex}

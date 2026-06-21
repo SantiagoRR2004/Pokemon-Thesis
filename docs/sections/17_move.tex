@@ -1,26 +1,28 @@
-\anexo{anexo:hyperMove}{Hiperparámetro \emph{move}}
+\section{Hiperparámetro \emph{move}} \label{anexo:hyperMove}
 
 \emph{move} es un hiperparámetro que define qué representación se usará cada movimiento. Este, junto con los hiperparámetros \emph{player} y \emph{pokemon}, determinan el número de parámetros que tiene la primera capa de las redes neuronales (observación). La tabla \ref{tab:moveParameters} muestra las $11$ clases de representación. Los nombres de las clases son sacados del código implementado en el proyecto y siguen la nomenclatura de \emph{MoveXX}, donde \emph{XX} representa como de compleja es la representación. La clase que tiene un número superior engloba a la clase que tiene un número inferior, es decir, tiene todos los atributos de la clase inferior y algunos más. \emph{S} significa que es la clase más compleja y que intenta representar todo lo posible sin importar que se generen demasiados parámetros.
 
 \begin{table}[h]
     \centering
-    \begin{tabular}{lrr}
-        \toprule
-        Clase  & Número de parámetros & Número de experimentos \\
-        \midrule
-        Move00 & 1                    & 26                     \\
-        Move01 & 26                   & 5                      \\
-        Move02 & 39                   & 13                     \\
-        Move03 & 48                   & 8                      \\
-        Move04 & 55                   & 6                      \\
-        Move05 & 64                   & 6                      \\
-        Move06 & 76                   & 31                     \\
-        Move07 & 90                   & 22                     \\
-        Move08 & 155                  & 10                     \\
-        Move09 & 187                  & 16                     \\
-        MoveS  & 1137                 & 8                      \\
-        \bottomrule
-    \end{tabular}
+    {\small
+        \begin{tabular}{lrr}
+            \toprule
+            Clase  & Número de parámetros & Número de experimentos \\
+            \midrule
+            Move00 & 1                    & 26                     \\
+            Move01 & 26                   & 5                      \\
+            Move02 & 39                   & 13                     \\
+            Move03 & 48                   & 8                      \\
+            Move04 & 55                   & 6                      \\
+            Move05 & 64                   & 6                      \\
+            Move06 & 76                   & 31                     \\
+            Move07 & 90                   & 22                     \\
+            Move08 & 155                  & 10                     \\
+            Move09 & 187                  & 16                     \\
+            MoveS  & 1137                 & 8                      \\
+            \bottomrule
+        \end{tabular}
+    }
     \caption{Número de parámetros que se obtienen del entorno para cada movimiento y número de experimentos que se han hecho con cada clase}
     \label{tab:moveParameters}
 \end{table}

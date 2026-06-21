@@ -1,12 +1,12 @@
-\anexo{anexo:hyperActor}{Hiperparámetro \emph{actor}}
+\section{Hiperparámetro \emph{actor}} \label{anexo:hyperActor}
 
 El hiperparámetro \emph{actor} elige la arquitectura de la red neuronal que se usará para el actor durante el entrenamiento. Hay cuatro opciones (ver tabla \ref{tab:actorParameters}) que se nombran igual que la implementación de sus correspondientes clases en el código.
 
 \begin{table}[h]
     \centering
-    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrr}
+    {\small \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrr}
         \toprule
-        \multirow{3}{*}{Clase} & \multicolumn{3}{c}{Número de parámetros entrenables} & \multirow{3}{*}{Número de experimentos}                                 \\
+        \multirow{3}{*}{Clase} & \multicolumn{3}{c}{Número de parámetros entrenables} & \multirow{3}{*}{Nº de experimentos}                                 \\
         &                                                      & \multicolumn{1}{c}{Mínimo}                & \multicolumn{1}{c}{Máximo} &    \\
         &                                                      & \multicolumn{1}{c}{($nInputs=60$)}                          & \multicolumn{1}{c}{($nInputs=82.876$)}       &    \\
         \midrule
@@ -15,7 +15,7 @@ El hiperparámetro \emph{actor} elige la arquitectura de la red neuronal que se 
         ActorNetwork03         & $256 \cdot nInputs + 201.230$                        & $216.590$                               & $21.417.486$             & 71 \\
         ActorNetwork04         & $1.024 \cdot nInputs + 701.150$                      & $762.590$                               & $85.566.174$             & 17 \\
         \bottomrule
-    \end{tabular*}
+    \end{tabular*}}
     \caption{Número de parámetros entrenables y experimentos realizados para cada clase de red neuronal del actor}
     \label{tab:actorParameters}
 \end{table}

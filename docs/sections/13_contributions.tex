@@ -13,7 +13,7 @@ Para el análisis de esta hipótesis, se examinan las diversas gráficas y tabla
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.7\textwidth]{../graphs/VictoryPercentageUseSelfPlay.png}
-    \caption{Proporción de victorias durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}. \texttt{random} se corresponde con batallas en las que los dos jugadores realizan movimientos aleatorios (nunca aprenden).}
+    \caption[Proporción de victorias durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}]{Proporción de victorias durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}. \texttt{random} se corresponde con batallas en las que los dos jugadores realizan movimientos aleatorios (nunca aprenden).}
     \label{fig:VictoryPercentageUseSelfPlay}
 \end{figure}
 
@@ -53,23 +53,23 @@ Como entre las $151$ combinaciones ejecutadas de los hiperparámetros no se encu
 
 \begin{table}[h]
     \centering
-    \begin{tabular}{lccr}
-        \toprule
-        Experimento   & useRandom               & useMaxDamage            & Bradley-Terry \\
-        \midrule
-        experiment143 & True                    & True                    & 0.1491        \\
-        experiment150 & True                    & True                    & 0.1467        \\
-        experiment146 & True                    & \cellcolor{red!25}False & 0.1405        \\
-        experiment144 & True                    & True                    & 0.1380        \\
-        experiment142 & True                    & True                    & 0.1368        \\
-        experiment151 & True                    & True                    & 0.1361        \\
-        experiment149 & True                    & True                    & 0.1230        \\
-        random        & True                    & True                    & -0.1869       \\
-        experiment141 & True                    & True                    & -0.1932       \\
-        experiment140 & True                    & True                    & -0.3163       \\
-        experiment145 & \cellcolor{red!25}False & \cellcolor{red!25}False & -0.3178       \\
-        \bottomrule
-    \end{tabular}
+    {\small \begin{tabular}{lccr}
+            \toprule
+            Experimento   & useRandom               & useMaxDamage            & Bradley-Terry \\
+            \midrule
+            experiment143 & True                    & True                    & 0.1491        \\
+            experiment150 & True                    & True                    & 0.1467        \\
+            experiment146 & True                    & \cellcolor{red!25}False & 0.1405        \\
+            experiment144 & True                    & True                    & 0.1380        \\
+            experiment142 & True                    & True                    & 0.1368        \\
+            experiment151 & True                    & True                    & 0.1361        \\
+            experiment149 & True                    & True                    & 0.1230        \\
+            random        & True                    & True                    & -0.1869       \\
+            experiment141 & True                    & True                    & -0.1932       \\
+            experiment140 & True                    & True                    & -0.3163       \\
+            experiment145 & \cellcolor{red!25}False & \cellcolor{red!25}False & -0.3178       \\
+            \bottomrule
+        \end{tabular}}
     \caption{Puntuación Bradley-Terry de los experimentos con \emph{useSelfPlay} comparados contra el jugador aleatorio}
     \label{tab:bradleyTerryUseSelfPlay}
 \end{table}
@@ -79,7 +79,7 @@ Otra comparación que se puede hacer es usar la puntuación relativa que le da e
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.25\textwidth]{images/SurrogateUseSelfPlay.png}
-    \caption{Puntuación relativa del modelo predictor para diferentes valores del hiperparámetro \emph{useSelfPlay}. Obsérvese que la puntuación está redondeada a dos decimales, pero que la opción de True sobre False es positiva.}
+    \caption[Puntuación relativa del modelo predictor para diferentes valores del hiperparámetro \emph{useSelfPlay}]{Puntuación relativa del modelo predictor para diferentes valores del hiperparámetro \emph{useSelfPlay}. Obsérvese que la puntuación está redondeada a dos decimales, pero que la opción de True sobre False es positiva.}
     \label{fig:SurrogateUseSelfPlay}
 \end{figure}
 

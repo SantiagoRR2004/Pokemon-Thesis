@@ -1,22 +1,22 @@
-\anexo{anexo:hyperCritic}{Hiperparámetro \emph{critic}}
+\section{Hiperparámetro \emph{critic}} \label{anexo:hyperCritic}
 
 El hiperparámetro \emph{critic} elige la arquitectura de la red neuronal que se usará para el crítico durante el entrenamiento. Hay cinco opciones (ver tabla \ref{tab:criticParameters}) que se nombran igual que la implementación de sus correspondientes clases en el código. La quinta opción es la arquitectura que no usa \emph{critic}, es decir, \emph{REINFORCE} y no \emph{Actor-Critic}. Como consecuencia, no tiene nombre de clase y no aparece nada en las columnas de parámetros.
 
 \begin{table}[h]
     \centering
-    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrr}
-        \toprule
-        \multirow{3}{*}{Clase} & \multicolumn{3}{c}{Número de parámetros entrenables} & \multirow{3}{*}{Número de experimentos}                                 \\
-        &                                                      & \multicolumn{1}{c}{Mínimo}                & \multicolumn{1}{c}{Máximo} &    \\
-        &                                                      & \multicolumn{1}{c}{($nInputs=60$)}                          & \multicolumn{1}{c}{($nInputs=82.876$)}       &    \\
-        \midrule
-        CriticNetwork01         & $nInputs + 1$                                        & $61$                                    & $82.877$                 & 23 \\
-        CriticNetwork02         & $128 \cdot nInputs + 8.719$                          & $16.399$                                & $10.616.847$             & 26 \\
-        CriticNetwork03         & $256 \cdot nInputs + 197.889$                        & $213.249$                               & $21.414.145$             & 39 \\
-        CriticNetwork04         & $1.024 \cdot nInputs + 700.929$                      & $761.732$                               & $85.565.316$             & 30 \\
-        &                                                      &                                         &                          & 33 \\
-        \bottomrule
-    \end{tabular*}
+    {\small \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrr}
+            \toprule
+            \multirow{3}{*}{Clase} & \multicolumn{3}{c}{Número de parámetros entrenables} & \multirow{3}{*}{Nº de experimentos}                                 \\
+            &                                                      & \multicolumn{1}{c}{Mínimo}                & \multicolumn{1}{c}{Máximo} &    \\
+            &                                                      & \multicolumn{1}{c}{($nInputs=60$)}                          & \multicolumn{1}{c}{($nInputs=82.876$)}       &    \\
+            \midrule
+            CriticNetwork01         & $nInputs + 1$                                        & $61$                                    & $82.877$                 & 23 \\
+            CriticNetwork02         & $128 \cdot nInputs + 8.719$                          & $16.399$                                & $10.616.847$             & 26 \\
+            CriticNetwork03         & $256 \cdot nInputs + 197.889$                        & $213.249$                               & $21.414.145$             & 39 \\
+            CriticNetwork04         & $1.024 \cdot nInputs + 700.929$                      & $761.732$                               & $85.565.316$             & 30 \\
+            &                                                      &                                         &                          & 33 \\
+            \bottomrule
+        \end{tabular*}}
     \caption{Número de parámetros entrenables y experimentos realizados para cada clase de red neuronal del crítico}
     \label{tab:criticParameters}
 \end{table}
