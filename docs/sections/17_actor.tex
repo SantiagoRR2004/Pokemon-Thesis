@@ -1,0 +1,91 @@
+\anexo{anexo:hyperActor}{Hiperparámetro \emph{actor}}
+
+El hiperparámetro \emph{actor} elige la arquitectura de la red neuronal que se usará para el actor durante el entrenamiento. Hay cuatro opciones (ver tabla \ref{tab:actorParameters}) que se nombran igual que la implementación de sus correspondientes clases en el código.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrr}
+        \toprule
+        \multirow{3}{*}{Clase} & \multicolumn{3}{c}{Número de parámetros entrenables} & \multirow{3}{*}{Número de experimentos}                                 \\
+        &                                                      & \multicolumn{1}{c}{Mínimo}                & \multicolumn{1}{c}{Máximo} &    \\
+        &                                                      & \multicolumn{1}{c}{($nInputs=60$)}                          & \multicolumn{1}{c}{($nInputs=82.876$)}       &    \\
+        \midrule
+        ActorNetwork01         & $14 \cdot nInputs + 14$                              & $854$                                   & $1.160.278$              & 27 \\
+        ActorNetwork02         & $128 \cdot nInputs + 9.564$                          & $17.244$                                & $10.617.692$             & 36 \\
+        ActorNetwork03         & $256 \cdot nInputs + 201.230$                        & $216.590$                               & $21.417.486$             & 71 \\
+        ActorNetwork04         & $1.024 \cdot nInputs + 701.150$                      & $762.590$                               & $85.566.174$             & 17 \\
+        \bottomrule
+    \end{tabular*}
+    \caption{Número de parámetros entrenables y experimentos realizados para cada clase de red neuronal del actor}
+    \label{tab:actorParameters}
+\end{table}
+
+No es posible dar un número exacto de parámetros de cada red neuronal, ya que la primera capa depende de la representación escogida ($nInputs$) mediante los hiperparámetros \emph{player} (anexo \ref{anexo:hyperPlayer}), pokemon (anexo \ref{anexo:hyperPokemon}) y moves (anexo \ref{anexo:hyperMove}). En términos de implementación del código, cuando al instanciar la clase del actor, se le pasa como argumento la clase de \emph{player} que a su vez se inicializa con la clase de \emph{pokemon} y esta última también con una clase de \emph{moves}.
+
+La salida de la red neuronal del actor siempre es un vector de 14 valores que se explica en el anexo \ref{anexo:actions}.
+
+\begin{itemize}
+    \item \textbf{ActorNetwork01}: red neuronal más sencilla sin capas ocultas:
+          \begin{enumerate}
+              \item Capa totalmente conectada de $nInputs$ a $14$\hfill$\mathbf{14(nInputs + 1)}$
+              \item Softmax\hfill\textbf{$\mathbf{0}$}
+          \end{enumerate}
+
+    \item \textbf{ActorNetwork02}: red neuronal con 2 capas ocultas de 128 y 64 neuronas, Dropout del 25\% y ReLU como función de activación:
+          \begin{enumerate}
+              \item Capa totalmente conectada de $nInputs$ a $128$\hfill$\mathbf{128(nInputs + 1)}$
+              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item ReLU\hfill\textbf{$\mathbf{0}$}
+              \item Capa totalmente conectada de $128$ a $64$\hfill$\mathbf{8256}$
+              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item ReLU\hfill\textbf{$\mathbf{0}$}
+              \item Capa totalmente conectada de $64$ a $14$\hfill$\mathbf{910}$
+              \item Softmax\hfill\textbf{$\mathbf{0}$}
+          \end{enumerate}
+
+    \item \textbf{ActorNetwork03}: red neuronal con 4 capas ocultas de 256 neuronas, Dropout del 25\% y ReLU como función de activación:
+          \begin{enumerate}
+              \item Capa totalmente conectada de $nInputs$ a $256$\hfill$\mathbf{256(nInputs + 1)}$
+              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item ReLU\hfill\textbf{$\mathbf{0}$}
+              \item Capa totalmente conectada de $256$ a $256$\hfill$\mathbf{65792}$
+              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item ReLU\hfill\textbf{$\mathbf{0}$}
+              \item Capa totalmente conectada de $256$ a $256$\hfill$\mathbf{65792}$
+              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item ReLU\hfill\textbf{$\mathbf{0}$}
+              \item Capa totalmente conectada de $256$ a $256$\hfill$\mathbf{65792}$
+              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item ReLU\hfill\textbf{$\mathbf{0}$}
+              \item Capa totalmente conectada de $256$ a $14$\hfill$\mathbf{3598}$
+              \item Softmax\hfill\textbf{$\mathbf{0}$}
+          \end{enumerate}
+
+    \item \textbf{ActorNetwork04}: red neuronal cuyas neuronas se contraen de $1024$ a $16$ siguiendo las potencias de 2, con Dropout del 25\% y LeakyReLU como función de activación:
+          \begin{enumerate}
+              \item Capa totalmente conectada de $nInputs$ a $1024$\hfill$\mathbf{1024(nInputs + 1)}$
+              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item LeakyReLU\hfill\textbf{$\mathbf{0}$}
+              \item Capa totalmente conectada de $1024$ a $512$\hfill$\mathbf{524800}$
+              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item LeakyReLU\hfill\textbf{$\mathbf{0}$}
+              \item Capa totalmente conectada de $512$ a $256$\hfill$\mathbf{131328}$
+              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item LeakyReLU\hfill\textbf{$\mathbf{0}$}
+              \item Capa totalmente conectada de $256$ a $128$\hfill$\mathbf{32896}$
+              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item LeakyReLU\hfill\textbf{$\mathbf{0}$}
+              \item Capa totalmente conectada de $128$ a $64$\hfill$\mathbf{8256}$
+              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item LeakyReLU\hfill\textbf{$\mathbf{0}$}
+              \item Capa totalmente conectada de $64$ a $32$\hfill$\mathbf{2080}$
+              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item LeakyReLU\hfill\textbf{$\mathbf{0}$}
+              \item Capa totalmente conectada de $32$ a $16$\hfill$\mathbf{528}$
+              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item LeakyReLU\hfill\textbf{$\mathbf{0}$}
+              \item Capa totalmente conectada de $16$ a $14$\hfill$\mathbf{238}$
+              \item Softmax\hfill\textbf{$\mathbf{0}$}
+          \end{enumerate}
+
+\end{itemize}
