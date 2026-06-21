@@ -4,20 +4,20 @@ Para exponer las contribuciones de este proyecto, estas se organizarán en torno
 
 \subsection{Hipótesis \HOne}
 
-Como la representación del estado depende de tres hiperparámetros \emph{player}, \emph{pokemon} y \emph{move}, se analizará el efecto de cada uno de ellos por separado. No obstante, hay un anexo que explica el pseudo-hiperparámetro \emph{nInputs}, que combina los tres anteriores (TODO, colocar anexo aquí).
+Como la representación del estado depende de tres hiperparámetros \emph{player}, \emph{pokemon} y \emph{move}, se analizará el efecto de cada uno de ellos por separado. No obstante, el anexo (TODO, colocar anexo aquí) explica el pseudo-hiperparámetro \emph{nInputs}, que combina los tres anteriores .
 
-Si usamos el número de parámetros y vemos la puntuación de fuerza media para cada representación, se genera la gráfica \ref{fig:BattlesNInputs}. Con ella podemos rechazar la hipótesis si solo se observa el número directo de parámetros porque no hay un patrón claro.
+Si se considera el número de parámetros de entrada (\textit{nInputs}) y se representa la puntuación media de fuerza obtenida mediante el modelo de Bradley-Terry para cada representación, se obtiene la gráfica \ref{fig:BattlesNInputs}. A partir de ella puede rechazarse la hipótesis de que el número de parámetros de entrada, por sí solo, explique el rendimiento del modelo, ya que no se observa un patrón claro entre ambas variables.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.25\textwidth]{../graphs/BattlesNInputs.png}
+    \includegraphics[width=0.65\textwidth]{../graphs/BattlesNInputs.png}
     \caption{Puntuaciones Bradley-Terry medias para cada número de parámetros de la representación del estado}
     \label{fig:BattlesNInputs}
 \end{figure}
 
 \subsubsection{Hiperparámetro \emph{player}}
 
-Para representar el campo de batalla (\emph{player}), solo se usaron dos representaciones. Si comparamos su uso en experimentos iguales que solo cambian en este hiperparámetro (ilustración \ref{fig:battlesPlayer}), podemos ver que claramente que la representación más compleja tiene un porcentaje de victorias positivo contra la representación simple. Esto nos lleva a no rechazar la hipótesis para este hiperparámetro.
+Para representar el estado del campo de batalla (\emph{player}), se consideraron únicamente dos representaciones. Si se comparan los resultados de experimentos iguales que difieren exclusivamente en este hiperparámetro (ilustración \ref{fig:battlesPlayer}), puede observarse claramente que la representación más compleja obtiene un porcentaje de victorias positivo frente a la representación simple. Estos resultados aportan evidencia a favor de la hipótesis planteada para este hiperparámetro, por lo que no existen motivos para rechazarla.
 
 \begin{figure}[h]
     \centering
@@ -28,9 +28,9 @@ Para representar el campo de batalla (\emph{player}), solo se usaron dos represe
 
 \subsubsection{Hiperparámetro \emph{pokemon}}
 
-El uso de la representación de cada Pokémon (\emph{pokemon}) de manera invidual, nos da la imagen \ref{fig:battlesPokemon}. En ella podemos ver que la representación más compleja (\emph{PokemonS}) y la que no representa nada (\emph{Pokemon00}) tienen los porcentajes de victorias positivos contra el resto. Al contrario, las representaciones intermedias de número impar, son las que suelen perder contra el resto (\emph{Pokemon03}, \emph{Pokemon05}, \emph{Pokemon07} y \emph{Pokemon09}).
+El análisis del hiperparámetro encargado de la representación individual de cada Pokémon (\emph{pokemon}) da lugar a los resultados mostrados en la ilustración \ref{fig:battlesPokemon}. En ella puede observarse que tanto la representación más compleja (\emph{PokemonS}) como la representación que no incorpora información del Pokémon (\emph{Pokemon00}) obtienen porcentajes de victorias positivos frente al resto de alternativas. Por el contrario, las representaciones intermedias con identificador impar (\emph{Pokemon03}, \emph{Pokemon05}, \emph{Pokemon07} y \emph{Pokemon09}) tienden a obtener peores resultados en los enfrentamientos directos.
 
-Es importante recordar que \emph{PokemonS} y \emph{Pokemon10} son las representaciones que tienen muchos más parámetros por usar vectores one-hot y esto no quiere decir que sean características estratégicamente relevantes. Todo esto nos lleva a rechazar la hipótesis para este hiperparámetro, ya que no hay una relación clara entre el número de parámetros y el rendimiento del modelo.
+Conviene señalar que \emph{PokemonS} y \emph{Pokemon10} son las representaciones con un mayor número de parámetros de entrada debido al uso de vectores \emph{one-hot}. Entonces, para estas dos clases, su alto número de parámetros no implica que se hayan añadido características estratégicamente relevantes. En conjunto, estos resultados sugieren que no existe una relación clara entre la complejidad de la representación y el rendimiento obtenido por el modelo. Por tanto, las evidencias observadas no respaldan la hipótesis planteada para este hiperparámetro.
 
 \begin{figure}[h]
     \centering
@@ -41,9 +41,9 @@ Es importante recordar que \emph{PokemonS} y \emph{Pokemon10} son las representa
 
 \subsubsection{Hiperparámetro \emph{move}}
 
-Si pasamos a la representación de cada movimiento (\emph{move}), podemos ver en la ilustración \ref{fig:battlesMove} que en este caso, la representación más compleja (\emph{MoveS}) y la vacía (\emph{Move00}) son las que tienen el peor porcentaje de victorias contra el resto. En general, las representaciones van mejorando a medida que se aumenta el número de parámetros excepto con la final.
+Pasando a analizar la representación de cada movimiento (\emph{move}), podemos ver en la ilustración \ref{fig:battlesMove} que en este caso, la representación más compleja (\emph{MoveS}) y la vacía (\emph{Move00}) son las que tienen el peor porcentaje de victorias contra el resto. En general, las representaciones van mejorando a medida que se aumenta el número de parámetros excepto con la representación más compleja \emph{MoveS}.
 
-Es importante recordar que \emph{MoveS} es la representación que tiene muchos más parámetros por usar un vector one-hot y esto no quiere decir que haya añadido características estratégicamente relevantes. Todo esto nos lleva a no rechazar la hipótesis para este hiperparámetro, ya que hay una relación clara entre el número de parámetros y el rendimiento del modelo.
+Es importante señalar que \emph{MoveS} es la representación con un mayor número de parámetros de entrada debido al uso de vectores \emph{one-hot}, pero esto no implica que se hayan añadido características estratégicamente relevantes. Todo esto lleva a no rechazar la hipótesis para este hiperparámetro, ya que hay una relación clara entre el número de parámetros y el rendimiento del modelo.
 
 \begin{figure}[h]
     \centering
