@@ -1,0 +1,11 @@
+\anexo{anexo:modeling}{Modelado completo}
+
+\newcommand{\insertpdf}[2]{%
+    \edef\maxpage{#2}%
+    \foreach \p in {1,...,\maxpage}{%
+            \includegraphics[page=\p,width=\textwidth]{#1}%
+            \clearpage
+        }%
+}
+
+\insertpdf{pokemon_game.pdf}{7}

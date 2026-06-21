@@ -2,12 +2,9 @@
 
 El desarrollo de este TFG ha requerido la configuración y uso de un entorno de entrenamiento preexistente, al que se ha accedido mediante una librería, así como la modelización del problema objeto de estudio.
 
-
-\subsection{Marco teórico del problema}
-
 Para el entrenamiento del modelo y la evaluación de la complejidad del problema, resulta necesario caracterizarlo adecuadamente y modelarlo conforme al formato \emph{gen9randombattle}.
 
-\subsubsection{Características generales}
+\subsection{Características generales}
 
 La características generales del formato \emph{gen9randombattle} que son fundamentales para la modelización del problema mediante aprendizaje por refuerzo son las siguientes:
 
@@ -39,9 +36,9 @@ La características generales del formato \emph{gen9randombattle} que son fundam
 
 \end{itemize}
 
-\subsubsection{Descomposición del estado}
+\subsection{Marco teórico del problema}
 
-En esta sección y las siguientes se describe el problema de las batallas del formato \emph{gen9randombattle} como POMDPs (\textit{Partially Observable Markov Decision Process}), o Proceso de decisión de Markov parcialmente observable. Para ello hay que definir el estado, las acciones y las transiciones. La tabla \ref{tab:caracteristicas} contiene la nomenclatura que se utilizará en el resto de la sección de Modelado Teórico.
+En esta sección se describe el problema de las batallas del formato \emph{gen9randombattle} como POMDPs (\textit{Partially Observable Markov Decision Process}), o Proceso de decisión de Markov parcialmente observable. Para ello hay que definir el estado, las acciones y las transiciones. La tabla \ref{tab:caracteristicas} contiene la nomenclatura que se utilizará en el resto de esta sección. Si se desea ver una modelización más completa y detallada, se puede consultar el anexo \ref{anexo:modeling}.
 
 \begin{table}[h]
     \centering
@@ -66,6 +63,8 @@ En esta sección y las siguientes se describe el problema de las batallas del fo
     \caption{Terminología y formulación usados en el modeloado de un combate Pokémon  \emph{gen9randombattle} como un POMDP}
     \label{tab:caracteristicas}
 \end{table}
+
+\subsubsection{Descomposición del estado}
 
 El estado completo de la batalla debe ser lo suficientemente rico para que el juego sea markoviano. Por tanto, definimos
 $$
