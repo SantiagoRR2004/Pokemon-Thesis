@@ -96,3 +96,40 @@ Todo ello conduce a la conclusión de que el uso de un mayor número de oponente
 
 \clearpage
 \subsection{Hipótesis \HThree}
+
+Para el análisis de esta hipótesis, solo se examina el hiperparámetro \emph{nTeams} y sus distintas opciones (tabla \ref{tab:nTeamsParameters}).
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{lr}
+        \toprule
+        Opción & Número de experimentos \\
+        \midrule
+        1      & 5                      \\
+        2      & 19                     \\
+        10     & 2                      \\
+        100    & 2                      \\
+        inf    & 123                    \\
+        \bottomrule
+    \end{tabular}
+    \caption{Número de experimentos de cada opción del hiperparámetro \emph{nTeams}}
+    \label{tab:nTeamsParameters}
+\end{table}
+
+Dado que el resto de hiperparámetros influyen de forma más significativa en las métricas de entrenamiento, no se analizarán en detalle. En su lugar, se atiende a la matriz de enfrentamientos directos (ilustración \ref{fig:BattlesNTeams}). En ella se observa que la configuración \texttt{nTeams=inf} resulta claramente superior al resto de alternativas. Esto se debe a que los experimentos se evalúan en el formato real \emph{gen9randombattle}, en el que no existe una restricción sobre el número de equipos que pueden generarse. Por el contrario, el resto de configuraciones no logran generalizar adecuadamente, ya que durante el entrenamiento los equipos están limitados y, en consecuencia, no se encuentran partidas con dichas condiciones en el conjunto de entrenamiento.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{../graphs/BattlesNTeams.png}
+    \caption{Proporción de victorias de los experimentos que solo cambian \emph{nTeams}}
+    \label{fig:BattlesNTeams}
+\end{figure}
+
+Un aspecto a destacar es que el modelo predictivo de la puntuación relativa (ilustración \ref{fig:SurrogateNTeams}) estima que todas las configuraciones presentan un rendimiento similar, aunque la opción \texttt{nTeams=inf} aparece ligeramente por debajo del resto. Esto se debe a que el modelo predictor dispone de pocos datos de entrenamiento correspondientes a configuraciones con valores finitos de \emph{nTeams} y, por tanto, no logra generalizar adecuadamente en ese régimen.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{../graphs/SurrogateNTeams.png}
+    \caption{Proporción de victorias de los experimentos que solo cambian \emph{nTeams}}
+    \label{fig:SurrogateNTeams}
+\end{figure}

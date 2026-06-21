@@ -9,7 +9,7 @@ Para exponer las conclusiones técnicas de este proyecto, estas se organizarán 
 
     \item \textbf{Hipótesis \HTwo}: se planteó la hipótesis de que el uso de \emph{self-play} mejoraría los resultados del aprendizaje, y las evidencias obtenidas no permiten rechazar dicha hipótesis. Los experimentos realizados con el hiperparámetro \emph{useSelfPlay} activado (tabla \ref{tab:bradleyTerryUseSelfPlay}) muestran una mejora del rendimiento frente al jugador aleatorio. No obstante, no puede descartarse que este efecto se deba, al menos en parte, a la introducción de múltiples oponentes con heurísticas diferentes, circunstancia que se encuentra correlacionada con el uso del hiperparámetro \emph{useMaxDamage}.
 
-    \item \textbf{Hipótesis \HThree}: .
+    \item \textbf{Hipótesis \HThree}: se intentó comprobar si aumentar el número de equipos vistos durante el entrenamiento mejoraría los resultados. Los experimentos con el hiperparámetro \emph{nTeams} mostraron que la opción de \texttt{nTeams=inf} es completamente superior a las demás, lo que indica que hay que la hipótesis es inconcluyente y hay que asumir que, con la escala de la arquitectura y entrenamiento, no es posible conseguir que los modelos generalicen con valores finitos de \emph{nTeams}.
 
 \end{itemize}
 
