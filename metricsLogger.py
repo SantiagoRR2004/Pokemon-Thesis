@@ -92,9 +92,6 @@ class MetricsLogger:
             os.path.join(self.dataDirectory, "experiments.csv")
         )
 
-        # Create the graphs for the general metrics
-        self.generalGraphs()
-
         # Check that there are no duplicates
         assert not self.experimentData.duplicated(
             subset=self.experimentData.columns.difference(self.INVALID_COLUMNS)
@@ -119,6 +116,9 @@ class MetricsLogger:
 
         # Calculate the Bradley-Terry model with the tournament results
         self.bradleyTerryDF = self.bradleyTerry(self.tournamentWonDF)
+
+        # Create the graphs for the general metrics
+        self.generalGraphs()
 
         # Use surrogate modeling
         # self.createSurrogateModel()
@@ -614,6 +614,37 @@ class MetricsLogger:
         # Save the figure
         plt.savefig(
             os.path.join(self.graphDirectory, "ExperimentsByNInputs.png"),
+            bbox_inches="tight",
+        )
+        plt.close()
+
+        # Combine the nIputs with the Bradley-Terry skill values and graph them
+        combinedDF = self.experimentData[
+            self.experimentData["fileName"].isin(self.bradleyTerryDF["model"])
+        ].copy()
+        combinedDF = combinedDF.merge(
+            self.bradleyTerryDF[["model", "skill"]],
+            left_on="fileName",
+            right_on="model",
+        )
+
+        # Group by nInputs and calculate the mean skill
+        meanSkillByNInputs = combinedDF.groupby("nInputs")["skill"].mean().reset_index()
+
+        # Plot the graph
+        plt.figure()
+        plt.plot(
+            meanSkillByNInputs["nInputs"].astype(str),
+            meanSkillByNInputs["skill"],
+        )
+
+        plt.xlabel("Number of Inputs")
+        plt.ylabel("Mean Bradley-Terry Skill")
+        plt.xticks(range(0, len(nInputsCounts), 5), rotation=45)
+        plt.tight_layout()
+
+        plt.savefig(
+            os.path.join(self.graphDirectory, "BattlesNInputs.png"),
             bbox_inches="tight",
         )
         plt.close()

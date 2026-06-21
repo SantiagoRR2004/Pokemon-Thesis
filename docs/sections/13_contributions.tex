@@ -4,9 +4,56 @@ Para exponer las contribuciones de este proyecto, estas se organizarán en torno
 
 \subsection{Hipótesis \HOne}
 
+Como la representación del estado depende de tres hiperparámetros \emph{player}, \emph{pokemon} y \emph{move}, se analizará el efecto de cada uno de ellos por separado. No obstante, hay un anexo que explica el pseudo-hiperparámetro \emph{nInputs}, que combina los tres anteriores (TODO, colocar anexo aquí).
+
+Si usamos el número de parámetros y vemos la puntuación de fuerza media para cada representación, se genera la gráfica \ref{fig:BattlesNInputs}. Con ella podemos rechazar la hipótesis si solo se observa el número directo de parámetros porque no hay un patrón claro.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.25\textwidth]{../graphs/BattlesNInputs.png}
+    \caption{Puntuaciones Bradley-Terry medias para cada número de parámetros de la representación del estado}
+    \label{fig:BattlesNInputs}
+\end{figure}
+
+\subsubsection{Hiperparámetro \emph{player}}
+
+Para representar el campo de batalla (\emph{player}), solo se usaron dos representaciones. Si comparamos su uso en experimentos iguales que solo cambian en este hiperparámetro (ilustración \ref{fig:battlesPlayer}), podemos ver que claramente que la representación más compleja tiene un porcentaje de victorias positivo contra la representación simple. Esto nos lleva a no rechazar la hipótesis para este hiperparámetro.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.25\textwidth]{../graphs/BattlesPlayer.png}
+    \caption{Proporción de victorias de los experimentos que solo cambian en la representación del campo de batalla}
+    \label{fig:battlesPlayer}
+\end{figure}
+
+\subsubsection{Hiperparámetro \emph{pokemon}}
+
+El uso de la representación de cada Pokémon (\emph{pokemon}) de manera invidual, nos da la imagen \ref{fig:battlesPokemon}. En ella podemos ver que la representación más compleja (\emph{PokemonS}) y la que no representa nada (\emph{Pokemon00}) tienen los porcentajes de victorias positivos contra el resto. Al contrario, las representaciones intermedias de número impar, son las que suelen perder contra el resto (\emph{Pokemon03}, \emph{Pokemon05}, \emph{Pokemon07} y \emph{Pokemon09}).
+
+Es importante recordar que \emph{PokemonS} y \emph{Pokemon10} son las representaciones que tienen muchos más parámetros por usar vectores one-hot y esto no quiere decir que sean características estratégicamente relevantes. Todo esto nos lleva a rechazar la hipótesis para este hiperparámetro, ya que no hay una relación clara entre el número de parámetros y el rendimiento del modelo.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../graphs/BattlesPokemon.png}
+    \caption{Proporción de victorias de los experimentos que solo cambian en la representación de cada Pokémon}
+    \label{fig:battlesPokemon}
+\end{figure}
+
+\subsubsection{Hiperparámetro \emph{move}}
+
+Si pasamos a la representación de cada movimiento (\emph{move}), podemos ver en la ilustración \ref{fig:battlesMove} que en este caso, la representación más compleja (\emph{MoveS}) y la vacía (\emph{Move00}) son las que tienen el peor porcentaje de victorias contra el resto. En general, las representaciones van mejorando a medida que se aumenta el número de parámetros excepto con la final.
+
+Es importante recordar que \emph{MoveS} es la representación que tiene muchos más parámetros por usar un vector one-hot y esto no quiere decir que haya añadido características estratégicamente relevantes. Todo esto nos lleva a no rechazar la hipótesis para este hiperparámetro, ya que hay una relación clara entre el número de parámetros y el rendimiento del modelo.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../graphs/BattlesMove.png}
+    \caption{Proporción de victorias de los experimentos que solo cambian en la representación de cada movimiento}
+    \label{fig:battlesMove}
+\end{figure}
+
 \clearpage
 \subsection{Hipótesis \HTwo}
-
 
 Para el análisis de esta hipótesis, se examinan las diversas gráficas y tablas correspondientes a los distintos valores posibles del hiperparámetro \emph{useSelfPlay}. En primer lugar, se observa que durante el proceso de entrenamiento, la inclusión de \texttt{useSelfPlay=True} da lugar a una proporción de victorias (véase la Ilustración \ref{fig:VictoryPercentageUseSelfPlay}) significativamente inferior en comparación con el entrenamiento frente a un oponente fijo (ya sea el de máximo daño y/o el aleatorio). Este comportamiento se debe a que, en muchas configuraciones en las que se activa \texttt{useSelfPlay=True}, también se emplea \texttt{useMaxDamage=True} (como consecuencia del procedimiento seguido en la implementación de los oponentes). Dado que el oponente de máximo daño presenta un elevado nivel de dificultad, su inclusión reduce considerablemente la proporción de victorias observada.
 

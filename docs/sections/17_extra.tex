@@ -91,33 +91,6 @@ Finalmente también tenemos la ilustración \ref{fig:nInputsBradleyTerry}, que m
     \label{fig:nInputsSurrogateBradleyTerry}
 \end{figure}
 
-Para representar el campo de batalla (\emph{player}), solo se usaron dos representaciones. Si comparamos su uso en experimentos iguales que solo cambian en este hiperparámetro (ilustración \ref{fig:battlesPlayer}), podemos ver que claramente que la representación más compleja tiene un porcentaje de victorias positivo contra la representación simple.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\textwidth]{../graphs/BattlesPlayer.png}
-    \caption{Proporción de victorias de los experimentos que solo cambian en la representación del campo de batalla}
-    \label{fig:battlesPlayer}
-\end{figure}
-
-El uso de la representación de cada Pokémon (\emph{pokemon}) de manera invidual, nos da la imagen \ref{fig:battlesPokemon}. En ella podemos ver que la representación más compleja (\emph{PokemonS}) y la que no representa nada (\emph{Pokemon00}) tienen los porcentajes de victorias positivos contra el resto. Al contrario, las representaciones intermedias de número impar, son las que suelen perder contra el resto (\emph{Pokemon03}, \emph{Pokemon05}, \emph{Pokemon07} y \emph{Pokemon09}).
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\textwidth]{../graphs/BattlesPokemon.png}
-    \caption{Proporción de victorias de los experimentos que solo cambian en la representación de cada Pokémon}
-    \label{fig:battlesPokemon}
-\end{figure}
-
-Si pasamos a la representación de cada movimiento (\emph{move}), podemos ver en la ilustración \ref{fig:battlesMove} que en este caso, la representación más compleja (\emph{MoveS}) y la vacía (\emph{Move00}) son las que tienen el peor porcentaje de victorias contra el resto. En general, las representaciones van mejorando a medida que se aumenta el número de parámetros excepto con la final.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\textwidth]{../graphs/BattlesMove.png}
-    \caption{Proporción de victorias de los experimentos que solo cambian en la representación de cada movimiento}
-    \label{fig:battlesMove}
-\end{figure}
-
 En la ilustración \ref{fig:victoriesByNInputs} podemos ver durante el entrenamiento, el porcentaje de victoria de cada representación del estado contra sus oponentes. Por este motivo, hay combinaciones de oponentes más fuertes, y esto hace que el porcentaje de victorias sea menor. El porcentaje de victorias durante el entrenamiento no suele ser útil porque no vemos que se incremente de manera significativa durante el entrenamiento.
 
 \begin{figure}[h]
