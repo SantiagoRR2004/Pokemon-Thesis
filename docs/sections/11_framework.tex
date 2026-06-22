@@ -38,33 +38,35 @@ La características generales del formato \emph{gen9randombattle} que son fundam
 
 \subsection{Marco teórico del problema}
 
-En esta sección se describe el problema de las batallas del formato \emph{gen9randombattle} como POMDPs (\textit{Partially Observable Markov Decision Process}), o Proceso de decisión de Markov parcialmente observable. Para ello hay que definir el estado, las acciones y las transiciones. La tabla \ref{tab:caracteristicas} contiene la nomenclatura que se utilizará en el resto de esta sección. Si se desea ver una modelización más completa y detallada, se puede consultar el anexo \ref{anexo:modeling}.
+En esta sección se describe el problema de las batallas del formato \emph{gen9randombattle} como POMDPs (\textit{Partially Observable Markov Decision Process}), o Proceso de decisión de Markov parcialmente observable. La tabla \ref{tab:caracteristicas} contiene la nomenclatura que se utilizará en el resto de esta sección. Si se desea ver una modelización más completa y detallada, se puede consultar el anexo \ref{anexo:modeling}.
 
 \begin{table}[h]
     \centering
     {\small \begin{tabular}{ll}
-        \toprule
-        Símbolo                 & Significado                                                                      \\
-        \midrule
-        $t \in \{0,1,2,\dots\}$ & Índice del turno.                                                                \\
-        $\cS$                   & Espacio de estados completo oculto de la batalla.                                \\
-        $s_t \in \cS$           & Estado markoviano completo en el turno $t$.                                      \\
-        $i \in \{1,2\}$         & Índice del jugador.                                                              \\
-        $\cA_i(s)$              & Conjunto de acciones legales para el jugador $i$ en el estado $s$.               \\
-        $a_t^i \in \cA_i(s_t)$  & Acción elegida por el jugador $i$ en el turno $t$.                               \\
-        $\gamma \in (0,1]$      & Factor de descuento.                                                             \\
-        $\Xi$                   & Conjunto de etiquetas de especies o tipos.                                       \\
-        $\cM$                   & Espacio de configuraciones latentes de movimientos.                              \\
-        $\cU$                   & Espacio de configuraciones latentes de objetos/habilidades/estadísticas.         \\
-        $\mathsf{HP}$           & Variables de puntos de vida para todas las unidades activas y de reserva.        \\
-        $\mathsf{Field}$        & Estado público del campo (clima, terreno, trampas, pantallas, contadores, etc.). \\
-        \bottomrule
-    \end{tabular}}
+            \toprule
+            Símbolo                 & Significado                                                                      \\
+            \midrule
+            $t \in \{0,1,2,\dots\}$ & Índice del turno.                                                                \\
+            $\cS$                   & Espacio de estados completo oculto de la batalla.                                \\
+            $s_t \in \cS$           & Estado markoviano completo en el turno $t$.                                      \\
+            $i \in \{1,2\}$         & Índice del jugador.                                                              \\
+            $\cA_i(s)$              & Conjunto de acciones legales para el jugador $i$ en el estado $s$.               \\
+            $a_t^i \in \cA_i(s_t)$  & Acción elegida por el jugador $i$ en el turno $t$.                               \\
+            $\gamma \in (0,1]$      & Factor de descuento.                                                             \\
+            $\Xi$                   & Conjunto de etiquetas de especies o tipos.                                       \\
+            $\cM$                   & Espacio de configuraciones latentes de movimientos.                              \\
+            $\cU$                   & Espacio de configuraciones latentes de objetos/habilidades/estadísticas.         \\
+            $\mathsf{HP}$           & Variables de puntos de vida para todas las unidades activas y de reserva.        \\
+            $\mathsf{Field}$        & Estado público del campo (clima, terreno, trampas, pantallas, contadores, etc.). \\
+            \bottomrule
+        \end{tabular}}
     \caption{Terminología y formulación usados en el modelado de un combate Pokémon  \emph{gen9randombattle} como un POMDP}
     \label{tab:caracteristicas}
 \end{table}
 
-\subsubsection{Descomposición del estado}
+\subsubsection{Modelo completo del combate como un juego estocástico parcialmente observable}
+
+\paragraph{Descomposición del estado}
 
 El estado completo de la batalla debe ser lo suficientemente rico para que el juego sea markoviano. Por tanto, definimos
 $$
@@ -110,7 +112,21 @@ $$
     B_t = \big(\mathrm{weather}_t,\mathrm{terrain}_t,\mathrm{hazards}_t,\mathrm{screens}_t,\mathrm{trickroom}_t,\mathrm{timers}_t,\dots\big)
 $$
 
-\subsubsection{Acciones y restricciones legales}
+\paragraph{Información pública y privada}
+
+El estado completo no es completamente observable por ninguno de los jugadores. Es útil escribir
+$$
+    s_t = \big(\mathsf{Pub}_t,\mathsf{Priv}_{1,t},\mathsf{Priv}_{2,t}\big)
+$$
+donde:
+\begin{itemize}
+    \item $\mathsf{Pub}_t$ es el componente público visible para ambos jugadores;
+    \item $\mathsf{Priv}_{i,t}$ es el componente privado conocido únicamente por el jugador $i$.
+\end{itemize}
+
+La información pública típica incluye las especies actualmente reveladas, las fracciones visibles de HP, estados alterados públicos, efectos de campo, movimientos revelados, objetos o habilidades reveladas, eventos de debilitamiento y el registro público de acciones. La información privada típica incluye la composición de reservas no revelada, movimientos aún no mostrados, objetos latentes, habilidades latentes antes de su revelación y configuraciones exactas de estadísticas.
+
+\paragraph{Acciones y restricciones legales}
 
 En el turno $t$, ambos jugador eligen una acción simultáneamente y a priori. Para el jugador $i$, el conjunto de acciones legales depende del estado completo actual:
 $$
@@ -124,7 +140,7 @@ $$
 
 donde las acciones de movimiento corresponden a seleccionar un movimiento legal, las acciones de cambio corresponden a cambiar a una unidad de reserva legal, y donde $\cA_i^{\mathrm{tera}}(s_t) = \{0,1\}$ denota la decisión booleana de si Terascristalizar o no. Esto solo se puede hacer una vez por batalla por jugador y debe elegirse con un movimiento y no con un cambio.
 
-\subsubsection{Transiciones}
+\paragraph{Transiciones}
 
 El motor del juego define un núcleo de transición estocástico
 \begin{equation}
@@ -139,6 +155,224 @@ $$
 $$
 
 Nota sobre acciones simultaneas y resolución interna: aunque los jugadores eligen sus acciones de manera simultánea a nivel estratégico, el motor del juego resuelve la acción conjunta siguiendo un orden interno que puede ser complejo; dicho orden forma parte del núcleo de transición y no necesita representarse por separado una vez definida la Ecuación~\eqref{eq:transition_kernel}.
+
+\paragraph{Kernels de observación}
+
+El jugador $i$ no observa $s_t$ directamente, sino que recibe una observación
+$$
+    o_t^i \in \cO_i
+$$
+producida por un kernel de observación
+$$
+    \Omega_i(o_t^i\mid s_t)
+$$
+
+De forma equivalente, puede expresarse la observación como una función determinista del estado junto con un mapa de visibilidad; sin embargo, la notación mediante kernel es más general y permite observaciones discretizadas o ruidosas.
+
+Una observación típica contiene:
+\begin{itemize}
+    \item el tablero de combate público actual;
+    \item las unidades activas visibles y sus condiciones públicas;
+    \item todos los eventos públicos del turno anterior;
+    \item información completa sobre el propio equipo del agente;
+    \item el subconjunto actualmente conocido de la información revelada del equipo del oponente.
+\end{itemize}
+
+\paragraph{Historiales y políticas}
+
+Debido a que el juego es parcialmente observable, el agente actúa a partir de historiales en lugar del estado completo. El historial de información del jugador $i$ hasta el turno $t$ es
+$$
+    h_t^i = (o_0^i,a_0^i,o_1^i,a_1^i,\dots,o_t^i)
+$$
+Una política estocástica dependiente del historial es por tanto una familia de distribuciones condicionales
+$$
+    \pi_i(a\mid h_t^i),
+    \qquad
+    \mathrm{supp}\,\pi_i(\cdot\mid h_t^i) \subseteq \cA_i(s_t)
+    \text{ casi seguramente.}
+$$
+
+En implementaciones, el historial se comprime a menudo en un estado de memoria de dimensión finita $m_t^i$, por ejemplo mediante una red neuronal recurrente, dando lugar a una política de la forma
+$$
+    \pi_i(a\mid m_t^i)
+$$
+
+\subsubsection{Recompensas, retornos y objetivos}
+
+\paragraph{Recompensas terminales}
+La recompensa más natural es la recompensa terminal de victoria/derrota. Para el jugador 1, se define
+$$
+    R_T^1 =
+    \begin{cases}
+        +1, & \text{si el jugador 1 gana},       \\
+        0,  & \text{si la batalla es un empate}, \\
+        -1, & \text{si el jugador 1 pierde}.
+    \end{cases}
+$$
+Para juegos de suma cero,
+$$
+    R_T^2 = -R_T^1
+$$
+
+\paragraph{Recompensas por turno}
+
+Para el entrenamiento de aprendizaje por refuerzo (RL) se suelen utilizar recompensas moldeadas por turno,
+$$
+    r_i(s_t,a_t^1,a_t^2,s_{t+1})
+$$
+por ejemplo basadas en el cambio diferencial de HP, debilitamientos, ventaja en el tablero o un cambio calibrado en la probabilidad estimada de victoria. En el escenario de suma cero se impone
+$$
+    r_2 = -r_1
+$$
+
+Un retorno descontado genérico se define como
+$$
+    G_t^i = \sum_{k=t}^{T-1} \gamma^{k-t} r_i(s_k,a_k^1,a_k^2,s_{k+1}),
+    \qquad \gamma \in (0,1]
+$$
+Si las recompensas son solo terminales, entonces $r_i=0$ para $k<T-1$ y $r_i$ coincide con el resultado terminal al final de la batalla.
+
+\paragraph{Objetivo de suma cero}
+
+El objetivo estratégico del jugador 1 es
+$$
+    \max_{\pi_1}\min_{\pi_2}
+    \EE_{\pi_1,\pi_2,P,\Omega}[G_0^1],
+$$
+con el jugador 2 resolviendo el problema dual de minimización. En la práctica, el aprendizaje por auto-juego aproxima un comportamiento de búsqueda de equilibrio bajo este objetivo.
+
+\subsubsection{Formulación en espacio de creencias}
+
+\paragraph{Creencias sobre estados ocultos}
+
+Desde el punto de vista del jugador 1, el juego es parcialmente observable porque el estado completo $s_t$ está oculto. Dado el historial $h_t^1$, se define la creencia posterior
+$$
+    b_t^1(s) = \PP(s_t=s \mid h_t^1)
+$$
+El conjunto de todas estas medidas de probabilidad forma el espacio de creencias
+$$
+    \cB_1 = \cP(\cS)
+$$
+En principio, $b_t^1$ es una estadística suficiente para el control.
+
+\paragraph{Actualización de creencias}
+
+Supongamos que el jugador 1 ejecuta la acción $a_t^1$ y posteriormente recibe la observación $o_{t+1}^1$. Si la política del oponente se modela mediante $\pi_2$, entonces la actualización bayesiana de la creencia viene dada por
+$$
+    b_{t+1}^1(s')
+    \propto
+    \Omega_1(o_{t+1}^1\mid s')
+    \sum_{s\in\cS}
+    \sum_{a_t^2\in \cA_2(s)}
+    P(s'\mid s,a_t^1,a_t^2)
+    \pi_2(a_t^2\mid h_t^2)
+    b_t^1(s)
+$$
+La constante de proporcionalidad es el factor de normalización que garantiza que $b_{t+1}^1$ sea una distribución de probabilidad.
+
+En general, el seguimiento exacto de las creencias es intratable en dominios de combate realistas. Por ello, los agentes prácticos suelen emplear métodos de inferencia aproximada, estados latentes aprendidos, memoria oculta recurrente, aproximaciones mediante partículas o modelos posteriores amortizados.
+
+\paragraph{Perspectiva de POMDP inducido}
+
+Si la política del oponente se mantiene fija, entonces, desde la perspectiva del jugador 1, el juego induce un POMDP con estado oculto $s_t$, acción $a_t^1$, observación $o_t^1$, recompensa $r_1$ y dinámicas efectivas obtenidas al marginalizar sobre la distribución de acciones del oponente. El núcleo efectivo de transición-observación viene dado por
+$$
+    \widetilde{P}(s',o'\mid s,a^1)
+    =
+    \sum_{a^2}
+    P(s'\mid s,a^1,a^2)
+    \Omega_1(o'\mid s')
+    \pi_2(a^2\mid h^2)
+$$
+Esta es la reducción estándar a aprendizaje por refuerzo de un solo agente para un juego competitivo con información oculta.
+
+\subsubsection{Funciones de valor y relaciones de Bellman}
+
+Para políticas fijas $(\pi_1,\pi_2)$, se define la función de valor en el espacio de creencias para el jugador 1 como
+$$
+    V^{\pi_1,\pi_2}(b)
+    =
+    \EE\big[G_t^1\mid b_t^1=b\big]
+$$
+La función valor-acción es
+$$
+    Q^{\pi_1,\pi_2}(b,a^1)
+    =
+    \EE\big[r_1 + \gamma V^{\pi_1,\pi_2}(b_{t+1}^1)
+        \mid b_t^1=b, a_t^1=a^1\big]
+$$
+La esperanza integra sobre el estado oculto actual, la acción del oponente, la transición de estado y la observación siguiente.
+
+Para una política fija del oponente, la ecuación de Bellman en el espacio de creencias es
+$$
+    V^{\pi_1,\pi_2}(b)
+    =
+    \sum_{a^1} \pi_1(a^1\mid b)
+    Q^{\pi_1,\pi_2}(b,a^1)
+$$
+
+En los juegos de suma cero, un valor de equilibrio $V^\star$ satisface formalmente una relación de Bellman--Isaacs de la forma
+\begin{equation}
+    V^\star(b)
+    =
+    \max_{\sigma_1(\cdot\mid b)}
+    \min_{\sigma_2(\cdot\mid b)}
+    \EE\big[r_1 + \gamma V^\star(b')\mid b\big]
+    \label{eq:bellman_isaacs}
+\end{equation}
+donde $\sigma_1$ y $\sigma_2$ son acciones mixtas locales condicionadas al estado de información actual. En la práctica, resolver exactamente la Ec.~\eqref{eq:bellman_isaacs} es inviable para juegos realistas, pero proporciona el objeto formal correcto.
+
+\subsubsection{Variables de estado que impulsan la dinámica del combate}
+
+Para concretar la formulación, resulta útil identificar las principales clases de variables de estado que determinan la dinámica del combate.
+
+\paragraph{Variables latentes de la composición del equipo}
+
+Cada jugador comienza con un equipo extraído de un espacio combinatorio sujeto a restricciones. A nivel matemático, esto puede interpretarse como una variable latente de composición del equipo
+$$
+    \Theta_i = \big(\theta_{i,1},\dots,\theta_{i,N_i}\big)
+$$
+donde cada especificación de unidad es
+$$
+    \theta_{i,k} = (\xi_{i,k},m_{i,k},u_{i,k})
+$$
+
+Estas variables influyen en la planificación a largo plazo porque determinan las futuras opciones de cambio, la estructura de enfrentamientos, el conjunto de amenazas aún no reveladas y las creencias posteriores del oponente.
+
+\paragraph{Variables dinámicas de recursos por unidad}
+
+El recurso dinámico más importante es HP, pero normalmente se requieren varias variables acopladas a nivel de unidad:
+$$
+    y_{i,k}^t = \big(\lambda_{i,k}^t,\sigma_{i,k}^t,\beta_{i,k}^t,\nu_{i,k}^t,f_{i,k}^t\big)
+$$
+donde:
+\begin{itemize}
+    \item $\lambda_{i,k}^t \in [0,1]$ es la fracción de HP;
+    \item $\sigma_{i,k}^t$ es el estado persistente;
+    \item $\beta_{i,k}^t$ denota incrementos o reducciones de estadísticas;
+    \item $\nu_{i,k}^t$ denota condiciones volátiles;
+    \item $f_{i,k}^t \in \{0,1\}$ indica si la unidad se ha debilitado.
+\end{itemize}
+
+Estas variables median las principales dinámicas de agotamiento del combate.
+
+\paragraph{Variables de tablero y campo}
+
+El estado del tablero es relevante porque el mismo equipo puede comportarse de manera muy diferente bajo distintas combinaciones activas de enfrentamientos y condiciones de campo. Las variables compartidas importantes incluyen:
+\begin{equation}
+    B_t = (A_1^t,A_2^t,\mathrm{weather}_t,\mathrm{terrain}_t,\mathrm{hazards}_t,\mathrm{screens}_t,\tau_t),
+\end{equation}
+donde $\tau_t$ denota de forma esquemática el conjunto de temporizadores y contadores de efectos.
+
+\paragraph{Consecuencias estratégicas}
+
+Las dinámicas presentan al menos cuatro mecanismos acoplados distintos:
+\begin{enumerate}
+    \item \emph{agotamiento de recursos}: pérdida de HP, estados alterados, debilitamiento y pérdida de presencia en el tablero;
+    \item \emph{control de configuración}: cambios y selección de enfrentamientos activos;
+    \item \emph{revelación de información oculta}: los movimientos, objetos, habilidades o la composición de reservas se van revelando parcialmente a través del juego;
+    \item \emph{resolución táctica estocástica}: precisión, tiradas de daño, efectos secundarios e incertidumbre en el orden de resolución.
+\end{enumerate}
+Estos mecanismos ya están contenidos en la formulación estándar POSG/POMDP anterior; no requieren teoría adicional para quedar matemáticamente bien definidos.
 
 \subsection{Entorno de entrenamiento}
 
