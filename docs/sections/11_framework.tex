@@ -402,12 +402,12 @@ Dado que el entrenamiento requiere la ejecución de millones de partidas, no es 
 
 La librería poke-env viene preparada para conectarse a cualquier servidor y permitir que un agente juegue múltiples partidas a la vez. A continuación se incluye el código para conectar a un servidor:
 
-\begin{verbatim}
+\begin{minted}{python}
 ServerConfiguration(
     f"ws://localhost:{int(os.getenv('SERVER_PORT'))}/showdown/websocket",
     "https://play.pokemonshowdown.com/action.php?",
 )
-\end{verbatim}
+\end{minted}
 
 Para que el agente pueda jugar, simplemente tiene que heredar de la clase \texttt{poke\_env.player.Player} e implementar el método \texttt{choose\_move}. Es en este método donde se recibe el estado de la batalla. Este estado de la batalla será la entrada al modelo (la red neuronal), que devolverá la acción a realizar que a su vez será la salida del método \texttt{choose\_move}.
 
@@ -433,11 +433,135 @@ En un turno básico de batalla, el jugador puede escoger entre 14 acciones posib
     \end{cases}
 \]
 
-Por tanto, el vector de salida de la red neuronal va a tener una dimensión 14. El entorno nos dice qué acciones son legales y se enmascaran con un $-\infty$ las que no lo son. Se aplica un softmax y se obtiene la probabilidad de cada acción. Para finalizar, se muestrea una acción y se devuelve al entorno.
+Por tanto, la red neuronal produce un vector de 14 probabilidades, una para cada acción. Sin embargo, no todas las acciones son legales en todos los turnos. Se enmascaran con un $-\infty$ las acciones que no están en el conjunto de acciones legales proporcionado por poke-env. De este modo, la política aprendida opera siempre sobre el subconjunto de acciones permitido por el estado actual del combate. A continuación, se aplica un softmax y se obtiene la probabilidad de cada acción. Para finalizar, se muestrea una acción y se devuelve al entorno.
 
-La teracristalización es la mecánica característica de la IX generación de Pokémon. Está restringida a una vez por batalla y solo con un movimiento, no con un cambio. Por tanto, si el jugador ya ha teracristalizado, las acciones que incluyen la teracristalización no van a ser legales.
+\begin{minted}{python}
+# We apply the mask to the logits
+masked_logits = logits.clone()
+masked_logits[~mask] = float("-inf")
+
+# We apply softmax to get probabilities
+probs = torch.softmax(masked_logits, dim=0)
+
+# We sample an action from the distribution
+dist = torch.distributions.Categorical(probs)
+action = dist.sample()
+log_prob = dist.log_prob(action)
+self.log_probs.setdefault(battle.battle_tag, []).append(log_prob)
+
+if self.criticNetwork is not None:
+    self.values.setdefault(battle.battle_tag, []).append(
+        self.criticNetwork(inputs)
+    )
+
+return moves[action.item()]
+\end{minted}
+
+\noindent \textbf{Nota.} La teracristalización es la mecánica característica de la IX generación de Pokémon. Está restringida a una vez por batalla y solo con un movimiento, no con un cambio. Por tanto, si el jugador ya ha teracristalizado, las acciones que incluyen la teracristalización no van a ser legales.
 
 La librería poke-env~\cite{poke_env} siempre devuelve el equipo en el mismo orden, por lo que el Pokémon 0 es el primero que también aparece en los inputs de la red neuronal. No se puede hacer un cambio al Pokémon activo, por lo que si el Pokémon activo es el 0, la acción de cambio a Pokémon 0 no va a ser legal.
+
+En la implementación, el actor aprende una política estocástica sobre las acciones legales, mientras que el crítico aproxima el retorno esperado. Para cada trayectoria se calculan los retornos descontados y, cuando se emplea crítico, una ventaja estimada como la diferencia entre el retorno observado y el valor predicho por el crítico. La pérdida del actor favorece las acciones que producen ventaja positiva, mientras que la pérdida del crítico penaliza el error cuadrático entre el retorno y el valor estimado.
+
+Inicialización de los optimizadores para el actor y el crítico:
+
+\begin{minted}{python}
+self.optimizer = optim.Adam(self.actor.parameters(), lr=1e-3)
+if self.criticClass:
+    self.criticOptimizer = optim.Adam(self.critic.parameters(), lr=1e-3)
+\end{minted}
+
+Cálculo de la retropropagación de gradientes en una única iteración de entrenamiento (epoch):
+
+\begin{minted}{python}
+actorLoss = torch.tensor(0.0, device=device)
+averageRewardsEpoch = 0
+if self.criticClass:
+    criticLoss = torch.tensor(0.0, device=device)
+    averageCriticRewardsEpoch = 0
+
+for battle in self.player.battles.values():
+    nSteps = battle.turn
+    actorLossBattle = 0
+    if self.criticClass:
+        criticLossBattle = 0
+
+    # Reward sequence
+    rewards = self.calculateRewards(battle)
+
+    # Compute discounted returns
+    discountedRewards = []
+    cumulative = 0
+    for r in reversed(rewards):
+        cumulative = r + self.gamma * cumulative
+        discountedRewards.insert(0, cumulative)
+
+    discountedRewardsTensor = torch.tensor(
+        discountedRewards, dtype=torch.float32, device=device
+    )
+
+    averageRewardsEpoch += discountedRewardsTensor.mean().item()
+    if self.criticClass:
+        averageCriticRewardsEpoch += (
+            torch.stack(self.player.values[battle.battle_tag])
+            .to(device)
+            .mean()
+            .item()
+        )
+
+    # Calculate the loss using actor-critic
+    if self.criticClass:
+        for log_prob, G, V in zip(
+            self.player.log_probs[battle.battle_tag],
+            discountedRewardsTensor,
+            self.player.values[battle.battle_tag],
+        ):
+            log_prob = log_prob.squeeze()
+            G = G.squeeze()
+            V = V.squeeze()
+
+            # Detach critic value so actor and critic backprop use separate graphs.
+            advantage = G - V.detach()
+            actorLossBattle += -log_prob * advantage
+
+        for G, V in zip(
+            discountedRewardsTensor, self.player.values[battle.battle_tag]
+        ):
+            G = G.squeeze()
+            V = V.squeeze()
+            criticLossBattle += (V - G).pow(2)
+
+    # Calculate the loss using only actor
+    else:
+        for log_prob, G in zip(
+            self.player.log_probs[battle.battle_tag],
+            discountedRewardsTensor,
+        ):
+            log_prob = log_prob.squeeze()
+            G = G.squeeze()
+            actorLossBattle += -log_prob * G
+
+    # Normalize the loss by the number of steps in the battle
+    actorLoss += actorLossBattle / nSteps
+    if self.criticClass:
+        criticLoss += criticLossBattle / nSteps
+
+# Normalize the loss by the number of battles
+actorLoss /= len(self.player.battles)
+if self.criticClass:
+    criticLoss /= len(self.player.battles)
+
+# Backpropagation step
+self.optimizer.zero_grad()
+actorLoss.backward()
+self.optimizer.step()
+
+# Update the critic network
+if self.criticClass:
+    self.criticOptimizer.zero_grad()
+    criticLoss.backward()
+    self.criticOptimizer.step()
+\end{minted}
 
 \subsection{Evaluación de los datos obtenidos}
 
