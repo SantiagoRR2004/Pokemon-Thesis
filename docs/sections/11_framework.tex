@@ -374,7 +374,7 @@ Las dinámicas presentan al menos cuatro mecanismos acoplados distintos:
 \end{enumerate}
 Estos mecanismos ya están contenidos en la formulación estándar POSG/POMDP anterior; no requieren teoría adicional para quedar matemáticamente bien definidos.
 
-\subsection{Entorno de entrenamiento}
+\subsection{Entorno de entrenamiento} \label{sec:environment}
 
 Para jugar múltiples partidas se necesita un simulador. Aunque no es oficial de Game Freak (la compañía que desarrolla Pokémon, bajo el control de Nintendo), el más popular es Pokémon Showdown~\cite{pokemonShowdown}. Pokémon Showdown es un simulador de código abierto que no tiene una API oficial, pero existe la librería de python poke-env~\cite{poke_env} que permite conectarse a un servidor de Pokémon Showdown y jugar partidas. El servidor no permite repetir partidas (estocástica no repetible) ni empezar desde un punto intermedio, lo que hace el problema más difícil.
 
@@ -391,3 +391,35 @@ ServerConfiguration(
 \end{verbatim}
 
 Para que el agente pueda jugar, simplemente tiene que heredar de la clase \texttt{poke\_env.player.Player} e implementar el método \texttt{choose\_move}. Es en este método donde se recibe el estado de la batalla. Este estado de la batalla será la entrada al modelo (la red neuronal), que devolverá la acción a realizar que a su vez será la salida del método \texttt{choose\_move}.
+
+En un turno básico de batalla, el jugador puede escoger entre 14 acciones posibles.
+
+\[
+    a_t^i =
+    \begin{cases}
+        $\text{Movimiento 1}$                      \\
+        $\text{Movimiento 1 + Teracristalización}$ \\
+        $\text{Movimiento 2}$                      \\
+        $\text{Movimiento 2 + Teracristalización}$ \\
+        $\text{Movimiento 3}$                      \\
+        $\text{Movimiento 3 + Teracristalización}$ \\
+        $\text{Movimiento 4}$                      \\
+        $\text{Movimiento 4 + Teracristalización}$ \\
+        $\text{Cambio a Pokémon 0}$                \\
+        $\text{Cambio a Pokémon 1}$                \\
+        $\text{Cambio a Pokémon 2}$                \\
+        $\text{Cambio a Pokémon 3}$                \\
+        $\text{Cambio a Pokémon 4}$                \\
+        $\text{Cambio a Pokémon 5}$                \\
+    \end{cases}
+\]
+
+Por tanto, el vector de salida de la red neuronal va a tener una dimensión 14. El entorno nos dice qué acciones son legales y se enmascaran con un $-\infty$ las que no lo son. Se aplica un softmax y se obtiene la probabilidad de cada acción. Para finalizar, se muestrea una acción y se devuelve al entorno.
+
+La teracristalización es la mecánica característica de la IX generación de Pokémon. Está restringida a una vez por batalla y solo con un movimiento, no con un cambio. Por tanto, si el jugador ya ha teracristalizado, las acciones que incluyen la teracristalización no van a ser legales.
+
+La librería poke-env~\cite{poke_env} siempre devuelve el equipo en el mismo orden, por lo que el Pokémon 0 es el primero que también aparece en los inputs de la red neuronal. No se puede hacer un cambio al Pokémon activo, por lo que si el Pokémon activo es el 0, la acción de cambio a Pokémon 0 no va a ser legal.
+
+\subsection{Evaluación de los datos obtenidos}
+
+Para representar los datos obtenidos, no ha sido suficiente usar la librería de python Matplotlib~\cite{Hunter:2007} porque las gráficas con todos los experimentos de su entrenamiento no se veían con claridad. Para superar esta limitación, se ha utilizado la librería Plotly~\cite{plotly} que permite hacer gráficas interactivas y con zoom en las cuales se puede seleccionar qué experimentos son visibles.
