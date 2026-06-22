@@ -1,11 +1,3 @@
 \section{Modelado completo} \label{anexo:modeling}
 
-\newcommand{\insertpdf}[2]{%
-    \edef\maxpage{#2}%
-    \foreach \p in {1,...,\maxpage}{%
-            \includegraphics[page=\p,width=\textwidth]{#1}%
-            \clearpage
-        }%
-}
-
-\insertpdf{pokemon_game.pdf}{7}
+\includepdf[pages=-,pagecommand={\thispagestyle{fancy}}]{pokemon_game.pdf}

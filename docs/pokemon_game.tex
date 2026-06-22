@@ -44,7 +44,7 @@
 \title{Pok\'emon-Style Hidden-Information Battles as a Traditional Reinforcement-Learning Problem}
 
 \author{(Draft)}
-\date{\today}
+\date{April 29, 2026}
 
 \begin{abstract}
     We formulate Pok\'emon-style competitive (\emph{gen9randombattle}) battles as a standard reinforcement-learning object, without graphons or continuum limits. The underlying game is a two-player partially observable stochastic game with simultaneous action selection, rule-based stochastic resolution, hidden opponent information, and terminal win/loss objectives. We define the full battle state, legal action sets, public and private observations, transition kernel, reward structure, and belief-state dynamics. We also describe the induced single-agent partially observable Markov decision process obtained by treating the opponent and game engine as part of the environment. Because the real game is combinatorially large, we then introduce a reduced \emph{mini-Pok\'emon} model that preserves the essential mechanisms of hidden team information, switching, move choice, resource depletion, and matchup structure while remaining analytically and computationally tractable. The purpose of the paper is not to approximate the full game by a new theory, but to place the game itself on a precise mathematical footing suitable for RL, world-modeling, and later coarse-grained analysis.
