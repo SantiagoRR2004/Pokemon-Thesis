@@ -1,6 +1,6 @@
 \section{Hiperparámetro \emph{pokemon}} \label{anexo:hyperPokemon}
 
-\emph{pokemon} es un hiperparámetro que define qué representación se usará cada Pokémon (no incluye los movimientos). Este, junto con los hiperparámetros \emph{player} y \emph{move}, determinan el número de parámetros que tiene la primera capa de las redes neuronales (observación). La tabla \ref{tab:pokemonParameters} muestra las $12$ clases de representación. Los nombres de las clases son sacados del código implementado en el proyecto y siguen la nomenclatura de \emph{PokemonXX}, donde \emph{XX} representa como de compleja es la representación. La clase que tiene un número superior engloba a la clase que tiene un número inferior, es decir, tiene todos los atributos de la clase inferior y algunos más. \emph{S} significa que es la clase más compleja y que intenta representar todo lo posible sin importar que se generen demasiados parámetros.
+El hiperparámetro \emph{pokemon} define qué representación se usará cada Pokémon (no incluye los movimientos). Este, junto con los hiperparámetros \emph{player} y \emph{move}, determinan el número de parámetros que tiene la primera capa de las redes neuronales (observación). La tabla \ref{tab:pokemonParameters} muestra las $12$ clases de representación. Los nombres de las clases son sacados del código implementado en el proyecto y siguen la nomenclatura de \emph{PokemonXX}, donde \emph{XX} representa como de compleja es la representación. La clase que tiene un número superior engloba a la clase que tiene un número inferior, es decir, tiene todos los atributos de la clase inferior y algunos más. \emph{S} significa que es la clase más compleja y que intenta representar todo lo posible sin importar que se generen demasiados parámetros.
 
 \begin{table}[h]
     \centering
@@ -27,3 +27,198 @@
     \caption{Número de parámetros que se obtienen del entorno para cada Pokémon y número de experimentos que se han hecho con cada clase}
     \label{tab:pokemonParameters}
 \end{table}
+
+\begingroup
+\renewcommand{\addcontentsline}[3]{}%
+\subsection*{Pokemon00}
+\endgroup
+
+Esto ocurrirá para todas las representaciones de un Pokémon; en su interior, va a tener el vector que representa a cada uno de los $4$ movimientos que se obtiene de la clase que representa el hiperparámetro \emph{move}. En una misma batalla, el orden de estos no va a cambiar y se va a ir añadiendo más información. Si todavía no se conoce nada de un movimiento, se usa un vector de ceros.
+
+En el formato \emph{gen9randombattle} hay $1329$ formas posibles de Pokémon. El único atributo que la clase \emph{Pokemon00} es el índice de la forma del Pokémon de una lista fija. Un factor a tener en cuenta es que, mientras se van añadiendo más atributos, estos de forma indirecta, limitan el número de formas posibles de Pokémon.
+
+\begingroup
+\renewcommand{\addcontentsline}[3]{}%
+\subsection*{Pokemon01}
+\endgroup
+
+Esta representación añade $4$ booleanos que indican si exite representación de su respectivo movimiento. Si esta representación está vacía, se usa un 0 y si hay representación, se usa un 1.
+
+\begingroup
+\renewcommand{\addcontentsline}[3]{}%
+\subsection*{Pokemon02}
+\endgroup
+
+Esta representación añade $3$ enteros:
+
+\begin{itemize}
+    \item El índice de la habilidad del Pokémon. Es un número entero que va de 0 a $309$, que es el número de habilidades en el formato \emph{gen9randombattle}.
+    \item La proporción de vida restante del Pokémon. Es un flotante que va de 0 a 1, donde 0 significa que el Pokémon está debilitado y 1 significa que tiene toda la vida.
+    \item El índice del objeto que tiene el Pokémon. Es un número entero que va de 0 a $533$, que es el número de objetos en el formato \emph{gen9randombattle}.
+\end{itemize}
+
+\begingroup
+\renewcommand{\addcontentsline}[3]{}%
+\subsection*{Pokemon03}
+\endgroup
+
+Esta representación añade $2$ booleanos:
+
+\begin{itemize}
+    \item Un booleano que indica la existencia/conocimiento de la habilidad del Pokémon. 0 significa que no tiene habilidad o que no se conoce.
+    \item Un booleano que indica la existencia/conocimiento del objeto del Pokémon. 0 significa que no sujeta un objeto o que no se conoce.
+\end{itemize}
+
+\begingroup
+\renewcommand{\addcontentsline}[3]{}%
+\subsection*{Pokemon04}
+\endgroup
+
+Esta representación añade $5$ parámetros:
+
+\begin{itemize}
+    \item Un booleano que indica si el Pokémon ha sido revelado (mostrado al rival). 0 significa que no ha salido al campo.
+    \item Un booleano que indica si el Pokémon está activo. 0 significa que no está activo.
+    \item Un booleano que indica si el Pokémon está debilitado. 0 significa que no está debilitado.
+    \item Un booleano que indica si es el primer turno del Pokémon. 0 significa que no es el primer turno.
+    \item Un entero que indica el número de turnos consecutivos en los que se ha usado un movimiento sin fallar que incrementa el contador de protecciones. 0 significa que no se ha usado.
+\end{itemize}
+
+\begingroup
+\renewcommand{\addcontentsline}[3]{}%
+\subsection*{Pokemon05}
+\endgroup
+
+En el formato \emph{gen9randombattle} hay $20$ tipos posibles. Para representarlos se usa un vector de $20$ booleanos, donde cada posición representa un tipo y el valor indica si para la característica se tiene ese tipo o no. Esta representación añade $2$ vectores de $20$ booleanos que representan los tipos originales y los tipos actuales del Pokémon.
+
+\begingroup
+\renewcommand{\addcontentsline}[3]{}%
+\subsection*{Pokemon06}
+\endgroup
+
+Esta representación añade $26$ parámetros:
+
+\begin{itemize}
+    \item Un flotante que indica el nivel del Pokémon. Se divide entre $100$ para que el valor esté entre 0 y 1.
+    \item Un vector de $6$ flotantes entre 0 y 1 que representan las estadísticas base del Pokémon:
+          \begin{enumerate}
+              \item Vida
+              \item Ataque
+              \item Defensa
+              \item Ataque especial
+              \item Defensa especial
+              \item Velocidad
+          \end{enumerate}
+    \item Un vector de $6$ parejas ($12$) de parámetros que representan las estadísticas actuales del Pokémon. Cada par tiene un booleano que indica si se conoce la estadística y un flotante que indica el valor de la estadística en escala logarítmica. Si no se conoce, se usa un 0 y un 0. Si se conoce, se usa un 1 y el valor de la estadística. Las estadísticas están en el mismo orden que las estadísticas base.
+    \item Un vector de $7$ flotantes entre -1 y 1 que representan los aumentos de estadísticas del Pokémon:
+          \begin{enumerate}
+              \item Ataque
+              \item Defensa
+              \item Ataque especial
+              \item Defensa especial
+              \item Velocidad
+              \item Precisión
+              \item Evasión
+          \end{enumerate}
+\end{itemize}
+
+\begingroup
+\renewcommand{\addcontentsline}[3]{}%
+\subsection*{Pokemon07}
+\endgroup
+
+Esta representación añade $71$ parámetros:
+
+\begin{itemize}
+    \item Un vector de $6$ enteros que representan los estados no volátiles del Pokémon. Cada posición representa un estado y el valor indica el número de turnos que lleva activo, si es gravemente envenenado o dormido. El resto de los estados son booleanos. Los estados están en el siguiente orden:
+          \begin{enumerate}
+              \item Quemadura
+              \item Congelado
+              \item Paralizado
+              \item Envenenado
+              \item Envenenado gravemente
+              \item Dormido
+          \end{enumerate}
+    \item Un vector de $65$ enteros que representan los estados volátiles del Pokémon. Cada posición representa un estado y el valor es el máximo entre 1 y el número de turnos que lleva activo.
+
+          % Los estados están en el siguiente orden:
+          %       \begin{enumerate}
+          %           \item Profecía
+          %           \item Anulación
+          %           \item Antiaéreo
+          %           \item Maldición
+          %           \item Pesadilla
+          %           \item Alquitranazo
+          %           \item Movimiento bloqueado
+          %           \item Venganza
+          %           \item Hurto
+          %           \item Otra vez
+          %           \item Foco
+          %           \item Aguzar
+          %           \item Electrificación
+          %           \item Telatrampa
+
+          %       \end{enumerate}
+
+\end{itemize}
+
+\begingroup
+\renewcommand{\addcontentsline}[3]{}%
+\subsection*{Pokemon08}
+\endgroup
+
+Esta representación añade $23$ parámetros:
+
+\begin{itemize}
+    \item Un booleano que indica si el Pokémon ya ha teraevolucionado. 0 significa que no ha teraevolucionado.
+    \item Un booleano que indica si se conoce el tipo tera del Pokémon. 0 significa que no se conoce.
+    \item Un vector de $20$ booleanos que representan el tipo tera del Pokémon. Cada posición representa un tipo y el valor indica si es ese tipo o no.
+    \item Un flotante que indica el multiplicador STAB (Same-Type Attack Bonus) del Pokémon. Tiene en cuenta todos los factores que afectan al STAB.
+\end{itemize}
+
+\begingroup
+\renewcommand{\addcontentsline}[3]{}%
+\subsection*{Pokemon09}
+\endgroup
+
+Esta representación añade $8$ parámetros:
+
+\begin{itemize}
+    \item Un flotante que indica el peso del Pokémon. Se divide entre $1000$ para que el valor esté entre 0 y 1.
+    \item Un vector de $3$ booleanos que representan el género del Pokémon. Son mutuamente excluyentes:
+          \begin{enumerate}
+              \item Hembra
+              \item Macho
+              \item Sin sexo
+          \end{enumerate}
+    \item Un vector de $4$ parámetros que representan si el Pokémon está en un movimiento de dos turnos:
+          \begin{enumerate}
+              \item Un booleano que indica si el Pokémon está recargando. 0 significa que no está recargando.
+              \item Un booleano que indica si el Pokémon se está preparando. 0 significa que no se está preparando.
+              \item Un flotante entre 0 y 1 que indica cual de sus 4 movimientos se está preparando.
+              \item Un booleano que indica si el Pokémon tiene un objetivo. 0 significa que tiene un objetivo.
+          \end{enumerate}
+\end{itemize}
+
+\begingroup
+\renewcommand{\addcontentsline}[3]{}%
+\subsection*{Pokemon10}
+\endgroup
+
+Esta representación añade $842$ booleanos:
+
+\begin{itemize}
+    \item Un vector one-hot de $310$ booleanos que representa la habilidad del Pokémon. Substituye al entero que representaba la habilidad en las representaciones anteriores.
+    \item Un vector one-hot de $534$ booleanos que representa el objeto del Pokémon. Substituye al entero que representaba el objeto en las representaciones anteriores.
+\end{itemize}
+
+\begingroup
+\renewcommand{\addcontentsline}[3]{}%
+\subsection*{PokemonS}
+\endgroup
+
+Esta representación añade $1328$ booleanos:
+
+\begin{itemize}
+    \item Un vector one-hot de $1329$ booleanos que representa la forma del Pokémon. Substituye al entero que representaba la forma en las representaciones anteriores.
+\end{itemize}
