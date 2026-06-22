@@ -1,6 +1,6 @@
-\section{Texto redactado que no se está usando}
+\section{Pseudo-hiperparámetro \emph{nInputs}} \label{anexo:hyperNInputs}
 
-Podemos ver el número de parámetros para la representación del estado global o ver cada clase de manera individual. Si nos fijamos en la ilustración \ref{fig:experimentsByNInputs} y tabla \ref{tab:experimentsByNInputs}, podemos ver que la representación más utilizada es la que tiene $182$ parámetros, y que el resto se usaron más o menos un mismo número de veces.
+El pseudo-hiperparámetro \emph{nInputs} se denomina de este modo debido a que su valor no puede ajustarse directamente, sino que queda determinado por la combinación de los tres hiperparámetros \emph{player}, \emph{pokemon} y \emph{move}, es un hiperparámetro combinado. Este parámetro representa el número de variables de entrada empleadas en la representación del estado. La distribución de los experimentos realizados en función de (\emph{nInputs}) se muestra en la figura \ref{fig:experimentsByNInputs} y la tabla \ref{tab:experimentsByNInputs}. Se observa que la representación compuesta por 182 variables de entrada es la más utilizada, mientras que el resto de configuraciones presentan una distribución uniforme.
 
 \begin{table}[h]
     \centering
@@ -73,29 +73,4 @@ Podemos ver el número de parámetros para la representación del estado global 
     \includegraphics[width=0.8\textwidth]{../graphs/ExperimentsByNInputs.png}
     \caption{Número de experimentos por representación del estado}
     \label{fig:experimentsByNInputs}
-\end{figure}
-
-Finalmente también tenemos la ilustración \ref{fig:nInputsBradleyTerry}, que muestra la gráfica del valor Bradley-Terry para los experimentos hechos y la gráfica \ref{fig:nInputsSurrogateBradleyTerry} que muestra los valores de Bradley-Terry mediante el modelo sustitito.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/showdownLogo.png}
-    \caption{Valores de Bradley-Terry para los experimentos hechos}
-    \label{fig:nInputsBradleyTerry}
-\end{figure}
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/showdownLogo.png}
-    \caption{Valores de Bradley-Terry para los experimentos del modelo sustituto}
-    \label{fig:nInputsSurrogateBradleyTerry}
-\end{figure}
-
-En la ilustración \ref{fig:victoriesByNInputs} podemos ver durante el entrenamiento, el porcentaje de victoria de cada representación del estado contra sus oponentes. Por este motivo, hay combinaciones de oponentes más fuertes, y esto hace que el porcentaje de victorias sea menor. El porcentaje de victorias durante el entrenamiento no suele ser útil porque no vemos que se incremente de manera significativa durante el entrenamiento.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\textwidth]{../graphs/VictoryPercentageNInputs.png}
-    \caption{Proporción medio de victorias por representación del estado}
-    \label{fig:victoriesByNInputs}
 \end{figure}
