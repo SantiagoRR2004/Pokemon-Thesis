@@ -38,7 +38,7 @@ La características generales del formato \emph{gen9randombattle} que son fundam
 
 \subsection{Marco teórico del problema}
 
-En esta sección se describe el problema de las batallas del formato \emph{gen9randombattle} como POMDPs (\textit{Partially Observable Markov Decision Process}), o Proceso de decisión de Markov parcialmente observable. La tabla \ref{tab:caracteristicas} contiene la nomenclatura que se utilizará en el resto de esta sección. Si se desea ver una modelización más completa y detallada, se puede consultar el anexo \ref{anexo:modeling}.
+En esta sección se describe el problema de las batallas del formato \emph{gen9randombattle} como POMDPs (\textit{Partially Observable Markov Decision Process}), o Proceso de decisión de Markov parcialmente observable. La tabla \ref{tab:caracteristicas} contiene la nomenclatura que se utilizará en el resto de esta sección. Toda esta modelización surge de un borrador que modela el juego de Pokémon que se puede ver en el anexo \ref{anexo:modeling}.
 
 \begin{table}[h]
     \centering
@@ -120,7 +120,7 @@ $$
 $$
 donde:
 \begin{itemize}
-    \item $\mathsf{Pub}_t$ es el componente público visible para ambos jugadores;
+    \item $\mathsf{Pub}_t$ es el componente público visible para ambos jugadores.
     \item $\mathsf{Priv}_{i,t}$ es el componente privado conocido únicamente por el jugador $i$.
 \end{itemize}
 
@@ -128,7 +128,7 @@ La información pública típica incluye las especies actualmente reveladas, las
 
 \paragraph{Acciones y restricciones legales}
 
-En el turno $t$, ambos jugador eligen una acción simultáneamente y a priori. Para el jugador $i$, el conjunto de acciones legales depende del estado completo actual:
+En el turno $t$, ambos jugadores eligen una acción simultáneamente y a priori. Para el jugador $i$, el conjunto de acciones legales depende del estado completo actual:
 $$
     a_t^i \in \cA_i(s_t)
 $$
@@ -171,16 +171,16 @@ De forma equivalente, puede expresarse la observación como una función determi
 
 Una observación típica contiene:
 \begin{itemize}
-    \item el tablero de combate público actual;
-    \item las unidades activas visibles y sus condiciones públicas;
-    \item todos los eventos públicos del turno anterior;
-    \item información completa sobre el propio equipo del agente;
-    \item el subconjunto actualmente conocido de la información revelada del equipo del oponente.
+    \item El tablero de combate público actual.
+    \item Las unidades activas visibles y sus condiciones públicas.
+    \item Todos los eventos públicos del turno anterior.
+    \item Información completa sobre el propio equipo del agente.
+    \item El subconjunto actualmente conocido de la información revelada del equipo del oponente.
 \end{itemize}
 
 \paragraph{Historiales y políticas}
 
-Debido a que el juego es parcialmente observable, el agente actúa a partir de historiales en lugar del estado completo. El historial de información del jugador $i$ hasta el turno $t$ es
+Debido a que el juego es parcialmente observable, el agente actúa a partir de historiales en lugar de a partir del estado completo. El historial de información del jugador $i$ hasta el turno $t$ es
 $$
     h_t^i = (o_0^i,a_0^i,o_1^i,a_1^i,\dots,o_t^i)
 $$
@@ -319,7 +319,7 @@ En los juegos de suma cero, un valor de equilibrio $V^\star$ satisface formalmen
     \EE\big[r_1 + \gamma V^\star(b')\mid b\big]
     \label{eq:bellman_isaacs}
 \end{equation}
-donde $\sigma_1$ y $\sigma_2$ son acciones mixtas locales condicionadas al estado de información actual. En la práctica, resolver exactamente la Ec.~\eqref{eq:bellman_isaacs} es inviable para juegos realistas, pero proporciona el objeto formal correcto.
+donde $\sigma_1$ y $\sigma_2$ son acciones mixtas locales condicionadas al estado de información actual. En la práctica, resolver exactamente la ecuación.~\eqref{eq:bellman_isaacs} es inviable para juegos realistas, pero proporciona el objeto formal correcto.
 
 \subsubsection{Variables de estado que impulsan la dinámica del combate}
 
@@ -346,10 +346,10 @@ $$
 $$
 donde:
 \begin{itemize}
-    \item $\lambda_{i,k}^t \in [0,1]$ es la fracción de HP;
-    \item $\sigma_{i,k}^t$ es el estado persistente;
-    \item $\beta_{i,k}^t$ denota incrementos o reducciones de estadísticas;
-    \item $\nu_{i,k}^t$ denota condiciones volátiles;
+    \item $\lambda_{i,k}^t \in [0,1]$ es la fracción de HP.
+    \item $\sigma_{i,k}^t$ es el estado persistente.
+    \item $\beta_{i,k}^t$ denota incrementos o reducciones de estadísticas.
+    \item $\nu_{i,k}^t$ denota condiciones volátiles.
     \item $f_{i,k}^t \in \{0,1\}$ indica si la unidad se ha debilitado.
 \end{itemize}
 
@@ -367,10 +367,10 @@ donde $\tau_t$ denota de forma esquemática el conjunto de temporizadores y cont
 
 Las dinámicas presentan al menos cuatro mecanismos acoplados distintos:
 \begin{enumerate}
-    \item \emph{agotamiento de recursos}: pérdida de HP, estados alterados, debilitamiento y pérdida de presencia en el tablero;
-    \item \emph{control de configuración}: cambios y selección de enfrentamientos activos;
-    \item \emph{revelación de información oculta}: los movimientos, objetos, habilidades o la composición de reservas se van revelando parcialmente a través del juego;
-    \item \emph{resolución táctica estocástica}: precisión, tiradas de daño, efectos secundarios e incertidumbre en el orden de resolución.
+    \item \emph{Agotamiento de recursos}: pérdida de HP, estados alterados, debilitamiento y pérdida de presencia en el tablero.
+    \item \emph{Control de configuración}: cambios y selección de enfrentamientos activos.
+    \item \emph{Revelación de información oculta}: los movimientos, objetos, habilidades o la composición de reservas se van revelando parcialmente a través del juego.
+    \item \emph{Resolución táctica estocástica}: precisión, tiradas de daño, efectos secundarios e incertidumbre en el orden de resolución.
 \end{enumerate}
 Estos mecanismos ya están contenidos en la formulación estándar POSG/POMDP anterior; no requieren teoría adicional para quedar matemáticamente bien definidos.
 
