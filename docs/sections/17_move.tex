@@ -26,3 +26,212 @@ El hiperparámetro \emph{move} define qué representación se usará cada movimi
     \caption{Número de parámetros que se obtienen del entorno para cada movimiento y número de experimentos que se han hecho con cada clase}
     \label{tab:moveParameters}
 \end{table}
+
+\begingroup
+\renewcommand{\addcontentsline}[3]{}%
+\subsection*{Move00}
+\endgroup
+
+En el formato \emph{gen9randombattle} hay $950$ movimientos posibles. El único atributo que la clase \emph{Move00} es el índice del movimiento de una lista fija. Un factor a tener en cuenta es que, mientras se van añadiendo más atributos, estos de forma indirecta, limitan el número de movimientos posibles.
+
+\begingroup
+\renewcommand{\addcontentsline}[3]{}%
+\subsection*{Move01}
+\endgroup
+
+Esta representación añade $25$ parámetros:
+
+\begin{itemize}
+    \item Un vector de $20$ booleanos que representa el tipo del movimiento. En el formato \emph{gen9randombattle} hay $20$ tipos posibles.
+    \item Un vector one-hot de $3$ booleanos que representa la categoría del movimiento. Son:
+          \begin{enumerate}
+              \item Físico
+              \item Especial
+              \item Estado
+          \end{enumerate}
+    \item Un flotante que indica la potencia base del movimiento. Se normaliza dividiéndolo entre $120$, ya que los movimientos con potencia superior a $120$ son muy raros.
+    \item Un flotante que indica la precisión del movimiento. Ya se encuentra normalizado entre $0$ y $1$.
+\end{itemize}
+
+\begingroup
+\renewcommand{\addcontentsline}[3]{}%
+\subsection*{Move02}
+\endgroup
+
+Esta representación añade $13$ parámetros:
+
+\begin{itemize}
+    \item Un flotante entre $0$ y $1$ que indica el porcentaje de PP restante del movimiento. Se normaliza dividiéndolo entre el PP máximo del movimiento.
+    \item Un flotante entre $0$ y $1$ que indica el PP máximo del movimiento.
+    \item Un flotante entre $-1$ y $1$ que indica la prioridad del movimiento.
+    \item Un vector de $6$ flotantes que indica a donde se puede/tiene que apuntar el movimiento.
+          \begin{itemize}
+              \item $0$ significa que no se puede apuntar a ese objetivo.
+              \item $0.5$ sisgnifica que se puede elegir objetivo.
+              \item $0.75$ significa que es aleatorio entre los objetivos posibles.
+              \item $1$ significa que es obligatorio apuntar a ese objetivo.
+          \end{itemize}
+    \item Un flotante entre $0$ y $1$ que indica la probabilidad de golpe crítico del movimiento.
+    \item Un vector de $3$ entre $0$ y $1$ flotantes que indica el número de golpes del movimiento.
+          \begin{enumerate}
+              \item El primer flotante indica el número mínimo de golpes.
+              \item El segundo flotante indica el número esperado de golpes.
+              \item El tercer flotante indica el número máximo de golpes.
+          \end{enumerate}
+\end{itemize}
+
+\begingroup
+\renewcommand{\addcontentsline}[3]{}%
+\subsection*{Move03}
+\endgroup
+
+Esta representación añade $9$ parámetros:
+
+\begin{itemize}
+    \item Un vector de $7$ flotantes entre $-1$ y $1$ que indica los aumentos/descensos de estadísticas que da el movimiento.
+          \begin{enumerate}
+              \item Ataque
+              \item Defensa
+              \item Ataque especial
+              \item Defensa especial
+              \item Velocidad
+              \item Precisión
+              \item Evasión
+          \end{enumerate}
+    \item Un booleano que indica si el movimiento aumenta el contador de protección.
+    \item Un booleano que indica si el movimiento crea una condición en el campo de batalla.
+\end{itemize}
+
+\begingroup
+\renewcommand{\addcontentsline}[3]{}%
+\subsection*{Move04}
+\endgroup
+Esta representación añade $7$ booleanos:
+
+\begin{itemize}
+    \item Un booleano que indica si el movimiento es un movimiento de protección.
+    \item Un booleano que indica si el movimiento también defiende a un aliado.
+    \item Un booleano que indica si el movimiento cambia el tiempo atmosférico.
+    \item Un booleano que indica si el movimiento cambia el tiempo atmosférico de forma indirecta.
+    \item Un booleano que indica si el movimiento cambia el terreno.
+    \item Un booleano que indica si el movimiento cura a un aliado.
+    \item Un booleano que indica si el movimiento es un movimiento que frena el flujo del juego (stalling). Este tipo de movimientos son categorizados por Showdown.
+\end{itemize}
+
+\begingroup
+\renewcommand{\addcontentsline}[3]{}%
+\subsection*{Move05}
+\endgroup
+
+Esta representación añade $9$ parámetros:
+
+\begin{itemize}
+    \item Un vector one-hot de $3$ booleanos que indica a qué defensa apunta el movimiento.
+          \begin{enumerate}
+              \item Físico
+              \item Especial
+              \item Estado
+          \end{enumerate}
+    \item Un vector de $6$ flotantes entre $0$ y $1$ que indica la probabilidad de que el movimiento cause un estado no volátil. Puede ser el propósito principal del movimiento o un efecto secundario, por lo que es la probabilidad de infligir el estado no volátil, una vez que el movimiento acierta.
+          \begin{enumerate}
+              \item Quemado
+              \item Congelado
+              \item Paralizado
+              \item Envenenado
+              \item Gravemente envenenado
+              \item Dormido
+          \end{enumerate}
+\end{itemize}
+
+\begingroup
+\renewcommand{\addcontentsline}[3]{}%
+\subsection*{Move06}
+\endgroup
+
+Esta representación añade $12$ parámetros de efectos secundarios garantizados:
+
+\begin{itemize}
+    \item Un booleano que indica si el movimiento puede atravesar protección.
+    \item Un flotante entre $0$ y $1$ que indica el porcentaje que el movimiento drena.
+    \item Un flotante entre $0$ y $1$ que indica el porcentaje que el movimiento cura.
+    \item Un flotante entre $0$ y $1$ que indica el porcentaje de daño de retroceso.
+    \item Un booleano que indica si el movimiento es un movimiento de cambio propio.
+    \item Un booleano que indica si el movimiento fuerza al oponente a cambiar.
+    \item Un booleano que indica si el movimiento ignora habilidades.
+    \item Un booleano que indica si el movimiento ignora aumentos defensivos.
+    \item Un booleano que indica si el movimiento ignora evasión.
+    \item Un booleano que indica si el movimiento ignora inmunidades.
+    \item Un booleano que indica si el movimiento es un movimiento de autodestrucción.
+    \item Un booleano que indica si el movimiento descongela.
+\end{itemize}
+
+\begingroup
+\renewcommand{\addcontentsline}[3]{}%
+\subsection*{Move07}
+\endgroup
+
+Esta representación añade $14$ flotantes de aumentos/descensos de estadísticas:
+
+\begin{itemize}
+    \item Un vector de $7$ flotantes entre $-1$ y $1$ que indica los aumentos/descensos de estadísticas que puede dar el movimiento a sí mismo como efecto secundario. Sigue el mismo orden que los aumentos/descensos de estadísticas que da el movimiento.
+    \item Un vector de $7$ flotantes entre $-1$ y $1$ que indica los aumentos/descensos de estadísticas que puede dar el movimiento al oponente como efecto secundario. Sigue el mismo orden que los aumentos/descensos de estadísticas que da el movimiento.
+\end{itemize}
+
+\begingroup
+\renewcommand{\addcontentsline}[3]{}%
+\subsection*{Move08}
+\endgroup
+
+Esta representación añade $65$ flotantes de estados volátiles. Puede ser el propósito principal del movimiento o un efecto secundario, por lo que es la probabilidad de infligir el estado volátil, una vez que el movimiento acierta.
+
+\begingroup
+\renewcommand{\addcontentsline}[3]{}%
+\subsection*{Move09}
+\endgroup
+
+Esta representación añade $32$ booleanos que indican si el movimiento tiene ciertas características. Estas características son:
+
+\begin{enumerate}
+    \item Si el movimiento puede ser bloqueado por protección.
+    \item Si el movimiento hace contacto físico.
+    \item Si el movimiento puede ser copiado por movimiento espejo.
+    \item Si el movimiento es de tipo bala.
+    \item Si el movimiento es un puñetazo.
+    \item Si el movimiento es de tipo viento.
+    \item Si el movimiento es de tipo polvo.
+    \item Si el movimiento puede ser copiado por robo.
+    \item Si el movimiento puede ser reflejado por capa mágica o rebote mágico.
+    \item Si el movimiento es de tipo sonido.
+    \item Si el movimiento es de tipo mordisco.
+    \item Si el movimiento ignora sustituto.
+    \item Si el movimiento es un baile.
+    \item Si el movimiento es de tipo aura/pulso.
+    \item Si el movimiento es de tipo cortante.
+    \item Si el movimiento se ve afectado por gravedad.
+    \item Si la potencia base del movimiento cambia según alguna condición.
+    \item Si el daño del movimiento cambia según alguna condición.
+    \item Si el movimiento cura al usuario.
+    \item Si el movimiento tiene un efecto después de golpear.
+    \item Si el movimiento no funciona en combates aéreos.
+    \item Si el movimiento falla cuando es copiado por copión.
+    \item Si el movimiento no puede ser repetido por mandato.
+    \item Si el movimiento falla cuando es copiado por mimético.
+    \item Si el movimiento no puede ser copiado por boceto.
+    \item Si el movimiento falla cuando es usado por yo primero.
+    \item Si el movimiento no puede ser usado por sonámbulo.
+    \item Si el movimiento requiere un turno de carga.
+    \item Si el movimiento requiere un turno de recarga.
+    \item Si el movimiento no puede ser usado dos veces seguidas.
+    \item Si el movimiento es uno de los votos.
+\end{enumerate}
+
+\begingroup
+\renewcommand{\addcontentsline}[3]{}%
+\subsection*{PokemonS}
+\endgroup
+
+Esta representación añade $1136$ booleanos:
+
+\begin{itemize}
+    \item Un vector one-hot de $1137$ booleanos que representa el movimiento. Substituye al entero que representaba el índice del movimiento en las representaciones anteriores.
+\end{itemize}
