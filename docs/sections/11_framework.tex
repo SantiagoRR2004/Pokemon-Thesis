@@ -38,26 +38,39 @@ La características generales del formato \emph{gen9randombattle} que son fundam
 
 \subsection{Marco teórico del problema}
 
-En esta sección se describe el problema de las batallas del formato \emph{gen9randombattle} como POMDPs (\textit{Partially Observable Markov Decision Process}), o Proceso de decisión de Markov parcialmente observable. La tabla \ref{tab:caracteristicas} contiene la nomenclatura que se utilizará en el resto de esta sección. Toda esta modelización surge de un borrador que modela el juego de Pokémon que se puede ver en el anexo \ref{anexo:modeling}.
+Formalmente, el combate completo puede verse como un juego estocástico parcialmente observable de dos jugadores. Sin embargo, desde la perspectiva de un agente concreto, si la política del oponente se considera fija o se absorbe dentro de la dinámica del entorno, el problema inducido puede tratarse como un POMDP (\textit{Partially Observable Markov Decision Process}), o Proceso de Decisión de Markov Parcialmente Observable. En esta sección se describe el problema de las batallas del formato \emph{gen9randombattle} bajo este marco de modelización. La tabla \ref{tab:caracteristicas} contiene la nomenclatura que se utilizará en el resto de esta sección. Toda esta modelización surge de un borrador que modela el juego de Pokémon que se puede ver en el anexo \ref{anexo:modeling}.
 
 \begin{table}[h]
     \centering
     {\small \begin{tabular}{ll}
             \toprule
-            Símbolo                 & Significado                                                                      \\
+            Símbolo                              & Significado                                                                      \\
             \midrule
-            $t \in \{0,1,2,\dots\}$ & Índice del turno.                                                                \\
-            $\cS$                   & Espacio de estados completo oculto de la batalla.                                \\
-            $s_t \in \cS$           & Estado markoviano completo en el turno $t$.                                      \\
-            $i \in \{1,2\}$         & Índice del jugador.                                                              \\
-            $\cA_i(s)$              & Conjunto de acciones legales para el jugador $i$ en el estado $s$.               \\
-            $a_t^i \in \cA_i(s_t)$  & Acción elegida por el jugador $i$ en el turno $t$.                               \\
-            $\gamma \in (0,1]$      & Factor de descuento.                                                             \\
-            $\Xi$                   & Conjunto de etiquetas de especies o tipos.                                       \\
-            $\cM$                   & Espacio de configuraciones latentes de movimientos.                              \\
-            $\cU$                   & Espacio de configuraciones latentes de objetos/habilidades/estadísticas.         \\
-            $\mathsf{HP}$           & Variables de puntos de vida para todas las unidades activas y de reserva.        \\
-            $\mathsf{Field}$        & Estado público del campo (clima, terreno, trampas, pantallas, contadores, etc.). \\
+            $t \in \{0,1,2,\dots\}$              & Índice del turno.                                                                \\
+            $\cS$                                & Espacio de estados completo oculto de la batalla.                                \\
+            $s_t \in \cS$                        & Estado markoviano completo en el turno $t$.                                      \\
+            $i \in \{1,2\}$                      & Índice del jugador.                                                              \\
+            $\cA_i(s)$                           & Conjunto de acciones legales para el jugador $i$ en el estado $s$.               \\
+            $a_t^i \in \cA_i(s_t)$               & Acción elegida por el jugador $i$ en el turno $t$.                               \\
+            $\cO_i$                              & Espacio de observación del jugador $i$.                                          \\
+            $o_t^i \in \cO_i$                    & Observación recibida por el jugador $i$ en el turno $t$.                         \\
+            $\Omega_i(o\mid s)$                  & Núcleo de observación del jugador $i$.                                           \\
+            $P(s'\mid s,a^1,a^2)$                & Núcleo de transición de estados del motor del juego.                             \\
+            $h_t^i$                              & Historial de información del jugador $i$ hasta el turno $t$.                     \\
+            $\pi_i(a\mid h_t^i)$                 & Política del jugador $i$.                                                        \\
+            $r_i(s_t,a_t^1,a_t^2,s_{t+1})$       & Recompensa por turno del jugador $i$.                                            \\
+            $G_t^i$                              & Retorno descontado del jugador $i$ a partir del turno $t$.                       \\
+            $\gamma \in (0,1]$                   & Factor de descuento.                                                             \\
+            \multirow{2}{*}{$b_t^i$}             & Estado de creencia del jugador $i$, es decir, la distribución posterior          \\
+                                                 & sobre los estados ocultos dado $h_t^i$.                                          \\
+            $V^{\pi_1,\pi_2}$, $Q^{\pi_1,\pi_2}$ & Funciones de valor y de valor de acción.                                         \\
+            $\Xi$                                & Conjunto de etiquetas de especies o tipos.                                       \\
+            $\cM$                                & Espacio de configuraciones latentes de movimientos.                              \\
+            $\cU$                                & Espacio de configuraciones latentes de objetos/habilidades/estadísticas.         \\
+            $\mathsf{HP}$                        & Variables de puntos de vida para todas las unidades activas y de reserva.        \\
+            $\mathsf{Field}$                     & Estado público del campo (clima, terreno, trampas, pantallas, contadores, etc.). \\
+            $\mathsf{Priv}_i$                    & Información privada oculta del jugador $i$.                                      \\
+            $\mathsf{Pub}$                       & Información de combate visible públicamente.                                     \\
             \bottomrule
         \end{tabular}}
     \caption{Terminología y formulación usados en el modelado de un combate Pokémon  \emph{gen9randombattle} como un POMDP}
@@ -213,6 +226,8 @@ Para juegos de suma cero,
 $$
     R_T^2 = -R_T^1
 $$
+
+\noindent \textbf{Nota.} Aunque en la formulación teórica se explica una recompensa normalizada de +/-1, en la implementación se utiliza una versión escalada de esta recompensa terminal, +/-1000, junto con recompensas intermedias definidas en las funciones \emph{RewardFunction01} y \emph{RewardFunction02} (anexo \ref{anexo:hyperReward}).
 
 \paragraph{Recompensas por turno}
 
@@ -373,6 +388,10 @@ Las dinámicas presentan al menos cuatro mecanismos acoplados distintos:
     \item \emph{Resolución táctica estocástica}: precisión, tiradas de daño, efectos secundarios e incertidumbre en el orden de resolución.
 \end{enumerate}
 Estos mecanismos ya están contenidos en la formulación estándar POSG/POMDP anterior; no requieren teoría adicional para quedar matemáticamente bien definidos.
+
+\noindent \textbf{Resumen del marco teórico}
+
+En este TFG, la formulación anterior se utiliza como marco conceptual para justificar la dificultad del problema. Sin embargo, el agente implementado no mantiene una creencia bayesiana explícita sobre el estado oculto ni resuelve exactamente las ecuaciones de Bellman en el espacio de creencias. En la práctica, el historial y la información parcial del combate se aproximan mediante un vector de observación construido a partir de las representaciones del campo de batalla, Pokémon y movimiento, que se proporciona como entrada a las redes neuronales del actor y, cuando se utiliza, del crítico.
 
 \subsection{Entorno de entrenamiento} \label{sec:environment}
 
