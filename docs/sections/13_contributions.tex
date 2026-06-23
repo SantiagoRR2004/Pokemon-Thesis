@@ -6,7 +6,7 @@ Para exponer las contribuciones de este proyecto, estas se organizarán en torno
 
 Como la representación del estado depende de tres hiperparámetros \emph{player}, \emph{pokemon} y \emph{move}, se analizará el efecto de cada uno de ellos por separado. No obstante, el anexo \ref{anexo:hyperNInputs} explica la distribución del pseudo-hiperparámetro \emph{nInputs}, que combina los tres anteriores.
 
-Si se considera el número de parámetros de entrada (\textit{nInputs}) y se representa la puntuación media de fuerza obtenida mediante el modelo de Bradley-Terry para cada representación, se obtiene la gráfica \ref{fig:BattlesNInputs}. A partir de ella puede rechazarse la hipótesis de que el número de parámetros de entrada, por sí solo, explique el rendimiento del modelo, ya que no se observa un patrón claro entre ambas variables. Aún así, se analizaran los tres hiperparámetros por separado para ver si se pueden extraer conclusiones más concretas sobre cada uno de ellos.
+Si se considera el número de parámetros de entrada (\textit{nInputs}) y se representa la puntuación media de fuerza obtenida mediante el modelo de Bradley-Terry para cada representación, se obtiene la gráfica \ref{fig:BattlesNInputs}. A partir de ella puede rechazarse la hipótesis de que el número de parámetros de entrada, por sí solo, explique el rendimiento del modelo, ya que no se observa un patrón claro entre ambas variables. Aún así, se analizarán los tres hiperparámetros por separado para ver si se pueden extraer conclusiones más concretas sobre cada uno de ellos.
 
 \begin{figure}[h]
     \centering
@@ -15,7 +15,7 @@ Si se considera el número de parámetros de entrada (\textit{nInputs}) y se rep
     \label{fig:BattlesNInputs}
 \end{figure}
 
-Una importante aclaración sobre los hiperparámetros individuales es su nomenclatura.  Las representaciones se nombran igual que la implementación de sus correspondientes clases en el código y siguen la nomenclatura de [\emph{AIPlayer \textbar Pokemon \textbar Move}]\emph{XX}, donde \emph{XX} representa el nivel de complejidad. La clase con número superior engloba a la clase con un número inferior, es decir, tiene todos los atributos de la clase inferior y algunos más. \emph{S} significa que es la clase más compleja y que intenta representar todo sin que haya límite en el número de parámetros. Para ver los detalles de cada representación, véase los anexos \ref{anexo:hyperPlayer}, \ref{anexo:hyperPokemon} y \ref{anexo:hyperMove}.
+Una importante aclaración sobre los hiperparámetros individuales es su nomenclatura. Las representaciones se nombran igual que la implementación de sus correspondientes clases en el código y siguen la nomenclatura de [\emph{AIPlayer \textbar Pokemon \textbar Move}]\emph{XX}, donde \emph{XX} representa el nivel de complejidad. La clase con número superior engloba a la clase con un número inferior, es decir, tiene todos los atributos de la clase inferior y algunos más. \emph{S} significa que es la clase más compleja y que intenta representar todo sin que haya límite en el número de parámetros. Para ver los detalles de cada representación, véase los anexos \ref{anexo:hyperPlayer}, \ref{anexo:hyperPokemon} y \ref{anexo:hyperMove}.
 
 \subsubsection{Hiperparámetro \emph{player}}
 
@@ -66,7 +66,7 @@ Para el análisis de esta hipótesis, se examinan las diversas gráficas y tabla
     \label{fig:VictoryPercentageUseSelfPlay}
 \end{figure}
 
-Estudiando la pérdida del actor (ilustración \ref{fig:AverageActorLossesUseSelfPlay}) y la del crítico (ilustración \ref{fig:AverageCriticLossesUseSelfPlay}), podemos ver que jugando contra uno mismo la pérdida es menor. Esto también ocurre porque al enfrentarse contra más tipos de oponentes, hay más episodios por epoch y el promedio se acerca más a cero. Esto no quiere decir que no se vea que durante el entrenamiento, usar \texttt{useSelfPlay=True} hace que la pérdida descienda relativamente más rápido que si se juega contra un oponente fijo.
+Estudiando la pérdida del actor (ilustración \ref{fig:AverageActorLossesUseSelfPlay}) y la del crítico (ilustración \ref{fig:AverageCriticLossesUseSelfPlay}), podemos ver que jugando contra uno mismo la pérdida es menor. Esto también ocurre porque al enfrentarse contra más tipos de oponentes, hay más episodios por epoch y el promedio se acerca más a cero. Aún así, se observa que durante el entrenamiento, usar \texttt{useSelfPlay=True} hace que la pérdida descienda relativamente más rápido que si se juega contra un oponente fijo.
 
 \begin{figure}[h]
     \centering
@@ -98,7 +98,7 @@ El hecho de estar correlacionado con \texttt{useMaxDamage=True}, hace que la rec
     \label{fig:AverageRewardsUseMaxDamage}
 \end{figure}
 
-Como entre las $151$ combinaciones ejecutadas de los hiperparámetros no se encuentra ninguna pareja en la cual solo varía el hiperparámetro \emph{useSelfPlay}, no se puede calcular una matriz de comparaciones directas como se ha hecho con otros hiperparámetros. Lo que sí que se puede hacer es ver la puntuación Bradley-Terry de los experimentos comparados contra el jugador aleatorio (tabla \ref{tab:bradleyTerryUseSelfPlay}). La mayoría de experimentos son notablemente superiores al jugador aleatorio, uno está a su mismo nivel (\emph{experiment141}) y dos son inferiores.
+Como entre las $151$ combinaciones ejecutadas de los hiperparámetros no se encuentra ninguna pareja en la cual solo varía el hiperparámetro \emph{useSelfPlay}, no se puede calcular una matriz de comparaciones directas como se ha hecho con otros hiperparámetros. Lo que sí se puede hacer es ver la puntuación Bradley-Terry de los experimentos comparados contra el jugador aleatorio (tabla \ref{tab:bradleyTerryUseSelfPlay}). La mayoría de experimentos son notablemente superiores al jugador aleatorio, uno está a su mismo nivel (\emph{experiment141}) y dos son inferiores.
 
 \begin{table}[h]
     \centering
@@ -128,7 +128,7 @@ Otra comparación que se puede hacer es usar la puntuación relativa que le da e
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.25\textwidth]{images/SurrogateUseSelfPlay.png}
-    \caption[Puntuación relativa del modelo predictor para diferentes valores del hiperparámetro \emph{useSelfPlay}]{Puntuación relativa del modelo predictor para diferentes valores del hiperparámetro \emph{useSelfPlay}. Obsérvese que la puntuación está redondeada a dos decimales, pero que la opción de True sobre False es positiva.}
+    \caption[Puntuación relativa del modelo predictor para diferentes valores del hiperparámetro \emph{useSelfPlay}]{Puntuación relativa del modelo predictor para diferentes valores del hiperparámetro \emph{useSelfPlay}. Obsérvese que la puntuación está redondeada a dos decimales, pero la opción de True sobre False es positiva.}
     \label{fig:SurrogateUseSelfPlay}
 \end{figure}
 

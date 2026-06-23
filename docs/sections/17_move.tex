@@ -32,7 +32,7 @@ El hiperparámetro \emph{move} define qué representación se usará cada movimi
 \subsection*{Move00}
 \endgroup
 
-En el formato \emph{gen9randombattle} hay $950$ movimientos posibles. El único atributo que la clase \emph{Move00} es el índice del movimiento de una lista fija. Un factor a tener en cuenta es que, mientras se van añadiendo más atributos, estos de forma indirecta, limitan el número de movimientos posibles.
+En el formato \emph{gen9randombattle} hay $950$ movimientos posibles. El único atributo de la clase \emph{Move00} es el índice del movimiento de una lista fija. Un factor a tener en cuenta es que, mientras se van añadiendo más atributos, estos de forma indirecta, limitan el número de movimientos posibles.
 
 \begingroup
 \renewcommand{\addcontentsline}[3]{}%
@@ -67,7 +67,7 @@ Esta representación añade $13$ parámetros:
     \item Un vector de $6$ flotantes que indica a donde se puede/tiene que apuntar el movimiento.
           \begin{itemize}
               \item $0$ significa que no se puede apuntar a ese objetivo.
-              \item $0.5$ sisgnifica que se puede elegir objetivo.
+              \item $0.5$ significa que se puede elegir objetivo.
               \item $0.75$ significa que es aleatorio entre los objetivos posibles.
               \item $1$ significa que es obligatorio apuntar a ese objetivo.
           \end{itemize}

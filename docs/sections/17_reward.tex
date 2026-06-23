@@ -33,7 +33,7 @@ Lo que diferencia a estas funciones es la recompensa de los turnos intermedios, 
 
     \item \textbf{RewardFunction02}: para ambos jugadores, el porcentaje de vida restante de todos sus Pokémon ($\mathsf{HP}$) siempre es conocido. Es posible tener en cuenta la diferencia de vida entre dos turnos consecutivos y usar esta diferencia como recompensa. Un incremento en la vida de un Pokémon propio es una acción positiva, mientras que una reducción en la vida de un Pokémon propio es una acción negativa. Lógicamente (es un problema de suma cero), ocurre lo contrario con la vida del oponente.
 
-          Un ejemplo de esto se puede ver en la ilustración \ref{fig:turn6}, que muestra un turno de una batalla un Pokémon \emph{Grafaiai} propio y un Pokémon \emph{Mightyena} del oponente. El \emph{Grafaiai} propio le inflinge 11\% de daño al \emph{Mightyena}, mientras que \emph{Mightyena} le ocasiona 31\% de daño a \emph{Grafaiai}. La recompensa para el jugador propio será entonces $-0.31 - (-0.11) = -0.2$.
+          Un ejemplo de esto se puede ver en la ilustración \ref{fig:turn6}, que muestra un turno de una batalla entre un Pokémon \emph{Grafaiai} propio y un Pokémon \emph{Mightyena} del oponente. El \emph{Grafaiai} propio le inflige 11\% de daño al \emph{Mightyena}, mientras que \emph{Mightyena} le ocasiona 31\% de daño a \emph{Grafaiai}. La recompensa para el jugador propio será entonces $-0.31 - (-0.11) = -0.2$.
 
           \begin{figure}[h]
               \centering

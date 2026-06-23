@@ -23,7 +23,7 @@ El hiperparámetro \emph{critic} elige la arquitectura de la red neuronal que se
 
 No es posible dar un número exacto de parámetros de cada red neuronal, ya que la primera capa depende de la representación escogida ($nInputs$) mediante los hiperparámetros \emph{player} (anexo \ref{anexo:hyperPlayer}), pokemon (anexo \ref{anexo:hyperPokemon}) y moves (anexo \ref{anexo:hyperMove}). En términos de implementación del código, cuando al instanciar la clase del critic, se le pasa como argumento la clase de \emph{player} que a su vez se inicializa con la clase de \emph{pokemon} y esta última también con una clase de \emph{moves}.
 
-La salida de la red neuronal del actor es siempre un único valor, que es la estimación de la función de valor del estado actual.
+La salida de la red neuronal del crítico es siempre un único valor, que es la estimación de la función de valor del estado actual.
 
 \begin{itemize}
     \item \textbf{CriticNetwork01}: red neuronal más sencilla sin capas ocultas:
