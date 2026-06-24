@@ -34,14 +34,15 @@
 
 \begin{document}
 
-\title{Aprendizaje por refuerzo en sistemas estratégicos: aplicación a un agente para Pokémon Showdown}
-\author{(Draft)}
 
-\maketitle
-
-% Front matter sections
-\section*{Portada}
-Portada según el modelo oficial, con los datos de identificación del trabajo.
+\IfFileExists{PortadaTFG-1.pdf}{
+    \includepdf[pages=-]{PortadaTFG-1.pdf}
+}{
+    \title{Aprendizaje por refuerzo en sistemas estratégicos:\\
+    aplicación a un agente para Pokémon Showdown}
+    \date{}
+    \maketitle
+}
 
 \newpage
 \input{sections/02_dedication.tex}
