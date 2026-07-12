@@ -1,26 +1,72 @@
-\section{Conclusiones}
+\section{\lang{Conclusions}{Conclusiones}}
 
-\subsection{Conclusiones Técnicas}
+\subsection{\lang{Technical Conclusions}{Conclusiones Técnicas}}
 
-Para exponer las conclusiones técnicas de este proyecto, estas se organizarán en torno a las distintas hipótesis que han sido formuladas.
+\ifthenelse{\equal{\LANG}{es}}{
+    Para exponer las conclusiones técnicas de este proyecto, estas se organizarán en torno a las distintas hipótesis que han sido formuladas.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The technical conclusions of this project are structured around the different hypotheses formulated throughout the study.
+}{}
 
 \begin{itemize}
+    \ifthenelse{\equal{\LANG}{es}}{
     \item \textbf{Hipótesis \HOne}: se intentó comprobar si la incorporación de características de la representación del estado de la batalla mejoraría los resultados del aprendizaje. La hipótesis queda parcialmente rechazada porque el número de parámetros en global y el hiperparámetro \emph{pokemon} no muestran una relación clara con el rendimiento del modelo. Sin embargo, en los hiperparámetros \emph{player} y \emph{move} sí se observa una relación clara entre el número de parámetros y el rendimiento del modelo, lo que indica que la hipótesis no se puede rechazar en su totalidad.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+    \item \textbf{Hypothesis \HOne}: This hypothesis aimed to determine whether incorporating additional features into the battle state representation would improve learning performance. The hypothesis is partially rejected, as neither the overall number of parameters nor the \emph{pokemon} hyperparameter show a clear relationship with the model's performance. However, a clear relationship between the number of parameters and model performance is observed for the \emph{player} and \emph{move} hyperparameters, indicating that the hypothesis cannot be entirely rejected.
+          }{}
 
+          \ifthenelse{\equal{\LANG}{es}}{
     \item \textbf{Hipótesis \HTwo}: se planteó la hipótesis de que el uso de \emph{self-play} mejoraría los resultados del aprendizaje, y las evidencias obtenidas no permiten rechazar dicha hipótesis. Los experimentos realizados con el hiperparámetro \emph{useSelfPlay} activado (tabla \ref{tab:bradleyTerryUseSelfPlay}) muestran una mejora del rendimiento frente al jugador aleatorio. No obstante, no puede descartarse que este efecto se deba, al menos en parte, a la introducción de múltiples oponentes con heurísticas diferentes, circunstancia que se encuentra correlacionada con el uso del hiperparámetro \emph{useMaxDamage}.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+    \item \textbf{Hypothesis \HTwo}: This hypothesis proposed that the use of \emph{self-play} would improve learning performance, and the evidence obtained does not allow it to be rejected. The experiments conducted with the \emph{useSelfPlay} hyperparameter enabled (Table~\ref{tab:bradleyTerryUseSelfPlay}) show an improvement in performance against the random player. However, it cannot be ruled out that this effect is due, at least in part, to the introduction of multiple opponents with different heuristics, a circumstance that is correlated with the use of the \emph{useMaxDamage} hyperparameter.
+          }{}
 
+          \ifthenelse{\equal{\LANG}{es}}{
     \item \textbf{Hipótesis \HThree}: se intentó comprobar si aumentar el número de equipos vistos durante el entrenamiento mejoraría los resultados. Los experimentos con el hiperparámetro \emph{nTeams} mostraron que la opción de \texttt{nTeams=inf} es completamente superior a las demás, lo que indica que la hipótesis es inconcluyente y hay que asumir que, con la escala de la arquitectura y entrenamiento, no es posible conseguir que los modelos generalicen con valores finitos de \emph{nTeams}.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+
+    \item \textbf{Hypothesis \HThree}: This hypothesis aimed to determine whether increasing the number of teams encountered during training would improve performance. The experiments with the \emph{nTeams} hyperparameter showed that the \texttt{nTeams=inf} setting consistently outperformed all finite alternatives. Consequently, the hypothesis remains inconclusive, and it must be assumed that, at the current scale of the architecture and training procedure, the models are unable to generalize when trained with finite values of \emph{nTeams}.
+          }{}
 
 \end{itemize}
 
-\subsection{Conclusiones Personales}
+\subsection{\lang{Personal Conclusions}{Conclusiones Personales}}
 
-Ícaro no murió por volar demasiado bajo y que el mar destruyera sus alas. Voló demasiado alto. Quería tocar el cielo. ¿Es esto una característica inalienable de la naturaleza humana? Quererlo todo. La impresión de que el mundo está en la palma de tu mano.
+\ifthenelse{\equal{\LANG}{es}}{
+    Ícaro no murió por volar demasiado bajo y que el mar destruyera sus alas. Voló demasiado alto. Quería tocar el cielo. ¿Es esto una característica inalienable de la naturaleza humana? Quererlo todo. La impresión de que el mundo está en la palma de tu mano.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Icarus did not plummet to his death because he flew too low and the sea destroyed his wings. He flew too high. He longed to touch the sky. Is this an inalienable part of human nature? To want everything. To believe the world rests in the palm of your hand.
+}{}
 
-En este TFG me siento como un Ícaro contemporáneo. Mi orgullo hizo que me plantase ante un problema muy difícil. Yo creía que podía con todo. Claramente crearía un modelo que se colocaría el primero en el ranking de \emph{gen9randombattle} de Pokémon Showdown. No solo eso, una vez que consiguiera eso pensaba que podría o hacer finetuning para el resto de formatos de batalla o con un solo modelo jugar a todos. El apogeo.
+\ifthenelse{\equal{\LANG}{es}}{
+    En este TFG me siento como un Ícaro contemporáneo. Mi orgullo hizo que me plantase ante un problema muy difícil. Yo creía que podía con todo. Claramente crearía un modelo que se colocaría el primero en el ranking de \emph{gen9randombattle} de Pokémon Showdown. No solo eso, una vez que consiguiera eso pensaba que podría o hacer finetuning para el resto de formatos de batalla o con un solo modelo jugar a todos. El apogeo.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Throughout this thesis, I have felt like a modern-day Icarus. My pride placed me in front of an insurmountable challenge. I believed I could do anything. Surely I would build a model capable of reaching the top of the \emph{gen9randombattle} ladder on Pokémon Showdown. And not only that: once I achieved it, I thought I could either fine-tune it for every other battle format or train a single model capable of playing them all. The peak.
+}{}
 
-¿Y dónde me encuentro ahora? Cubierto de cera y con un montón de plumas rodeándome. Intenté construir unas alas que cubriesen el mundo y ahora tengo que construir un TFG de sus plumas. Podría haber escogido un proyecto más sencillo, como probar distintos modelos sobre un dataset o juego simple, y así, tener una tarea más asequible que organizar los componentes de unas alas. Tengo muchos datos por lo mucho que he trabajado, pero hay que estructurarlos de la manera correcta.
+\ifthenelse{\equal{\LANG}{es}}{
+    ¿Y dónde me encuentro ahora? Cubierto de cera y con un montón de plumas rodeándome. Intenté construir unas alas que cubriesen el mundo y ahora tengo que construir un TFG de sus plumas. Podría haber escogido un proyecto más sencillo, como probar distintos modelos sobre un dataset o juego simple, y así, tener una tarea más asequible que organizar los componentes de unas alas. Tengo muchos datos por lo mucho que he trabajado, pero hay que estructurarlos de la manera correcta.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    And where do I find myself now? Covered in wax, with feathers scattered all around me. I tried to build wings large enough to span the world, and now I have to build a thesis out of their feathers. I could have chosen a easier project, such as evaluating different models on a dataset or a simpler game, and faced a far more manageable task than assembling the incomplete pieces of a pair of wings into something coherent. I have gathered a lot of data through all the experimentation, but now it must be organized in the right way.
+}{}
 
-¿Arrogancia o complejo de Dios? Una de mis palabras favoritas es \textbf{\emph{soar}}. La palabra que más se acerca es ``volar'', pero no da el significado de la facilidad para hacerlo o la habilidad de ver el mundo entero mientras se vuela.
+\ifthenelse{\equal{\LANG}{es}}{
+    ¿Arrogancia o complejo de Dios? Una de mis palabras favoritas es \textbf{\emph{soar}}. La palabra que más se acerca es ``volar'', pero no da el significado de la facilidad para hacerlo o la habilidad de ver el mundo entero mientras se vuela.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Hubris, or God complex? One of my favorite words is \textbf{\emph{soar}}. My native tongue lacks a word that captures the sense of effortless flying and seeing the whole world spread beneath you. The word with the closest meaning is ``volar'', but I miss the nuance of the English word.
+}{}
 
-A mí me gusta Pokémon y lo pasé bien entrenando modelos. Ahora, delante de esta memoria, tengo que afrontar la realidad y las consecuencias de mis actos. No ocurrió lo que quería, pero el sol va a seguir saliendo por el este. Intentar abordar problemas complejos es algo muy importante y no hay que tener miedo a ello; la NASA desarrolló diversas tecnologías útiles para la humanidad intentando llegar a la Luna. Esto es con lo que me quedo de este TFG. Los buenos datos obtenidos y la base de trabajar en un desafío tan grande. La experiencia de intentar volar.
+\ifthenelse{\equal{\LANG}{es}}{
+    A mí me gusta Pokémon y lo pasé bien entrenando modelos. Ahora, delante de esta memoria, tengo que afrontar la realidad y las consecuencias de mis actos. No ocurrió lo que quería, pero el sol va a seguir saliendo por el este. Intentar abordar problemas complejos es algo muy importante y no hay que tener miedo a ello; la NASA desarrolló diversas tecnologías útiles para la humanidad intentando llegar a la Luna. Esto es con lo que me quedo de este TFG. Los buenos datos obtenidos y la base de trabajar en un desafío tan grande. La experiencia de intentar volar.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    I like Pokémon, and I genuinely had fun training these models. Now, sitting in front of this thesis, I have to face reality and the consequences of my actions. Things did not turn out as I had hoped, but tomorrow will come anyway. Tackling difficult problems is worthwhile, and there is no reason to fear them; NASA developed countless technologies that ultimately benefited humanity in its pursuit of the Moon. That is what I choose to take away from this thesis. The valuable data I obtained and the foundations laid by working on such an ambitious challenge. The experience of trying to soar.
+}{}

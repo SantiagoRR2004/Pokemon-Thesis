@@ -37,12 +37,15 @@
 \newcommand{\HTwo}{\hyperref[hyp:h2]{H2}}
 \newcommand{\HThree}{\hyperref[hyp:h3]{H3}}
 
-\newcommand{\lang}[2]{%
-  \ifthenelse{\equal{\LANG}{en}}{#1}{%
-    \ifthenelse{\equal{\LANG}{es}}{#2}{}%
-  }%
+\DeclareRobustCommand{\lang}[2]{%
+  \ifnum\pdfstrcmp{\LANG}{en}=0
+    #1%
+  \else
+    \ifnum\pdfstrcmp{\LANG}{es}=0
+      #2%
+    \fi
+  \fi
 }
-
 \begin{document}
 
 \input{sections/01_coverPage.tex}
