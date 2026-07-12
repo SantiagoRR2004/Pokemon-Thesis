@@ -11,11 +11,27 @@
   "latex-workshop.formatting.latex": "latexindent",
   "latex-workshop.latex.tools": [
     {
-      "name": "latexmk-shell",
+      "name": "latexmk-en",
       "command": "latexmk",
       "args": [
         "--shell-escape",
         "-pdf",
+        "-jobname=%DOCFILE%-en",
+        "-pdflatex=pdflatex %O \"\\def\\LANG{en}\\input{%S}\"",
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOC%"
+      ]
+    },
+    {
+      "name": "latexmk-es",
+      "command": "latexmk",
+      "args": [
+        "--shell-escape",
+        "-pdf",
+        "-jobname=%DOCFILE%-es",
+        "-pdflatex=pdflatex %O \"\\def\\LANG{es}\\input{%S}\"",
         "-synctex=1",
         "-interaction=nonstopmode",
         "-file-line-error",
@@ -26,7 +42,7 @@
   "latex-workshop.latex.recipes": [
     {
       "name": "latexmk (shell escape)",
-      "tools": ["latexmk-shell"]
+      "tools": ["latexmk-es", "latexmk-en"]
     }
   ]
 }

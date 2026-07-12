@@ -1,0 +1,21 @@
+\ifthenelse{\equal{\LANG}{en}}{
+    \IfFileExists{PortadaTFG-en.pdf}{
+        \includepdf[pages=-]{PortadaTFG-en.pdf}
+    }{
+        \title{Reinforcement Learning in Strategy Games:\\
+            Agent for Pokémon Showdown}
+        \date{}
+        \maketitle
+    }
+}{
+    \ifthenelse{\equal{\LANG}{es}}{
+        \IfFileExists{PortadaTFG-es.pdf}{
+            \includepdf[pages=-]{PortadaTFG-es.pdf}
+        }{
+            \title{Aprendizaje por refuerzo en sistemas estratégicos:\\
+                aplicación a un agente para Pokémon Showdown}
+            \date{}
+            \maketitle
+        }
+    }
+}{}

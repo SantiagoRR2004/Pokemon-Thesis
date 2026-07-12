@@ -20,7 +20,7 @@ graphs/
 convergenceResults.json
 
 # Ignore the compiled LaTeX files
-_minted-README/
+_minted-*/
 docs/*.aux
 docs/*.bbl
 docs/*.blg

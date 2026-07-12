@@ -1,11 +1,16 @@
 \documentclass[a4paper,11pt]{article}
 
-\usepackage{fancyhdr, booktabs, amsmath, amssymb, amsfonts, multirow, pdfpages, minted}
-\usepackage[spanish]{babel}
+\usepackage{fancyhdr, booktabs, amsmath, amssymb, amsfonts, multirow, pdfpages, minted, ifthen}
 \usepackage[colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue]{hyperref}
 \usepackage[table]{xcolor}
 \usepackage[a4paper,margin=2cm]{geometry}
 \usepackage[numbib]{tocbibind}
+
+\ifthenelse{\equal{\LANG}{en}}{
+  \usepackage[english]{babel}
+}{
+  \usepackage[spanish]{babel}
+}
 
 % Page style with page numbers
 \pagestyle{fancy}
@@ -32,17 +37,15 @@
 \newcommand{\HTwo}{\hyperref[hyp:h2]{H2}}
 \newcommand{\HThree}{\hyperref[hyp:h3]{H3}}
 
+\newcommand{\lang}[2]{%
+  \ifthenelse{\equal{\LANG}{en}}{#1}{%
+    \ifthenelse{\equal{\LANG}{es}}{#2}{}%
+  }%
+}
+
 \begin{document}
 
-
-\IfFileExists{PortadaTFG-1.pdf}{
-    \includepdf[pages=-]{PortadaTFG-1.pdf}
-}{
-    \title{Aprendizaje por refuerzo en sistemas estratégicos:\\
-    aplicación a un agente para Pokémon Showdown}
-    \date{}
-    \maketitle
-}
+\input{sections/01_coverPage.tex}
 
 \newpage
 \input{sections/02_dedication.tex}
