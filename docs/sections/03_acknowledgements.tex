@@ -1,16 +1,27 @@
-\section*{Agradecimientos}
-\addcontentsline{toc}{section}{Agradecimientos}
+\section*{\lang{Acknowledgments}{Agradecimientos}}
+\addcontentsline{toc}{section}{\lang{Acknowledgments}{Agradecimientos}}
 
 \vspace*{\fill}
 \begin{center}
 
-    David Olivieri y mi padre.\\
-    Muchas gracias por la ayuda prestada en la estructuración y redacción de esta memoria.
+    \ifthenelse{\equal{\LANG}{es}}{
+        David Olivieri y mi padre.\\
+        Muchas gracias por la ayuda prestada en la estructuración y redacción de esta memoria.
+    }{}
+    \ifthenelse{\equal{\LANG}{en}}{
+        David Olivieri and my father.\\
+        Thank you very much for the help provided in the structuring and writing of this report.
+    }{}
 
     \vspace{\baselineskip}
 
-    Haris Sahovic\footnote{\href{https://github.com/hsahovic}{@hsahovic}} y Cameron Angliss\footnote{\href{https://github.com/cameronangliss}{@cameronangliss}}, responsables del repositorio poke-env\cite{poke_env}.\\
-    Muchas gracias por mantenerlo, por responder a mis dudas y aceptar mis contribuciones.
+    Haris Sahovic\footnote{\href{https://github.com/hsahovic}{@hsahovic}} \lang{and}{y} Cameron Angliss\footnote{\href{https://github.com/cameronangliss}{@cameronangliss}}, \lang{maintainers of the poke-env repository}{responsables del repositorio poke-env}\cite{poke_env}.\\
+    \ifthenelse{\equal{\LANG}{es}}{
+        Muchas gracias por mantenerlo, por responder a mis dudas y aceptar mis contribuciones.
+    }{}
+    \ifthenelse{\equal{\LANG}{en}}{
+        Thank you very much for maintaining it, answering my questions, and accepting my contributions.
+    }{}
 
 \end{center}
 \vspace*{\fill}
