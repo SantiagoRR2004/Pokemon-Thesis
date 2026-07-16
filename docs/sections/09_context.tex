@@ -1,35 +1,84 @@
-\section{Antecedentes y contexto}
+\section{\lang{Background and context}{Antecedentes y contexto}}
 
-Según la Wikipedia, \textit{<<El aprendizaje por refuerzo o aprendizaje reforzado (en inglés: reinforcement learning) es un área del aprendizaje automático (AA) inspirada en la psicología conductista, cuya ocupación es determinar qué acciones debe escoger un agente de software en un entorno dado con el fin de maximizar alguna noción de ``recompensa'' o premio acumulado>>}. \cite{wikipedia_rl}
+\ifthenelse{\equal{\LANG}{es}}{
+      Según la Wikipedia, \textit{<<El aprendizaje por refuerzo o aprendizaje reforzado (en inglés: reinforcement learning) es un área del aprendizaje automático (AA) inspirada en la psicología conductista, cuya ocupación es determinar qué acciones debe escoger un agente de software en un entorno dado con el fin de maximizar alguna noción de ``recompensa'' o premio acumulado>>}. \cite{wikipedia_rl}
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+      According to Wikipedia, \textit{“In machine learning and optimal control, reinforcement learning (RL) is concerned with how an intelligent agent should take actions in a dynamic environment in order to maximize a reward signal. Reinforcement learning is one of the three basic machine learning paradigms, alongside supervised learning and unsupervised learning.”}. \cite{wikipedia_rl}
+}{}
 
 \begin{figure}[h]
       \centering
       \includegraphics[width=0.3\textwidth]{images/ReinforcementLearningDiagram.png}
-      \caption{Diagrama del ciclo básico del aprendizaje por refuerzo}
+      \caption{\lang{Diagram of the basic reinforcement learning loop}{Diagrama del ciclo básico del aprendizaje por refuerzo}}
       \label{fig:ReinforcementLearningDiagram}
 \end{figure}
 
-El aprendizaje por refuerzo ha experimentado una evolución significativa desde sus fundamentos teóricos iniciales hasta convertirse en un área destacada de la inteligencia artificial. A lo largo de las últimas décadas, diversos avances metodológicos y tecnológicos han permitido desarrollar agentes capaces de resolver problemas cada vez más complejos, especialmente en el ámbito de los juegos, que han servido como banco de pruebas para evaluar nuevas técnicas y algoritmos. A continuación se presentan algunos de los hitos más relevantes en la evolución del aprendizaje por refuerzo y de su aplicación a distintos juegos:
+\ifthenelse{\equal{\LANG}{es}}{
+      El aprendizaje por refuerzo ha experimentado una evolución significativa desde sus fundamentos teóricos iniciales hasta convertirse en un área destacada de la inteligencia artificial. A lo largo de las últimas décadas, diversos avances metodológicos y tecnológicos han permitido desarrollar agentes capaces de resolver problemas cada vez más complejos, especialmente en el ámbito de los juegos, que han servido como banco de pruebas para evaluar nuevas técnicas y algoritmos. A continuación se presentan algunos de los hitos más relevantes en la evolución del aprendizaje por refuerzo y de su aplicación a distintos juegos:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+      Reinforcement learning has evolved significantly from its theoretical foundations to become a prominent area of artificial intelligence. Over the last few decades, methodological and technological advances have made it possible to develop agents capable of solving increasingly complex problems, especially in games, which have served as testbeds for evaluating new techniques and algorithms. The following milestones are among the most relevant in the development of reinforcement learning and its application to different games:
+}{}
 
 \begin{itemize}
 
-      \item En 1983 se resolvió el primer problema de aprendizaje por refuerzo mediante el uso de una red neuronal~\cite{barto1983invertedpendulum}. Se trataba del problema del péndulo invertido, un sistema clásico de control. El uso de redes neuronales se extendió posteriormente a otros ámbitos más allá del control, incluyendo el aprendizaje de juegos.
+      \item \ifthenelse{\equal{\LANG}{es}}{
+                  En 1983 se resolvió el primer problema de aprendizaje por refuerzo mediante el uso de una red neuronal~\cite{barto1983invertedpendulum}. Se trataba del problema del péndulo invertido, un sistema clásico de control. El uso de redes neuronales se extendió posteriormente a otros ámbitos más allá del control, incluyendo el aprendizaje de juegos.
+            }{}
+            \ifthenelse{\equal{\LANG}{en}}{
+                  In 1983, the first reinforcement learning problem was solved using a neural network~\cite{barto1983invertedpendulum}. It was the inverted pendulum problem, a classic control system. The use of neural networks later extended beyond control to other domains, including game learning.
+            }{}
 
-      \item En 1993 el programa TD-Gammon de Gerald Tesauro~\cite{tesauro1995gammon} alcanzó un nivel de juego solo superado por los mejores jugadores profesionales del momento de backgammon. Backgammon es un juego estocástico (usa dados), con dos agentes, sin información oculta y sin actuación simultánea. Otros factores importantes son que el estado inicial siempre es fijo y el número de estados posibles es menor al de otros juegos que veremos a continuación.
+      \item \ifthenelse{\equal{\LANG}{es}}{
+                  En 1993 el programa TD-Gammon de Gerald Tesauro~\cite{tesauro1995gammon} alcanzó un nivel de juego solo superado por los mejores jugadores profesionales del momento de backgammon. Backgammon es un juego estocástico (usa dados), con dos agentes, sin información oculta y sin actuación simultánea. Otros factores importantes son que el estado inicial siempre es fijo y el número de estados posibles es menor al de otros juegos que veremos a continuación.
+            }{}
+            \ifthenelse{\equal{\LANG}{en}}{
+                  In 1993, Gerald Tesauro's TD-Gammon program~\cite{tesauro1995gammon} reached a level of play surpassed only by the best professional backgammon players of the time. Backgammon is a stochastic game (it uses dice), with two agents, no hidden information, and no simultaneous action. Other important factors are that the initial state is always fixed and the number of possible states is smaller than in the other games discussed below.
+            }{}
 
+      \item \ifthenelse{\equal{\LANG}{es}}{
+                  En 2013 se presentó el sistema DQN de DeepMind~\cite{mnih2013dqn}, el primer agente de aprendizaje por refuerzo profundo capaz de superar el rendimiento humano en una amplia variedad de juegos de Atari. Estos juegos se caracterizan por proporcionar observaciones continuas, información completamente observable (sin información oculta) y una dinámica que favorece principalmente la planificación a corto plazo. Además, la recompensa se expresa en forma de puntuación en cada instante del juego, lo que facilita el proceso de aprendizaje del agente.
+            }{}
+            \ifthenelse{\equal{\LANG}{en}}{
+                  In 2013, DeepMind introduced the DQN system~\cite{mnih2013dqn}, the first deep reinforcement learning agent capable of surpassing human performance across a wide variety of Atari games. These games are characterized by continuous observations, fully observable information (with no hidden information), and dynamics that mainly favor short-term planning. In addition, the reward is expressed as a score at each moment in the game, which makes the agent's learning process easier.
+            }{}
 
-      \item En 2013 se presentó el sistema DQN de DeepMind~\cite{mnih2013dqn}, el primer agente de aprendizaje por refuerzo profundo capaz de superar el rendimiento humano en una amplia variedad de juegos de Atari. Estos juegos se caracterizan por proporcionar observaciones continuas, información completamente observable (sin información oculta) y una dinámica que favorece principalmente la planificación a corto plazo. Además, la recompensa se expresa en forma de puntuación en cada instante del juego, lo que facilita el proceso de aprendizaje del agente.
-
-      \item En 2019 el programa AlphaStar de DeepMind~\cite{vinyals2019starcraft} superó a jugadores profesionales en el juego de estrategia en tiempo real StarCraft II. StarCraft II es un juego con información oculta, actuación simultánea, planificación a largo plazo y un espacio de estados y acciones de gran tamaño. Diferencias importantes frente a nuestro formato de Pokémon son que Starcraft II es un juego determinista y en tiempo real. Otra diferencia crucial es que no se dispone de herramientas para usar aprendizaje supervisado como AlphaStar, que ofrece un registro de partidas con el que se puede inicializar la red.
+      \item \ifthenelse{\equal{\LANG}{es}}{
+                  En 2019 el programa AlphaStar de DeepMind~\cite{vinyals2019starcraft} superó a jugadores profesionales en el juego de estrategia en tiempo real StarCraft II. StarCraft II es un juego con información oculta, actuación simultánea, planificación a largo plazo y un espacio de estados y acciones de gran tamaño. Diferencias importantes frente a nuestro formato de Pokémon son que Starcraft II es un juego determinista y en tiempo real. Otra diferencia crucial es que no se dispone de herramientas para usar aprendizaje supervisado como AlphaStar, que ofrece un registro de partidas con el que se puede inicializar la red.
+            }{}
+            \ifthenelse{\equal{\LANG}{en}}{
+                  In 2019, DeepMind's AlphaStar program~\cite{vinyals2019starcraft} defeated professional players in the real-time strategy game StarCraft II. StarCraft II is a game with hidden information, simultaneous action, long-term planning, and a very large state and action space. Important differences from our Pokémon format are that StarCraft II is deterministic and real time. Another crucial difference is the lack of tools for supervised learning such as AlphaStar, which is provided with a game log that can be used to initialize the network.
+            }{}
 
 \end{itemize}
 
-Ciñéndose a la aplicación de técnicas de aprendizaje profundo a formatos de Pokémon, podemos destacar los siguientes hitos recientes:
+\ifthenelse{\equal{\LANG}{es}}{
+      Ciñéndose a la aplicación de técnicas de aprendizaje profundo a formatos de Pokémon, podemos destacar los siguientes hitos recientes:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+      Focusing on the application of deep learning techniques to Pokémon formats, the following recent milestones are worth highlighting:
+}{}
 
 \begin{itemize}
-      \item En enero de 2024, Jett Wang presentó su tesis~\cite{wang2024pokemon}. El autor logró alcanzar el octavo puesto en el formato \emph{gen4randombattle} mediante el entrenamiento de un agente PPO con self-play, complementado posteriormente con una política guiada por Monte Carlo. El uso de la cuarta generación resulta especialmente adecuado, ya que presenta una menor complejidad en comparación con generaciones posteriores, al disponer de un espacio de estados más reducido (menor número de Pokémon, movimientos y objetos). Asimismo, se considera menos inestable que las tres primeras generaciones, lo que facilita el entrenamiento del agente.
+      \item \ifthenelse{\equal{\LANG}{es}}{
+                  En enero de 2024, Jett Wang presentó su tesis~\cite{wang2024pokemon}. El autor logró alcanzar el octavo puesto en el formato \emph{gen4randombattle} mediante el entrenamiento de un agente PPO con self-play, complementado posteriormente con una política guiada por Monte Carlo. El uso de la cuarta generación resulta especialmente adecuado, ya que presenta una menor complejidad en comparación con generaciones posteriores, al disponer de un espacio de estados más reducido (menor número de Pokémon, movimientos y objetos). Asimismo, se considera menos inestable que las tres primeras generaciones, lo que facilita el entrenamiento del agente.
+            }{}
+            \ifthenelse{\equal{\LANG}{en}}{
+                  In January 2024, Jett Wang presented his thesis~\cite{wang2024pokemon}. The author managed to reach eighth place in the \emph{gen4randombattle} format by training a PPO agent with self-play, later complemented by a Monte Carlo guided policy. The use of the fourth generation is particularly suitable because it is less complex than later generations, since it has a smaller state space (fewer Pokémon, moves, and items). It is also considered less unstable than the first three generations, which makes agent training easier.
+            }{}
 
-      \item En marzo de 2025, el agente PokéChamp~\cite{karten2025pokechamp} logró alcanzar un nivel de rendimiento comparable al del 10-30\% de los mejores jugadores humanos en el formato \emph{gen9ou}, utilizando un enfoque basado en Minimax con modelos de lenguaje (LLM). En lugar de simular explícitamente los siguientes turnos de la batalla, el sistema emplea un modelo de lenguaje tanto para la predicción del desarrollo de la partida como para la selección de la acción a ejecutar.
+      \item \ifthenelse{\equal{\LANG}{es}}{
+                  En marzo de 2025, el agente PokéChamp~\cite{karten2025pokechamp} logró alcanzar un nivel de rendimiento comparable al del 10-30\% de los mejores jugadores humanos en el formato \emph{gen9ou}, utilizando un enfoque basado en Minimax con modelos de lenguaje (LLM). En lugar de simular explícitamente los siguientes turnos de la batalla, el sistema emplea un modelo de lenguaje tanto para la predicción del desarrollo de la partida como para la selección de la acción a ejecutar.
+            }{}
+            \ifthenelse{\equal{\LANG}{en}}{
+                  In March 2025, the PokéChamp agent~\cite{karten2025pokechamp} achieved a performance level comparable to that of the top 10-30\% of human players in the \emph{gen9ou} format, using a Minimax-based approach with large language models (LLMs). Instead of explicitly simulating the next turns of the battle, the system uses a language model both to predict how the match will unfold and to select the action to execute.
+            }{}
 
-      \item En junio de 2025 se publicó la herramienta VGC-Bench~\cite{cameronangliss2025vgcbench}. El objetivo de dicha herramienta es permitir entrenar agentes y compararlos en el formato de batalla de dobles de la generación IX. Un agente entrenado usando VGC-Bench consiguió derrotar al jugador experto Aaron Traylor una partida de cada 5 con una pareja de equipos. Una particularidad a destacar es el hecho de que para entrenar su agente usaron aprendizaje supervisado a partir de partidas de jugadores humanos. Un hecho importante que descubrieron es que usar menos equipos en el entrenamiento produce una mejora de rendimiento de los modelos, y por ello los mejores resultados contra el jugador experto Aaron Traylor se lograron entrenando el modelo con una pareja de equipos.
+      \item \ifthenelse{\equal{\LANG}{es}}{
+                  En junio de 2025 se publicó la herramienta VGC-Bench~\cite{cameronangliss2025vgcbench}. El objetivo de dicha herramienta es permitir entrenar agentes y compararlos en el formato de batalla de dobles de la generación IX. Un agente entrenado usando VGC-Bench consiguió derrotar al jugador experto Aaron Traylor una partida de cada 5 con una pareja de equipos. Una particularidad a destacar es el hecho de que para entrenar su agente usaron aprendizaje supervisado a partir de partidas de jugadores humanos. Un hecho importante que descubrieron es que usar menos equipos en el entrenamiento produce una mejora de rendimiento de los modelos, y por ello los mejores resultados contra el jugador experto Aaron Traylor se lograron entrenando el modelo con una pareja de equipos.
+            }{}
+            \ifthenelse{\equal{\LANG}{en}}{
+                  In June 2025, the VGC-Bench tool was released~\cite{cameronangliss2025vgcbench}. Its goal is to make it possible to train agents and compare them in the Generation IX doubles battle format. An agent trained with VGC-Bench managed to defeat expert player Aaron Traylor in one out of every five games with a pair of teams. A notable point is that supervised learning from human-player matches was used to train the agent. An important finding was that using fewer teams during training improves model performance, and therefore the best results against Aaron Traylor were achieved by training the model with a pair of teams.
+            }{}
 \end{itemize}
