@@ -1,11 +1,34 @@
-\section{Objetivos} \label{sec:objetivos}
+\section{\lang{Objectives}{Objetivos}} \label{sec:objetivos}
 
-Este TFG constituye una investigación que se ha formulado en torno a tres hipótesis de trabajo. Estas hipótesis se plantean como proposiciones susceptibles de verificación mediante el análisis de los datos y permiten evaluar si las expectativas se ajustan al contexto objeto de estudio. Las hipótesis son las siguientes:
+\ifthenelse{\equal{\LANG}{es}}{
+      Este TFG constituye una investigación que se ha formulado en torno a tres hipótesis de trabajo. Estas hipótesis se plantean como proposiciones susceptibles de verificación mediante el análisis de los datos y permiten evaluar si las expectativas se ajustan al contexto objeto de estudio. Las hipótesis son las siguientes:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+      This Thesis is a research study structured around three research hypotheses. These hypotheses are formulated as propositions that can be tested through data analysis and make it possible to assess whether the expected outcomes align with the study context. The hypotheses are as follows:
+}{}
 
 \begin{description}
-      \item[H1]\phantomsection\label{hyp:h1} \textbf{Representación del estado:} la incorporación de características estratégicamente relevantes al espacio de observación mejora la eficiencia del aprendizaje y el rendimiento final de la política en comparación con una representación más básica del estado.
+      \item[H1]\phantomsection\label{hyp:h1}
+            \ifthenelse{\equal{\LANG}{es}}{
+                  \textbf{Representación del estado:} la incorporación de características estratégicamente relevantes al espacio de observación mejora la eficiencia del aprendizaje y el rendimiento final de la política en comparación con una representación más básica del estado.
+            }{}
+            \ifthenelse{\equal{\LANG}{en}}{
+                  \textbf{State representation:} incorporating strategically relevant features into the observation space improves learning efficiency and the final performance of the policy compared to a more basic state representation.
+            }{}
 
-      \item[H2]\phantomsection\label{hyp:h2} \textbf{Self-play:} el entrenamiento mediante \textit{self-play} produce políticas más robustas y con mayor capacidad de generalización que el entrenamiento frente a rivales fijos o heurísticos.
+      \item[H2]\phantomsection\label{hyp:h2}
+            \ifthenelse{\equal{\LANG}{es}}{
+                  \textbf{Self-play:} el entrenamiento mediante \textit{self-play} produce políticas más robustas y con mayor capacidad de generalización que el entrenamiento frente a rivales fijos o heurísticos.
+            }{}
+            \ifthenelse{\equal{\LANG}{en}}{
+                  \textbf{Self-play:} training through \textit{self-play} produces more robust policies with greater generalization capacity than training against fixed or heuristic opponents.
+            }{}
 
-      \item[H3]\phantomsection\label{hyp:h3} \textbf{Escalado con el tamaño del equipo:} aumentar el número de equipos incrementa la riqueza estratégica del problema, pero también hace más difícil la optimización por el aumento del espacio de estados, acciones y asignación de crédito; por tanto, el rendimiento no tiene por qué mejorar de forma monótona si la arquitectura y el entrenamiento no escalan adecuadamente.
+      \item[H3]\phantomsection\label{hyp:h3}
+            \ifthenelse{\equal{\LANG}{es}}{
+                  \textbf{Escalado con el tamaño del equipo:} aumentar el número de equipos incrementa la riqueza estratégica del problema, pero también hace más difícil la optimización por el aumento del espacio de estados, acciones y asignación de crédito; por tanto, el rendimiento no tiene por qué mejorar de forma monótona si la arquitectura y el entrenamiento no escalan adecuadamente.
+            }{}
+            \ifthenelse{\equal{\LANG}{en}}{
+                  \textbf{Scaling with team size:} increasing the number of teams raises the strategic richness of the problem, but also makes optimization harder because the state space, action space, and credit assignment all grow; therefore, performance does not necessarily improve monotonically if the architecture and training do not scale appropriately.
+            }{}
 \end{description}
