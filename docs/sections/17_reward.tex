@@ -1,44 +1,77 @@
-\section{Hiperparámetro \emph{reward}} \label{anexo:hyperReward}
+\section{\lang{Hyperparameter \emph{reward}}{Hiperparámetro \emph{reward}}} \label{anexo:hyperReward}
 
-El hiperparámetro \emph{reward} define qué función de recompensa se usará durante el entrenamiento. Hay dos opciones (ver tabla \ref{tab:rewardParameters}) que se nombran igual que la implementación de sus correspondientes clases en el código.
+\ifthenelse{\equal{\LANG}{es}}{
+    El hiperparámetro \emph{reward} define qué función de recompensa se usará durante el entrenamiento. Hay dos opciones (ver tabla \ref{tab:rewardParameters}) que se nombran igual que la implementación de sus correspondientes clases en el código.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The \emph{reward} hyperparameter defines which reward function will be used during training. There are two options (see Table \ref{tab:rewardParameters}), and their names match those of the implementations of their corresponding classes in the code.
+}{}
 
 \begin{table}[h]
     \centering
     \begin{tabular}{lr}
         \toprule
-        Clase            & Número de experimentos \\
+        \lang{Class}{Clase} & \lang{Number of experiments}{Número de experimentos} \\
         \midrule
-        RewardFunction01 & 123                    \\
-        RewardFunction02 & 28                     \\
+        RewardFunction01    & 123                                                  \\
+        RewardFunction02    & 28                                                   \\
         \bottomrule
     \end{tabular}
-    \caption{Número de experimentos realizados para cada clase de función de recompensa}
+    \caption{\lang{Number of experiments performed for each reward-function class}{Número de experimentos realizados para cada clase de función de recompensa}}
     \label{tab:rewardParameters}
 \end{table}
 
-Estas funciones comparten la siguiente recompensa terminal:
+\ifthenelse{\equal{\LANG}{es}}{
+    Estas funciones comparten la siguiente recompensa terminal:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    These functions share the following terminal reward:
+}{}
 
 $$
     R_T^1 =
     \begin{cases}
-        +1000, & \text{el jugador 1 gana},   \\
-        -1000, & \text{el jugador 1 pierde}.
+        +1000, & \text{\lang{player 1 wins}{el jugador 1 gana}},    \\
+        -1000, & \text{\lang{player 1 loses}{el jugador 1 pierde}}.
     \end{cases}
 $$
 
-Lo que diferencia a estas funciones es la recompensa de los turnos intermedios, tal como se explica a continuación:
+\ifthenelse{\equal{\LANG}{es}}{
+    Lo que diferencia a estas funciones es la recompensa de los turnos intermedios, tal como se explica a continuación:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    What distinguishes these two functions is the reward assigned to intermediate turns, as explained below:
+}{}
 
 \begin{itemize}
-    \item \textbf{RewardFunction01}: cada turno intermedio que el jugador continua en la batalla, es recompensado con $+1$.
 
-    \item \textbf{RewardFunction02}: para ambos jugadores, el porcentaje de vida restante de todos sus Pokémon ($\mathsf{HP}$) siempre es conocido. Es posible tener en cuenta la diferencia de vida entre dos turnos consecutivos y usar esta diferencia como recompensa. Un incremento en la vida de un Pokémon propio es una acción positiva, mientras que una reducción en la vida de un Pokémon propio es una acción negativa. Lógicamente (es un problema de suma cero), ocurre lo contrario con la vida del oponente.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              \textbf{RewardFunction01}: cada turno intermedio que el jugador continúa en la batalla, es recompensado con $+1$.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              \textbf{RewardFunction01}: each intermediate turn that the player remains in the battle is rewarded with $+1$.
+          }{}
 
-          Un ejemplo de esto se puede ver en la ilustración \ref{fig:turn6}, que muestra un turno de una batalla entre un Pokémon \emph{Grafaiai} propio y un Pokémon \emph{Mightyena} del oponente. El \emph{Grafaiai} propio le inflige 11\% de daño al \emph{Mightyena}, mientras que \emph{Mightyena} le ocasiona 31\% de daño a \emph{Grafaiai}. La recompensa para el jugador propio será entonces $-0.31 - (-0.11) = -0.2$.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              \textbf{RewardFunction02}: para ambos jugadores, el porcentaje de vida restante de todos sus Pokémon ($\mathsf{HP}$) siempre es conocido. Es posible tener en cuenta la diferencia de vida entre dos turnos consecutivos y usar esta diferencia como recompensa. Un incremento en la vida de un Pokémon propio es una acción positiva, mientras que una reducción en la vida de un Pokémon propio es una acción negativa. Lógicamente (es un problema de suma cero), ocurre lo contrario con la vida del oponente.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              \textbf{RewardFunction02}: for both players, the remaining health percentage of all their Pokémon ($\mathsf{HP}$) is always known. It is possible to take into account the change in health between two consecutive turns and use this difference as the reward. An increase in the health of one of our Pokémon is a positive action, while a reduction in that health is a negative action. Logically, since this is a zero-sum problem, the opposite happens with the opponent's health.
+          }{}
+
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un ejemplo de esto se puede ver en la ilustración \ref{fig:turn6}, que muestra un turno de una batalla entre un Pokémon \emph{Grafaiai} propio y un Pokémon \emph{Mightyena} del oponente. El \emph{Grafaiai} propio le inflige 11\% de daño al \emph{Mightyena}, mientras que \emph{Mightyena} le ocasiona 31\% de daño a \emph{Grafaiai}. La recompensa para el jugador propio será entonces $-0.31 - (-0.11) = -0.2$.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              An example of this can be seen in Figure \ref{fig:turn6}, which shows a turn in a battle between our \emph{Grafaiai} and the opponent's \emph{Mightyena}. Our \emph{Grafaiai} deals 11\% damage to \emph{Mightyena}, while \emph{Mightyena} deals 31\% damage to \emph{Grafaiai}. The reward for our player is therefore $-0.31 - (-0.11) = -0.2$.
+          }{}
 
           \begin{figure}[h]
               \centering
               \includegraphics[width=0.8\textwidth]{images/turn6.png}
-              \caption{Turno de un combate Pokémon que ejemplifica la función de recompensa \emph{RewardFunction02}}
+              \caption{\lang{A Pokémon battle turn that illustrates the \emph{RewardFunction02} reward function}{Turno de un combate Pokémon que ejemplifica la función de recompensa \emph{RewardFunction02}}}
               \label{fig:turn6}
           \end{figure}
 \end{itemize}
