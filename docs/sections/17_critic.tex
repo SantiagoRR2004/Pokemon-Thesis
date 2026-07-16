@@ -1,13 +1,18 @@
-\section{Hiperparámetro \emph{critic}} \label{anexo:hyperCritic}
+\section{\lang{Hyperparameter}{Hiperparámetro} \emph{critic}} \label{anexo:hyperCritic}
 
-El hiperparámetro \emph{critic} elige la arquitectura de la red neuronal que se usará para el crítico durante el entrenamiento. Hay cinco opciones (ver tabla \ref{tab:criticParameters}) que se nombran igual que la implementación de sus correspondientes clases en el código. La quinta opción es la arquitectura que no usa \emph{critic}, es decir, \emph{REINFORCE} y no \emph{Actor-Critic}. Como consecuencia, no tiene nombre de clase y no aparece nada en las columnas de parámetros.
+\ifthenelse{\equal{\LANG}{es}}{
+    El hiperparámetro \emph{critic} elige la arquitectura de la red neuronal que se usará para el crítico durante el entrenamiento. Hay cinco opciones (ver tabla \ref{tab:criticParameters}) que se nombran igual que la implementación de sus correspondientes clases en el código. La quinta opción es la arquitectura que no usa \emph{critic}, es decir, \emph{REINFORCE} y no \emph{Actor-Critic}. Como consecuencia, no tiene nombre de clase y no aparece nada en las columnas de parámetros.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The \emph{critic} hyperparameter chooses the neural-network architecture that will be used for the critic during training. There are five options (see Table \ref{tab:criticParameters}), and their names match those of the implementations of their corresponding classes in the code. The fifth option is the architecture that does not use a \emph{critic}, that is, \emph{REINFORCE} and not \emph{Actor-Critic}. As a consequence, it has no class name and nothing appears in the parameter columns.
+}{}
 
 \begin{table}[h]
     \centering
     {\small \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrr}
             \toprule
-            \multirow{3}{*}{Clase} & \multicolumn{3}{c}{Número de parámetros entrenables} & \multirow{3}{*}{Nº de experimentos}                                 \\
-            &                                                      & \multicolumn{1}{c}{Mínimo}                & \multicolumn{1}{c}{Máximo} &    \\
+            \multirow{3}{*}{\lang{Class}{Clase}} & \multicolumn{3}{c}{\lang{Number of trainable parameters}{Número de parámetros entrenables}} & \multirow{3}{*}{\lang{Nº of experiments}{Nº de experimentos}}                                 \\
+            &                                                      & \multicolumn{1}{c}{\lang{Minimum}{Mínimo}}                & \multicolumn{1}{c}{\lang{Maximum}{Máximo}} &    \\
             &                                                      & \multicolumn{1}{c}{($nInputs=60$)}                          & \multicolumn{1}{c}{($nInputs=82.876$)}       &    \\
             \midrule
             CriticNetwork01         & $nInputs + 1$                                        & $61$                                    & $82.877$                 & 23 \\
@@ -17,72 +22,79 @@ El hiperparámetro \emph{critic} elige la arquitectura de la red neuronal que se
             &                                                      &                                         &                          & 33 \\
             \bottomrule
         \end{tabular*}}
-    \caption{Número de parámetros entrenables y experimentos realizados para cada clase de red neuronal del crítico}
+    \caption{\lang{Number of trainable parameters and experiments performed for each critic neural-network class}{Número de parámetros entrenables y experimentos realizados para cada clase de red neuronal del crítico}}
     \label{tab:criticParameters}
 \end{table}
 
-No es posible dar un número exacto de parámetros de cada red neuronal, ya que la primera capa depende de la representación escogida ($nInputs$) mediante los hiperparámetros \emph{player} (anexo \ref{anexo:hyperPlayer}), pokemon (anexo \ref{anexo:hyperPokemon}) y moves (anexo \ref{anexo:hyperMove}). En términos de implementación del código, cuando al instanciar la clase del critic, se le pasa como argumento la clase de \emph{player} que a su vez se inicializa con la clase de \emph{pokemon} y esta última también con una clase de \emph{moves}.
+\ifthenelse{\equal{\LANG}{es}}{
+    No es posible dar un número exacto de parámetros de cada red neuronal, ya que la primera capa depende de la representación escogida ($nInputs$) mediante los hiperparámetros \emph{player} (anexo \ref{anexo:hyperPlayer}), pokemon (anexo \ref{anexo:hyperPokemon}) y moves (anexo \ref{anexo:hyperMove}). En términos de implementación del código, cuando al instanciar la clase del critic, se le pasa como argumento la clase de \emph{player} que a su vez se inicializa con la clase de \emph{pokemon} y esta última también con una clase de \emph{moves}.
 
-La salida de la red neuronal del crítico es siempre un único valor, que es la estimación de la función de valor del estado actual.
+    La salida de la red neuronal del crítico es siempre un único valor, que es la estimación de la función de valor del estado actual.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    It is not possible to give an exact number of parameters for each neural network, since the first layer depends on the chosen representation ($nInputs$) through the \emph{player} hyperparameter (appendix \ref{anexo:hyperPlayer}), the \emph{pokemon} hyperparameter (appendix \ref{anexo:hyperPokemon}), and the \emph{moves} hyperparameter (appendix \ref{anexo:hyperMove}). In code-implementation terms, when the critic class is instantiated, the \emph{player} class is passed as an argument, which in turn is initialized with the \emph{pokemon} class, and that class is also initialized with a \emph{moves} class.
+
+    The output of the critic neural network is always a single value, which is the estimate of the current state's value function.
+}{}
 
 \begin{itemize}
-    \item \textbf{CriticNetwork01}: red neuronal más sencilla sin capas ocultas:
+    \item \textbf{CriticNetwork01}: \lang{the simplest neural network, with no hidden layers}{red neuronal más sencilla sin capas ocultas}:
           \begin{enumerate}
-              \item Capa totalmente conectada de $nInputs$ a $1$\hfill$\mathbf{nInputs + 1}$
+              \item \lang{Fully connected layer from $nInputs$ to $1$}{Capa totalmente conectada de $nInputs$ a $1$}\hfill$\mathbf{nInputs + 1}$
           \end{enumerate}
 
-    \item \textbf{CriticNetwork02}: red neuronal con 2 capas ocultas de 128 y 64 neuronas, Dropout del 25\% y ReLU como función de activación:
+    \item \textbf{CriticNetwork02}: \lang{neural network with 2 hidden layers of 128 and 64 neurons, 25\% Dropout, and ReLU as the activation function}{red neuronal con 2 capas ocultas de 128 y 64 neuronas, Dropout del 25\% y ReLU como función de activación}:
           \begin{enumerate}
-              \item Capa totalmente conectada de $nInputs$ a $128$\hfill$\mathbf{128(nInputs + 1)}$
-              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item \lang{Fully connected layer from $nInputs$ to $128$}{Capa totalmente conectada de $nInputs$ a $128$}\hfill$\mathbf{128(nInputs + 1)}$
+              \item \lang{25\% Dropout}{Dropout del 25\%}\hfill\textbf{$\mathbf{0}$}
               \item ReLU\hfill\textbf{$\mathbf{0}$}
-              \item Capa totalmente conectada de $128$ a $64$\hfill$\mathbf{8256}$
-              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item \lang{Fully connected layer from $128$ to $64$}{Capa totalmente conectada de $128$ a $64$}\hfill$\mathbf{8256}$
+              \item \lang{25\% Dropout}{Dropout del 25\%}\hfill\textbf{$\mathbf{0}$}
               \item ReLU\hfill\textbf{$\mathbf{0}$}
-              \item Capa totalmente conectada de $64$ a $1$\hfill$\mathbf{65}$
+              \item \lang{Fully connected layer from $64$ to $1$}{Capa totalmente conectada de $64$ a $1$}\hfill$\mathbf{65}$
           \end{enumerate}
 
-    \item \textbf{CriticNetwork03}: red neuronal con 4 capas ocultas de 256 neuronas, Dropout del 25\% y ReLU como función de activación:
+    \item \textbf{CriticNetwork03}: \lang{neural network with 4 hidden layers of 256 neurons, 25\% Dropout, and ReLU as the activation function}{red neuronal con 4 capas ocultas de 256 neuronas, Dropout del 25\% y ReLU como función de activación}:
           \begin{enumerate}
-              \item Capa totalmente conectada de $nInputs$ a $256$\hfill$\mathbf{256(nInputs + 1)}$
-              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item \lang{Fully connected layer from $nInputs$ to $256$}{Capa totalmente conectada de $nInputs$ a $256$}\hfill$\mathbf{256(nInputs + 1)}$
+              \item \lang{25\% Dropout}{Dropout del 25\%}\hfill\textbf{$\mathbf{0}$}
               \item ReLU\hfill\textbf{$\mathbf{0}$}
-              \item Capa totalmente conectada de $256$ a $256$\hfill$\mathbf{65792}$
-              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item \lang{Fully connected layer from $256$ to $256$}{Capa totalmente conectada de $256$ a $256$}\hfill$\mathbf{65792}$
+              \item \lang{25\% Dropout}{Dropout del 25\%}\hfill\textbf{$\mathbf{0}$}
               \item ReLU\hfill\textbf{$\mathbf{0}$}
-              \item Capa totalmente conectada de $256$ a $256$\hfill$\mathbf{65792}$
-              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item \lang{Fully connected layer from $256$ to $256$}{Capa totalmente conectada de $256$ a $256$}\hfill$\mathbf{65792}$
+              \item \lang{25\% Dropout}{Dropout del 25\%}\hfill\textbf{$\mathbf{0}$}
               \item ReLU\hfill\textbf{$\mathbf{0}$}
-              \item Capa totalmente conectada de $256$ a $256$\hfill$\mathbf{65792}$
-              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item \lang{Fully connected layer from $256$ to $256$}{Capa totalmente conectada de $256$ a $256$}\hfill$\mathbf{65792}$
+              \item \lang{25\% Dropout}{Dropout del 25\%}\hfill\textbf{$\mathbf{0}$}
               \item ReLU\hfill\textbf{$\mathbf{0}$}
-              \item Capa totalmente conectada de $256$ a $1$\hfill$\mathbf{257}$
+              \item \lang{Fully connected layer from $256$ to $1$}{Capa totalmente conectada de $256$ a $1$}\hfill$\mathbf{257}$
           \end{enumerate}
 
-    \item \textbf{CriticNetwork04}: red neuronal cuyas neuronas se contraen de $1024$ a $16$ siguiendo las potencias de 2, con Dropout del 25\% y LeakyReLU como función de activación:
+    \item \textbf{CriticNetwork04}: \lang{neural network whose neurons contract from $1024$ to $16$ following powers of 2, with 25\% Dropout and LeakyReLU as the activation function}{red neuronal cuyas neuronas se contraen de $1024$ a $16$ siguiendo las potencias de 2, con Dropout del 25\% y LeakyReLU como función de activación}:
           \begin{enumerate}
-              \item Capa totalmente conectada de $nInputs$ a $1024$\hfill$\mathbf{1024(nInputs + 1)}$
-              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item \lang{Fully connected layer from $nInputs$ to $1024$}{Capa totalmente conectada de $nInputs$ a $1024$}\hfill$\mathbf{1024(nInputs + 1)}$
+              \item \lang{25\% Dropout}{Dropout del 25\%}\hfill\textbf{$\mathbf{0}$}
               \item LeakyReLU\hfill\textbf{$\mathbf{0}$}
-              \item Capa totalmente conectada de $1024$ a $512$\hfill$\mathbf{524800}$
-              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item \lang{Fully connected layer from $1024$ to $512$}{Capa totalmente conectada de $1024$ a $512$}\hfill$\mathbf{524800}$
+              \item \lang{25\% Dropout}{Dropout del 25\%}\hfill\textbf{$\mathbf{0}$}
               \item LeakyReLU\hfill\textbf{$\mathbf{0}$}
-              \item Capa totalmente conectada de $512$ a $256$\hfill$\mathbf{131328}$
-              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item \lang{Fully connected layer from $512$ to $256$}{Capa totalmente conectada de $512$ a $256$}\hfill$\mathbf{131328}$
+              \item \lang{25\% Dropout}{Dropout del 25\%}\hfill\textbf{$\mathbf{0}$}
               \item LeakyReLU\hfill\textbf{$\mathbf{0}$}
-              \item Capa totalmente conectada de $256$ a $128$\hfill$\mathbf{32896}$
-              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item \lang{Fully connected layer from $256$ to $128$}{Capa totalmente conectada de $256$ a $128$}\hfill$\mathbf{32896}$
+              \item \lang{25\% Dropout}{Dropout del 25\%}\hfill\textbf{$\mathbf{0}$}
               \item LeakyReLU\hfill\textbf{$\mathbf{0}$}
-              \item Capa totalmente conectada de $128$ a $64$\hfill$\mathbf{8256}$
-              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item \lang{Fully connected layer from $128$ to $64$}{Capa totalmente conectada de $128$ a $64$}\hfill$\mathbf{8256}$
+              \item \lang{25\% Dropout}{Dropout del 25\%}\hfill\textbf{$\mathbf{0}$}
               \item LeakyReLU\hfill\textbf{$\mathbf{0}$}
-              \item Capa totalmente conectada de $64$ a $32$\hfill$\mathbf{2080}$
-              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item \lang{Fully connected layer from $64$ to $32$}{Capa totalmente conectada de $64$ a $32$}\hfill$\mathbf{2080}$
+              \item \lang{25\% Dropout}{Dropout del 25\%}\hfill\textbf{$\mathbf{0}$}
               \item LeakyReLU\hfill\textbf{$\mathbf{0}$}
-              \item Capa totalmente conectada de $32$ a $16$\hfill$\mathbf{528}$
-              \item Dropout del 25\%\hfill\textbf{$\mathbf{0}$}
+              \item \lang{Fully connected layer from $32$ to $16$}{Capa totalmente conectada de $32$ a $16$}\hfill$\mathbf{528}$
+              \item \lang{25\% Dropout}{Dropout del 25\%}\hfill\textbf{$\mathbf{0}$}
               \item LeakyReLU\hfill\textbf{$\mathbf{0}$}
-              \item Capa totalmente conectada de $16$ a $1$\hfill$\mathbf{17}$
+              \item \lang{Fully connected layer from $16$ to $1$}{Capa totalmente conectada de $16$ a $1$}\hfill$\mathbf{17}$
           \end{enumerate}
 
 \end{itemize}
