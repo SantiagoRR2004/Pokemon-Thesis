@@ -1,5 +1,15 @@
-\section{Modelado completo} \label{anexo:modeling}
+\section{\lang{Complete Modeling}{Modelado completo}} \label{anexo:modeling}
 
-El documento utilizado para apoyar la formulación del marco teórico corresponde a un borrador interno de trabajo elaborado por David Olivieri dentro de una línea de investigación en curso sobre \emph{graphon world models} y aproximaciones de tipo \emph{graphon mean-field} para aprendizaje por refuerzo. Este trabajo forma parte de un proyecto más amplio, todavía no publicado, que estudia cómo representar entornos y juegos de RL mediante kernels tipo graphon, operadores de control y procedimientos de \emph{coarse-graining}, con el objetivo de analizar familias de juegos, estructuras colectivas y posibles clases universales de comportamiento.
+\ifthenelse{\equal{\LANG}{es}}{
+    El documento utilizado para apoyar la formulación del marco teórico corresponde a un borrador interno de trabajo elaborado por David Olivieri dentro de una línea de investigación en curso sobre \emph{graphon world models} y aproximaciones de tipo \emph{graphon mean-field} para aprendizaje por refuerzo. Este trabajo forma parte de un proyecto más amplio, todavía no publicado, que estudia cómo representar entornos y juegos de RL mediante kernels tipo graphon, operadores de control y procedimientos de \emph{coarse-graining}, con el objetivo de analizar familias de juegos, estructuras colectivas y posibles clases universales de comportamiento.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The document used to support the formulation of the theoretical framework corresponds to an internal working draft prepared by David Olivieri within an ongoing line of research on \emph{graphon world models} and \emph{graphon mean-field}-type approximations for reinforcement learning. This work is part of a broader, still unpublished project that studies how to represent environments and RL games using graphon-type kernels, control operators, and \emph{coarse-graining} procedures, with the aim of analyzing game families, collective structures, and possible universal classes of behavior.
+}{}
+
+
+\IfFileExists{pokemon_game.pdf}{}{
+  \immediate\write18{latexmk -pdf pokemon_game.tex}
+}
 
 \includepdf[pages=-,pagecommand={\thispagestyle{fancy}}]{pokemon_game.pdf}
