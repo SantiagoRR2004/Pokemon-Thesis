@@ -1,44 +1,94 @@
-\section{Marco teórico y práctico}
+\section{\lang{Theoretical and practical framework}{Marco teórico y práctico}}
 
-El desarrollo de este TFG ha requerido la configuración y uso de un entorno de entrenamiento preexistente, al que se ha accedido mediante una librería, así como la modelización del problema objeto de estudio.
+\ifthenelse{\equal{\LANG}{es}}{
+    El desarrollo de este TFG ha requerido la configuración y uso de un entorno de entrenamiento preexistente, al que se ha accedido mediante una librería, así como la modelización del problema objeto de estudio.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The development of this Thesis required setting up and using a pre-existing training environment, which was accessed through a library, as well as modeling the problem under study.
+}{}
 
-Para el entrenamiento del modelo y la evaluación de la complejidad del problema, resulta necesario caracterizarlo adecuadamente y modelarlo conforme al formato \emph{gen9randombattle}.
+\ifthenelse{\equal{\LANG}{es}}{
+    Para el entrenamiento del modelo y la evaluación de la complejidad del problema, resulta necesario caracterizarlo adecuadamente y modelarlo conforme al formato \emph{gen9randombattle}.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    For model training and for evaluating the complexity of the problem, it is necessary to characterize it properly and model it according to the \emph{gen9randombattle} format.
+}{}
 
-\subsection{Características generales}
+\subsection{\lang{General characteristics}{Características generales}}
 
-Las características generales del formato \emph{gen9randombattle} que son fundamentales para la modelización del problema mediante aprendizaje por refuerzo son las siguientes:
+\ifthenelse{\equal{\LANG}{es}}{
+    Las características generales del formato \emph{gen9randombattle} que son fundamentales para la modelización del problema mediante aprendizaje por refuerzo son las siguientes:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The general characteristics of the \emph{gen9randombattle} format that are fundamental for modeling the problem with reinforcement learning are the following:
+}{}
 
 \begin{itemize}
 
-    \item Decisiones secuenciales
+    \item \lang{Sequential decisions}{Decisiones secuenciales}
 
-          Cada batalla se desarrolla por turnos discretos en los que hay que elegir una acción. Las acciones tomadas afectan al estado de la batalla, lo que hace que sea secuencial.
+          \ifthenelse{\equal{\LANG}{es}}{
+              Cada batalla se desarrolla por turnos discretos en los que hay que elegir una acción. Las acciones tomadas afectan al estado de la batalla, lo que hace que sea secuencial.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Each battle unfolds in discrete turns in which an action must be chosen. The actions taken affect the state of the battle, which makes the process sequential.
+          }{}
 
-    \item Adversarial
+    \item \lang{Adversarial}{Adversarial}
 
-          En cada batalla hay dos jugadores que compiten y solo puede ganar uno de ellos. Como no hay cooperación, el problema es de suma cero.
+          \ifthenelse{\equal{\LANG}{es}}{
+              En cada batalla hay dos jugadores que compiten y solo puede ganar uno de ellos. Como no hay cooperación, el problema es de suma cero.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              In each battle there are two competing players and only one of them can win. Since there is no cooperation, the problem is zero-sum.
+          }{}
 
-    \item Información oculta
+    \item \lang{Hidden information}{Información oculta}
 
-          El agente dispone de información completa sobre su propio equipo, mientras que la información del oponente es parcial y se va revelando progresivamente durante el combate, a partir de las observaciones y el historial de acciones. Inicialmente, únicamente se observa el Pokémon de salida del rival y los posibles efectos activados al entrar en el campo. En la mayoría de las ocasiones el combate termina sin que se llegue a conocer la composición completa del equipo contrario.
+          \ifthenelse{\equal{\LANG}{es}}{
+              El agente dispone de información completa sobre su propio equipo, mientras que la información del oponente es parcial y se va revelando progresivamente durante el combate, a partir de las observaciones y el historial de acciones. Inicialmente, únicamente se observa el Pokémon de salida del rival y los posibles efectos activados al entrar en el campo. En la mayoría de las ocasiones el combate termina sin que se llegue a conocer la composición completa del equipo contrario.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              The agent has complete information about its own team, while information about the opponent is partial and is gradually revealed during the battle through observations and the action history. Initially, only the opponent's lead Pokémon and any effects triggered on entering the field are observed. In most cases, the battle ends without the full composition of the opposing team ever being known.
+          }{}
 
-    \item Alto grado de estocasticidad
+    \item \lang{High degree of stochasticity}{Alto grado de estocasticidad}
 
-          Una vez elegidas las acciones, el resultado del turno no es determinista. Cada ataque tiene una probabilidad de acertar, una de golpe crítico (alrededor de 1/24), algunos tienen posibles efectos secundarios y un rango aleatorizado de daño (se multiplica por un entero aleatorio entre 85 y 100 y se divide por 100). Por turno puede haber dos ataques y además hay ciertas habilidades u objetos cuya activación es aleatoria. Todo esto hace que pueda haber turnos en los cuales el resultado es completamente predecible, mientras que en otros el resultado presenta alto grado de estocasticidad.
+          \ifthenelse{\equal{\LANG}{es}}{
+              Una vez elegidas las acciones, el resultado del turno no es determinista. Cada ataque tiene una probabilidad de acertar, una de golpe crítico (alrededor de 1/24), algunos tienen posibles efectos secundarios y un rango aleatorizado de daño (se multiplica por un entero aleatorio entre 85 y 100 y se divide por 100). Por turno puede haber dos ataques y además hay ciertas habilidades u objetos cuya activación es aleatoria. Todo esto hace que pueda haber turnos en los cuales el resultado es completamente predecible, mientras que en otros el resultado presenta alto grado de estocasticidad.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Once the actions have been chosen, the result of the turn is not deterministic. Each attack has a probability of hitting, a critical-hit probability of around 1/24, some have possible secondary effects, and a randomized damage roll (it is multiplied by a random integer between 85 and 100 and divided by 100). There can be two attacks per turn, and there are also certain abilities or items whose activation is random. All this means that there can be turns in which the outcome is completely predictable, while in others the result is highly stochastic.
+          }{}
 
-    \item Acciones simultáneas
+    \item \lang{Simultaneous actions}{Acciones simultáneas}
 
-          Al inicio de cada turno, ambos jugadores eligen su acción sin conocer la acción del oponente, lo que lleva a situaciones en las que conseguir la victoria dependa de predecir correctamente la acción del oponente. Un ejemplo de un juego que responde a este patrón es el  famoso piedra-papel-tijera.
+          \ifthenelse{\equal{\LANG}{es}}{
+              Al inicio de cada turno, ambos jugadores eligen su acción sin conocer la acción del oponente, lo que lleva a situaciones en las que conseguir la victoria dependa de predecir correctamente la acción del oponente. Un ejemplo de un juego que responde a este patrón es el  famoso piedra-papel-tijera.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              At the start of each turn, both players choose their action without knowing the opponent's action, which leads to situations in which victory depends on correctly predicting the opponent's choice. A classic example of a game that follows this pattern is rock-paper-scissors.
+          }{}
 
-    \item Recompensas retrasadas
+    \item \lang{Delayed rewards}{Recompensas retrasadas}
 
-          La recompensa se recibe al final de la batalla únicamente cuando todos los Pokémon de un jugador han sido derrotados. Se podría pensar en intentar medir los recursos restantes o el estado de la batalla para dar recompensas intermedias, pero debido a la alta complejidad del entorno, esto no se puede realizar de manera objetiva o cuantificable.
+          \ifthenelse{\equal{\LANG}{es}}{
+              La recompensa se recibe al final de la batalla únicamente cuando todos los Pokémon de un jugador han sido derrotados. Se podría pensar en intentar medir los recursos restantes o el estado de la batalla para dar recompensas intermedias, pero debido a la alta complejidad del entorno, esto no se puede realizar de manera objetiva o cuantificable.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              The reward is received at the end of the battle, only when all of a player's Pokémon have been defeated. One might consider trying to measure the remaining resources or the battle state in order to provide intermediate rewards, but due to the high complexity of the environment this cannot be done objectively or in a quantifiable way.
+          }{}
 
 \end{itemize}
 
-\subsection{Marco teórico del problema}
+\subsection{\lang{Theoretical framework of the problem}{Marco teórico del problema}}
 
-Formalmente, el combate completo puede verse como un juego estocástico parcialmente observable de dos jugadores. Sin embargo, desde la perspectiva de un agente concreto, si la política del oponente se considera fija o se absorbe dentro de la dinámica del entorno, el problema inducido puede tratarse como un POMDP (\textit{Partially Observable Markov Decision Process}), o Proceso de Decisión de Markov Parcialmente Observable. En esta sección se describe el problema de las batallas del formato \emph{gen9randombattle} bajo este marco de modelización. La tabla \ref{tab:caracteristicas} contiene la nomenclatura que se utilizará en el resto de esta sección. Toda esta modelización surge de un borrador que modela el juego de Pokémon que se puede ver en el anexo \ref{anexo:modeling}.
+\ifthenelse{\equal{\LANG}{es}}{
+    Formalmente, el combate completo puede verse como un juego estocástico parcialmente observable de dos jugadores. Sin embargo, desde la perspectiva de un agente concreto, si la política del oponente se considera fija o se absorbe dentro de la dinámica del entorno, el problema inducido puede tratarse como un POMDP (\textit{Partially Observable Markov Decision Process}), o Proceso de Decisión de Markov Parcialmente Observable. En esta sección se describe el problema de las batallas del formato \emph{gen9randombattle} bajo este marco de modelización. La tabla \ref{tab:caracteristicas} contiene la nomenclatura que se utilizará en el resto de esta sección. Toda esta modelización surge de un borrador que modela el juego de Pokémon que se puede ver en el anexo \ref{anexo:modeling}.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Formally, the full battle can be viewed as a partially observable stochastic two-player game. However, from the perspective of a specific agent, if the opponent's policy is considered fixed or absorbed into the environment dynamics, the induced problem can be treated as a POMDP (\textit{Partially Observable Markov Decision Process}). This section describes the battle problem in the \emph{gen9randombattle} format under this modeling framework. Table \ref{tab:caracteristicas} contains the notation used throughout the rest of this section. All of this modeling comes from a draft that models the Pokémon game, which can be found in appendix \ref{anexo:modeling}.
+}{}
 
 \begin{table}[h]
     \centering
