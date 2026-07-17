@@ -1,13 +1,18 @@
-\section{Bradley-Terry} \label{anexo:bradleyterry}
+\section{\lang{Bradley-Terry}{Bradley-Terry}} \label{anexo:bradleyterry}
 
-La tabla \ref{tab:fullBradleyTerry} contiene las puntuaciones de fuerza (Bradley-Terry) de todos los agentes que se han entrenado, además de la puntuación de fuerza del agente que ocasiona siempre el máximo daño y de un agente aleatorio. Los saltos significativos de puntuación están sombreados en la tabla.
+\ifthenelse{\equal{\LANG}{es}}{
+    La tabla \ref{tab:fullBradleyTerry} contiene las puntuaciones de fuerza (Bradley-Terry) de todos los agentes que se han entrenado, además de la puntuación de fuerza del agente que ocasiona siempre el máximo daño y de un agente aleatorio. Los saltos significativos de puntuación están sombreados en la tabla.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Table \ref{tab:fullBradleyTerry} contains the strength scores (Bradley-Terry) of all trained agents, as well as the strength score of the agent that always causes maximum damage and of a random agent. Significant score jumps are highlighted in the table.
+}{}
 
 \begin{table}[h]
     \centering
     {\scriptsize
         \begin{tabular}{lr@{\hspace{1cm}}lr@{\hspace{1cm}}lr}
             \toprule
-            Jugador                               & Puntuación                & Jugador                          & Puntuación                 & Jugador                         & Puntuación                 \\
+            \lang{Player}{Jugador}                               & \lang{Score}{Puntuación}                & \lang{Player}{Jugador}                          & \lang{Score}{Puntuación}                 & \lang{Player}{Jugador}                         & \lang{Score}{Puntuación}                 \\
             \midrule
             \cellcolor{gray!25}\textbf{maxDamage} & \cellcolor{gray!25}2.3903 & experiment131                    & 0.1361                     & experiment55                    & -0.1814                    \\
             \cellcolor{gray!25}experiment99       & \cellcolor{gray!25}0.1559 & experiment14                     & 0.1350                     & experiment85                    & -0.1842                    \\
@@ -63,6 +68,6 @@ La tabla \ref{tab:fullBradleyTerry} contiene las puntuaciones de fuerza (Bradley
             \bottomrule
         \end{tabular}
     }
-    \caption{Puntuaciones Bradley-Terry para todos los agentes (151+1+1 en total)}
+    \caption{\lang{Bradley-Terry scores for all agents (151+1+1 total)}{Puntuaciones Bradley-Terry para todos los agentes (151+1+1 en total)}}
     \label{tab:fullBradleyTerry}
 \end{table}
