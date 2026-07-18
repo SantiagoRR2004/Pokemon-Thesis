@@ -81,6 +81,7 @@
 
 \end{itemize}
 
+\newpage
 \subsection{\lang{Theoretical framework of the problem}{Marco teórico del problema}}
 
 \ifthenelse{\equal{\LANG}{es}}{
@@ -94,160 +95,353 @@
     \centering
     {\small \begin{tabular}{ll}
             \toprule
-            Símbolo                              & Significado                                                                      \\
+            \lang{Symbol}{Símbolo}               & \lang{Meaning}{Significado}                                                                                                                                    \\
             \midrule
-            $t \in \{0,1,2,\dots\}$              & Índice del turno.                                                                \\
-            $\cS$                                & Espacio de estados completo oculto de la batalla.                                \\
-            $s_t \in \cS$                        & Estado markoviano completo en el turno $t$.                                      \\
-            $i \in \{1,2\}$                      & Índice del jugador.                                                              \\
-            $\cA_i(s)$                           & Conjunto de acciones legales para el jugador $i$ en el estado $s$.               \\
-            $a_t^i \in \cA_i(s_t)$               & Acción elegida por el jugador $i$ en el turno $t$.                               \\
-            $\cO_i$                              & Espacio de observación del jugador $i$.                                          \\
-            $o_t^i \in \cO_i$                    & Observación recibida por el jugador $i$ en el turno $t$.                         \\
-            $\Omega_i(o\mid s)$                  & Núcleo de observación del jugador $i$.                                           \\
-            $P(s'\mid s,a^1,a^2)$                & Núcleo de transición de estados del motor del juego.                             \\
-            $h_t^i$                              & Historial de información del jugador $i$ hasta el turno $t$.                     \\
-            $\pi_i(a\mid h_t^i)$                 & Política del jugador $i$.                                                        \\
-            $r_i(s_t,a_t^1,a_t^2,s_{t+1})$       & Recompensa por turno del jugador $i$.                                            \\
-            $G_t^i$                              & Retorno descontado del jugador $i$ a partir del turno $t$.                       \\
-            $\gamma \in (0,1]$                   & Factor de descuento.                                                             \\
-            \multirow{2}{*}{$b_t^i$}             & Estado de creencia del jugador $i$, es decir, la distribución posterior          \\
-                                                 & sobre los estados ocultos dado $h_t^i$.                                          \\
-            $V^{\pi_1,\pi_2}$, $Q^{\pi_1,\pi_2}$ & Funciones de valor y de valor de acción.                                         \\
-            $\Xi$                                & Conjunto de etiquetas de especies o tipos.                                       \\
-            $\cM$                                & Espacio de configuraciones latentes de movimientos.                              \\
-            $\cU$                                & Espacio de configuraciones latentes de objetos/habilidades/estadísticas.         \\
-            $\mathsf{HP}$                        & Variables de puntos de vida para todas las unidades activas y de reserva.        \\
-            $\mathsf{Field}$                     & Estado público del campo (clima, terreno, trampas, pantallas, contadores, etc.). \\
-            $\mathsf{Priv}_i$                    & Información privada oculta del jugador $i$.                                      \\
-            $\mathsf{Pub}$                       & Información de combate visible públicamente.                                     \\
+            $t \in \{0,1,2,\dots\}$              & \lang{Turn index}{Índice del turno}.                                                                                                                           \\
+            $\cS$                                & \lang{Full hidden state space of the battle}{Espacio de estados completo oculto de la batalla}.                                                                \\
+            $s_t \in \cS$                        & \lang{Full Markov state at turn $t$}{Estado markoviano completo en el turno $t$}.                                                                              \\
+            $i \in \{1,2\}$                      & \lang{Player index}{Índice del jugador}.                                                                                                                       \\
+            $\cA_i(s)$                           & \lang{Legal action set for player $i$ in state $s$}{Conjunto de acciones legales para el jugador $i$ en el estado $s$}.                                        \\
+            $a_t^i \in \cA_i(s_t)$               & \lang{Action chosen by player $i$ at turn $t$}{Acción elegida por el jugador $i$ en el turno $t$}.                                                             \\
+            $\cO_i$                              & \lang{Observation space for player $i$}{Espacio de observación del jugador $i$}.                                                                               \\
+            $o_t^i \in \cO_i$                    & \lang{Observation received by player $i$ at turn $t$}{Observación recibida por el jugador $i$ en el turno $t$}.                                                \\
+            $\Omega_i(o\mid s)$                  & \lang{Observation kernel for player $i$}{Núcleo de observación del jugador $i$}.                                                                               \\
+            $P(s'\mid s,a^1,a^2)$                & \lang{State-transition kernel of the game engine}{Núcleo de transición de estados del motor del juego}.                                                        \\
+            $h_t^i$                              & \lang{Information history of player $i$ up to turn $t$}{Historial de información del jugador $i$ hasta el turno $t$}.                                          \\
+            $\pi_i(a\mid h_t^i)$                 & \lang{Policy of player $i$}{Política del jugador $i$}.                                                                                                         \\
+            $r_i(s_t,a_t^1,a_t^2,s_{t+1})$       & \lang{Per-turn reward for player $i$}{Recompensa por turno del jugador $i$}.                                                                                   \\
+            $G_t^i$                              & \lang{Discounted return of player $i$ starting at turn $t$}{Retorno descontado del jugador $i$ a partir del turno $t$}.                                        \\
+            $\gamma \in (0,1]$                   & \lang{Discount factor}{Factor de descuento}.                                                                                                                   \\
+            \multirow{2}{*}{$b_t^i$}             & \lang{Belief state of player $i$, i.e.}{Estado de creencia del jugador $i$, es decir, la distribución posterior}                                               \\
+                                                 & \lang{posterior over hidden states given $h_t^i$}{sobre los estados ocultos dado $h_t^i$}.                                                                     \\
+            $V^{\pi_1,\pi_2}$, $Q^{\pi_1,\pi_2}$ & \lang{Value and action-value functions}{Funciones de valor y de valor de acción}.                                                                              \\
+            $\Xi$                                & \lang{Set of species or type labels}{Conjunto de etiquetas de especies o tipos}.                                                                               \\
+            $\cM$                                & \lang{Space of latent move configurations}{Espacio de configuraciones latentes de movimientos}.                                                                \\
+            $\cU$                                & \lang{Space of latent item/ability/stat configurations}{Espacio de configuraciones latentes de objetos/habilidades/estadísticas}.                              \\
+            $\mathsf{HP}$                        & \lang{Hit-point variables for all active and reserve units}{Variables de puntos de vida para todas las unidades activas y de reserva}.                         \\
+            $\mathsf{Field}$                     & \lang{Public field state (weather, terrain, hazards, screens, timers, etc.)}{Estado público del campo (clima, terreno, trampas, pantallas, contadores, etc.)}. \\
+            $\mathsf{Priv}_i$                    & \lang{Private hidden information held by player $i$}{Información privada oculta del jugador $i$}.                                                              \\
+            $\mathsf{Pub}$                       & \lang{Publicly visible battle information}{Información de combate visible públicamente}.                                                                       \\
             \bottomrule
         \end{tabular}}
-    \caption{Terminología y formulación usados en el modelado de un combate Pokémon  \emph{gen9randombattle} como un POMDP}
+    \caption{\lang{Terminology and formulation used to model a Pokémon \emph{gen9randombattle} battle as a POMDP}{Terminología y formulación usados en el modelado de un combate Pokémon \emph{gen9randombattle} como un POMDP}}
     \label{tab:caracteristicas}
 \end{table}
 
-\subsubsection{Modelo completo del combate como un juego estocástico parcialmente observable}
+\subsubsection{\lang{Full battle model as a partially observable stochastic game}{Modelo completo del combate como un juego estocástico parcialmente observable}}
 
-\paragraph{Descomposición del estado}
+\paragraph{\lang{State decomposition}{Descomposición del estado}}
 
-El estado completo de la batalla debe ser lo suficientemente rico para que el juego sea markoviano. Por tanto, definimos
+\ifthenelse{\equal{\LANG}{es}}{
+    El estado completo de la batalla debe ser lo suficientemente rico para que el juego sea markoviano. Por tanto, definimos
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The full battle state must be rich enough to make the game Markovian. We therefore define
+}{}
 $$
     \cS = \cS_{\mathrm{team},1} \times \cS_{\mathrm{team},2} \times \cS_{\mathrm{battle}}
 $$
-donde $\cS_{\mathrm{team},i}$ almacena la información a nivel de equipo del jugador $i$, y $\cS_{\mathrm{battle}}$ guarda la configuración de la batalla en evolución.
+\ifthenelse{\equal{\LANG}{es}}{
+    donde $\cS_{\mathrm{team},i}$ almacena la información a nivel de equipo del jugador $i$, y $\cS_{\mathrm{battle}}$ guarda la configuración de la batalla en evolución.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Here $\cS_{\mathrm{team},i}$ stores player $i$'s team-level information, and $\cS_{\mathrm{battle}}$ stores the evolving battle configuration
+}{}
 
-Una factorización conveniente es
+\ifthenelse{\equal{\LANG}{es}}{
+    Una factorización conveniente es
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    A convenient decomposition is
+}{}
 $$
     s_t = \big(T_1^t,T_2^t,B_t\big)
 $$
-donde:
+\lang{where:}{donde:}
 \begin{itemize}
-    \item $T_i^t$ es el estado completo del equipo del jugador $i$ en el turno $t$.
-    \item $B_t$ es el estado compartido de la batalla (campo, clima, trampas, contadores de turno, efectos pendientes, etc.).
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              $T_i^t$ es el estado completo del equipo del jugador $i$ en el turno $t$.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              $T_i^t$ is the full team state of player $i$ at turn $t$;
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              $B_t$ es el estado compartido de la batalla (campo, clima, trampas, contadores de turno, efectos pendientes, etc.).
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              $B_t$ is the shared battle state (field, weather, hazards, turn counters, pending effects, and so on).
+          }{}
 \end{itemize}
 
-Cada estado de equipo puede escribirse como
+\ifthenelse{\equal{\LANG}{es}}{
+    Cada estado de equipo puede escribirse como
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Each team state may be written as
+}{}
 $$
     T_i^t = \big( X_{i,1}^t, \dots, X_{i,6}^t, A_i^t \big)
 $$
-donde $X_{i,k}^t$ es el estado detallado de la $k$-ésima unidad, y $A_i^t$ indica qué unidad está actualmente activa.
+\ifthenelse{\equal{\LANG}{es}}{
+    donde $X_{i,k}^t$ es el estado detallado de la $k$-ésima unidad, y $A_i^t$ indica qué unidad está actualmente activa.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    where $X_{i,k}^t$ is the detailed state of the $k$th unit, and $A_i^t$ indicates which unit is currently active.
+}{}
 
-Cada estado de unidad tiene componentes cuasi-estáticos y dinámicos:
+\ifthenelse{\equal{\LANG}{es}}{
+    Cada estado de unidad tiene componentes cuasi-estáticos y dinámicos:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Each unit state has both quasi-static and dynamic components:
+}{}
 $$
     X_{i,k}^t = \big(\xi_{i,k}, m_{i,k}, u_{i,k}, y_{i,k}^t\big)
 $$
-donde
+\lang{Here:}{donde}
 \begin{itemize}
-    \item $\xi_{i,k} \in \Xi$ es la etiqueta de especie o arquetipo.
-    \item $m_{i,k} \in \cM$ denota la especificación del conjunto de movimientos.
-    \item $u_{i,k} \in \cU$ denota objetos latentes, habilidad, naturaleza, parámetros de estadísticas u otra configuración oculta.
-    \item $y_{i,k}^t$ denota la condición interna dependiente del tiempo de la unidad.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              $\xi_{i,k} \in \Xi$ es la etiqueta de especie o arquetipo.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              $\xi_{i,k} \in \Xi$ is the species or archetype label;
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              $m_{i,k} \in \cM$ denota la especificación del conjunto de movimientos.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              $m_{i,k} \in \cM$ denotes the move-set specification;
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              $u_{i,k} \in \cU$ denota objetos latentes, habilidad, naturaleza, parámetros de estadísticas u otra configuración oculta.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              $u_{i,k} \in \cU$ denotes latent item, ability, nature, stat parameters, or other hidden configuration;
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              $y_{i,k}^t$ denota la condición interna dependiente del tiempo de la unidad.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              $y_{i,k}^t$ denotes the time-varying internal condition of the unit.
+          }{}
 \end{itemize}
 
-Una variable de condición interna detallada puede escribirse como
+\ifthenelse{\equal{\LANG}{es}}{
+    Una variable de condición interna detallada puede escribirse como
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    A detailed internal condition variable may be written as
+}{}
 $$
     y_{i,k}^t = \big(\mathrm{hp}_{i,k}^t,\mathrm{status}_{i,k}^t,\mathrm{boosts}_{i,k}^t,\mathrm{volatile}_{i,k}^t,\mathrm{fainted}_{i,k}^t\big)
 $$
 
-El estado compartido de la batalla puede igualmente escribirse como
+\ifthenelse{\equal{\LANG}{es}}{
+    El estado compartido de la batalla puede igualmente escribirse como
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The shared battle state may likewise be written as
+}{}
 $$
     B_t = \big(\mathrm{weather}_t,\mathrm{terrain}_t,\mathrm{hazards}_t,\mathrm{screens}_t,\mathrm{trickroom}_t,\mathrm{timers}_t,\dots\big)
 $$
 
-\paragraph{Información pública y privada}
+\paragraph{\lang{Public and private information}{Información pública y privada}}
 
-El estado completo no es completamente observable por ninguno de los jugadores. Es útil escribir
+\ifthenelse{\equal{\LANG}{es}}{
+    El estado completo no es completamente observable por ninguno de los jugadores. Es útil escribir
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The full state is not fully observed by either player. It is useful to write
+}{}
 $$
     s_t = \big(\mathsf{Pub}_t,\mathsf{Priv}_{1,t},\mathsf{Priv}_{2,t}\big)
 $$
-donde:
+\lang{where:}{donde:}
 \begin{itemize}
-    \item $\mathsf{Pub}_t$ es el componente público visible para ambos jugadores.
-    \item $\mathsf{Priv}_{i,t}$ es el componente privado conocido únicamente por el jugador $i$.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              $\mathsf{Pub}_t$ es el componente público visible para ambos jugadores.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              $\mathsf{Pub}_t$ is the public component visible to both players;
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              $\mathsf{Priv}_{i,t}$ es el componente privado conocido únicamente por el jugador $i$.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              $\mathsf{Priv}_{i,t}$ is the private component known only to player $i$.
+          }{}
 \end{itemize}
 
-La información pública típica incluye las especies actualmente reveladas, las fracciones visibles de HP, estados alterados públicos, efectos de campo, movimientos revelados, objetos o habilidades reveladas, eventos de debilitamiento y el registro público de acciones. La información privada típica incluye la composición de reservas no revelada, movimientos aún no mostrados, objetos latentes, habilidades latentes antes de su revelación y configuraciones exactas de estadísticas.
+\ifthenelse{\equal{\LANG}{es}}{
+    La información pública típica incluye las especies actualmente reveladas, las fracciones visibles de HP, estados alterados públicos, efectos de campo, movimientos revelados, objetos o habilidades reveladas, eventos de debilitamiento y el registro público de acciones. La información privada típica incluye la composición de reservas no revelada, movimientos aún no mostrados, objetos latentes, habilidades latentes antes de su revelación y configuraciones exactas de estadísticas.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Typical public information includes currently revealed species, visible HP fractions, public status conditions, public field effects, revealed moves, revealed items or abilities, fainting events, and the public action log. Typical private information includes unrevealed reserve composition, hidden move slots not yet shown, latent held items, latent abilities before reveal, and exact stat configurations.
+}{}
 
-\paragraph{Acciones y restricciones legales}
+\paragraph{\lang{Actions and legal constraints}{Acciones y restricciones legales}}
 
-En el turno $t$, ambos jugadores eligen una acción simultáneamente y a priori. Para el jugador $i$, el conjunto de acciones legales depende del estado completo actual:
+\ifthenelse{\equal{\LANG}{es}}{
+    En el turno $t$, ambos jugadores eligen una acción simultáneamente y a priori. Para el jugador $i$, el conjunto de acciones legales depende del estado completo actual:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    At turn $t$, each player chooses an action simultaneously. For player $i$, the legal action set depends on the current full state:
+}{}
 $$
     a_t^i \in \cA_i(s_t)
 $$
 
-En \emph{gen9randombattle}, un conjunto de acciones legales típico tiene la forma esquemática
+\ifthenelse{\equal{\LANG}{es}}{
+    En \emph{gen9randombattle}, un conjunto de acciones legales típico tiene la forma esquemática
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    For \emph{gen9randombattle}, a typical legal action set takes the schematic form
+}{}
 $$
     \cA_i(s_t) \subseteq \cA_i^{\mathrm{move}}(s_t) \cup \cA_i^{\mathrm{switch}}(s_t) \cup \cA_i^{\mathrm{tera}}(s_t)
 $$
 
-donde las acciones de movimiento corresponden a seleccionar un movimiento legal, las acciones de cambio corresponden a cambiar a una unidad de reserva legal, y donde $\cA_i^{\mathrm{tera}}(s_t) = \{0,1\}$ denota la decisión booleana de si Terascristalizar o no. Esto solo se puede hacer una vez por batalla por jugador y debe elegirse con un movimiento y no con un cambio.
+\ifthenelse{\equal{\LANG}{es}}{
+    donde las acciones de movimiento corresponden a seleccionar un movimiento legal, las acciones de cambio corresponden a cambiar a una unidad de reserva legal, y donde $\cA_i^{\mathrm{tera}}(s_t) = \{0,1\}$ denota la decisión booleana de si Terascristalizar o no. Esto solo se puede hacer una vez por batalla por jugador y debe elegirse con un movimiento y no con un cambio.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    where move actions correspond to selecting one legal move, switch actions correspond to switching to a legal reserve unit, and where \(\cA_i^{\mathrm{tera}}(s_t) = \{0,1\}\) denotes the boolean decision of whether to Terastallize. This can only be done once per battle per player and has to be chosen with a move and not a switch.
+}{}
 
-\paragraph{Transiciones}
+\paragraph{\lang{Transition dynamics}{Transiciones}}
 
-El motor del juego define un núcleo de transición estocástico
+\ifthenelse{\equal{\LANG}{es}}{
+    El motor del juego define un núcleo de transición estocástico
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The game engine defines a stochastic transition kernel
+}{}
 \begin{equation}
     P(s_{t+1}\mid s_t,a_t^1,a_t^2)
     \label{eq:transition_kernel}
 \end{equation}
-Este núcleo incluye toda la resolución basada en reglas, incluyendo el orden por prioridad y velocidad, la ejecución de movimientos, cambios, precisión, variación de daño, golpes críticos, efectos secundarios, activaciones de efectos, actualizaciones al final del turno y debilitamientos o cambios forzados cuando corresponda.
+\ifthenelse{\equal{\LANG}{es}}{
+    Este núcleo incluye toda la resolución basada en reglas, incluyendo el orden por prioridad y velocidad, la ejecución de movimientos, cambios, precisión, variación de daño, golpes críticos, efectos secundarios, activaciones de efectos, actualizaciones al final del turno y debilitamientos o cambios forzados cuando corresponda.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This kernel includes all rule-based resolution, including ordering by priority and speed, move execution, switching, accuracy checks, damage variation, critical hits, secondary effects, effect triggers, end-of-turn updates, and fainting or forced switches when relevant.
+}{}
 
-El siguiente estado evoluciona por tanto como
+\ifthenelse{\equal{\LANG}{es}}{
+    El siguiente estado evoluciona por tanto como
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The state evolution is therefore
+}{}
 $$
     s_{t+1} \sim P(\cdot\mid s_t,a_t^1,a_t^2)
 $$
 
-Nota sobre acciones simultaneas y resolución interna: aunque los jugadores eligen sus acciones de manera simultánea a nivel estratégico, el motor del juego resuelve la acción conjunta siguiendo un orden interno que puede ser complejo; dicho orden forma parte del núcleo de transición y no necesita representarse por separado una vez definida la Ecuación~\eqref{eq:transition_kernel}.
+\ifthenelse{\equal{\LANG}{es}}{
+    \noindent \textbf{Nota} sobre acciones simultaneas y resolución interna: aunque los jugadores eligen sus acciones de manera simultánea a nivel estratégico, el motor del juego resuelve la acción conjunta siguiendo un orden interno que puede ser complejo; dicho orden forma parte del núcleo de transición y no necesita representarse por separado una vez definida la Ecuación~\eqref{eq:transition_kernel}.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    \noindent \textbf{Remark} on simultaneous actions and internal resolution: although players act simultaneously at the level of strategic choice, the engine resolves the joint action according to a possibly complicated internal order. This order is part of the transition kernel and need not be represented separately once Eq.~\eqref{eq:transition_kernel} is specified.
+}{}
 
-\paragraph{Kernels de observación}
+\paragraph{\lang{Observation kernels}{Kernels de observación}}
 
-El jugador $i$ no observa $s_t$ directamente, sino que recibe una observación
+\ifthenelse{\equal{\LANG}{es}}{
+    El jugador $i$ no observa $s_t$ directamente, sino que recibe una observación
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Player $i$ does not observe $s_t$ directly, but instead receives an observation
+}{}
 $$
     o_t^i \in \cO_i
 $$
-producida por un kernel de observación
+\ifthenelse{\equal{\LANG}{es}}{
+    producida por un kernel de observación
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    produced by an observation kernel
+}{}
 $$
     \Omega_i(o_t^i\mid s_t)
 $$
 
-De forma equivalente, puede expresarse la observación como una función determinista del estado junto con un mapa de visibilidad; sin embargo, la notación mediante kernel es más general y permite observaciones discretizadas o ruidosas.
+\ifthenelse{\equal{\LANG}{es}}{
+    De forma equivalente, puede expresarse la observación como una función determinista del estado junto con un mapa de visibilidad; sin embargo, la notación mediante kernel es más general y permite observaciones discretizadas o ruidosas.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Equivalently, one may write the observation as a deterministic function of the state and a visibility map, but the kernel notation is more general and allows for discretized or noisy observations.
+}{}
 
-Una observación típica contiene:
+\ifthenelse{\equal{\LANG}{es}}{
+    Una observación típica contiene:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    A typical observation contains:
+}{}
 \begin{itemize}
-    \item El tablero de combate público actual.
-    \item Las unidades activas visibles y sus condiciones públicas.
-    \item Todos los eventos públicos del turno anterior.
-    \item Información completa sobre el propio equipo del agente.
-    \item El subconjunto actualmente conocido de la información revelada del equipo del oponente.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              El tablero de combate público actual.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              the current public battle board;
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Las unidades activas visibles y sus condiciones públicas.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              the visible active units and their public conditions;
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Todos los eventos públicos del turno anterior.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              all public events from the previous turn;
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Información completa sobre el propio equipo del agente.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              full information about the agent's own team;
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              El subconjunto actualmente conocido de la información revelada del equipo del oponente.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              the currently known revealed subset of the opponent's team information.
+          }{}
 \end{itemize}
 
-\paragraph{Historiales y políticas}
+\paragraph{\lang{Histories and policies}{Historiales y políticas}}
 
-Debido a que el juego es parcialmente observable, el agente actúa a partir de historiales en lugar de a partir del estado completo. El historial de información del jugador $i$ hasta el turno $t$ es
+\ifthenelse{\equal{\LANG}{es}}{
+    Debido a que el juego es parcialmente observable, el agente actúa a partir de historiales en lugar de a partir del estado completo. El historial de información del jugador $i$ hasta el turno $t$ es
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Because the game is partially observable, the agent acts on histories rather than on the full state. The information history of player $i$ up to turn $t$ is
+}{}
 $$
     h_t^i = (o_0^i,a_0^i,o_1^i,a_1^i,\dots,o_t^i)
 $$
-Una política estocástica dependiente del historial es por tanto una familia de distribuciones condicionales
+\ifthenelse{\equal{\LANG}{es}}{
+    Una política estocástica dependiente del historial es por tanto una familia de distribuciones condicionales
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    A stochastic history-dependent policy is therefore a family of conditional distributions
+}{}
 $$
     \pi_i(a\mid h_t^i),
     \qquad
@@ -255,74 +449,144 @@ $$
     \text{ casi seguramente.}
 $$
 
-En implementaciones, el historial se comprime a menudo en un estado de memoria de dimensión finita $m_t^i$, por ejemplo mediante una red neuronal recurrente, dando lugar a una política de la forma
+\ifthenelse{\equal{\LANG}{es}}{
+    En implementaciones, el historial se comprime a menudo en un estado de memoria de dimensión finita $m_t^i$, por ejemplo mediante una red neuronal recurrente, dando lugar a una política de la forma
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    In implementations, the history is often compressed into a finite-dimensional memory state $m_t^i$, for example by a recurrent neural network, giving a policy of the form
+}{}
 $$
     \pi_i(a\mid m_t^i)
 $$
 
-\subsubsection{Recompensas, retornos y objetivos}
+\subsubsection{\lang{Rewards, returns, and objectives}{Recompensas, retornos y objetivos}}
 
-\paragraph{Recompensas terminales}
-La recompensa más natural es la recompensa terminal de victoria/derrota. Para el jugador 1, se define
+\paragraph{\lang{Terminal rewards}{Recompensas terminales}}
+\ifthenelse{\equal{\LANG}{es}}{
+    La recompensa más natural es la recompensa terminal de victoria/derrota. Para el jugador 1, se define
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The most natural reward is terminal win/loss reward. For player 1, define
+}{}
 $$
     R_T^1 =
     \begin{cases}
-        +1, & \text{si el jugador 1 gana},       \\
-        0,  & \text{si la batalla es un empate}, \\
-        -1, & \text{si el jugador 1 pierde}.
+        +1, & \text{\lang{if player 1 wins}{si el jugador 1 gana}},              \\
+        0,  & \text{\lang{if the battle is a draw}{si la batalla es un empate}}, \\
+        -1, & \text{\lang{if player 1 loses}{si el jugador 1 pierde}}.
     \end{cases}
 $$
-Para juegos de suma cero,
+\ifthenelse{\equal{\LANG}{es}}{
+    Para juegos de suma cero,
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    For zero-sum play,
+}{}
 $$
     R_T^2 = -R_T^1
 $$
 
-\noindent \textbf{Nota.} Aunque en la formulación teórica se explica una recompensa normalizada de +/-1, en la implementación se utiliza una versión escalada de esta recompensa terminal, +/-1000, junto con recompensas intermedias definidas en las funciones \emph{RewardFunction01} y \emph{RewardFunction02} (anexo \ref{anexo:hyperReward}).
+\ifthenelse{\equal{\LANG}{es}}{
+    \noindent \textbf{Nota.} Aunque en la formulación teórica se explica una recompensa normalizada de +/-1, en la implementación se utiliza una versión escalada de esta recompensa terminal, +/-1000, junto con recompensas intermedias definidas en las funciones \emph{RewardFunction01} y \emph{RewardFunction02} (anexo \ref{anexo:hyperReward}).
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    \noindent \textbf{Remark.} Although the theoretical formulation explains a normalized +/-1 terminal reward, in the implementation a scaled version of this terminal reward, +/-1000, is used along with intermediate rewards defined in the \emph{RewardFunction01} and \emph{RewardFunction02} functions (appendix \ref{anexo:hyperReward}).
+}{}
 
-\paragraph{Recompensas por turno}
+\paragraph{\lang{Per-turn rewards}{Recompensas por turno}}
 
-Para el entrenamiento de aprendizaje por refuerzo (RL) se suelen utilizar recompensas moldeadas por turno,
+\ifthenelse{\equal{\LANG}{es}}{
+    Para el entrenamiento de aprendizaje por refuerzo (RL) se suelen utilizar recompensas moldeadas por turno,
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    For RL training one often uses shaped per-turn rewards,
+}{}
 $$
     r_i(s_t,a_t^1,a_t^2,s_{t+1})
 $$
-por ejemplo basadas en el cambio diferencial de HP, debilitamientos, ventaja en el tablero o un cambio calibrado en la probabilidad estimada de victoria. En el escenario de suma cero se impone
+\ifthenelse{\equal{\LANG}{es}}{
+    por ejemplo basadas en el cambio diferencial de HP, debilitamientos, ventaja en el tablero o un cambio calibrado en la probabilidad estimada de victoria. En el escenario de suma cero se impone
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    for example based on HP differential change, faints, board advantage, or a calibrated change in estimated win probability. In the zero-sum setting one imposes
+}{}
 $$
     r_2 = -r_1
 $$
 
-Un retorno descontado genérico se define como
+\ifthenelse{\equal{\LANG}{es}}{
+    Un retorno descontado genérico se define como
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    A generic discounted return is then
+}{}
 $$
     G_t^i = \sum_{k=t}^{T-1} \gamma^{k-t} r_i(s_k,a_k^1,a_k^2,s_{k+1}),
     \qquad \gamma \in (0,1]
 $$
-Si las recompensas son solo terminales, entonces $r_i=0$ para $k<T-1$ y $r_i$ coincide con el resultado terminal al final de la batalla.
+\ifthenelse{\equal{\LANG}{es}}{
+    Si las recompensas son solo terminales, entonces $r_i=0$ para $k<T-1$ y $r_i$ coincide con el resultado terminal al final de la batalla.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    If rewards are terminal only, then $r_i=0$ for $k<T-1$ and $r_i$ coincides with the terminal outcome at the end of the battle.
+}{}
 
-\paragraph{Objetivo de suma cero}
+\paragraph{\lang{Zero-sum objective}{Objetivo de suma cero}}
 
-El objetivo estratégico del jugador 1 es
+\ifthenelse{\equal{\LANG}{es}}{
+    El objetivo estratégico del jugador 1 es
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The strategic objective for player 1 is
+}{}
 $$
     \max_{\pi_1}\min_{\pi_2}
     \EE_{\pi_1,\pi_2,P,\Omega}[G_0^1],
 $$
-con el jugador 2 resolviendo el problema dual de minimización. En la práctica, el aprendizaje por auto-juego aproxima un comportamiento de búsqueda de equilibrio bajo este objetivo.
+\ifthenelse{\equal{\LANG}{es}}{
+    con el jugador 2 resolviendo el problema dual de minimización. En la práctica, el aprendizaje por auto-juego aproxima un comportamiento de búsqueda de equilibrio bajo este objetivo.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    with player 2 solving the dual minimization problem. In practice, self-play learning approximates equilibrium-seeking behavior under this objective.
+}{}
 
-\subsubsection{Formulación en espacio de creencias}
+\subsubsection{\lang{Belief-state formulation}{Formulación en espacio de creencias}}
 
-\paragraph{Creencias sobre estados ocultos}
+\paragraph{\lang{Beliefs over hidden states}{Creencias sobre estados ocultos}}
 
-Desde el punto de vista del jugador 1, el juego es parcialmente observable porque el estado completo $s_t$ está oculto. Dado el historial $h_t^1$, se define la creencia posterior
+\ifthenelse{\equal{\LANG}{es}}{
+    Desde el punto de vista del jugador 1, el juego es parcialmente observable porque el estado completo $s_t$ está oculto. Dado el historial $h_t^1$, se define la creencia posterior
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    From the viewpoint of player 1, the game is partially observable because the full state $s_t$ is hidden. Given the history $h_t^1$, define the posterior belief
+}{}
 $$
     b_t^1(s) = \PP(s_t=s \mid h_t^1)
 $$
-El conjunto de todas estas medidas de probabilidad forma el espacio de creencias
+\ifthenelse{\equal{\LANG}{es}}{
+    El conjunto de todas estas medidas de probabilidad forma el espacio de creencias
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The set of all such probability measures forms the belief space
+}{}
 $$
     \cB_1 = \cP(\cS)
 $$
-En principio, $b_t^1$ es una estadística suficiente para el control.
+\ifthenelse{\equal{\LANG}{es}}{
+    En principio, $b_t^1$ es una estadística suficiente para el control.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    In principle, $b_t^1$ is a sufficient statistic for control.
+}{}
 
-\paragraph{Actualización de creencias}
+\paragraph{\lang{Belief update}{Actualización de creencias}}
 
-Supongamos que el jugador 1 ejecuta la acción $a_t^1$ y posteriormente recibe la observación $o_{t+1}^1$. Si la política del oponente se modela mediante $\pi_2$, entonces la actualización bayesiana de la creencia viene dada por
+\ifthenelse{\equal{\LANG}{es}}{
+    Supongamos que el jugador 1 ejecuta la acción $a_t^1$ y posteriormente recibe la observación $o_{t+1}^1$. Si la política del oponente se modela mediante $\pi_2$, entonces la actualización bayesiana de la creencia viene dada por
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Suppose player 1 takes action $a_t^1$ and then receives observation $o_{t+1}^1$. If the opponent policy is modeled as $\pi_2$, then the Bayesian belief update is
+}{}
 $$
     b_{t+1}^1(s')
     \propto
@@ -333,13 +597,28 @@ $$
     \pi_2(a_t^2\mid h_t^2)
     b_t^1(s)
 $$
-La constante de proporcionalidad es el factor de normalización que garantiza que $b_{t+1}^1$ sea una distribución de probabilidad.
+\ifthenelse{\equal{\LANG}{es}}{
+    La constante de proporcionalidad es el factor de normalización que garantiza que $b_{t+1}^1$ sea una distribución de probabilidad.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The proportionality constant is the normalizing factor that makes $b_{t+1}^1$ a probability distribution.
+}{}
 
-En general, el seguimiento exacto de las creencias es intratable en dominios de combate realistas. Por ello, los agentes prácticos suelen emplear métodos de inferencia aproximada, estados latentes aprendidos, memoria oculta recurrente, aproximaciones mediante partículas o modelos posteriores amortizados.
+\ifthenelse{\equal{\LANG}{es}}{
+    En general, el seguimiento exacto de las creencias es intratable en dominios de combate realistas. Por ello, los agentes prácticos suelen emplear métodos de inferencia aproximada, estados latentes aprendidos, memoria oculta recurrente, aproximaciones mediante partículas o modelos posteriores amortizados.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Exact belief tracking is generally intractable in realistic battle domains. Practical agents therefore use approximate inference, learned latent states, recurrent hidden memory, particle approximations, or amortized posterior models.
+}{}
 
-\paragraph{Perspectiva de POMDP inducido}
+\paragraph{\lang{Induced POMDP viewpoint}{Perspectiva de POMDP inducido}}
 
-Si la política del oponente se mantiene fija, entonces, desde la perspectiva del jugador 1, el juego induce un POMDP con estado oculto $s_t$, acción $a_t^1$, observación $o_t^1$, recompensa $r_1$ y dinámicas efectivas obtenidas al marginalizar sobre la distribución de acciones del oponente. El núcleo efectivo de transición-observación viene dado por
+\ifthenelse{\equal{\LANG}{es}}{
+    Si la política del oponente se mantiene fija, entonces, desde la perspectiva del jugador 1, el juego induce un POMDP con estado oculto $s_t$, acción $a_t^1$, observación $o_t^1$, recompensa $r_1$ y dinámicas efectivas obtenidas al marginalizar sobre la distribución de acciones del oponente. El núcleo efectivo de transición-observación viene dado por
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    If the opponent policy is fixed, then from the perspective of player 1 the game induces a POMDP with hidden state $s_t$, action $a_t^1$, observation $o_t^1$, reward $r_1$, and effective dynamics obtained by marginalizing over the opponent's action distribution. The effective transition-observation kernel is
+}{}
 $$
     \widetilde{P}(s',o'\mid s,a^1)
     =
@@ -348,26 +627,51 @@ $$
     \Omega_1(o'\mid s')
     \pi_2(a^2\mid h^2)
 $$
-Esta es la reducción estándar a aprendizaje por refuerzo de un solo agente para un juego competitivo con información oculta.
+\ifthenelse{\equal{\LANG}{es}}{
+    Esta es la reducción estándar a aprendizaje por refuerzo de un solo agente para un juego competitivo con información oculta.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This is the standard single-agent RL reduction of the hidden-information competitive game.
+}{}
 
-\subsubsection{Funciones de valor y relaciones de Bellman}
+\subsubsection{\lang{Value functions and Bellman relations}{Funciones de valor y relaciones de Bellman}}
 
-Para políticas fijas $(\pi_1,\pi_2)$, se define la función de valor en el espacio de creencias para el jugador 1 como
+\ifthenelse{\equal{\LANG}{es}}{
+    Para políticas fijas $(\pi_1,\pi_2)$, se define la función de valor en el espacio de creencias para el jugador 1 como
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    For fixed policies $(\pi_1,\pi_2)$, define the belief-space value function for player 1 by
+}{}
 $$
     V^{\pi_1,\pi_2}(b)
     =
     \EE\big[G_t^1\mid b_t^1=b\big]
 $$
-La función valor-acción es
+\ifthenelse{\equal{\LANG}{es}}{
+    La función valor-acción es
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The action-value function is
+}{}
 $$
     Q^{\pi_1,\pi_2}(b,a^1)
     =
     \EE\big[r_1 + \gamma V^{\pi_1,\pi_2}(b_{t+1}^1)
         \mid b_t^1=b, a_t^1=a^1\big]
 $$
-La esperanza integra sobre el estado oculto actual, la acción del oponente, la transición de estado y la observación siguiente.
+\ifthenelse{\equal{\LANG}{es}}{
+    La esperanza integra sobre el estado oculto actual, la acción del oponente, la transición de estado y la observación siguiente.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The expectation integrates over the hidden current state, the opponent action, the state transition, and the next observation.
+}{}
 
-Para una política fija del oponente, la ecuación de Bellman en el espacio de creencias es
+\ifthenelse{\equal{\LANG}{es}}{
+    Para una política fija del oponente, la ecuación de Bellman en el espacio de creencias es
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    For a fixed opponent policy, the belief-state Bellman equation is
+}{}
 $$
     V^{\pi_1,\pi_2}(b)
     =
@@ -375,7 +679,12 @@ $$
     Q^{\pi_1,\pi_2}(b,a^1)
 $$
 
-En los juegos de suma cero, un valor de equilibrio $V^\star$ satisface formalmente una relación de Bellman--Isaacs de la forma
+\ifthenelse{\equal{\LANG}{es}}{
+    En los juegos de suma cero, un valor de equilibrio $V^\star$ satisface formalmente una relación de Bellman--Isaacs de la forma
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    In the zero-sum game, an equilibrium value $V^\star$ formally satisfies a Bellman--Isaacs relation of the form
+}{}
 \begin{equation}
     V^\star(b)
     =
@@ -384,64 +693,178 @@ En los juegos de suma cero, un valor de equilibrio $V^\star$ satisface formalmen
     \EE\big[r_1 + \gamma V^\star(b')\mid b\big]
     \label{eq:bellman_isaacs}
 \end{equation}
-donde $\sigma_1$ y $\sigma_2$ son acciones mixtas locales condicionadas al estado de información actual. En la práctica, resolver exactamente la ecuación.~\eqref{eq:bellman_isaacs} es inviable para juegos realistas, pero proporciona el objeto formal correcto.
+\ifthenelse{\equal{\LANG}{es}}{
+    donde $\sigma_1$ y $\sigma_2$ son acciones mixtas locales condicionadas al estado de información actual. En la práctica, resolver exactamente la ecuación.~\eqref{eq:bellman_isaacs} es inviable para juegos realistas, pero proporciona el objeto formal correcto.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    where $\sigma_1$ and $\sigma_2$ are local mixed actions conditioned on the current information state. In practice, solving Eq.~\eqref{eq:bellman_isaacs} exactly is infeasible for realistic games, but it provides the correct formal object.
+}{}
 
-\subsubsection{Variables de estado que impulsan la dinámica del combate}
+\subsubsection{\lang{State variables that drive battle dynamics}{Variables de estado que impulsan la dinámica del combate}}
 
-Para concretar la formulación, resulta útil identificar las principales clases de variables de estado que determinan la dinámica del combate.
+\ifthenelse{\equal{\LANG}{es}}{
+    Para concretar la formulación, resulta útil identificar las principales clases de variables de estado que determinan la dinámica del combate.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    To make the formulation concrete, it is helpful to isolate the main classes of state variables that determine the battle dynamics.
+}{}
 
-\paragraph{Variables latentes de la composición del equipo}
+\paragraph{\lang{Latent roster variables}{Variables latentes de la composición del equipo}}
 
-Cada jugador comienza con un equipo extraído de un espacio combinatorio sujeto a restricciones. A nivel matemático, esto puede interpretarse como una variable latente de composición del equipo
+\ifthenelse{\equal{\LANG}{es}}{
+    Cada jugador comienza con un equipo extraído de un espacio combinatorio sujeto a restricciones. A nivel matemático, esto puede interpretarse como una variable latente de composición del equipo
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Each player begins with a team drawn from a constrained combinatorial space. At the mathematical level, this may be viewed as a latent roster variable
+}{}
 $$
     \Theta_i = \big(\theta_{i,1},\dots,\theta_{i,N_i}\big)
 $$
-donde cada especificación de unidad es
+\ifthenelse{\equal{\LANG}{es}}{
+    donde cada especificación de unidad es
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    where each unit specification is
+}{}
 $$
     \theta_{i,k} = (\xi_{i,k},m_{i,k},u_{i,k})
 $$
 
-Estas variables influyen en la planificación a largo plazo porque determinan las futuras opciones de cambio, la estructura de enfrentamientos, el conjunto de amenazas aún no reveladas y las creencias posteriores del oponente.
+\ifthenelse{\equal{\LANG}{es}}{
+    Estas variables influyen en la planificación a largo plazo porque determinan las futuras opciones de cambio, la estructura de enfrentamientos, el conjunto de amenazas aún no reveladas y las creencias posteriores del oponente.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    These variables affect long-range planning because they determine future switch options, matchup structure, unrevealed threat set, and the posterior beliefs of the opponent.
+}{}
 
-\paragraph{Variables dinámicas de recursos por unidad}
+\paragraph{\lang{Dynamic per-unit resource variables}{Variables dinámicas de recursos por unidad}}
 
-El recurso dinámico más importante es HP, pero normalmente se requieren varias variables acopladas a nivel de unidad:
+\ifthenelse{\equal{\LANG}{es}}{
+    El recurso dinámico más importante es HP, pero normalmente se requieren varias variables acopladas a nivel de unidad:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The most important dynamic resource is HP, but one typically requires several coupled unit-level variables:
+}{}
 $$
     y_{i,k}^t = \big(\lambda_{i,k}^t,\sigma_{i,k}^t,\beta_{i,k}^t,\nu_{i,k}^t,f_{i,k}^t\big)
 $$
-donde:
+\lang{where:}{donde:}
 \begin{itemize}
-    \item $\lambda_{i,k}^t \in [0,1]$ es la fracción de HP.
-    \item $\sigma_{i,k}^t$ es el estado persistente.
-    \item $\beta_{i,k}^t$ denota incrementos o reducciones de estadísticas.
-    \item $\nu_{i,k}^t$ denota condiciones volátiles.
-    \item $f_{i,k}^t \in \{0,1\}$ indica si la unidad se ha debilitado.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              $\lambda_{i,k}^t \in [0,1]$ es la fracción de HP.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              $\lambda_{i,k}^t \in [0,1]$ is HP fraction;
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              $\sigma_{i,k}^t$ es el estado persistente.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              $\sigma_{i,k}^t$ is persistent status;
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              $\beta_{i,k}^t$ denota incrementos o reducciones de estadísticas.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              $\beta_{i,k}^t$ denotes stat-stage boosts or reductions;
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              $\nu_{i,k}^t$ denota condiciones volátiles.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              $\nu_{i,k}^t$ denotes volatile conditions;
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              $f_{i,k}^t \in \{0,1\}$ indica si la unidad se ha debilitado.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              $f_{i,k}^t \in \{0,1\}$ indicates whether the unit has fainted.
+          }{}
 \end{itemize}
 
-Estas variables median las principales dinámicas de agotamiento del combate.
+\ifthenelse{\equal{\LANG}{es}}{
+    Estas variables median las principales dinámicas de agotamiento del combate.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    These variables mediate the main depletion dynamics of the battle.
+}{}
 
-\paragraph{Variables de tablero y campo}
+\paragraph{\lang{Board and field variables}{Variables de tablero y campo}}
 
-El estado del tablero es relevante porque el mismo equipo puede comportarse de manera muy diferente bajo distintas combinaciones activas de enfrentamientos y condiciones de campo. Las variables compartidas importantes incluyen:
+\ifthenelse{\equal{\LANG}{es}}{
+    El estado del tablero es relevante porque el mismo equipo puede comportarse de manera muy diferente bajo distintas combinaciones activas de enfrentamientos y condiciones de campo. Las variables compartidas importantes incluyen:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Board state matters because the same team can behave very differently under different active matchups and field conditions. Important shared variables include:
+}{}
 \begin{equation}
     B_t = (A_1^t,A_2^t,\mathrm{weather}_t,\mathrm{terrain}_t,\mathrm{hazards}_t,\mathrm{screens}_t,\tau_t),
 \end{equation}
-donde $\tau_t$ denota de forma esquemática el conjunto de temporizadores y contadores de efectos.
+\ifthenelse{\equal{\LANG}{es}}{
+    donde $\tau_t$ denota de forma esquemática el conjunto de temporizadores y contadores de efectos.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    where $\tau_t$ schematically denotes the collection of effect timers and counters.
+}{}
 
-\paragraph{Consecuencias estratégicas}
+\paragraph{\lang{Strategic consequences}{Consecuencias estratégicas}}
 
-Las dinámicas presentan al menos cuatro mecanismos acoplados distintos:
+\ifthenelse{\equal{\LANG}{es}}{
+    Las dinámicas presentan al menos cuatro mecanismos acoplados distintos:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The dynamics therefore have at least four distinct coupled mechanisms:
+}{}
 \begin{enumerate}
-    \item \emph{Agotamiento de recursos}: pérdida de HP, estados alterados, debilitamiento y pérdida de presencia en el tablero.
-    \item \emph{Control de configuración}: cambios y selección de enfrentamientos activos.
-    \item \emph{Revelación de información oculta}: los movimientos, objetos, habilidades o la composición de reservas se van revelando parcialmente a través del juego.
-    \item \emph{Resolución táctica estocástica}: precisión, tiradas de daño, efectos secundarios e incertidumbre en el orden de resolución.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              \emph{Agotamiento de recursos}: pérdida de HP, estados alterados, debilitamiento y pérdida de presencia en el tablero.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              \emph{resource depletion}: HP loss, status, fainting, and loss of board presence;
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              \emph{Control de configuración}: cambios y selección de enfrentamientos activos.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              \emph{configuration control}: switching and active matchup selection;
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              \emph{Revelación de información oculta}: los movimientos, objetos, habilidades o la composición de reservas se van revelando parcialmente a través del juego.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              \emph{hidden-information revelation}: moves, items, abilities, or reserve composition become partially revealed through play;
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              \emph{Resolución táctica estocástica}: precisión, tiradas de daño, efectos secundarios e incertidumbre en el orden de resolución.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              \emph{stochastic tactical resolution}: accuracy, damage rolls, secondary effects, and ordering uncertainty.
+          }{}
 \end{enumerate}
-Estos mecanismos ya están contenidos en la formulación estándar POSG/POMDP anterior; no requieren teoría adicional para quedar matemáticamente bien definidos.
+\ifthenelse{\equal{\LANG}{es}}{
+    Estos mecanismos ya están contenidos en la formulación estándar POSG/POMDP anterior; no requieren teoría adicional para quedar matemáticamente bien definidos.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    These mechanisms are all already contained in the standard POSG/POMDP formulation above; they do not require any further theory to be mathematically well-defined.
+}{}
 
-\noindent \textbf{Resumen del marco teórico}
+\noindent \textbf{\lang{Theoretical framework summary}{Resumen del marco teórico}}
 
-En este TFG, la formulación anterior se utiliza como marco conceptual para justificar la dificultad del problema. Sin embargo, el agente implementado no mantiene una creencia bayesiana explícita sobre el estado oculto ni resuelve exactamente las ecuaciones de Bellman en el espacio de creencias. En la práctica, el historial y la información parcial del combate se aproximan mediante un vector de observación construido a partir de las representaciones del campo de batalla, Pokémon y movimiento, que se proporciona como entrada a las redes neuronales del actor y, cuando se utiliza, del crítico.
+\ifthenelse{\equal{\LANG}{es}}{
+    En este TFG, la formulación anterior se utiliza como marco conceptual para justificar la dificultad del problema. Sin embargo, el agente implementado no mantiene una creencia bayesiana explícita sobre el estado oculto ni resuelve exactamente las ecuaciones de Bellman en el espacio de creencias. En la práctica, el historial y la información parcial del combate se aproximan mediante un vector de observación construido a partir de las representaciones del campo de batalla, Pokémon y movimiento, que se proporciona como entrada a las redes neuronales del actor y, cuando se utiliza, del crítico.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    In this Thesis, the previous formulation is used as a conceptual framework to justify the difficulty of the problem. However, the implemented agent does not maintain an explicit Bayesian belief over the hidden state, nor does it solve the Bellman equations exactly in the belief-state space. In practice, the history and partial information available during battle are approximated by an observation vector constructed from representations of the battlefield, Pokémon, and moves, which is provided as input to the actor's neural network and, when applicable, to the critic's neural network.
+}{}
 
 \subsection{Entorno de entrenamiento} \label{sec:environment}
 
