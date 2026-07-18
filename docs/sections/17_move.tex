@@ -1,29 +1,34 @@
-\section{Hiperparámetro \emph{move}} \label{anexo:hyperMove}
+\section{\lang{Hyperparameter}{Hiperparámetro} \emph{move}} \label{anexo:hyperMove}
 
-El hiperparámetro \emph{move} define qué representación se usará cada movimiento. Este, junto con los hiperparámetros \emph{player} y \emph{pokemon}, determinan el número de parámetros que tiene la primera capa de las redes neuronales (observación). La tabla \ref{tab:moveParameters} muestra las $11$ clases de representación. Las representaciones se nombran igual que la implementación de sus correspondientes clases en el código y siguen la nomenclatura de \emph{MoveXX}, donde \emph{XX} representa el nivel de complejidad. La clase con número superior engloba a la clase que tiene un número inferior, es decir, tiene todos los atributos de la clase inferior y algunos más. \emph{S} significa que es la clase más compleja y que intenta representar todo sin que haya límite en el número de parámetros.
+\ifthenelse{\equal{\LANG}{es}}{
+    El hiperparámetro \emph{move} define qué representación se usará cada movimiento. Este, junto con los hiperparámetros \emph{player} y \emph{pokemon}, determinan el número de parámetros que tiene la primera capa de las redes neuronales (observación). La tabla \ref{tab:moveParameters} muestra las $11$ clases de representación. Las representaciones se nombran igual que la implementación de sus correspondientes clases en el código y siguen la nomenclatura de \emph{MoveXX}, donde \emph{XX} representa el nivel de complejidad. La clase con número superior engloba a la clase que tiene un número inferior, es decir, tiene todos los atributos de la clase inferior y algunos más. \emph{S} significa que es la clase más compleja y que intenta representar todo sin que haya límite en el número de parámetros.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The \emph{move} hyperparameter defines which representation will be used for each move. Together with the \emph{player} and \emph{pokemon} hyperparameters, it determines the number of parameters in the first layer of the neural networks (observation). Table \ref{tab:moveParameters} shows the $11$ representation classes. The representations are named in the same way as the implementation of their corresponding classes in the code and follow the \emph{MoveXX} nomenclature, where \emph{XX} denotes the complexity level. A higher-numbered class encompasses the class with the lower number, that is, it contains all the attributes of the lower class and some additional ones. \emph{S} denotes the most complex class, which attempts to represent everything without any limit on the number of parameters.
+}{}
 
 \begin{table}[h]
     \centering
     {\small
         \begin{tabular}{lrr}
             \toprule
-            Clase  & Número de parámetros & Número de experimentos \\
+            \lang{Class}{Clase} & \lang{Number of parameters}{Número de parámetros} & \lang{Number of experiments}{Número de experimentos} \\
             \midrule
-            Move00 & 1                    & 26                     \\
-            Move01 & 26                   & 5                      \\
-            Move02 & 39                   & 13                     \\
-            Move03 & 48                   & 8                      \\
-            Move04 & 55                   & 6                      \\
-            Move05 & 64                   & 6                      \\
-            Move06 & 76                   & 31                     \\
-            Move07 & 90                   & 22                     \\
-            Move08 & 155                  & 10                     \\
-            Move09 & 187                  & 16                     \\
-            MoveS  & 1137                 & 8                      \\
+            Move00              & 1                                                 & 26                                                   \\
+            Move01              & 26                                                & 5                                                    \\
+            Move02              & 39                                                & 13                                                   \\
+            Move03              & 48                                                & 8                                                    \\
+            Move04              & 55                                                & 6                                                    \\
+            Move05              & 64                                                & 6                                                    \\
+            Move06              & 76                                                & 31                                                   \\
+            Move07              & 90                                                & 22                                                   \\
+            Move08              & 155                                               & 10                                                   \\
+            Move09              & 187                                               & 16                                                   \\
+            MoveS               & 1137                                              & 8                                                    \\
             \bottomrule
         \end{tabular}
     }
-    \caption{Número de parámetros que se obtienen del entorno para cada movimiento y número de experimentos que se han hecho con cada clase}
+    \caption{\lang{Number of parameters provided by the environment for each move and number of experiments conducted for each class}{Número de parámetros que se obtienen del entorno para cada movimiento y número de experimentos que se han hecho con cada clase}}
     \label{tab:moveParameters}
 \end{table}
 
@@ -32,25 +37,77 @@ El hiperparámetro \emph{move} define qué representación se usará cada movimi
 \subsection*{Move00}
 \endgroup
 
-En el formato \emph{gen9randombattle} hay $950$ movimientos posibles. El único atributo de la clase \emph{Move00} es el índice del movimiento de una lista fija. Un factor a tener en cuenta es que, mientras se van añadiendo más atributos, estos de forma indirecta, limitan el número de movimientos posibles.
+\ifthenelse{\equal{\LANG}{es}}{
+    En el formato \emph{gen9randombattle} hay $950$ movimientos posibles. El único atributo de la clase \emph{Move00} es el índice del movimiento de una lista fija. Un factor a tener en cuenta es que, mientras se van añadiendo más atributos, estos de forma indirecta, limitan el número de movimientos posibles.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    In the \emph{gen9randombattle} format there are $950$ possible moves. The only attribute in class \emph{Move00} is the move index from a fixed list. One point to keep in mind is that, as more attributes are added, they indirectly restrict the number of possible moves.
+}{}
 
 \begingroup
 \renewcommand{\addcontentsline}[3]{}%
 \subsection*{Move01}
 \endgroup
 
-Esta representación añade $25$ parámetros:
+\ifthenelse{\equal{\LANG}{es}}{
+    Esta representación añade $25$ parámetros:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This representation adds $25$ parameters:
+}{}
 
 \begin{itemize}
-    \item Un vector de $20$ booleanos que representa el tipo del movimiento. En el formato \emph{gen9randombattle} hay $20$ tipos posibles.
-    \item Un vector one-hot de $3$ booleanos que representa la categoría del movimiento. Son:
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un vector de $20$ booleanos que representa el tipo del movimiento. En el formato \emph{gen9randombattle} hay $20$ tipos posibles.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A vector of $20$ booleans representing the move type. In the \emph{gen9randombattle} format there are $20$ possible types.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un vector one-hot de $3$ booleanos que representa la categoría del movimiento. Son:
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A one-hot vector of $3$ booleans representing the move category. They are:
+          }{}
           \begin{enumerate}
-              \item Físico
-              \item Especial
-              \item Estado
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Físico
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Physical
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Especial
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Special
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Estado
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Status
+                    }{}
           \end{enumerate}
-    \item Un flotante que indica la potencia base del movimiento. Se normaliza dividiéndolo entre $120$, ya que los movimientos con potencia superior a $120$ son muy raros.
-    \item Un flotante que indica la precisión del movimiento. Ya se encuentra normalizado entre $0$ y $1$.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un flotante que indica la potencia base del movimiento. Se normaliza dividiéndolo entre $120$, ya que los movimientos con potencia superior a $120$ son muy raros.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A float indicating the move's base power. It is normalized by dividing by $120$, since moves with power above $120$ are very rare.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un flotante que indica la precisión del movimiento. Ya se encuentra normalizado entre $0$ y $1$.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A float indicating the move's accuracy. It is already normalized between $0$ and $1$.
+          }{}
 \end{itemize}
 
 \begingroup
@@ -58,25 +115,108 @@ Esta representación añade $25$ parámetros:
 \subsection*{Move02}
 \endgroup
 
-Esta representación añade $13$ parámetros:
+\ifthenelse{\equal{\LANG}{es}}{
+    Esta representación añade $13$ parámetros:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This representation adds $13$ parameters:
+}{}
 
 \begin{itemize}
-    \item Un flotante entre $0$ y $1$ que indica el porcentaje de PP restante del movimiento. Se normaliza dividiéndolo entre el PP máximo del movimiento.
-    \item Un flotante entre $0$ y $1$ que indica el PP máximo del movimiento.
-    \item Un flotante entre $-1$ y $1$ que indica la prioridad del movimiento.
-    \item Un vector de $6$ flotantes que indica a donde se puede/tiene que apuntar el movimiento.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un flotante entre $0$ y $1$ que indica el porcentaje de PP restante del movimiento. Se normaliza dividiéndolo entre el PP máximo del movimiento.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A float between $0$ and $1$ indicating the percentage of remaining PP for the move. It is normalized by dividing by the move's maximum PP.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un flotante entre $0$ y $1$ que indica el PP máximo del movimiento.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A float between $0$ and $1$ indicating the move's maximum PP.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un flotante entre $-1$ y $1$ que indica la prioridad del movimiento.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A float between $-1$ and $1$ indicating the move's priority.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un vector de $6$ flotantes que indica a donde se puede/tiene que apuntar el movimiento.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A vector of $6$ floats indicating where the move can or must target.
+          }{}
           \begin{itemize}
-              \item $0$ significa que no se puede apuntar a ese objetivo.
-              \item $0.5$ significa que se puede elegir objetivo.
-              \item $0.75$ significa que es aleatorio entre los objetivos posibles.
-              \item $1$ significa que es obligatorio apuntar a ese objetivo.
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        $0$ significa que no se puede apuntar a ese objetivo.
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        $0$ means that target cannot be selected.
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        $0.5$ significa que se puede elegir objetivo.
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        $0.5$ means that the target can be chosen.
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        $0.75$ significa que es aleatorio entre los objetivos posibles.
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        $0.75$ means the target is chosen at random among the possible targets.
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        $1$ significa que es obligatorio apuntar a ese objetivo.
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        $1$ means that target is mandatory.
+                    }{}
           \end{itemize}
-    \item Un flotante entre $0$ y $1$ que indica la probabilidad de golpe crítico del movimiento.
-    \item Un vector de $3$ entre $0$ y $1$ flotantes que indica el número de golpes del movimiento.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un flotante entre $0$ y $1$ que indica la probabilidad de golpe crítico del movimiento.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A float between $0$ and $1$ indicating the move's critical-hit probability.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un vector de $3$ entre $0$ y $1$ flotantes que indica el número de golpes del movimiento.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A vector of $3$ floats between $0$ and $1$ indicating the move's number of hits.
+          }{}
           \begin{enumerate}
-              \item El primer flotante indica el número mínimo de golpes.
-              \item El segundo flotante indica el número esperado de golpes.
-              \item El tercer flotante indica el número máximo de golpes.
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        El primer flotante indica el número mínimo de golpes.
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        The first value indicates the minimum number of hits.
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        El segundo flotante indica el número esperado de golpes.
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        The second value indicates the expected number of hits.
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        El tercer flotante indica el número máximo de golpes.
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        The third value indicates the maximum number of hits.
+                    }{}
           \end{enumerate}
 \end{itemize}
 
@@ -85,37 +225,149 @@ Esta representación añade $13$ parámetros:
 \subsection*{Move03}
 \endgroup
 
-Esta representación añade $9$ parámetros:
+\ifthenelse{\equal{\LANG}{es}}{
+    Esta representación añade $9$ parámetros:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This representation adds $9$ parameters:
+}{}
 
 \begin{itemize}
-    \item Un vector de $7$ flotantes entre $-1$ y $1$ que indica los aumentos/descensos de estadísticas que da el movimiento.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un vector de $7$ flotantes entre $-1$ y $1$ que indica los aumentos/descensos de estadísticas que da el movimiento.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A vector of $7$ floats between $-1$ and $1$ indicating the stat boosts or drops granted by the move.
+          }{}
           \begin{enumerate}
-              \item Ataque
-              \item Defensa
-              \item Ataque especial
-              \item Defensa especial
-              \item Velocidad
-              \item Precisión
-              \item Evasión
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Ataque
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Attack
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Defensa
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Defense
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Ataque especial
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Special Attack
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Defensa especial
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Special Defense
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Velocidad
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Speed
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Precisión
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Accuracy
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Evasión
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Evasion
+                    }{}
           \end{enumerate}
-    \item Un booleano que indica si el movimiento aumenta el contador de protección.
-    \item Un booleano que indica si el movimiento crea una condición en el campo de batalla.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si el movimiento aumenta el contador de protección.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the move increases the protect counter.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si el movimiento crea una condición en el campo de batalla.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the move creates a battle condition.
+          }{}
 \end{itemize}
 
 \begingroup
 \renewcommand{\addcontentsline}[3]{}%
 \subsection*{Move04}
 \endgroup
-Esta representación añade $7$ booleanos:
+\ifthenelse{\equal{\LANG}{es}}{
+    Esta representación añade $7$ booleanos:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This representation adds $7$ booleans:
+}{}
 
 \begin{itemize}
-    \item Un booleano que indica si el movimiento es un movimiento de protección.
-    \item Un booleano que indica si el movimiento también defiende a un aliado.
-    \item Un booleano que indica si el movimiento cambia el tiempo atmosférico.
-    \item Un booleano que indica si el movimiento cambia el tiempo atmosférico de forma indirecta.
-    \item Un booleano que indica si el movimiento cambia el terreno.
-    \item Un booleano que indica si el movimiento cura a un aliado.
-    \item Un booleano que indica si el movimiento es un movimiento que frena el flujo del juego (stalling). Este tipo de movimientos son categorizados por Showdown.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si el movimiento es un movimiento de protección.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the move is a protect move.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si el movimiento también defiende a un aliado.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the move also protects an ally.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si el movimiento cambia el tiempo atmosférico.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the move changes the weather.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si el movimiento cambia el tiempo atmosférico de forma indirecta.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the move changes the weather indirectly.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si el movimiento cambia el terreno.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the move changes the terrain.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si el movimiento cura a un aliado.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the move heals an ally.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si el movimiento es un movimiento que frena el flujo del juego (stalling). Este tipo de movimientos son categorizados por Showdown.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the move is a stalling move. This type of move is categorized by Showdown.
+          }{}
 \end{itemize}
 
 \begingroup
@@ -123,23 +375,94 @@ Esta representación añade $7$ booleanos:
 \subsection*{Move05}
 \endgroup
 
-Esta representación añade $9$ parámetros:
+\ifthenelse{\equal{\LANG}{es}}{
+    Esta representación añade $9$ parámetros:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This representation adds $9$ parameters:
+}{}
 
 \begin{itemize}
-    \item Un vector one-hot de $3$ booleanos que indica a qué defensa apunta el movimiento.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un vector one-hot de $3$ booleanos que indica a qué defensa apunta el movimiento.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A one-hot vector of $3$ booleans indicating which defense the move targets.
+          }{}
           \begin{enumerate}
-              \item Físico
-              \item Especial
-              \item Estado
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Físico
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Physical
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Especial
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Special
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Estado
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Status
+                    }{}
           \end{enumerate}
-    \item Un vector de $6$ flotantes entre $0$ y $1$ que indica la probabilidad de que el movimiento cause un estado no volátil. Puede ser el propósito principal del movimiento o un efecto secundario, por lo que es la probabilidad de infligir el estado no volátil, una vez que el movimiento acierta.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un vector de $6$ flotantes entre $0$ y $1$ que indica la probabilidad de que el movimiento cause un estado no volátil. Puede ser el propósito principal del movimiento o un efecto secundario, por lo que es la probabilidad de infligir el estado no volátil, una vez que el movimiento acierta.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A vector of $6$ floats between $0$ and $1$ indicating the probability that the move causes a non-volatile status condition. It can be the move's main purpose or a secondary effect, so it is the probability of inflicting the non-volatile status once the move hits.
+          }{}
           \begin{enumerate}
-              \item Quemado
-              \item Congelado
-              \item Paralizado
-              \item Envenenado
-              \item Gravemente envenenado
-              \item Dormido
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Quemado
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Burn
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Congelado
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Freeze
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Paralizado
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Paralysis
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Envenenado
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Poison
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Gravemente envenenado
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Toxic
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Dormido
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Sleep
+                    }{}
           \end{enumerate}
 \end{itemize}
 
@@ -148,21 +471,98 @@ Esta representación añade $9$ parámetros:
 \subsection*{Move06}
 \endgroup
 
-Esta representación añade $12$ parámetros de efectos secundarios garantizados:
+\ifthenelse{\equal{\LANG}{es}}{
+    Esta representación añade $12$ parámetros de efectos secundarios garantizados:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This representation adds $12$ guaranteed secondary-effect parameters:
+}{}
 
 \begin{itemize}
-    \item Un booleano que indica si el movimiento puede atravesar protección.
-    \item Un flotante entre $0$ y $1$ que indica el porcentaje que el movimiento drena.
-    \item Un flotante entre $0$ y $1$ que indica el porcentaje que el movimiento cura.
-    \item Un flotante entre $0$ y $1$ que indica el porcentaje de daño de retroceso.
-    \item Un booleano que indica si el movimiento es un movimiento de cambio propio.
-    \item Un booleano que indica si el movimiento fuerza al oponente a cambiar.
-    \item Un booleano que indica si el movimiento ignora habilidades.
-    \item Un booleano que indica si el movimiento ignora aumentos defensivos.
-    \item Un booleano que indica si el movimiento ignora evasión.
-    \item Un booleano que indica si el movimiento ignora inmunidades.
-    \item Un booleano que indica si el movimiento es un movimiento de autodestrucción.
-    \item Un booleano que indica si el movimiento descongela.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si el movimiento puede atravesar protección.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the move can bypass protect.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un flotante entre $0$ y $1$ que indica el porcentaje que el movimiento drena.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A float between $0$ and $1$ indicating the percentage drained by the move.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un flotante entre $0$ y $1$ que indica el porcentaje que el movimiento cura.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A float between $0$ and $1$ indicating the percentage healed by the move.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un flotante entre $0$ y $1$ que indica el porcentaje de daño de retroceso.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A float between $0$ and $1$ indicating the recoil-damage percentage.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si el movimiento es un movimiento de cambio propio.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the move is a self-switch move.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si el movimiento fuerza al oponente a cambiar.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the move forces the opponent to switch.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si el movimiento ignora habilidades.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the move ignores abilities.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si el movimiento ignora aumentos defensivos.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the move ignores defensive boosts.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si el movimiento ignora evasión.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the move ignores evasion.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si el movimiento ignora inmunidades.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the move ignores immunities.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si el movimiento es un movimiento de autodestrucción.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the move is a self-destruct move.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si el movimiento descongela.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the move thaws the user.
+          }{}
 \end{itemize}
 
 \begingroup
@@ -170,11 +570,28 @@ Esta representación añade $12$ parámetros de efectos secundarios garantizados
 \subsection*{Move07}
 \endgroup
 
-Esta representación añade $14$ flotantes de aumentos/descensos de estadísticas:
+\ifthenelse{\equal{\LANG}{es}}{
+    Esta representación añade $14$ flotantes de aumentos/descensos de estadísticas:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This representation adds $14$ floating-point stat-boost values:
+}{}
 
 \begin{itemize}
-    \item Un vector de $7$ flotantes entre $-1$ y $1$ que indica los aumentos/descensos de estadísticas que puede dar el movimiento a sí mismo como efecto secundario. Sigue el mismo orden que los aumentos/descensos de estadísticas que da el movimiento.
-    \item Un vector de $7$ flotantes entre $-1$ y $1$ que indica los aumentos/descensos de estadísticas que puede dar el movimiento al oponente como efecto secundario. Sigue el mismo orden que los aumentos/descensos de estadísticas que da el movimiento.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un vector de $7$ flotantes entre $-1$ y $1$ que indica los aumentos/descensos de estadísticas que puede dar el movimiento a sí mismo como efecto secundario. Sigue el mismo orden que los aumentos/descensos de estadísticas que da el movimiento.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A vector of $7$ floats between $-1$ and $1$ indicating the stat boosts or drops the move can apply to itself as a secondary effect. It follows the same order as the stat boosts or drops granted by the move.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un vector de $7$ flotantes entre $-1$ y $1$ que indica los aumentos/descensos de estadísticas que puede dar el movimiento al oponente como efecto secundario. Sigue el mismo orden que los aumentos/descensos de estadísticas que da el movimiento.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A vector of $7$ floats between $-1$ and $1$ indicating the stat boosts or drops the move can apply to the opponent as a secondary effect. It follows the same order as the stat boosts or drops granted by the move.
+          }{}
 \end{itemize}
 
 \begingroup
@@ -182,47 +599,232 @@ Esta representación añade $14$ flotantes de aumentos/descensos de estadística
 \subsection*{Move08}
 \endgroup
 
-Esta representación añade $65$ flotantes de estados volátiles. Puede ser el propósito principal del movimiento o un efecto secundario, por lo que es la probabilidad de infligir el estado volátil, una vez que el movimiento acierta. Sigue el mismo orden que la lista de estados volátiles explicada en la representación \emph{Pokemon07}.
+\ifthenelse{\equal{\LANG}{es}}{
+    Esta representación añade $65$ flotantes de estados volátiles. Puede ser el propósito principal del movimiento o un efecto secundario, por lo que es la probabilidad de infligir el estado volátil, una vez que el movimiento acierta. Sigue el mismo orden que la lista de estados volátiles explicada en la representación \emph{Pokemon07}.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This representation adds $65$ floating-point volatile-status values. It can be the move's main purpose or a secondary effect, so it is the probability of inflicting the volatile status once the move hits. It follows the same order as the volatile-status list described in representation \emph{Pokemon07}.
+}{}
 
 \begingroup
 \renewcommand{\addcontentsline}[3]{}%
 \subsection*{Move09}
 \endgroup
 
-Esta representación añade $32$ booleanos que indican si el movimiento tiene ciertas características. Estas características son:
+\ifthenelse{\equal{\LANG}{es}}{
+    Esta representación añade $32$ booleanos que indican si el movimiento tiene ciertas características. Estas características son:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This representation adds $32$ booleans indicating whether the move has certain properties. These properties are:
+}{}
 
 \begin{enumerate}
-    \item Si el movimiento puede ser bloqueado por protección.
-    \item Si el movimiento hace contacto físico.
-    \item Si el movimiento puede ser copiado por movimiento espejo.
-    \item Si el movimiento es de tipo bala.
-    \item Si el movimiento es un puñetazo.
-    \item Si el movimiento es de tipo viento.
-    \item Si el movimiento es de tipo polvo.
-    \item Si el movimiento puede ser copiado por robo.
-    \item Si el movimiento puede ser reflejado por capa mágica o rebote mágico.
-    \item Si el movimiento es de tipo sonido.
-    \item Si el movimiento es de tipo mordisco.
-    \item Si el movimiento ignora sustituto.
-    \item Si el movimiento es un baile.
-    \item Si el movimiento es de tipo aura/pulso.
-    \item Si el movimiento es de tipo cortante.
-    \item Si el movimiento se ve afectado por gravedad.
-    \item Si la potencia base del movimiento cambia según alguna condición.
-    \item Si el daño del movimiento cambia según alguna condición.
-    \item Si el movimiento cura al usuario.
-    \item Si el movimiento tiene un efecto después de golpear.
-    \item Si el movimiento no funciona en combates aéreos.
-    \item Si el movimiento falla cuando es copiado por copión.
-    \item Si el movimiento no puede ser repetido por mandato.
-    \item Si el movimiento falla cuando es copiado por mimético.
-    \item Si el movimiento no puede ser copiado por boceto.
-    \item Si el movimiento falla cuando es usado por yo primero.
-    \item Si el movimiento no puede ser usado por sonámbulo.
-    \item Si el movimiento requiere un turno de carga.
-    \item Si el movimiento requiere un turno de recarga.
-    \item Si el movimiento no puede ser usado dos veces seguidas.
-    \item Si el movimiento es uno de los votos.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento puede ser bloqueado por protección.
+          }{}\ifthenelse{\equal{\LANG}{en}}{
+              Whether the move can be blocked by protect.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento hace contacto físico.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the move makes physical contact.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento puede ser copiado por movimiento espejo.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the move can be copied by Mirror Move.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento es de tipo bala.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the move is a bullet-type move.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento es un puñetazo.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the move is a punching move.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento es de tipo viento.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the move is a wind-type move.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento es de tipo polvo.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the move is a powder-type move.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento puede ser copiado por robo.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the move can be copied by Snatch.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento puede ser reflejado por capa mágica o rebote mágico.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the move can be reflected by Magic Coat or Magic Bounce.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento es de tipo sonido.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the move is a sound-type move.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento es de tipo mordisco.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the move is a biting move.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento ignora sustituto.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the move ignores Substitute.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento es un baile.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the move is a dance move.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento es de tipo aura/pulso.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the move is an aura or pulse move.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento es de tipo cortante.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the move is a slicing move.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento se ve afectado por gravedad.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the move is affected by gravity.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si la potencia base del movimiento cambia según alguna condición.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the move's base power changes according to some condition.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el daño del movimiento cambia según alguna condición.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the move's damage changes according to some condition.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento cura al usuario.
+          }{}\ifthenelse{\equal{\LANG}{en}}{
+              Whether the move heals the user.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento tiene un efecto después de golpear.
+          }{}\ifthenelse{\equal{\LANG}{en}}{
+              Whether the move has an effect after hitting.
+          }{}
+    \item \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento no funciona en combates aéreos.
+          }{}\ifthenelse{\equal{\LANG}{en}}{
+              Whether the move fails in airborne battles.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento falla cuando es copiado por copión.
+          }{}\ifthenelse{\equal{\LANG}{en}}{
+              Whether the move fails when copied by Copycat.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento no puede ser repetido por mandato.
+          }{}\ifthenelse{\equal{\LANG}{en}}{
+              Whether the move cannot be repeated by Instruct.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento falla cuando es copiado por mimético.
+          }{}\ifthenelse{\equal{\LANG}{en}}{
+              Whether the move fails when copied by Mimic.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento no puede ser copiado por boceto.
+          }{}\ifthenelse{\equal{\LANG}{en}}{
+              Whether the move cannot be copied by Sketch.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento falla cuando es usado por yo primero.
+          }{}\ifthenelse{\equal{\LANG}{en}}{
+              Whether the move fails when used by Me First.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento no puede ser usado por sonámbulo.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the move cannot be used by Sleep Talk.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento requiere un turno de carga.
+          }{}\ifthenelse{\equal{\LANG}{en}}{
+              Whether the move requires a charging turn.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento requiere un turno de recarga.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the move requires a recharging turn.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento no puede ser usado dos veces seguidas.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the move cannot be used twice in a row.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el movimiento es uno de los votos.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the move is one of the pledge moves.
+          }{}
 \end{enumerate}
 
 \begingroup
@@ -230,8 +832,20 @@ Esta representación añade $32$ booleanos que indican si el movimiento tiene ci
 \subsection*{PokemonS}
 \endgroup
 
-Esta representación añade $1136$ booleanos:
+\ifthenelse{\equal{\LANG}{es}}{
+    Esta representación añade $1136$ booleanos:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This representation adds $1136$ booleans:
+}{}
 
 \begin{itemize}
-    \item Un vector one-hot de $1137$ booleanos que representa el movimiento. Substituye al entero que representaba el índice del movimiento en las representaciones anteriores.
+    \item
+          \ifthenelse{
+              \equal{\LANG}{es}}{
+              Un vector one-hot de $1137$ booleanos que representa el movimiento. Substituye al entero que representaba el índice del movimiento en las representaciones anteriores.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A one-hot vector of $1137$ booleans representing the move. It replaces the integer that represented the move index in the previous representations.
+          }{}
 \end{itemize}
