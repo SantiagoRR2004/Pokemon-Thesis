@@ -1,184 +1,279 @@
-\section{Principales aportaciones}
+\section{\lang{Main contributions}{Principales aportaciones}}
 
-Para exponer las contribuciones de este proyecto, estas se organizarán en torno a las distintas hipótesis formuladas.
+\ifthenelse{\equal{\LANG}{es}}{
+    Para exponer las contribuciones de este proyecto, estas se organizarán en torno a las distintas hipótesis formuladas.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    To present the contributions of this project, they are organized around the different hypotheses formulated.
+}{}
 
-\subsection{Hipótesis \HOne}
+\subsection{\lang{Hypothesis}{Hipótesis} \HOne}
 
-Como la representación del estado depende de tres hiperparámetros \emph{player}, \emph{pokemon} y \emph{move}, se analizará el efecto de cada uno de ellos por separado. No obstante, el anexo \ref{anexo:hyperNInputs} explica la distribución del pseudo-hiperparámetro \emph{nInputs}, que combina los tres anteriores.
+\ifthenelse{\equal{\LANG}{es}}{
+    Como la representación del estado depende de tres hiperparámetros \emph{player}, \emph{pokemon} y \emph{move}, se analizará el efecto de cada uno de ellos por separado. No obstante, el anexo \ref{anexo:hyperNInputs} explica la distribución del pseudo-hiperparámetro \emph{nInputs}, que combina los tres anteriores.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Since the state representation depends on three hyperparameters, \emph{player}, \emph{pokemon}, and \emph{move}, the effect of each of them will be analyzed separately. However, appendix \ref{anexo:hyperNInputs} explains the distribution of the pseudo-hyperparameter \emph{nInputs}, which combines the three previous ones.
+}{}
 
-Si se considera el número de parámetros de entrada (\textit{nInputs}) y se representa la puntuación media de fuerza obtenida mediante el modelo de Bradley-Terry para cada representación, se obtiene la gráfica \ref{fig:BattlesNInputs}. A partir de ella puede rechazarse la hipótesis de que el número de parámetros de entrada, por sí solo, explique el rendimiento del modelo, ya que no se observa un patrón claro entre ambas variables. Aún así, se analizarán los tres hiperparámetros por separado para ver si se pueden extraer conclusiones más concretas sobre cada uno de ellos.
+\ifthenelse{\equal{\LANG}{es}}{
+    Si se considera el número de parámetros de entrada (\textit{nInputs}) y se representa la puntuación media de fuerza obtenida mediante el modelo de Bradley-Terry para cada representación, se obtiene la gráfica \ref{fig:BattlesNInputs}. A partir de ella puede rechazarse la hipótesis de que el número de parámetros de entrada, por sí solo, explique el rendimiento del modelo, ya que no se observa un patrón claro entre ambas variables. Aún así, se analizarán los tres hiperparámetros por separado para ver si se pueden extraer conclusiones más concretas sobre cada uno de ellos.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    If the number of input parameters (\textit{nInputs}) is considered and the average strength score obtained with the Bradley-Terry model is plotted for each representation, Figure \ref{fig:BattlesNInputs} is obtained. From it, the hypothesis that the number of input parameters alone explains the model's performance can be rejected, since no clear pattern is observed between the two variables. Even so, the three hyperparameters will be analyzed separately to see whether more specific conclusions can be drawn about each of them.
+}{}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.65\textwidth]{images/BattlesNInputs.png}
-    \caption{Puntuaciones Bradley-Terry medias para cada número de parámetros de la representación del estado}
+    \caption{\lang{Average Bradley-Terry scores for each number of state-representation parameters}{Puntuaciones Bradley-Terry medias para cada número de parámetros de la representación del estado}}
     \label{fig:BattlesNInputs}
 \end{figure}
 
-Una importante aclaración sobre los hiperparámetros individuales es su nomenclatura. Las representaciones se nombran igual que la implementación de sus correspondientes clases en el código y siguen la nomenclatura de [\emph{AIPlayer \textbar Pokemon \textbar Move}]\emph{XX}, donde \emph{XX} representa el nivel de complejidad. La clase con número superior engloba a la clase con un número inferior, es decir, tiene todos los atributos de la clase inferior y algunos más. \emph{S} significa que es la clase más compleja y que intenta representar todo sin que haya límite en el número de parámetros. Para ver los detalles de cada representación, véase los anexos \ref{anexo:hyperPlayer}, \ref{anexo:hyperPokemon} y \ref{anexo:hyperMove}.
+\ifthenelse{\equal{\LANG}{es}}{
+    Una importante aclaración sobre los hiperparámetros individuales es su nomenclatura. Las representaciones se nombran igual que la implementación de sus correspondientes clases en el código y siguen la nomenclatura de [\emph{AIPlayer \textbar Pokemon \textbar Move}]\emph{XX}, donde \emph{XX} representa el nivel de complejidad. La clase con número superior engloba a la clase con un número inferior, es decir, tiene todos los atributos de la clase inferior y algunos más. \emph{S} significa que es la clase más compleja y que intenta representar todo sin que haya límite en el número de parámetros. Para ver los detalles de cada representación, véase los anexos \ref{anexo:hyperPlayer}, \ref{anexo:hyperPokemon} y \ref{anexo:hyperMove}.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    An important clarification about the individual hyperparameters is their naming. The representations are named after the implementation of their corresponding classes in the code and follow the naming scheme [\emph{AIPlayer \textbar Pokemon \textbar Move}]\emph{XX}, where \emph{XX} represents the complexity level. The class with the higher number encompasses the class with the lower number, that is, it has all the attributes of the lower class plus some additional ones. \emph{S} means it is the most complex class and tries to represent everything without any limit on the number of parameters. For details of each representation, see appendices \ref{anexo:hyperPlayer}, \ref{anexo:hyperPokemon}, and \ref{anexo:hyperMove}.
+}{}
 
-\subsubsection{Hiperparámetro \emph{player}}
+\subsubsection{\lang{Hyperparameter}{Hiperparámetro} \emph{player}}
 
-Para representar el estado del campo de batalla (\emph{player}), se consideraron únicamente dos representaciones. Si se comparan los resultados de experimentos iguales que difieren exclusivamente en este hiperparámetro (ilustración \ref{fig:battlesPlayer}), puede observarse claramente que la representación más compleja obtiene un porcentaje de victorias positivo frente a la representación simple. Estos resultados aportan evidencia a favor de la hipótesis planteada para este hiperparámetro, por lo que no existen motivos para rechazarla.
+\ifthenelse{\equal{\LANG}{es}}{
+    Para representar el estado del campo de batalla (\emph{player}), se consideraron únicamente dos representaciones. Si se comparan los resultados de experimentos iguales que difieren exclusivamente en este hiperparámetro (ilustración \ref{fig:battlesPlayer}), puede observarse claramente que la representación más compleja obtiene un porcentaje de victorias positivo frente a la representación simple. Estos resultados aportan evidencia a favor de la hipótesis planteada para este hiperparámetro, por lo que no existen motivos para rechazarla.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    To represent the battlefield state (\emph{player}), only two representations were considered. If the results of identical experiments that differ exclusively in this hyperparameter are compared (Figure \ref{fig:battlesPlayer}), it can be clearly seen that the more complex representation obtains a positive win rate against the simple representation. These results provide evidence in favor of the hypothesis proposed for this hyperparameter, so there are no reasons to reject it.
+}{}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.25\textwidth]{images/BattlesPlayer.png}
-    \caption{Proporción de victorias de los experimentos que solo cambian en la representación del campo de batalla}
+    \caption{\lang{Win rate of the experiments that only differ in the battlefield representation}{Proporción de victorias de los experimentos que solo cambian en la representación del campo de batalla}}
     \label{fig:battlesPlayer}
 \end{figure}
 
-\subsubsection{Hiperparámetro \emph{pokemon}}
+\subsubsection{\lang{Hyperparameter}{Hiperparámetro} \emph{pokemon}}
 
-El análisis del hiperparámetro encargado de la representación individual de cada Pokémon (\emph{pokemon}) da lugar a los resultados mostrados en la ilustración \ref{fig:battlesPokemon}. En ella puede observarse que tanto la representación más compleja (\emph{PokemonS}) como la representación que no incorpora información del Pokémon (\emph{Pokemon00}) obtienen porcentajes de victorias positivos frente al resto de alternativas. Por el contrario, las representaciones intermedias con identificador impar (\emph{Pokemon03}, \emph{Pokemon05}, \emph{Pokemon07} y \emph{Pokemon09}) tienden a obtener peores resultados en los enfrentamientos directos.
+\ifthenelse{\equal{\LANG}{es}}{
+    El análisis del hiperparámetro encargado de la representación individual de cada Pokémon (\emph{pokemon}) da lugar a los resultados mostrados en la ilustración \ref{fig:battlesPokemon}. En ella puede observarse que tanto la representación más compleja (\emph{PokemonS}) como la representación que no incorpora información del Pokémon (\emph{Pokemon00}) obtienen porcentajes de victorias positivos frente al resto de alternativas. Por el contrario, las representaciones intermedias con identificador impar (\emph{Pokemon03}, \emph{Pokemon05}, \emph{Pokemon07} y \emph{Pokemon09}) tienden a obtener peores resultados en los enfrentamientos directos.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The analysis of the hyperparameter responsible for the individual representation of each Pokémon (\emph{pokemon}) yields the results shown in Figure \ref{fig:battlesPokemon}. It can be observed that both the most complex representation (\emph{PokemonS}) and the representation that does not include Pokémon information (\emph{Pokemon00}) obtain positive win rates against the other alternatives. By contrast, the intermediate representations with odd identifiers (\emph{Pokemon03}, \emph{Pokemon05}, \emph{Pokemon07}, and \emph{Pokemon09}) tend to perform worse in direct matchups.
+}{}
 
-Conviene señalar que \emph{PokemonS} y \emph{Pokemon10} son las representaciones con un mayor número de parámetros de entrada debido al uso de vectores \emph{one-hot}. Entonces, para estas dos clases, su alto número de parámetros no implica que se hayan añadido características estratégicamente relevantes. En conjunto, estos resultados sugieren que no existe una relación clara entre la complejidad de la representación y el rendimiento obtenido por el modelo. Por tanto, las evidencias observadas no respaldan la hipótesis planteada para este hiperparámetro.
+\ifthenelse{\equal{\LANG}{es}}{
+    Conviene señalar que \emph{PokemonS} y \emph{Pokemon10} son las representaciones con un mayor número de parámetros de entrada debido al uso de vectores \emph{one-hot}. Entonces, para estas dos clases, su alto número de parámetros no implica que se hayan añadido características estratégicamente relevantes. En conjunto, estos resultados sugieren que no existe una relación clara entre la complejidad de la representación y el rendimiento obtenido por el modelo. Por tanto, las evidencias observadas no respaldan la hipótesis planteada para este hiperparámetro.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    It is worth noting that \emph{PokemonS} and \emph{Pokemon10} are the representations with the largest number of input parameters due to the use of \emph{one-hot} enconding. For these two classes, then, their high parameter count does not imply that strategically relevant features were added. Overall, these results suggest that there is no clear relationship between representation complexity and the performance achieved by the model. Therefore, the evidence observed does not support the hypothesis proposed for this hyperparameter.
+}{}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{images/BattlesPokemon.png}
-    \caption{Proporción de victorias de los experimentos que solo cambian en la representación de cada Pokémon}
+    \caption{\lang{Win rate of the experiments that only differ in each Pokémon representation}{Proporción de victorias de los experimentos que solo cambian en la representación de cada Pokémon}}
     \label{fig:battlesPokemon}
 \end{figure}
 
-\subsubsection{Hiperparámetro \emph{move}}
+\subsubsection{\lang{Hyperparameter}{Hiperparámetro} \emph{move}}
 
-Pasando a analizar la representación de cada movimiento (\emph{move}), podemos ver en la ilustración \ref{fig:battlesMove} que en este caso, la representación más compleja (\emph{MoveS}) y la vacía (\emph{Move00}) son las que tienen el peor porcentaje de victorias contra el resto. En general, las representaciones van mejorando a medida que se aumenta el número de parámetros excepto con la representación más compleja \emph{MoveS}.
+\ifthenelse{\equal{\LANG}{es}}{
+    Pasando a analizar la representación de cada movimiento (\emph{move}), podemos ver en la ilustración \ref{fig:battlesMove} que en este caso, la representación más compleja (\emph{MoveS}) y la vacía (\emph{Move00}) son las que tienen el peor porcentaje de victorias contra el resto. En general, las representaciones van mejorando a medida que se aumenta el número de parámetros excepto con la representación más compleja \emph{MoveS}.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Turning to the representation of each move (\emph{move}), Figure \ref{fig:battlesMove} shows that in this case the most complex representation (\emph{MoveS}) and the empty one (\emph{Move00}) have the worst win rates against the rest. In general, the representations improve as the number of parameters increases, except for the most complex representation, \emph{MoveS}.
+}{}
 
-Es importante señalar que \emph{MoveS} es la representación con un mayor número de parámetros de entrada debido al uso de vectores \emph{one-hot}, pero esto no implica que se hayan añadido características estratégicamente relevantes. Todo esto lleva a no rechazar la hipótesis para este hiperparámetro, ya que hay una relación clara entre el número de parámetros y el rendimiento del modelo.
+\ifthenelse{\equal{\LANG}{es}}{
+    Es importante señalar que \emph{MoveS} es la representación con un mayor número de parámetros de entrada debido al uso de vectores \emph{one-hot}, pero esto no implica que se hayan añadido características estratégicamente relevantes. Todo esto lleva a no rechazar la hipótesis para este hiperparámetro, ya que hay una relación clara entre el número de parámetros y el rendimiento del modelo.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    It is important to note that \emph{MoveS} is the representation with the largest number of input parameters due to the use of \emph{one-hot} encoding, but this does not mean that strategically relevant features were added. All of this leads to not rejecting the hypothesis for this hyperparameter, since there is a clear relationship between the number of parameters and the model's performance.
+}{}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{images/BattlesMove.png}
-    \caption{Proporción de victorias de los experimentos que solo cambian en la representación de cada movimiento}
+    \caption{\lang{Win rate of the experiments that only differ in each move representation}{Proporción de victorias de los experimentos que solo cambian en la representación de cada movimiento}}
     \label{fig:battlesMove}
 \end{figure}
 
 \clearpage
-\subsection{Hipótesis \HTwo}
+\subsection{\lang{Hypothesis}{Hipótesis} \HTwo}
 
-Para el análisis de esta hipótesis, se examinan las diversas gráficas y tablas correspondientes a los distintos valores posibles del hiperparámetro \emph{useSelfPlay}. En primer lugar, se observa que durante el proceso de entrenamiento, la inclusión de \texttt{useSelfPlay=True} da lugar a una proporción de victorias (véase la Ilustración \ref{fig:VictoryPercentageUseSelfPlay}) significativamente inferior en comparación con el entrenamiento frente a un oponente fijo (ya sea el de máximo daño y/o el aleatorio). Este comportamiento se debe a que, en muchas configuraciones en las que se activa \texttt{useSelfPlay=True}, también se emplea \texttt{useMaxDamage=True} (como consecuencia del procedimiento seguido en la implementación de los oponentes). Dado que el oponente de máximo daño presenta un elevado nivel de dificultad, su inclusión reduce considerablemente la proporción de victorias observada.
+\ifthenelse{\equal{\LANG}{es}}{
+    Para el análisis de esta hipótesis, se examinan las diversas gráficas y tablas correspondientes a los distintos valores posibles del hiperparámetro \emph{useSelfPlay}. En primer lugar, se observa que durante el proceso de entrenamiento, la inclusión de \texttt{useSelfPlay=True} da lugar a una proporción de victorias (véase la Ilustración \ref{fig:VictoryPercentageUseSelfPlay}) significativamente inferior en comparación con el entrenamiento frente a un oponente fijo (ya sea el de máximo daño y/o el aleatorio). Este comportamiento se debe a que, en muchas configuraciones en las que se activa \texttt{useSelfPlay=True}, también se emplea \texttt{useMaxDamage=True} (como consecuencia del procedimiento seguido en la implementación de los oponentes). Dado que el oponente de máximo daño presenta un elevado nivel de dificultad, su inclusión reduce considerablemente la proporción de victorias observada.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    To analyze this hypothesis, the various plots and tables corresponding to the different possible values of the \emph{useSelfPlay} hyperparameter are examined. First, it can be seen that during training, the inclusion of \texttt{useSelfPlay=True} leads to a significantly lower win rate (see Figure \ref{fig:VictoryPercentageUseSelfPlay}) compared with training against a fixed opponent (either the maximum-damage one and/or the random one). This behavior is due to the fact that in many configurations where \texttt{useSelfPlay=True} is enabled, \texttt{useMaxDamage=True} is also used (as a consequence of the way the opponents are implemented). Since winning against the maximum-damage opponent is highly difficult, its inclusion considerably reduces the observed win rate.
+}{}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.7\textwidth]{images/VictoryPercentageUseSelfPlay.png}
-    \caption[Proporción de victorias durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}]{Proporción de victorias durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}. \texttt{random} se corresponde con batallas en las que los dos jugadores realizan movimientos aleatorios (nunca aprenden).}
+    \caption[\lang{Win rate during training for different values of the \emph{useSelfPlay} hyperparameter}{Proporción de victorias durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}}]{\lang{Win rate during training for different values of the \emph{useSelfPlay} hyperparameter. \texttt{random} corresponds to battles in which both players make random moves (they never learn).}{Proporción de victorias durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}. \texttt{random} se corresponde con batallas en las que los dos jugadores realizan movimientos aleatorios (nunca aprenden).}}
     \label{fig:VictoryPercentageUseSelfPlay}
 \end{figure}
 
-Estudiando la pérdida del actor (ilustración \ref{fig:AverageActorLossesUseSelfPlay}) y la del crítico (ilustración \ref{fig:AverageCriticLossesUseSelfPlay}), podemos ver que jugando contra uno mismo la pérdida es menor. Esto también ocurre porque al enfrentarse contra más tipos de oponentes, hay más episodios por epoch y el promedio se acerca más a cero. Aún así, se observa que durante el entrenamiento, usar \texttt{useSelfPlay=True} hace que la pérdida descienda relativamente más rápido que si se juega contra un oponente fijo.
+\ifthenelse{\equal{\LANG}{es}}{
+    Estudiando la pérdida del actor (ilustración \ref{fig:AverageActorLossesUseSelfPlay}) y la del crítico (ilustración \ref{fig:AverageCriticLossesUseSelfPlay}), podemos ver que jugando contra uno mismo la pérdida es menor. Esto también ocurre porque al enfrentarse contra más tipos de oponentes, hay más episodios por epoch y el promedio se acerca más a cero. Aún así, se observa que durante el entrenamiento, usar \texttt{useSelfPlay=True} hace que la pérdida descienda relativamente más rápido que si se juega contra un oponente fijo.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    By studying the actor loss (Figure \ref{fig:AverageActorLossesUseSelfPlay}) and the critic loss (Figure \ref{fig:AverageCriticLossesUseSelfPlay}), we can see that playing against itself yields a smaller loss. This also happens because, when facing more types of opponents, there are more episodes per epoch and the average gets closer to zero. Even so, it can be seen that during training, using \texttt{useSelfPlay=True} makes the loss decrease relatively faster than when playing against a fixed opponent.
+}{}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.7\textwidth]{images/AverageActorLossesUseSelfPlay.png}
-    \caption{Pérdida promedio del actor durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}}
+    \caption{\lang{Average actor loss during training for different values of the \emph{useSelfPlay} hyperparameter}{Pérdida promedio del actor durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}}}
     \label{fig:AverageActorLossesUseSelfPlay}
 \end{figure}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.7\textwidth]{images/AverageCriticLossesUseSelfPlay.png}
-    \caption{Pérdida promedio del crítico durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}}
+    \caption{\lang{Average critic loss during training for different values of the \emph{useSelfPlay} hyperparameter}{Pérdida promedio del crítico durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}}}
     \label{fig:AverageCriticLossesUseSelfPlay}
 \end{figure}
 
-El hecho de estar correlacionado con \texttt{useMaxDamage=True}, hace que la recompensa promedio sea negativa porque se pierden más combates de los que se ganan. Esto se puede ver en las ilustraciones \ref{fig:AverageRewardsUseSelfPlay} y \ref{fig:AverageRewardsUseMaxDamage}.
+\ifthenelse{\equal{\LANG}{es}}{
+    El hecho de estar correlacionado con \texttt{useMaxDamage=True}, hace que la recompensa promedio sea negativa porque se pierden más combates de los que se ganan. Esto se puede ver en las ilustraciones \ref{fig:AverageRewardsUseSelfPlay} y \ref{fig:AverageRewardsUseMaxDamage}.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Being correlated with \texttt{useMaxDamage=True} makes the average reward negative because more battles are lost than won. This can be seen in Figures \ref{fig:AverageRewardsUseSelfPlay} and \ref{fig:AverageRewardsUseMaxDamage}.
+}{}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.7\textwidth]{images/AverageRewardsUseSelfPlay.png}
-    \caption{Recompensa promedio durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}}
+    \caption{\lang{Average reward during training for different values of the \emph{useSelfPlay} hyperparameter}{Recompensa promedio durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}}}
     \label{fig:AverageRewardsUseSelfPlay}
 \end{figure}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.7\textwidth]{images/AverageRewardsUseMaxDamage.png}
-    \caption{Recompensa promedio durante el entrenamiento para diferentes valores del hiperparámetro \emph{useMaxDamage}}
+    \caption{\lang{Average reward during training for different values of the \emph{useMaxDamage} hyperparameter}{Recompensa promedio durante el entrenamiento para diferentes valores del hiperparámetro \emph{useMaxDamage}}}
     \label{fig:AverageRewardsUseMaxDamage}
 \end{figure}
 
-Como entre las $151$ combinaciones ejecutadas de los hiperparámetros no se encuentra ninguna pareja en la cual solo varía el hiperparámetro \emph{useSelfPlay}, no se puede calcular una matriz de comparaciones directas como se ha hecho con otros hiperparámetros. Lo que sí se puede hacer es ver la puntuación Bradley-Terry de los experimentos comparados contra el jugador aleatorio (tabla \ref{tab:bradleyTerryUseSelfPlay}). La mayoría de experimentos son notablemente superiores al jugador aleatorio, uno está a su mismo nivel (\emph{experiment141}) y dos son inferiores.
+\ifthenelse{\equal{\LANG}{es}}{
+    Como entre las $151$ combinaciones ejecutadas de los hiperparámetros no se encuentra ninguna pareja en la cual solo varía el hiperparámetro \emph{useSelfPlay}, no se puede calcular una matriz de comparaciones directas como se ha hecho con otros hiperparámetros. Lo que sí se puede hacer es ver la puntuación Bradley-Terry de los experimentos comparados contra el jugador aleatorio (tabla \ref{tab:bradleyTerryUseSelfPlay}). La mayoría de experimentos son notablemente superiores al jugador aleatorio, uno está a su mismo nivel (\emph{experiment141}) y dos son inferiores.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Since among the $151$ executed hyperparameter combinations there is no pair in which only the \emph{useSelfPlay} hyperparameter varies, a direct comparison matrix cannot be computed as has been done with other hyperparameters. What can be done is to study the Bradley-Terry score of the experiments compared against the random player (Table \ref{tab:bradleyTerryUseSelfPlay}). Most experiments are notably superior to the random player, one is at the same level (\emph{experiment141}), and two are lower.
+}{}
 
 \begin{table}[h]
     \centering
     {\small \begin{tabular}{lccr}
             \toprule
-            Experimento   & useRandom               & useMaxDamage            & Bradley-Terry \\
+            \lang{Experiment}{Experimento} & useRandom               & useMaxDamage            & Bradley-Terry \\
             \midrule
-            experiment143 & True                    & True                    & 0.1491        \\
-            experiment150 & True                    & True                    & 0.1467        \\
-            experiment146 & True                    & \cellcolor{red!25}False & 0.1405        \\
-            experiment144 & True                    & True                    & 0.1380        \\
-            experiment142 & True                    & True                    & 0.1368        \\
-            experiment151 & True                    & True                    & 0.1361        \\
-            experiment149 & True                    & True                    & 0.1230        \\
-            random        & True                    & True                    & -0.1869       \\
-            experiment141 & True                    & True                    & -0.1932       \\
-            experiment140 & True                    & True                    & -0.3163       \\
-            experiment145 & \cellcolor{red!25}False & \cellcolor{red!25}False & -0.3178       \\
+            experiment143                  & True                    & True                    & 0.1491        \\
+            experiment150                  & True                    & True                    & 0.1467        \\
+            experiment146                  & True                    & \cellcolor{red!25}False & 0.1405        \\
+            experiment144                  & True                    & True                    & 0.1380        \\
+            experiment142                  & True                    & True                    & 0.1368        \\
+            experiment151                  & True                    & True                    & 0.1361        \\
+            experiment149                  & True                    & True                    & 0.1230        \\
+            random                         & True                    & True                    & -0.1869       \\
+            experiment141                  & True                    & True                    & -0.1932       \\
+            experiment140                  & True                    & True                    & -0.3163       \\
+            experiment145                  & \cellcolor{red!25}False & \cellcolor{red!25}False & -0.3178       \\
             \bottomrule
         \end{tabular}}
-    \caption{Puntuación Bradley-Terry de los experimentos con \emph{useSelfPlay} comparados contra el jugador aleatorio}
+    \caption{\lang{Bradley-Terry score of the experiments with \emph{useSelfPlay} compared against the random player}{Puntuación Bradley-Terry de los experimentos con \emph{useSelfPlay} comparados contra el jugador aleatorio}}
     \label{tab:bradleyTerryUseSelfPlay}
 \end{table}
 
-Otra comparación que se puede hacer es usar la puntuación relativa que le da el modelo predictor a todas las combinaciones que usan self-play y las que no (imagen  \ref{fig:SurrogateUseSelfPlay}).
+\ifthenelse{\equal{\LANG}{es}}{
+    Otra comparación que se puede hacer es usar la puntuación relativa que le da el modelo predictor a todas las combinaciones que usan self-play y las que no (imagen  \ref{fig:SurrogateUseSelfPlay}).
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Another comparison that can be made is to use the relative score given by the surrogate model to all combinations that use self-play and those that do not (Figure \ref{fig:SurrogateUseSelfPlay}).
+}{}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.25\textwidth]{images/SurrogateUseSelfPlay.png}
-    \caption[Puntuación relativa del modelo predictor para diferentes valores del hiperparámetro \emph{useSelfPlay}]{Puntuación relativa del modelo predictor para diferentes valores del hiperparámetro \emph{useSelfPlay}. Obsérvese que la puntuación está redondeada a dos decimales, pero la opción de True sobre False es positiva.}
+    \caption[\lang{Relative surrogate-model score for different values of the \emph{useSelfPlay} hyperparameter}{Puntuación relativa del modelo predictor para diferentes valores del hiperparámetro \emph{useSelfPlay}}]{\lang{Relative surrogate-model score for different values of the \emph{useSelfPlay} hyperparameter. Note that the score is rounded to two decimals, but the True-over-False option is positive.}{Puntuación relativa del modelo predictor para diferentes valores del hiperparámetro \emph{useSelfPlay}. Obsérvese que la puntuación está redondeada a dos decimales, pero la opción de True sobre False es positiva.}}
     \label{fig:SurrogateUseSelfPlay}
 \end{figure}
 
-A partir de las observaciones recogidas en la tabla \ref{tab:bradleyTerryUseSelfPlay}, podría plantearse la hipótesis de que los modelos entrenados con \texttt{useSelfPlay=True} obtienen mejores resultados únicamente porque, en la mayoría de los casos, coinciden con la configuración \texttt{useMaxDamage=True}. Sin embargo, esta hipótesis no parece estar respaldada por los datos. Como muestra la ilustración \ref{fig:BattlesUseMaxDamage}, correspondiente a la proporción de victorias para el hiperparámetro \emph{useMaxDamage}, se observa un ligero predominio de las configuraciones que no utilizan el agente de máximo daño.
+\ifthenelse{\equal{\LANG}{es}}{
+    A partir de las observaciones recogidas en la tabla \ref{tab:bradleyTerryUseSelfPlay}, podría plantearse la hipótesis de que los modelos entrenados con \texttt{useSelfPlay=True} obtienen mejores resultados únicamente porque, en la mayoría de los casos, coinciden con la configuración \texttt{useMaxDamage=True}. Sin embargo, esta hipótesis no parece estar respaldada por los datos. Como muestra la ilustración \ref{fig:BattlesUseMaxDamage}, correspondiente a la proporción de victorias para el hiperparámetro \emph{useMaxDamage}, se observa un ligero predominio de las configuraciones que no utilizan el agente de máximo daño.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Based on the observations presented in Table \ref{tab:bradleyTerryUseSelfPlay}, one might hypothesize that the superior performance of models trained with \texttt{useSelfPlay=True} is attributable not to self-play itself, but to the fact that these models are, in most cases, also trained with \texttt{useMaxDamage=True}. However, this hypothesis does not seem to be supported by the data. As shown in Figure \ref{fig:BattlesUseMaxDamage}, corresponding to the win rate for the \emph{useMaxDamage} hyperparameter, a slight predominance of the configurations that do not use the maximum-damage agent can be observed.
+}{}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.25\textwidth]{images/BattlesUseMaxDamage.png}
-    \caption{Proporción de victorias de los experimentos que solo cambian \emph{useMaxDamage}}
+    \caption{\lang{Win rate of the experiments that only differ in \emph{useMaxDamage}}{Proporción de victorias de los experimentos que solo cambian \emph{useMaxDamage}}}
     \label{fig:BattlesUseMaxDamage}
 \end{figure}
 
-Todo ello conduce a la conclusión de que el uso de un mayor número de oponentes (tres en los experimentos realizados) y la configuración \texttt{useSelfPlay=True} están asociados a un mejor rendimiento del modelo. Por tanto, la hipótesis \HTwo no se puede rechazar.
+\ifthenelse{\equal{\LANG}{es}}{
+    Todo ello conduce a la conclusión de que el uso de un mayor número de oponentes (tres en los experimentos realizados) y la configuración \texttt{useSelfPlay=True} están asociados a un mejor rendimiento del modelo. Por tanto, la hipótesis \HTwo no se puede rechazar.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    All of this leads to the conclusion that using a greater number of opponents (three in the experiments conducted) and the \texttt{useSelfPlay=True} configuration are associated with better model performance. Therefore, hypothesis \HTwo cannot be rejected.
+}{}
 
 \clearpage
-\subsection{Hipótesis \HThree}
+\subsection{\lang{Hypothesis}{Hipótesis} \HThree}
 
-Para el análisis de esta hipótesis, solo se examina el hiperparámetro \emph{nTeams} y sus distintas opciones (tabla \ref{tab:nTeamsParameters}).
+\ifthenelse{\equal{\LANG}{es}}{
+    Para el análisis de esta hipótesis, solo se examina el hiperparámetro \emph{nTeams} y sus distintas opciones (tabla \ref{tab:nTeamsParameters}).
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    To analyze this hypothesis, only the \emph{nTeams} hyperparameter and its different options are examined (Table \ref{tab:nTeamsParameters}).
+}{}
 
 \begin{table}[h]
     \centering
     \begin{tabular}{lr}
         \toprule
-        Opción & Número de experimentos \\
+        \lang{Option}{Opción} & \lang{Number of experiments}{Número de experimentos} \\
         \midrule
-        1      & 5                      \\
-        2      & 19                     \\
-        10     & 2                      \\
-        100    & 2                      \\
-        inf    & 123                    \\
+        1                     & 5                                                    \\
+        2                     & 19                                                   \\
+        10                    & 2                                                    \\
+        100                   & 2                                                    \\
+        inf                   & 123                                                  \\
         \bottomrule
     \end{tabular}
-    \caption{Número de experimentos de cada opción del hiperparámetro \emph{nTeams}}
+    \caption{\lang{Number of experiments for each option of the \emph{nTeams} hyperparameter}{Número de experimentos de cada opción del hiperparámetro \emph{nTeams}}}
     \label{tab:nTeamsParameters}
 \end{table}
 
-Dado que el resto de hiperparámetros influyen de forma más significativa en las métricas de entrenamiento, no se analizarán en detalle. En su lugar, se atiende a la matriz de enfrentamientos directos (ilustración \ref{fig:BattlesNTeams}). En ella se observa que la configuración \texttt{nTeams=inf} resulta claramente superior al resto de alternativas. Esto se debe a que los experimentos se evalúan en el formato real \emph{gen9randombattle}, en el que no existe una restricción sobre el número de equipos que pueden generarse. Por el contrario, el resto de configuraciones no logran generalizar adecuadamente, ya que durante el entrenamiento los equipos están limitados y, en consecuencia, no se encuentran partidas con dichas condiciones en el conjunto de entrenamiento.
+\ifthenelse{\equal{\LANG}{es}}{
+    Dado que el resto de hiperparámetros influyen de forma más significativa en las métricas de entrenamiento, no se analizarán en detalle. En su lugar, se atiende a la matriz de enfrentamientos directos (ilustración \ref{fig:BattlesNTeams}). En ella se observa que la configuración \texttt{nTeams=inf} resulta claramente superior al resto de alternativas. Esto se debe a que los experimentos se evalúan en el formato real \emph{gen9randombattle}, en el que no existe una restricción sobre el número de equipos que pueden generarse. Por el contrario, el resto de configuraciones no logran generalizar adecuadamente, ya que durante el entrenamiento los equipos están limitados y, en consecuencia, no se encuentran partidas con dichas condiciones en el conjunto de entrenamiento.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Since the rest of the hyperparameters have a more significant influence on the training metrics, they will not be analyzed in detail. Instead, the direct matchup matrix is examined (Figure \ref{fig:BattlesNTeams}). It can be seen there that the \texttt{nTeams=inf} configuration is clearly superior to the rest of the alternatives. This is because the experiments are evaluated in the real \emph{gen9randombattle} format, in which there is no restriction on the number of teams that can be generated. By contrast, the other configurations do not generalize adequately, since during training the teams are limited and, consequently, no matches with those conditions are found in the training set.
+}{}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{images/BattlesNTeams.png}
-    \caption{Proporción de victorias de los experimentos que solo cambian \emph{nTeams}}
+    \caption{\lang{Win rate of the experiments that only differ in \emph{nTeams}}{Proporción de victorias de los experimentos que solo cambian \emph{nTeams}}}
     \label{fig:BattlesNTeams}
 \end{figure}
 
-Un aspecto a destacar es que el modelo predictivo de la puntuación relativa (ilustración \ref{fig:SurrogateNTeams}) estima que todas las configuraciones presentan un rendimiento similar, aunque la opción \texttt{nTeams=inf} aparece ligeramente por debajo del resto. Esto se debe a que el modelo predictor dispone de pocos datos de entrenamiento correspondientes a configuraciones con valores finitos de \emph{nTeams} y, por tanto, no logra generalizar adecuadamente en ese régimen.
+\ifthenelse{\equal{\LANG}{es}}{
+    Un aspecto a destacar es que el modelo predictivo de la puntuación relativa (ilustración \ref{fig:SurrogateNTeams}) estima que todas las configuraciones presentan un rendimiento similar, aunque la opción \texttt{nTeams=inf} aparece ligeramente por debajo del resto. Esto se debe a que el modelo predictor dispone de pocos datos de entrenamiento correspondientes a configuraciones con valores finitos de \emph{nTeams} y, por tanto, no logra generalizar adecuadamente en ese régimen.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    One aspect worth highlighting is that the surrogate model of the relative score (Figure \ref{fig:SurrogateNTeams}) estimates that all configurations have similar performance, although the \texttt{nTeams=inf} option appears slightly below the rest. This is because the surrogate model has little training data corresponding to configurations with finite \emph{nTeams} values and, therefore, does not manage to generalize adequately in that regime.
+}{}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{images/SurrogateNTeams.png}
-    \caption{Proporción de victorias de los experimentos que solo cambian \emph{nTeams}}
+    \caption{\lang{Win rate of the experiments that only differ in \emph{nTeams}}{Proporción de victorias de los experimentos que solo cambian \emph{nTeams}}}
     \label{fig:SurrogateNTeams}
 \end{figure}
