@@ -866,14 +866,28 @@ $$
     In this Thesis, the previous formulation is used as a conceptual framework to justify the difficulty of the problem. However, the implemented agent does not maintain an explicit Bayesian belief over the hidden state, nor does it solve the Bellman equations exactly in the belief-state space. In practice, the history and partial information available during battle are approximated by an observation vector constructed from representations of the battlefield, Pokémon, and moves, which is provided as input to the actor's neural network and, when applicable, to the critic's neural network.
 }{}
 
-\subsection{Entorno de entrenamiento} \label{sec:environment}
+\subsection{\lang{Training environment}{Entorno de entrenamiento}} \label{sec:environment}
 
-Para jugar múltiples partidas se necesita un simulador. Aunque no es oficial de Game Freak (la compañía que desarrolla Pokémon, bajo el control de Nintendo), el más popular es Pokémon Showdown~\cite{pokemonShowdown}. Pokémon Showdown es un simulador de código abierto que no tiene una API oficial, pero existe la librería de python poke-env~\cite{poke_env} que permite conectarse a un servidor de Pokémon Showdown y jugar partidas. El servidor no permite repetir partidas (estocástica no repetible) ni empezar desde un punto intermedio, lo que hace el problema más difícil.
+\ifthenelse{\equal{\LANG}{es}}{
+    Para jugar múltiples partidas se necesita un simulador. Aunque no es oficial de Game Freak (la compañía que desarrolla Pokémon, bajo el control de Nintendo), el más popular es Pokémon Showdown~\cite{pokemonShowdown}. Pokémon Showdown es un simulador de código abierto que no tiene una API oficial, pero existe la librería de python poke-env~\cite{poke_env} que permite conectarse a un servidor de Pokémon Showdown y jugar partidas. El servidor no permite repetir partidas (estocástica no repetible) ni empezar desde un punto intermedio, lo que hace el problema más difícil.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    A simulator is needed to play multiple battles. Although it is not official Game Freak software (the company that develops Pokémon under Nintendo's control), the most popular one is Pokémon Showdown~\cite{pokemonShowdown}. Pokémon Showdown is an open-source simulator with no official API, but the Python library poke-env~\cite{poke_env} makes it possible to connect to a Pokémon Showdown server and play battles. The server does not allow matches to be replayed (the stochasticity is not repeatable) or resumed from an intermediate point, which makes the problem harder.
+}{}
 
+\ifthenelse{\equal{\LANG}{es}}{
+    Dado que el entrenamiento requiere la ejecución de millones de partidas, no es viable utilizar el servidor público de Pokémon Showdown. No obstante, el proyecto se distribuye bajo licencia \textit{MIT license}, lo que permite desplegar un servidor local y privado sin restricciones de uso ni de comunicación. En este trabajo se ha empleado la última versión estable disponible de Pokémon Showdown, correspondiente a la versión v0.11.10. No se ha utilizado la versión directamente disponible en GitHub, ya que esta se actualiza de forma continua, lo que impide garantizar su estabilidad.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Since training requires the execution of millions of battles, using the public Pokémon Showdown server is not viable. However, the project is distributed under the \textit{MIT license}, which makes it possible to deploy a local private server without restrictions on use or communication. This work uses the latest stable available version of Pokémon Showdown, namely v0.11.10. The version directly available on GitHub was not used, because it is updated continuously and its stability cannot be guaranteed.
+}{}
 
-Dado que el entrenamiento requiere la ejecución de millones de partidas, no es viable utilizar el servidor público de Pokémon Showdown. No obstante, el proyecto se distribuye bajo licencia \textit{MIT license}, lo que permite desplegar un servidor local y privado sin restricciones de uso ni de comunicación. En este trabajo se ha empleado la última versión estable disponible de Pokémon Showdown, correspondiente a la versión v0.11.10. No se ha utilizado la versión directamente disponible en GitHub, ya que esta se actualiza de forma continua, lo que impide garantizar su estabilidad.
-
-La librería poke-env viene preparada para conectarse a cualquier servidor y permitir que un agente juegue múltiples partidas a la vez. A continuación se incluye el código para conectar a un servidor:
+\ifthenelse{\equal{\LANG}{es}}{
+    La librería poke-env viene preparada para conectarse a cualquier servidor y permitir que un agente juegue múltiples partidas a la vez. A continuación se incluye el código para conectar a un servidor:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The poke-env library is prepared to connect to any server and allow an agent to play multiple battles at once. The code below shows how to connect to a server:
+}{}
 
 \begin{minted}{python}
 ServerConfiguration(
@@ -882,31 +896,46 @@ ServerConfiguration(
 )
 \end{minted}
 
-Para que el agente pueda jugar, simplemente tiene que heredar de la clase \texttt{poke\_env.player.Player} e implementar el método \texttt{choose\_move}. Es en este método donde se recibe el estado de la batalla. Este estado de la batalla será la entrada al modelo (la red neuronal), que devolverá la acción a realizar que a su vez será la salida del método \texttt{choose\_move}.
+\ifthenelse{\equal{\LANG}{es}}{
+    Para que el agente pueda jugar, simplemente tiene que heredar de la clase \texttt{poke\_env.player.Player} e implementar el método \texttt{choose\_move}. Es en este método donde se recibe el estado de la batalla. Este estado de la batalla será la entrada al modelo (la red neuronal), que devolverá la acción a realizar que a su vez será la salida del método \texttt{choose\_move}.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    For the agent to play, it only needs to inherit from the \texttt{poke\_env.player.Player} class and implement the \texttt{choose\_move} method. This is the method where the battle state is received. That battle state becomes the input to the model (the neural network), which returns the action to perform, and that action in turn is the output of the \texttt{choose\_move} method.
+}{}
 
-En un turno básico de batalla, el jugador puede escoger entre 14 acciones posibles.
+\ifthenelse{\equal{\LANG}{es}}{
+    En un turno básico de batalla, el jugador puede escoger entre 14 acciones posibles.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    In a basic battle turn, the player can choose among 14 possible actions.
+}{}
 
 \[
     a_t^i =
     \begin{cases}
-        $\text{Movimiento 1}$                      \\
-        $\text{Movimiento 1 + Teracristalización}$ \\
-        $\text{Movimiento 2}$                      \\
-        $\text{Movimiento 2 + Teracristalización}$ \\
-        $\text{Movimiento 3}$                      \\
-        $\text{Movimiento 3 + Teracristalización}$ \\
-        $\text{Movimiento 4}$                      \\
-        $\text{Movimiento 4 + Teracristalización}$ \\
-        $\text{Cambio a Pokémon 0}$                \\
-        $\text{Cambio a Pokémon 1}$                \\
-        $\text{Cambio a Pokémon 2}$                \\
-        $\text{Cambio a Pokémon 3}$                \\
-        $\text{Cambio a Pokémon 4}$                \\
-        $\text{Cambio a Pokémon 5}$                \\
+        $\text{\lang{Move}{Movimiento} 1}$                                               \\
+        $\text{\lang{Move}{Movimiento} 1 + \lang{Terastallization}{Teracristalización}}$ \\
+        $\text{\lang{Move}{Movimiento} 2}$                                               \\
+        $\text{\lang{Move}{Movimiento} 2 + \lang{Terastallization}{Teracristalización}}$ \\
+        $\text{\lang{Move}{Movimiento} 3}$                                               \\
+        $\text{\lang{Move}{Movimiento} 3 + \lang{Terastallization}{Teracristalización}}$ \\
+        $\text{\lang{Move}{Movimiento} 4}$                                               \\
+        $\text{\lang{Move}{Movimiento} 4 + \lang{Terastallization}{Teracristalización}}$ \\
+        $\text{\lang{Switch to}{Cambio a} Pokémon 0}$                                    \\
+        $\text{\lang{Switch to}{Cambio a} Pokémon 1}$                                    \\
+        $\text{\lang{Switch to}{Cambio a} Pokémon 2}$                                    \\
+        $\text{\lang{Switch to}{Cambio a} Pokémon 3}$                                    \\
+        $\text{\lang{Switch to}{Cambio a} Pokémon 4}$                                    \\
+        $\text{\lang{Switch to}{Cambio a} Pokémon 5}$                                    \\
     \end{cases}
 \]
 
-Por tanto, la red neuronal produce un vector de 14 probabilidades, una para cada acción. Sin embargo, no todas las acciones son legales en todos los turnos. Se enmascaran con un $-\infty$ las acciones que no están en el conjunto de acciones legales proporcionado por poke-env. De este modo, la política aprendida opera siempre sobre el subconjunto de acciones permitido por el estado actual del combate. A continuación, se aplica un softmax y se obtiene la probabilidad de cada acción. Para finalizar, se muestrea una acción y se devuelve al entorno.
+\ifthenelse{\equal{\LANG}{es}}{
+    Por tanto, la red neuronal produce un vector de 14 probabilidades, una para cada acción. Sin embargo, no todas las acciones son legales en todos los turnos. Se enmascaran con un $-\infty$ las acciones que no están en el conjunto de acciones legales proporcionado por poke-env. De este modo, la política aprendida opera siempre sobre el subconjunto de acciones permitido por el estado actual del combate. A continuación, se aplica un softmax y se obtiene la probabilidad de cada acción. Para finalizar, se muestrea una acción y se devuelve al entorno.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The neural network therefore produces a vector of 14 probabilities, one for each action. However, not all actions are legal on every turn. Actions that are not in the legal action set provided by poke-env are masked with $-\infty$. This way, the learned policy always operates on the subset of actions allowed by the current battle state. A softmax is then applied to obtain the probability of each action. Finally, an action is sampled and returned to the environment.
+}{}
 
 \begin{minted}{python}
 # We apply the mask to the logits
@@ -930,13 +959,33 @@ if self.criticNetwork is not None:
 return moves[action.item()]
 \end{minted}
 
-\noindent \textbf{Nota.} La teracristalización es la mecánica característica de la IX generación de Pokémon. Está restringida a una vez por batalla y solo con un movimiento, no con un cambio. Por tanto, si el jugador ya ha teracristalizado, las acciones que incluyen la teracristalización no van a ser legales.
+\ifthenelse{\equal{\LANG}{es}}{
+    \noindent \textbf{Nota.} La teracristalización es la mecánica característica de la IX generación de Pokémon. Está restringida a una vez por batalla y solo con un movimiento, no con un cambio. Por tanto, si el jugador ya ha teracristalizado, las acciones que incluyen la teracristalización no van a ser legales.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    \noindent \textbf{Remark.} Terastallization is the signature mechanic of Pokémon's ninth generation. It is restricted to once per battle and only with a move, not with a switch. Therefore, if the player has already Terastallized, the actions that include Terastallization are not legal.
+}{}
 
-La librería poke-env~\cite{poke_env} siempre devuelve el equipo en el mismo orden, por lo que el Pokémon 0 es el primero que también aparece en los inputs de la red neuronal. No se puede hacer un cambio al Pokémon activo, por lo que si el Pokémon activo es el 0, la acción de cambio a Pokémon 0 no va a ser legal.
+\ifthenelse{\equal{\LANG}{es}}{
+    La librería poke-env~\cite{poke_env} siempre devuelve el equipo en el mismo orden, por lo que el Pokémon 0 es el primero que también aparece en los inputs de la red neuronal. No se puede hacer un cambio al Pokémon activo, por lo que si el Pokémon activo es el 0, la acción de cambio a Pokémon 0 no va a ser legal.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The poke-env library~\cite{poke_env} always returns the team in the same order, so Pokémon 0 is the first one that also appears in the neural network inputs. It is not possible to switch to the active Pokémon, so if the active Pokémon is 0, the action of switching to Pokémon 0 is not legal.
+}{}
 
-En la implementación, el actor aprende una política estocástica sobre las acciones legales, mientras que el crítico aproxima el retorno esperado. Para cada trayectoria se calculan los retornos descontados y, cuando se emplea crítico, una ventaja estimada como la diferencia entre el retorno observado y el valor predicho por el crítico. La pérdida del actor favorece las acciones que producen ventaja positiva, mientras que la pérdida del crítico penaliza el error cuadrático entre el retorno y el valor estimado.
+\ifthenelse{\equal{\LANG}{es}}{
+    En la implementación, el actor aprende una política estocástica sobre las acciones legales, mientras que el crítico aproxima el retorno esperado. Para cada trayectoria se calculan los retornos descontados y, cuando se emplea crítico, una ventaja estimada como la diferencia entre el retorno observado y el valor predicho por el crítico. La pérdida del actor favorece las acciones que producen ventaja positiva, mientras que la pérdida del crítico penaliza el error cuadrático entre el retorno y el valor estimado.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    In the implementation, the actor learns a stochastic policy over legal actions, while the critic approximates the expected return. For each trajectory, discounted returns are computed and, when a critic is used, an advantage is estimated as the difference between the observed return and the value predicted by the critic. The actor loss favors actions that produce positive advantage, while the critic loss penalizes the squared error between the return and the estimated value.
+}{}
 
-Inicialización de los optimizadores para el actor y el crítico:
+\ifthenelse{\equal{\LANG}{es}}{
+    Inicialización de los optimizadores para el actor y el crítico:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Initialization of the optimizers for the actor and the critic:
+}{}
 
 \begin{minted}{python}
 self.optimizer = optim.Adam(self.actor.parameters(), lr=1e-3)
@@ -944,7 +993,12 @@ if self.criticClass:
     self.criticOptimizer = optim.Adam(self.critic.parameters(), lr=1e-3)
 \end{minted}
 
-Cálculo de la retropropagación de gradientes en una única iteración de entrenamiento (epoch):
+\ifthenelse{\equal{\LANG}{es}}{
+    Cálculo de la retropropagación de gradientes en una única iteración de entrenamiento (epoch):
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    Gradient backpropagation calculation in a single training iteration (epoch):
+}{}
 
 \begin{minted}{python}
 actorLoss = torch.tensor(0.0, device=device)
@@ -1036,6 +1090,11 @@ if self.criticClass:
     self.criticOptimizer.step()
 \end{minted}
 
-\subsection{Evaluación de los datos obtenidos}
+\subsection{\lang{Evaluation of the obtained data}{Evaluación de los datos obtenidos}}
 
-Para representar los datos obtenidos, no ha sido suficiente usar la librería de python Matplotlib~\cite{Hunter:2007} porque las gráficas con todos los experimentos de su entrenamiento no se veían con claridad. Para superar esta limitación, se ha utilizado la librería Plotly~\cite{plotly} que permite hacer gráficas interactivas y con zoom en las cuales se puede seleccionar qué experimentos son visibles.
+\ifthenelse{\equal{\LANG}{es}}{
+    Para representar los datos obtenidos, no ha sido suficiente usar la librería de python Matplotlib~\cite{Hunter:2007} porque las gráficas con todos los experimentos de su entrenamiento no se veían con claridad. Para superar esta limitación, se ha utilizado la librería Plotly~\cite{plotly} que permite hacer gráficas interactivas y con zoom en las cuales se puede seleccionar qué experimentos son visibles.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    To represent the obtained data, using the Python library Matplotlib~\cite{Hunter:2007} was not sufficient because the plots with all training experiments were not clear enough. To overcome this limitation, the Plotly~\cite{plotly} library was used, which makes it possible to create interactive, zoomable plots in which the visible experiments can be selected.
+}{}
