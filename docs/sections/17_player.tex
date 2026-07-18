@@ -1,20 +1,25 @@
-\section{Hiperparámetro \emph{player}} \label{anexo:hyperPlayer}
+\section{\lang{Hyperparameter}{Hiperparámetro} \emph{player}} \label{anexo:hyperPlayer}
 
-El hiperparámetro \emph{player} define qué representación se usará del campo de batalla donde compiten los jugadores (todo aquello que no sean Pokémon). Este, junto con los hiperparámetros \emph{pokemon} y \emph{move}, determinan el número de parámetros que tiene la primera capa de las redes neuronales (observación). La tabla \ref{tab:battleParameters} muestra que hay $4$ clases de representación, pero que solo se ha experimentado con dos de ellas. Las representaciones se nombran igual que la implementación de sus correspondientes clases en el código y siguen la nomenclatura de \emph{AIPlayerXX}, donde \emph{XX} representa el nivel de complejidad. La clase con número superior engloba a la clase con un número inferior, es decir, tiene todos los atributos de la clase inferior y algunos más. \emph{S} significa que es la clase más compleja y que intenta representar todo sin que haya límite en el número de parámetros.
+\ifthenelse{\equal{\LANG}{es}}{
+    El hiperparámetro \emph{player} define qué representación se usará del campo de batalla donde compiten los jugadores (todo aquello que no sean Pokémon). Este, junto con los hiperparámetros \emph{pokemon} y \emph{move}, determinan el número de parámetros que tiene la primera capa de las redes neuronales (observación). La tabla \ref{tab:battleParameters} muestra que hay $4$ clases de representación, pero que solo se ha experimentado con dos de ellas. Las representaciones se nombran igual que la implementación de sus correspondientes clases en el código y siguen la nomenclatura de \emph{AIPlayerXX}, donde \emph{XX} representa el nivel de complejidad. La clase con número superior engloba a la clase con un número inferior, es decir, tiene todos los atributos de la clase inferior y algunos más. \emph{S} significa que es la clase más compleja y que intenta representar todo sin que haya límite en el número de parámetros.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The \emph{player} hyperparameter defines which representation will be used for the battlefield where the players compete (everything that is not Pokémon). Together with the \emph{pokemon} and \emph{move} hyperparameters, it determines the number of parameters in the first layer of the neural networks (observation). Table \ref{tab:battleParameters} shows that there are 4 representation classes, but only two of them were experimented with. The representations are named in the same way as the implementation of their corresponding classes in the code and follow the \emph{AIPlayerXX} nomenclature, where \emph{XX} denotes the complexity level. A higher-numbered class encompasses the class with the lower number, that is, it contains all the attributes of the lower class and some additional ones. \emph{S} denotes the most complex class, which attempts to represent everything without any limit on the number of parameters.
+}{}
 
 \begin{table}[h]
     \centering
     \begin{tabular}{lrr}
         \toprule
-        Clase      & Número de parámetros & Número de experimentos \\
+        \lang{Class}{Clase} & \lang{Number of parameters}{Número de parámetros} & \lang{Number of experiments}{Número de experimentos} \\
         \midrule
-        AIPlayer00 & 0                    & 0                      \\
-        AIPlayer01 & 2                    & 0                      \\
-        AIPlayer02 & 14                   & 107                    \\
-        AIPlayerS  & 64                   & 44                     \\
+        AIPlayer00          & 0                                                 & 0                                                    \\
+        AIPlayer01          & 2                                                 & 0                                                    \\
+        AIPlayer02          & 14                                                & 107                                                  \\
+        AIPlayerS           & 64                                                & 44                                                   \\
         \bottomrule
     \end{tabular}
-    \caption{Número de parámetros que se obtienen del entorno para el campo de batalla y número de experimentos que se han hecho con cada clase}
+    \caption{\lang{Number of parameters provided by the environment for the battlefield and number of experiments conducted for each class}{Número de parámetros que se obtienen del entorno para el campo de batalla y número de experimentos que se han hecho con cada clase}}
     \label{tab:battleParameters}
 \end{table}
 
@@ -23,82 +28,372 @@ El hiperparámetro \emph{player} define qué representación se usará del campo
 \subsection*{AIPlayer00}
 \endgroup
 
-Esto ocurrirá para todas las representaciones del campo de batalla; en su interior, va a tener el vector que representa a cada uno de los $12$ Pokémon que se obtiene de la clase que representa el hiperparámetro \emph{pokemon}. En una misma batalla, el orden de estos no va a cambiar y se va a ir añadiendo más información. Si todavía no se conoce nada de un Pokémon, se usa un vector de ceros. Primero van los seis Pokémon propios y después los seis del oponente.
+\ifthenelse{\equal{\LANG}{es}}{
+    Esto ocurrirá para todas las representaciones del campo de batalla; en su interior, va a tener el vector que representa a cada uno de los $12$ Pokémon que se obtiene de la clase que representa el hiperparámetro \emph{pokemon}. En una misma batalla, el orden de estos no va a cambiar y se va a ir añadiendo más información. Si todavía no se conoce nada de un Pokémon, se usa un vector de ceros. Primero van los seis Pokémon propios y después los seis del oponente.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This applies to all battlefield representations; internally, it contains the vector representing each of the $12$ Pokémon obtained from the class that implements the \emph{pokemon} hyperparameter. Within a single battle, their order does not change, and more information is added progressively. If nothing is known about a Pokémon yet, a zero vector is used. The player's six Pokémon come first, followed by the opponent's six.
+}{}
 
 \begingroup
 \renewcommand{\addcontentsline}[3]{}%
 \subsection*{AIPlayer01}
 \endgroup
 
-Esta representación añade dos enteros. El primero es el índice del propio Pokémon activo y el segundo es el índice del Pokémon activo del oponente. Son números enteros que van de 1 a 6 y el 0 queda reservado para cuando no se pueda conocer.
+\ifthenelse{\equal{\LANG}{es}}{
+    Esta representación añade dos enteros. El primero es el índice del propio Pokémon activo y el segundo es el índice del Pokémon activo del oponente. Son números enteros que van de 1 a 6 y el 0 queda reservado para cuando no se pueda conocer.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This representation adds two integers. The first is the index of the player's active Pokémon, and the second is the index of the opponent's active Pokémon. These integers range from 1 to 6, and 0 is reserved for when the value is unknown.
+}{}
 
 \begingroup
 \renewcommand{\addcontentsline}[3]{}%
 \subsection*{AIPlayer02}
 \endgroup
 
-Esta representación añade $12$ booleanos que indican si existe representación de su respectivo Pokémon. Si esta representación está vacía, se usa un 0 y si hay representación, se usa un 1.
+\ifthenelse{\equal{\LANG}{es}}{
+    Esta representación añade $12$ booleanos que indican si existe representación de su respectivo Pokémon. Si esta representación está vacía, se usa un 0 y si hay representación, se usa un 1.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This representation adds $12$ booleans indicating whether the representation for each corresponding Pokémon exists. If that representation is empty, a 0 is used; otherwise, a 1 is used.
+}{}
 
 \begingroup
 \renewcommand{\addcontentsline}[3]{}%
 \subsection*{AIPlayerS}
 \endgroup
 
-Se intenta añadir todo lo posible:
+\ifthenelse{\equal{\LANG}{es}}{
+    Se intenta añadir todo lo posible:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The goal is to add as much information as possible:
+}{}
 
 \begin{itemize}
-    \item Para cada uno de los 8 tiempos atmosféricos, un entero que representa el número de turnos que lleva activo. Si no está activo, se usa un 0. Son:
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Para cada uno de los 8 tiempos atmosféricos, un entero que representa el número de turnos que lleva activo. Si no está activo, se usa un 0. Son:
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              For each of the 8 weather states, an integer representing the number of turns it has been active. If it is not active, 0 is used. They are:
+          }{}
           \begin{enumerate}
-              \item Sol abrasador
-              \item Turbulencias
-              \item Granizo
-              \item Diluvio
-              \item Lluvia
-              \item Tormenta de arena
-              \item Nieve
-              \item Sol
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Sol abrasador
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Desolate Sun
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Turbulencias
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Delta Stream
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Granizo
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Hail
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Diluvio
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Primordial Sea
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Lluvia
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Rain Dance
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Tormenta de arena
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Sandstorm
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Nieve
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Snow
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Sol
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Sunny Day
+                    }{}
           \end{enumerate}
-    \item Para cada uno de los 12 campos/efectos, un entero que representa el número de turnos que lleva activo. Si no está activo, se usa un 0. Son:
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Para cada uno de los 12 campos/efectos, un entero que representa el número de turnos que lleva activo. Si no está activo, se usa un 0. Son:
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              For each of the 12 field effects, an integer representing the number of turns it has been active. If it is not active, 0 is used. They are:
+          }{}
           \begin{enumerate}
-              \item Campo eléctrico
-              \item Cerrojo feérico
-              \item Campo de hierba
-              \item Gravedad
-              \item Anticura
-              \item Zona Mágica
-              \item Campo de niebla
-              \item Chapoteo Lodo
-              \item Chapoteo Lodo (repetido en la librería externa)
-              \item Campo psíquico
-              \item Espacio Raro
-              \item Hidrochorro
-              \item Zona Extraña
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Campo eléctrico
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Electric Terrain
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Cerrojo feérico
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Fairy Lock
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Campo de hierba
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Grassy Terrain
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Gravedad
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Gravity
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Anticura
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Heal Block
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Zona Mágica
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Magic Room
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Campo de niebla
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Misty Terrain
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Chapoteo Lodo
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Mud Sport
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Chapoteo Lodo (repetido en la librería externa)
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Mud Spot (duplicated in the external library)
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Campo psíquico
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Psychic Terrain
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Espacio Raro
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Trick Room
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Hidrochorro
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Water Sport
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Zona Extraña
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Wonder Room
+                    }{}
           \end{enumerate}
-    \item Si el propio jugador puede teracristalizar (booleano).
-    \item Para cada uno de los 4 enteros peligros de entrada del propio jugador, un entero que representa el número de capas que hay de ese peligro. Son:
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el propio jugador puede teracristalizar (booleano).
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the player can Terastallize (boolean).
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Para cada uno de los 4 enteros peligros de entrada del propio jugador, un entero que representa el número de capas que hay de ese peligro. Son:
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              For each of the 4 entry hazards of the player's side, an integer representing how many layers of that hazard are present. They are:
+          }{}
           \begin{enumerate}
-              \item Púas
-              \item Trampa Rocas
-              \item Red viscosa
-              \item Púas Tóxicas
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Púas
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Spikes
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Trampa Rocas
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Stealth Rock
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Red viscosa
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Sticky Web
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Púas Tóxicas
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Toxic Spikes
+                    }{}
           \end{enumerate}
-    \item Los 7 efectos que se encuentran en el campo del propio jugador que no son peligros de entrada. Cada uno es un entero que representa el número de turnos que lleva activo. Son:
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Los 7 efectos que se encuentran en el campo del propio jugador que no son peligros de entrada. Cada uno es un entero que representa el número de turnos que lleva activo. Son:
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              The 7 effects present on the player's side that are not entry hazards. Each one is an integer representing the number of turns it has been active. They are:
+          }{}
           \begin{enumerate}
-              \item Velo aurora
-              \item Pantalla de Luz
-              \item Conjuro
-              \item Neblina
-              \item Reflejo
-              \item Velo Sagrado
-              \item Viento Afín
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Velo aurora
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Aurora Veil
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Pantalla de Luz
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Light Screen
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Conjuro
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Lucky Chant
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Neblina
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Mist
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Reflejo
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Reflect
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Velo Sagrado
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Safeguard
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Viento Afín
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Tailwind
+                    }{}
           \end{enumerate}
-    \item Si el propio jugador tiene que cambiar de Pokémon (booleano).
-    \item Si el propio jugador tiene que elegir un Pokémon para revivir (booleano).
-    \item Si el propio Pokémon activo puede estar atrapado (booleano).
-    \item Si el propio Pokémon activo está atrapado (booleano).
-    \item Si el propio Pokémon está en tierra (booleano).
-    \item Para cada uno de los 4 enteros peligros de entrada del oponente, un entero que representa el número de capas que hay de ese peligro.
-    \item Los 7 efectos que se encuentran en el campo del oponente que no son peligros de entrada. Cada uno es un entero que representa el número de turnos que lleva activo.
-    \item Si el oponente puede teracristalizar (booleano).
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el propio jugador tiene que cambiar de Pokémon (booleano).
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the player must switch Pokémon (boolean).
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el propio jugador tiene que elegir un Pokémon para revivir (booleano).
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the player must choose a Pokémon to revive (boolean).
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el propio Pokémon activo puede estar atrapado (booleano).
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the active Pokémon can be trapped (boolean).
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el propio Pokémon activo está atrapado (booleano).
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the active Pokémon is trapped (boolean).
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el propio Pokémon está en tierra (booleano).
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the player's Pokémon is grounded (boolean).
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Para cada uno de los 4 enteros peligros de entrada del oponente, un entero que representa el número de capas que hay de ese peligro.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              For each of the 4 entry hazards on the opponent's side, an integer representing how many layers of that hazard are present.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Los 7 efectos que se encuentran en el campo del oponente que no son peligros de entrada. Cada uno es un entero que representa el número de turnos que lleva activo.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              The 7 effects present on the opponent's side that are not entry hazards. Each one is an integer representing the number of turns it has been active.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Si el oponente puede teracristalizar (booleano).
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Whether the opponent can Terastallize (boolean).
+          }{}
 \end{itemize}
 
