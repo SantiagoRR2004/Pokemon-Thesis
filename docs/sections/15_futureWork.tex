@@ -1,16 +1,51 @@
-\section{Vías de trabajo futuro}
+\section{\lang{Future Work}{Vías de trabajo futuro}}
 
-Como continuación natural de este proyecto, se proponen las siguientes vías de trabajo:
+\ifthenelse{\equal{\LANG}{es}}{
+    Como continuación natural de este proyecto, se proponen las siguientes vías de trabajo:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    As a natural continuation of this project, the following lines of work are proposed:
+}{}
 
 \begin{itemize}
-    \item Mejoras a la arquitectura de las redes:
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Mejoras a la arquitectura de las redes:
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Improvements to the network architecture:
+          }{}
           \begin{itemize}
-              \item Se podría incorporar el uso de redes neuronales recurrentes (RNN) para dotar al modelo de memoria temporal durante el combate, lo que permitiría capturar dependencias a lo largo de varios turnos e incluso facilitar la anticipación de estrategias del oponente.
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Se podría incorporar el uso de redes neuronales recurrentes (RNN) para dotar al modelo de memoria temporal durante el combate, lo que permitiría capturar dependencias a lo largo de varios turnos e incluso facilitar la anticipación de estrategias del oponente.
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Recurrent neural networks (RNNs) could be incorporated to give the model temporal memory during battles, which would make it possible to capture dependencies across multiple turns and even anticipate the opponent's strategy.
+                    }{}
 
-              \item Asimismo, se podrían explorar mecanismos de atención, que han demostrado un buen rendimiento en tareas secuenciales al permitir al modelo centrarse dinámicamente en las partes más relevantes de la información.
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Asimismo, se podrían explorar mecanismos de atención, que han demostrado un buen rendimiento en tareas secuenciales al permitir al modelo centrarse dinámicamente en las partes más relevantes de la información.
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Attention mechanisms could also be explored, as they have shown strong performance on sequential tasks by allowing the model to focus dynamically on the most relevant parts of the information.
+                    }{}
           \end{itemize}
 
-    \item En relación con la representación del estado, se podría entrenar un autoencoder con el objetivo de obtener una representación más compacta de cada Pokémon a través de su capa de cuello de botella (espacio latente), reduciendo así la dimensionalidad del estado global y, potencialmente, el número de parámetros necesarios en los modelos posteriores.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              En relación con la representación del estado, se podría entrenar un autoencoder con el objetivo de obtener una representación más compacta de cada Pokémon a través de su capa de cuello de botella (espacio latente), reduciendo así la dimensionalidad del estado global y, potencialmente, el número de parámetros necesarios en los modelos posteriores.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Regarding the state representation, an autoencoder could be trained to obtain a more compact representation of each Pokémon through its bottleneck layer (latent space), thus reducing the dimensionality of the global state and, potentially, the number of parameters required by subsequent models.
+          }{}
 
-    \item Por último, se podrían emplear algoritmos de aprendizaje por refuerzo más avanzados que \emph{REINFORCE} o \emph{Actor-Critic}, como \emph{Proximal Policy Optimization} (PPO) o \emph{Deep Deterministic Policy Gradient} (DDPG), con el fin de mejorar la estabilidad y el rendimiento del entrenamiento.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Por último, se podrían emplear algoritmos de aprendizaje por refuerzo más avanzados que \emph{REINFORCE} o \emph{Actor-Critic}, como \emph{Proximal Policy Optimization} (PPO) o \emph{Deep Deterministic Policy Gradient} (DDPG), con el fin de mejorar la estabilidad y el rendimiento del entrenamiento.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              Finally, more advanced reinforcement learning algorithms than \emph{REINFORCE} or \emph{Actor-Critic} could be used, such as \emph{Proximal Policy Optimization} (PPO) or \emph{Deep Deterministic Policy Gradient} (DDPG), in order to improve training stability and performance.
+          }{}
 \end{itemize}
