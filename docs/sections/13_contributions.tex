@@ -23,7 +23,7 @@
     If the number of input parameters (\textit{nInputs}) is considered and the average strength score obtained with the Bradley-Terry model is plotted for each representation, Figure \ref{fig:BattlesNInputs} is obtained. From it, the hypothesis that the number of input parameters alone explains the model's performance can be rejected, since no clear pattern is observed between the two variables. Even so, the three hyperparameters will be analyzed separately to see whether more specific conclusions can be drawn about each of them.
 }{}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.65\textwidth]{images/BattlesNInputs.png}
     \caption{\lang{Average Bradley-Terry scores for each number of state-representation parameters}{Puntuaciones Bradley-Terry medias para cada número de parámetros de la representación del estado}}
@@ -46,7 +46,7 @@
     To represent the battlefield state (\emph{player}), only two representations were considered. If the results of identical experiments that differ exclusively in this hyperparameter are compared (Figure \ref{fig:battlesPlayer}), it can be clearly seen that the more complex representation obtains a positive win rate against the simple representation. These results provide evidence in favor of the hypothesis proposed for this hyperparameter, so there are no reasons to reject it.
 }{}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.25\textwidth]{images/BattlesPlayer.png}
     \caption{\lang{Win rate of the experiments that only differ in the battlefield representation}{Proporción de victorias de los experimentos que solo cambian en la representación del campo de batalla}}
@@ -69,7 +69,7 @@
     It is worth noting that \emph{PokemonS} and \emph{Pokemon10} are the representations with the largest number of input parameters due to the use of \emph{one-hot} enconding. For these two classes, then, their high parameter count does not imply that strategically relevant features were added. Overall, these results suggest that there is no clear relationship between representation complexity and the performance achieved by the model. Therefore, the evidence observed does not support the hypothesis proposed for this hyperparameter.
 }{}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{images/BattlesPokemon.png}
     \caption{\lang{Win rate of the experiments that only differ in each Pokémon representation}{Proporción de victorias de los experimentos que solo cambian en la representación de cada Pokémon}}
@@ -92,7 +92,7 @@
     It is important to note that \emph{MoveS} is the representation with the largest number of input parameters due to the use of \emph{one-hot} encoding, but this does not mean that strategically relevant features were added. All of this leads to not rejecting the hypothesis for this hyperparameter, since there is a clear relationship between the number of parameters and the model's performance.
 }{}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{images/BattlesMove.png}
     \caption{\lang{Win rate of the experiments that only differ in each move representation}{Proporción de victorias de los experimentos que solo cambian en la representación de cada movimiento}}
@@ -109,7 +109,7 @@
     To analyze this hypothesis, the various plots and tables corresponding to the different possible values of the \emph{useSelfPlay} hyperparameter are examined. First, it can be seen that during training, the inclusion of \texttt{useSelfPlay=True} leads to a significantly lower win rate (see Figure \ref{fig:VictoryPercentageUseSelfPlay}) compared with training against a fixed opponent (either the maximum-damage one and/or the random one). This behavior is due to the fact that in many configurations where \texttt{useSelfPlay=True} is enabled, \texttt{useMaxDamage=True} is also used (as a consequence of the way the opponents are implemented). Since winning against the maximum-damage opponent is highly difficult, its inclusion considerably reduces the observed win rate.
 }{}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.7\textwidth]{images/VictoryPercentageUseSelfPlay.png}
     \caption[\lang{Win rate during training for different values of the \emph{useSelfPlay} hyperparameter}{Proporción de victorias durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}}]{\lang{Win rate during training for different values of the \emph{useSelfPlay} hyperparameter. \texttt{random} corresponds to battles in which both players make random moves (they never learn).}{Proporción de victorias durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}. \texttt{random} se corresponde con batallas en las que los dos jugadores realizan movimientos aleatorios (nunca aprenden).}}
@@ -123,14 +123,14 @@
     By studying the actor loss (Figure \ref{fig:AverageActorLossesUseSelfPlay}) and the critic loss (Figure \ref{fig:AverageCriticLossesUseSelfPlay}), we can see that playing against itself yields a smaller loss. This also happens because, when facing more types of opponents, there are more episodes per epoch and the average gets closer to zero. Even so, it can be seen that during training, using \texttt{useSelfPlay=True} makes the loss decrease relatively faster than when playing against a fixed opponent.
 }{}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.7\textwidth]{images/AverageActorLossesUseSelfPlay.png}
     \caption{\lang{Average actor loss during training for different values of the \emph{useSelfPlay} hyperparameter}{Pérdida promedio del actor durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}}}
     \label{fig:AverageActorLossesUseSelfPlay}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.7\textwidth]{images/AverageCriticLossesUseSelfPlay.png}
     \caption{\lang{Average critic loss during training for different values of the \emph{useSelfPlay} hyperparameter}{Pérdida promedio del crítico durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}}}
@@ -144,14 +144,14 @@
     Being correlated with \texttt{useMaxDamage=True} makes the average reward negative because more battles are lost than won. This can be seen in Figures \ref{fig:AverageRewardsUseSelfPlay} and \ref{fig:AverageRewardsUseMaxDamage}.
 }{}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.7\textwidth]{images/AverageRewardsUseSelfPlay.png}
     \caption{\lang{Average reward during training for different values of the \emph{useSelfPlay} hyperparameter}{Recompensa promedio durante el entrenamiento para diferentes valores del hiperparámetro \emph{useSelfPlay}}}
     \label{fig:AverageRewardsUseSelfPlay}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.7\textwidth]{images/AverageRewardsUseMaxDamage.png}
     \caption{\lang{Average reward during training for different values of the \emph{useMaxDamage} hyperparameter}{Recompensa promedio durante el entrenamiento para diferentes valores del hiperparámetro \emph{useMaxDamage}}}
@@ -165,7 +165,7 @@
     Since among the $151$ executed hyperparameter combinations there is no pair in which only the \emph{useSelfPlay} hyperparameter varies, a direct comparison matrix cannot be computed as has been done with other hyperparameters. What can be done is to study the Bradley-Terry score of the experiments compared against the random player (Table \ref{tab:bradleyTerryUseSelfPlay}). Most experiments are notably superior to the random player, one is at the same level (\emph{experiment141}), and two are lower.
 }{}
 
-\begin{table}[h]
+\begin{table}[ht]
     \centering
     {\small \begin{tabular}{lccr}
             \toprule
@@ -195,7 +195,7 @@
     Another comparison that can be made is to use the relative score given by the surrogate model to all combinations that use self-play and those that do not (Figure \ref{fig:SurrogateUseSelfPlay}).
 }{}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.25\textwidth]{images/SurrogateUseSelfPlay.png}
     \caption[\lang{Relative surrogate-model score for different values of the \emph{useSelfPlay} hyperparameter}{Puntuación relativa del modelo predictor para diferentes valores del hiperparámetro \emph{useSelfPlay}}]{\lang{Relative surrogate-model score for different values of the \emph{useSelfPlay} hyperparameter. Note that the score is rounded to two decimals, but the True-over-False option is positive.}{Puntuación relativa del modelo predictor para diferentes valores del hiperparámetro \emph{useSelfPlay}. Obsérvese que la puntuación está redondeada a dos decimales, pero la opción de True sobre False es positiva.}}
@@ -209,7 +209,7 @@
     Based on the observations presented in Table \ref{tab:bradleyTerryUseSelfPlay}, one might hypothesize that the superior performance of models trained with \texttt{useSelfPlay=True} is attributable not to self-play itself, but to the fact that these models are, in most cases, also trained with \texttt{useMaxDamage=True}. However, this hypothesis does not seem to be supported by the data. As shown in Figure \ref{fig:BattlesUseMaxDamage}, corresponding to the win rate for the \emph{useMaxDamage} hyperparameter, a slight predominance of the configurations that do not use the maximum-damage agent can be observed.
 }{}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.25\textwidth]{images/BattlesUseMaxDamage.png}
     \caption{\lang{Win rate of the experiments that only differ in \emph{useMaxDamage}}{Proporción de victorias de los experimentos que solo cambian \emph{useMaxDamage}}}
@@ -233,7 +233,7 @@
     To analyze this hypothesis, only the \emph{nTeams} hyperparameter and its different options are examined (Table \ref{tab:nTeamsParameters}).
 }{}
 
-\begin{table}[h]
+\begin{table}[ht]
     \centering
     \begin{tabular}{lr}
         \toprule
@@ -257,7 +257,7 @@
     Since the rest of the hyperparameters have a more significant influence on the training metrics, they will not be analyzed in detail. Instead, the direct matchup matrix is examined (Figure \ref{fig:BattlesNTeams}). It can be seen there that the \texttt{nTeams=inf} configuration is clearly superior to the rest of the alternatives. This is because the experiments are evaluated in the real \emph{gen9randombattle} format, in which there is no restriction on the number of teams that can be generated. By contrast, the other configurations do not generalize adequately, since during training the teams are limited and, consequently, no matches with those conditions are found in the training set.
 }{}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.5\textwidth]{images/BattlesNTeams.png}
     \caption{\lang{Win rate of the experiments that only differ in \emph{nTeams}}{Proporción de victorias de los experimentos que solo cambian \emph{nTeams}}}
@@ -271,7 +271,7 @@
     One aspect worth highlighting is that the surrogate model of the relative score (Figure \ref{fig:SurrogateNTeams}) estimates that all configurations have similar performance, although the \texttt{nTeams=inf} option appears slightly below the rest. This is because the surrogate model has little training data corresponding to configurations with finite \emph{nTeams} values and, therefore, does not manage to generalize adequately in that regime.
 }{}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.5\textwidth]{images/SurrogateNTeams.png}
     \caption{\lang{Win rate of the experiments that only differ in \emph{nTeams}}{Proporción de victorias de los experimentos que solo cambian \emph{nTeams}}}

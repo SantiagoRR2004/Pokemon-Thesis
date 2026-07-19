@@ -7,7 +7,7 @@
     The \emph{reward} hyperparameter defines which reward function will be used during training. There are two options (see Table \ref{tab:rewardParameters}), and their names match those of the implementations of their corresponding classes in the code.
 }{}
 
-\begin{table}[h]
+\begin{table}[ht]
     \centering
     \begin{tabular}{lr}
         \toprule
@@ -68,7 +68,7 @@ $$
               An example of this can be seen in Figure \ref{fig:turn6}, which shows a turn in a battle between our \emph{Grafaiai} and the opponent's \emph{Mightyena}. Our \emph{Grafaiai} deals 11\% damage to \emph{Mightyena}, while \emph{Mightyena} deals 31\% damage to \emph{Grafaiai}. The reward for our player is therefore $-0.31 - (-0.11) = -0.2$.
           }{}
 
-          \begin{figure}[h]
+          \begin{figure}[ht]
               \centering
               \includegraphics[width=0.8\textwidth]{images/turn6.png}
               \caption{\lang{A Pokémon battle turn that illustrates the \emph{RewardFunction02} reward function}{Turno de un combate Pokémon que ejemplifica la función de recompensa \emph{RewardFunction02}}}

@@ -7,7 +7,7 @@
     To accept or reject the hypotheses stated in Section \ref{sec:objetivos}, different models were trained with different values of a set of hyperparameters. The list of hyperparameters and the number of possible values for each one can be seen in Table \ref{tab:hyperparameters}.
 }{}
 
-\begin{table}[h]
+\begin{table}[ht]
     \centering
     {\small
         \begin{tabular}{llcr}
@@ -53,7 +53,7 @@
               To evaluate hypothesis \HTwo, the \emph{useSelfPlay} hyperparameter was used; it determines whether the agent trains against itself or not. During training, the models corresponding to the last 20 epochs are stored, and \emph{nEpisodes} games are played in total against models chosen at random from this set of 20. Also related to this hypothesis are the \emph{useRandom} and \emph{useMaxDamage} hyperparameters, which determine whether the agent trains against a random opponent or an opponent that always chooses the move that deals the most damage. At least one of these three hyperparameters must be active for the agent to have an opponent to train against (see Figure \ref{fig:training}).
           }{}
 
-          \begin{figure}[h]
+          \begin{figure}[ht]
               \centering
               \includegraphics[width=0.9\textwidth]{images/training-crop.pdf}
               \caption{\lang{Training of an experiment}{Entrenamiento de un experimento}}
@@ -79,7 +79,7 @@
 \ifthenelse{\equal{\LANG}{es}}{La figura \ref{fig:general} muestra el proceso de evaluación de los hiperparámetros.}{}
 \ifthenelse{\equal{\LANG}{en}}{Figure \ref{fig:general} shows the hyperparameter evaluation process.}{}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{images/general-crop.pdf}
     \caption{\lang{General diagram of the project}{Diagrama general del proyecto}}
