@@ -1,30 +1,35 @@
-\section{Hiperparámetro \emph{pokemon}} \label{anexo:hyperPokemon}
+\section{\lang{Hyperparameter}{Hiperparámetro} \emph{pokemon}} \label{anexo:hyperPokemon}
 
-El hiperparámetro \emph{pokemon} define qué representación se usará cada Pokémon (no incluye los movimientos). Este, junto con los hiperparámetros \emph{player} y \emph{move}, determinan el número de parámetros que tiene la primera capa de las redes neuronales (observación). La tabla \ref{tab:pokemonParameters} muestra las $12$ clases de representación. Las representaciones se nombran igual que la implementación de sus correspondientes clases en el código y siguen la nomenclatura de \emph{PokemonXX}, donde \emph{XX} representa el nivel de complejidad. La clase con número superior engloba a la clase que tiene un número inferior, es decir, tiene todos los atributos de la clase inferior y algunos más. \emph{S} significa que es la clase más compleja y que intenta representar todo sin que haya límite en el número de parámetros.
+\ifthenelse{\equal{\LANG}{es}}{
+    El hiperparámetro \emph{pokemon} define qué representación se usará cada Pokémon (no incluye los movimientos). Este, junto con los hiperparámetros \emph{player} y \emph{move}, determinan el número de parámetros que tiene la primera capa de las redes neuronales (observación). La tabla \ref{tab:pokemonParameters} muestra las $12$ clases de representación. Las representaciones se nombran igual que la implementación de sus correspondientes clases en el código y siguen la nomenclatura de \emph{PokemonXX}, donde \emph{XX} representa el nivel de complejidad. La clase con número superior engloba a la clase que tiene un número inferior, es decir, tiene todos los atributos de la clase inferior y algunos más. \emph{S} significa que es la clase más compleja y que intenta representar todo sin que haya límite en el número de parámetros.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    The \emph{pokemon} hyperparameter defines which representation will be used for each Pokémon (moves are not included). Together with the \emph{player} and \emph{move} hyperparameters, it determines the number of parameters in the first layer of the neural networks (observation). Table \ref{tab:pokemonParameters} shows the 12 representation classes. The representations are named in the same way as the implementation of their corresponding classes in the code and follow the \emph{PokemonXX} nomenclature, where \emph{XX} denotes the complexity level. A higher-numbered class encompasses the class with the lower number, that is, it contains all the attributes of the lower class and some additional ones. \emph{S} denotes the most complex class, which attempts to represent everything without any limit on the number of parameters.
+}{}
 
 \begin{table}[h]
     \centering
     {\small
         \begin{tabular}{lrr}
             \toprule
-            Clase     & Número de parámetros & Número de experimentos \\
+            \lang{Class}{Clase} & \lang{Number of parameters}{Número de parámetros} & \lang{Number of experiments}{Número de experimentos} \\
             \midrule
-            Pokemon00 & 1                    & 3                      \\
-            Pokemon01 & 5                    & 4                      \\
-            Pokemon02 & 8                    & 5                      \\
-            Pokemon03 & 10                   & 76                     \\
-            Pokemon04 & 15                   & 10                     \\
-            Pokemon05 & 55                   & 6                      \\
-            Pokemon06 & 81                   & 6                      \\
-            Pokemon07 & 152                  & 7                      \\
-            Pokemon08 & 175                  & 8                      \\
-            Pokemon09 & 183                  & 7                      \\
-            Pokemon10 & 1025                 & 6                      \\
-            PokemonS  & 2353                 & 15                     \\
+            Pokemon00           & 1                                                 & 3                                                    \\
+            Pokemon01           & 5                                                 & 4                                                    \\
+            Pokemon02           & 8                                                 & 5                                                    \\
+            Pokemon03           & 10                                                & 76                                                   \\
+            Pokemon04           & 15                                                & 10                                                   \\
+            Pokemon05           & 55                                                & 6                                                    \\
+            Pokemon06           & 81                                                & 6                                                    \\
+            Pokemon07           & 152                                               & 7                                                    \\
+            Pokemon08           & 175                                               & 8                                                    \\
+            Pokemon09           & 183                                               & 7                                                    \\
+            Pokemon10           & 1025                                              & 6                                                    \\
+            PokemonS            & 2353                                              & 15                                                   \\
             \bottomrule
         \end{tabular}
     }
-    \caption{Número de parámetros que se obtienen del entorno para cada Pokémon y número de experimentos que se han hecho con cada clase}
+    \caption{\lang{Number of parameters provided by the environment for each Pokémon and number of experiments conducted for each class}{Número de parámetros que se obtienen del entorno para cada Pokémon y número de experimentos que se han hecho con cada clase}}
     \label{tab:pokemonParameters}
 \end{table}
 
@@ -33,28 +38,66 @@ El hiperparámetro \emph{pokemon} define qué representación se usará cada Pok
 \subsection*{Pokemon00}
 \endgroup
 
-Esto ocurrirá para todas las representaciones de un Pokémon; en su interior, va a tener el vector que representa a cada uno de los $4$ movimientos que se obtiene de la clase que representa el hiperparámetro \emph{move}. En una misma batalla, el orden de estos no va a cambiar y se va a ir añadiendo más información. Si todavía no se conoce nada de un movimiento, se usa un vector de ceros.
+\ifthenelse{\equal{\LANG}{es}}{
+    Esto ocurrirá para todas las representaciones de un Pokémon; en su interior, va a tener el vector que representa a cada uno de los $4$ movimientos que se obtiene de la clase que representa el hiperparámetro \emph{move}. En una misma batalla, el orden de estos no va a cambiar y se va a ir añadiendo más información. Si todavía no se conoce nada de un movimiento, se usa un vector de ceros.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This applies to every Pokémon representation; internally, it contains the vector representing each of the $4$ moves obtained from the class that implements the \emph{move} hyperparameter. Within a single battle, their order does not change, and more information is added progressively. If nothing is known about a move yet, a zero vector is used.
+}{}
 
-En el formato \emph{gen9randombattle} hay $1329$ formas posibles de Pokémon. El único atributo que la clase \emph{Pokemon00} es el índice de la forma del Pokémon de una lista fija. Un factor a tener en cuenta es que, mientras se van añadiendo más atributos, estos de forma indirecta, limitan el número de formas posibles de Pokémon.
+\ifthenelse{\equal{\LANG}{es}}{
+    En el formato \emph{gen9randombattle} hay $1329$ formas posibles de Pokémon. El único atributo que la clase \emph{Pokemon00} es el índice de la forma del Pokémon de una lista fija. Un factor a tener en cuenta es que, mientras se van añadiendo más atributos, estos de forma indirecta, limitan el número de formas posibles de Pokémon.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    In the \emph{gen9randombattle} format there are $1329$ possible Pokémon forms. The only attribute in class \emph{Pokemon00} is the index of the Pokémon's form from a fixed list. One point to keep in mind is that, as more attributes are added, they indirectly limit the number of possible Pokémon forms.
+}{}
 
 \begingroup
 \renewcommand{\addcontentsline}[3]{}%
 \subsection*{Pokemon01}
 \endgroup
 
-Esta representación añade $4$ booleanos que indican si existe representación de su respectivo movimiento. Si esta representación está vacía, se usa un 0 y si hay representación, se usa un 1.
+\ifthenelse{\equal{\LANG}{es}}{
+    Esta representación añade $4$ booleanos que indican si existe representación de su respectivo movimiento. Si esta representación está vacía, se usa un 0 y si hay representación, se usa un 1.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This representation adds $4$ booleans indicating whether the representation for each corresponding move exists. If that representation is empty, a 0 is used; otherwise, a 1 is used.
+}{}
 
 \begingroup
 \renewcommand{\addcontentsline}[3]{}%
 \subsection*{Pokemon02}
 \endgroup
 
-Esta representación añade $3$ enteros:
+\ifthenelse{\equal{\LANG}{es}}{
+    Esta representación añade $3$ enteros:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This representation adds $3$ integers:
+}{}
 
 \begin{itemize}
-    \item El índice de la habilidad del Pokémon. Es un número entero que va de 0 a $309$, que es el número de habilidades en el formato \emph{gen9randombattle}.
-    \item La proporción de vida restante del Pokémon. Es un flotante que va de 0 a 1, donde 0 significa que el Pokémon está debilitado y 1 significa que tiene toda la vida.
-    \item El índice del objeto que tiene el Pokémon. Es un número entero que va de 0 a $533$, que es el número de objetos en el formato \emph{gen9randombattle}.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              El índice de la habilidad del Pokémon. Es un número entero que va de 0 a $309$, que es el número de habilidades en el formato \emph{gen9randombattle}.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              The index of the Pokémon's ability. It is an integer from 0 to $309$, which is the number of abilities in the \emph{gen9randombattle} format.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              La proporción de vida restante del Pokémon. Es un flotante que va de 0 a 1, donde 0 significa que el Pokémon está debilitado y 1 significa que tiene toda la vida.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              The Pokémon's remaining HP ratio. It is a float from 0 to 1, where 0 means the Pokémon has fainted and 1 means it is at full health.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              El índice del objeto que tiene el Pokémon. Es un número entero que va de 0 a $533$, que es el número de objetos en el formato \emph{gen9randombattle}.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              The index of the item held by the Pokémon. It is an integer from 0 to $533$, which is the number of items in the \emph{gen9randombattle} format.
+          }{}
 \end{itemize}
 
 \begingroup
@@ -62,11 +105,28 @@ Esta representación añade $3$ enteros:
 \subsection*{Pokemon03}
 \endgroup
 
-Esta representación añade $2$ booleanos:
+\ifthenelse{\equal{\LANG}{es}}{
+    Esta representación añade $2$ booleanos:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This representation adds $2$ booleans:
+}{}
 
 \begin{itemize}
-    \item Un booleano que indica la existencia/conocimiento de la habilidad del Pokémon. 0 significa que no tiene habilidad o que no se conoce.
-    \item Un booleano que indica la existencia/conocimiento del objeto del Pokémon. 0 significa que no sujeta un objeto o que no se conoce.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica la existencia/conocimiento de la habilidad del Pokémon. 0 significa que no tiene habilidad o que no se conoce.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the Pokémon's ability exists or is known. 0 means it has no ability or the ability is unknown.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica la existencia/conocimiento del objeto del Pokémon. 0 significa que no sujeta un objeto o que no se conoce.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the Pokémon's item exists or is known. 0 means it is not holding an item or the item is unknown.
+          }{}
 \end{itemize}
 
 \begingroup
@@ -74,14 +134,49 @@ Esta representación añade $2$ booleanos:
 \subsection*{Pokemon04}
 \endgroup
 
-Esta representación añade $5$ parámetros:
+\ifthenelse{\equal{\LANG}{es}}{
+    Esta representación añade $5$ parámetros:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This representation adds $5$ parameters:
+}{}
 
 \begin{itemize}
-    \item Un booleano que indica si el Pokémon ha sido revelado (mostrado al rival). 0 significa que no ha salido al campo.
-    \item Un booleano que indica si el Pokémon está activo. 0 significa que no está activo.
-    \item Un booleano que indica si el Pokémon está debilitado. 0 significa que no está debilitado.
-    \item Un booleano que indica si es el primer turno del Pokémon. 0 significa que no es el primer turno.
-    \item Un entero que indica el número de turnos consecutivos en los que se ha usado un movimiento sin fallar que incrementa el contador de protecciones. 0 significa que no se ha usado.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si el Pokémon ha sido revelado (mostrado al rival). 0 significa que no ha salido al campo.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the Pokémon has been revealed (shown to the opponent). 0 means it has not entered the battlefield.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si el Pokémon está activo. 0 significa que no está activo.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the Pokémon is active. 0 means it is not active.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si el Pokémon está debilitado. 0 significa que no está debilitado.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the Pokémon has fainted. 0 means it has not fainted.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si es el primer turno del Pokémon. 0 significa que no es el primer turno.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether it is the Pokémon's first turn. 0 means it is not the first turn.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un entero que indica el número de turnos consecutivos en los que se ha usado un movimiento sin fallar que incrementa el contador de protecciones. 0 significa que no se ha usado.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              An integer indicating the number of consecutive turns in which a move that increases the protect counter has been used without failing. 0 means it has not been used.
+          }{}
 \end{itemize}
 
 \begingroup
@@ -89,36 +184,148 @@ Esta representación añade $5$ parámetros:
 \subsection*{Pokemon05}
 \endgroup
 
-En el formato \emph{gen9randombattle} hay $20$ tipos posibles. Para representarlos se usa un vector de $20$ booleanos, donde cada posición representa un tipo y el valor indica si para la característica se tiene ese tipo o no. Esta representación añade $2$ vectores de $20$ booleanos que representan los tipos originales y los tipos actuales del Pokémon.
+\ifthenelse{\equal{\LANG}{es}}{
+    En el formato \emph{gen9randombattle} hay $20$ tipos posibles. Para representarlos se usa un vector de $20$ booleanos, donde cada posición representa un tipo y el valor indica si para la característica se tiene ese tipo o no. Esta representación añade $2$ vectores de $20$ booleanos que representan los tipos originales y los tipos actuales del Pokémon.
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    In the \emph{gen9randombattle} format there are $20$ possible types. They are represented using a vector of $20$ booleans, where each position represents a type and the value indicates whether the feature includes that type or not. This representation adds $2$ vectors of $20$ booleans that represent the Pokémon's original types and current types.
+}{}
 
 \begingroup
 \renewcommand{\addcontentsline}[3]{}%
 \subsection*{Pokemon06}
 \endgroup
 
-Esta representación añade $26$ parámetros:
+\ifthenelse{\equal{\LANG}{es}}{
+    Esta representación añade $26$ parámetros:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This representation adds $26$ parameters:
+}{}
 
 \begin{itemize}
-    \item Un flotante que indica el nivel del Pokémon. Se divide entre $100$ para que el valor esté entre 0 y 1.
-    \item Un vector de $6$ flotantes entre 0 y 1 que representan las estadísticas base del Pokémon:
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un flotante que indica el nivel del Pokémon. Se divide entre $100$ para que el valor esté entre 0 y 1.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A float indicating the Pokémon's level. It is divided by $100$ so the value lies between 0 and 1.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un vector de $6$ flotantes entre 0 y 1 que representan las estadísticas base del Pokémon:
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A vector of $6$ floats between 0 and 1 representing the Pokémon's base stats:
+          }{}
           \begin{enumerate}
-              \item Vida
-              \item Ataque
-              \item Defensa
-              \item Ataque especial
-              \item Defensa especial
-              \item Velocidad
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Vida
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        HP
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Ataque
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Attack
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Defensa
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Defense
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Ataque especial
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Special Attack
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Defensa especial
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Special Defense
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Velocidad
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Speed
+                    }{}
           \end{enumerate}
-    \item Un vector de $6$ parejas ($12$) de parámetros que representan las estadísticas actuales del Pokémon. Cada par tiene un booleano que indica si se conoce la estadística y un flotante que indica el valor de la estadística en escala logarítmica. Si no se conoce, se usa un 0 y un 0. Si se conoce, se usa un 1 y el valor de la estadística. Las estadísticas están en el mismo orden que las estadísticas base.
-    \item Un vector de $7$ flotantes entre -1 y 1 que representan los aumentos de estadísticas del Pokémon:
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un vector de $6$ parejas ($12$) de parámetros que representan las estadísticas actuales del Pokémon. Cada par tiene un booleano que indica si se conoce la estadística y un flotante que indica el valor de la estadística en escala logarítmica. Si no se conoce, se usa un 0 y un 0. Si se conoce, se usa un 1 y el valor de la estadística. Las estadísticas están en el mismo orden que las estadísticas base.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A vector of $6$ pairs ($12$) of parameters representing the Pokémon's current stats. Each pair has a boolean indicating whether the stat is known and a float indicating the stat on a logarithmic scale. If it is unknown, a 0 and a 0 are used. If it is known, a 1 and the stat value are used. The stats are in the same order as the base stats.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un vector de $7$ flotantes entre -1 y 1 que representan los aumentos de estadísticas del Pokémon:
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A vector of $7$ floats between -1 and 1 representing the Pokémon's stat boosts:
+          }{}
           \begin{enumerate}
-              \item Ataque
-              \item Defensa
-              \item Ataque especial
-              \item Defensa especial
-              \item Velocidad
-              \item Precisión
-              \item Evasión
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Ataque
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Attack
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Defensa
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Defense
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Ataque especial
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Special Attack
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Defensa especial
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Special Defense
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Velocidad
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Speed
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Precisión
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Accuracy
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Evasión
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Evasion
+                    }{}
           \end{enumerate}
 \end{itemize}
 
@@ -127,85 +334,464 @@ Esta representación añade $26$ parámetros:
 \subsection*{Pokemon07}
 \endgroup
 
-Esta representación añade $71$ parámetros:
+\ifthenelse{\equal{\LANG}{es}}{
+    Esta representación añade $71$ parámetros:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This representation adds $71$ parameters:
+}{}
 
 \begin{itemize}
-    \item Un vector de $6$ enteros que representan los estados no volátiles del Pokémon. Cada posición representa un estado y el valor indica el número de turnos que lleva activo, si es gravemente envenenado o dormido. El resto de los estados son booleanos. Los estados están en el siguiente orden:
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un vector de $6$ enteros que representan los estados no volátiles del Pokémon. Cada posición representa un estado y el valor indica el número de turnos que lleva activo, si es gravemente envenenado o dormido. El resto de los estados son booleanos. Los estados están en el siguiente orden:
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A vector of $6$ integers representing the Pokémon's non-volatile status conditions. Each position represents a status, and the value indicates the number of turns it has been active, or the number of turns if it is toxic or sleep. The remaining statuses are booleans. The statuses are listed in the following order:
+          }{}
           \begin{enumerate}
-              \item Quemadura
-              \item Congelado
-              \item Paralizado
-              \item Envenenado
-              \item Envenenado gravemente
-              \item Dormido
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Quemadura
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Burn
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Congelado
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Freeze
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Paralizado
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Paralysis
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Envenenado
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Poison
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Envenenado gravemente
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Toxic
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Dormido
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Sleep
+                    }{}
           \end{enumerate}
-    \item Un vector de $65$ enteros que representan los estados volátiles del Pokémon. Cada posición representa un estado y el valor es el máximo entre 1 y el número de turnos que lleva activo. Los estados están en el siguiente orden y la mayoría tienen el nombre de un movimiento que los provoca:
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un vector de $65$ enteros que representan los estados volátiles del Pokémon. Cada posición representa un estado y el valor es el máximo entre 1 y el número de turnos que lleva activo. Los estados están en el siguiente orden y la mayoría tienen el nombre de un movimiento que los provoca:
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A vector of $65$ integers representing the Pokémon's volatile status conditions. Each position represents a status, and the value is the maximum between 1 and the number of turns it has been active. The statuses are listed in the following order, and most of them are named after the move that causes them:
+          }{}
           \begin{enumerate}
-              \item Profecía
-              \item Anulación
-              \item Antiaéreo
-              \item Maldición
-              \item Pesadilla
-              \item Alquitranazo
-              \item Movimiento bloqueado
-              \item Venganza
-              \item Hurto
-              \item Otra vez
-              \item Foco
-              \item Aguzar
-              \item Electrificación
-              \item Telatrampa
-              \item Anticura
-              \item Gran Ojo
-              \item Atracción
-              \item Mismo Destino
-              \item Furia
-              \item Acua Aro
-              \item Mofa
-              \item Telequinesis
-              \item Rabia
-              \item Bomba Caramelo
-              \item Bostezo
-              \item Sellar
-              \item Capa Mágica
-              \item Reserva
-              \item Rizo Defensa
-              \item Embargo
-              \item Señuelo
-              \item Asalto Espadón
-              \item Confusión
-              \item Arraigo
-              \item Búnker
-              \item Protección
-              \item Bilis
-              \item Truco Fuerza
-              \item Tormento
-              \item Llama Protectora
-              \item Bramido Dragón
-              \item Aria Burbuja
-              \item Refuerzo
-              \item Retroceso
-              \item Octopresa
-              \item Temporalmente atrapado
-              \item Escudo real
-              \item Reducción
-              \item Bastión Final
-              \item Carga
-              \item Tiene que recargar
-              \item Levitón
-              \item Maxibarrera
-              \item Cambiapoder
-              \item Sustituto
-              \item Polvo Ira
-              \item Respiro
-              \item Foco Energía
-              \item Salazón
-              \item Drenadoras
-              \item Polvo Explosivo
-              \item Barrera Espinosa
-              \item Aguante
-              \item Alboroto
-              \item Obstrucción
+              \item
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Profecía
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Foresight
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Anulación
+                    }{
+                        Disable
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Antiaéreo
+                    }{
+                        Smack Down
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Maldición
+                    }{
+                        Curse
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Pesadilla
+                    }{
+                        Nightmare
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Alquitranazo
+                    }{
+                        Tar Shot
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Movimiento bloqueado
+                    }{
+                        Locked Move
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Venganza
+                    }{
+                        Bide
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Hurto
+                    }{
+                        Snatch
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Otra vez
+                    }{
+                        Encore
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Foco
+                    }{
+                        Spotlight
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Aguzar
+                    }{
+                        Laser Focus
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Electrificación
+                    }{
+                        Electrify
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Telatrampa
+                    }{
+                        Silk Trap
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Anticura
+                    }{
+                        Heal Block
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Gran Ojo
+                    }{
+                        Miracle Eye
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Atracción
+                    }{
+                        Attract
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Mismo Destino
+                    }{
+                        Destiny Bond
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Furia
+                    }{
+                        Rage
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Acua Aro
+                    }{
+                        Aqua Ring
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Mofa
+                    }{
+                        Taunt
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Telequinesis
+                    }{
+                        Telekinesis
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Rabia
+                    }{
+                        Grudge
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Bomba Caramelo
+                    }{
+                        Syrup Bomb
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Bostezo
+                    }{
+                        Yawn
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Sellar
+                    }{
+                        Imprison
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Capa Mágica
+                    }{
+                        Magic Coat
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Reserva
+                    }{
+                        Stockpile
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Rizo Defensa
+                    }{
+                        Defense Curl
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Embargo
+                    }{
+                        Embargo
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Señuelo
+                    }{
+                        Follow Me
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Asalto Espadón
+                    }{
+                        Glaive Rush
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Confusión
+                    }{
+                        Confusion
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Arraigo
+                    }{
+                        Ingrain
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Búnker
+                    }{
+                        Baneful Bunker
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Protección
+                    }{
+                        Protect
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Bilis
+                    }{
+                        Gastro Acid
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Truco Fuerza
+                    }{
+                        Power Trick
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Tormento
+                    }{
+                        Torment
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Llama Protectora
+                    }{
+                        Burning Bulwark
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Bramido Dragón
+                    }{
+                        Dragon Cheer
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Aria Burbuja
+                    }{
+                        Sparkling Aria
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Refuerzo
+                    }{
+                        Helping Hand
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Retroceso
+                    }{
+                        Flinch
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Octopresa
+                    }{
+                        Octolock
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Temporalmente atrapado
+                    }{
+                        Partially Trapped
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Escudo Real
+                    }{
+                        King's Shield
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Reducción
+                    }{
+                        Minimize
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Bastión Final
+                    }{
+                        No Retreat
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Carga
+                    }{
+                        Charge
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Tiene que recargar
+                    }{
+                        Must Recharge
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Levitón
+                    }{
+                        Magnet Rise
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Maxibarrera
+                    }{
+                        Max Guard
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Cambiapoder
+                    }{
+                        Power Shift
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Sustituto
+                    }{
+                        Substitute
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Polvo Ira
+                    }{
+                        Rage Powder
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Respiro
+                    }{
+                        Roost
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Foco Energía
+                    }{
+                        Focus Energy
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Salazón
+                    }{
+                        Salt Cure
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Drenadoras
+                    }{
+                        Leech Seed
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Polvo Explosivo
+                    }{
+                        Powder
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Barrera Espinosa
+                    }{
+                        Spiky Shield
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Aguante
+                    }{
+                        Endure
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Alboroto
+                    }{
+                        Uproar
+                    }
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Obstrucción
+                    }{
+                        Obstruct
+                    }
           \end{enumerate}
 \end{itemize}
 
@@ -214,13 +800,42 @@ Esta representación añade $71$ parámetros:
 \subsection*{Pokemon08}
 \endgroup
 
-Esta representación añade $23$ parámetros:
+\ifthenelse{\equal{\LANG}{es}}{
+    Esta representación añade $23$ parámetros:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This representation adds $23$ parameters:
+}{}
 
 \begin{itemize}
-    \item Un booleano que indica si el Pokémon ya ha teraevolucionado. 0 significa que no ha teraevolucionado.
-    \item Un booleano que indica si se conoce el tipo tera del Pokémon. 0 significa que no se conoce.
-    \item Un vector de $20$ booleanos que representan el tipo tera del Pokémon. Cada posición representa un tipo y el valor indica si es ese tipo o no.
-    \item Un flotante que indica el multiplicador STAB (Same-Type Attack Bonus) del Pokémon. Tiene en cuenta todos los factores que afectan al STAB.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si el Pokémon ya ha teraevolucionado. 0 significa que no ha teraevolucionado.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the Pokémon has already terastallized. 0 means it has not terastallized.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un booleano que indica si se conoce el tipo tera del Pokémon. 0 significa que no se conoce.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A boolean indicating whether the Pokémon's tera type is known. 0 means it is unknown.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un vector de $20$ booleanos que representan el tipo tera del Pokémon. Cada posición representa un tipo y el valor indica si es ese tipo o no.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A vector of $20$ booleans representing the Pokémon's tera type. Each position represents a type and the value indicates whether it is that type or not.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un flotante que indica el multiplicador STAB (Same-Type Attack Bonus) del Pokémon. Tiene en cuenta todos los factores que afectan al STAB.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A float indicating the Pokémon's STAB multiplier (Same-Type Attack Bonus). It takes into account all factors that affect STAB.
+          }{}
 \end{itemize}
 
 \begingroup
@@ -228,22 +843,87 @@ Esta representación añade $23$ parámetros:
 \subsection*{Pokemon09}
 \endgroup
 
-Esta representación añade $8$ parámetros:
+\ifthenelse{\equal{\LANG}{es}}{
+    Esta representación añade $8$ parámetros:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This representation adds $8$ parameters:
+}{}
 
 \begin{itemize}
-    \item Un flotante que indica el peso del Pokémon. Se divide entre $1000$ para que el valor esté entre 0 y 1.
-    \item Un vector de $3$ booleanos que representan el género del Pokémon. Son mutuamente excluyentes:
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un flotante que indica el peso del Pokémon. Se divide entre $1000$ para que el valor esté entre 0 y 1.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A float indicating the Pokémon's weight. It is divided by $1000$ so the value lies between 0 and 1.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un vector de $3$ booleanos que representan el género del Pokémon. Son mutuamente excluyentes:
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A vector of $3$ booleans representing the Pokémon's gender. They are mutually exclusive:
+          }{}
           \begin{enumerate}
-              \item Hembra
-              \item Macho
-              \item Sin sexo
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Hembra
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Female
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Macho
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Male
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Sin sexo
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        Genderless
+                    }{}
           \end{enumerate}
-    \item Un vector de $4$ parámetros que representan si el Pokémon está en un movimiento de dos turnos:
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un vector de $4$ parámetros que representan si el Pokémon está en un movimiento de dos turnos:
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A vector of $4$ parameters indicating whether the Pokémon is in a two-turn move:
+          }{}
           \begin{enumerate}
-              \item Un booleano que indica si el Pokémon está recargando. 0 significa que no está recargando.
-              \item Un booleano que indica si el Pokémon se está preparando. 0 significa que no se está preparando.
-              \item Un flotante entre 0 y 1 que indica cual de sus 4 movimientos se está preparando.
-              \item Un booleano que indica si el Pokémon tiene un objetivo. 0 significa que tiene un objetivo.
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Un booleano que indica si el Pokémon está recargando. 0 significa que no está recargando.
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        A boolean indicating whether the Pokémon is recharging. 0 means it is not recharging.
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Un booleano que indica si el Pokémon se está preparando. 0 significa que no se está preparando.
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        A boolean indicating whether the Pokémon is preparing. 0 means it is not preparing.
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Un flotante entre 0 y 1 que indica cual de sus 4 movimientos se está preparando.
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        A float between 0 and 1 indicating which of its 4 moves it is preparing.
+                    }{}
+              \item
+                    \ifthenelse{\equal{\LANG}{es}}{
+                        Un booleano que indica si el Pokémon tiene un objetivo. 0 significa que tiene un objetivo.
+                    }{}
+                    \ifthenelse{\equal{\LANG}{en}}{
+                        A boolean indicating whether the Pokémon has a target. 0 means it has a target.
+                    }{}
           \end{enumerate}
 \end{itemize}
 
@@ -252,11 +932,28 @@ Esta representación añade $8$ parámetros:
 \subsection*{Pokemon10}
 \endgroup
 
-Esta representación añade $842$ booleanos:
+\ifthenelse{\equal{\LANG}{es}}{
+    Esta representación añade $842$ booleanos:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This representation adds $842$ booleans:
+}{}
 
 \begin{itemize}
-    \item Un vector one-hot de $310$ booleanos que representa la habilidad del Pokémon. Substituye al entero que representaba la habilidad en las representaciones anteriores.
-    \item Un vector one-hot de $534$ booleanos que representa el objeto del Pokémon. Substituye al entero que representaba el objeto en las representaciones anteriores.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un vector one-hot de $310$ booleanos que representa la habilidad del Pokémon. Substituye al entero que representaba la habilidad en las representaciones anteriores.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A one-hot vector of $310$ booleans representing the Pokémon's ability. It replaces the integer that represented the ability in previous representations.
+          }{}
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un vector one-hot de $534$ booleanos que representa el objeto del Pokémon. Substituye al entero que representaba el objeto en las representaciones anteriores.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A one-hot vector of $534$ booleans representing the Pokémon's item. It replaces the integer that represented the item in previous representations.
+          }{}
 \end{itemize}
 
 \begingroup
@@ -264,8 +961,19 @@ Esta representación añade $842$ booleanos:
 \subsection*{PokemonS}
 \endgroup
 
-Esta representación añade $1328$ booleanos:
+\ifthenelse{\equal{\LANG}{es}}{
+    Esta representación añade $1328$ booleanos:
+}{}
+\ifthenelse{\equal{\LANG}{en}}{
+    This representation adds $1328$ booleans:
+}{}
 
 \begin{itemize}
-    \item Un vector one-hot de $1329$ booleanos que representa la forma del Pokémon. Substituye al entero que representaba la forma en las representaciones anteriores.
+    \item
+          \ifthenelse{\equal{\LANG}{es}}{
+              Un vector one-hot de $1329$ booleanos que representa la forma del Pokémon. Substituye al entero que representaba la forma en las representaciones anteriores.
+          }{}
+          \ifthenelse{\equal{\LANG}{en}}{
+              A one-hot vector of $1329$ booleans representing the Pokémon's form. It replaces the integer that represented the form in previous representations.
+          }{}
 \end{itemize}
