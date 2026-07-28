@@ -121,11 +121,8 @@ class MetricsLogger:
         self.generalGraphs()
 
         # Use surrogate modeling
-        # self.createSurrogateModel()
-        # self.surrogateData()
-        self.surrogateDF = pd.read_csv(
-            os.path.join(self.dataDirectory, "surrogateData.csv")
-        )
+        self.createSurrogateModel()
+        self.surrogateData(sampleNew=True)
 
         # Calculate the best parameters for the metrics (to create graphs)
         self.bestParametersLogs = self.calculateBestParameters(
@@ -1934,6 +1931,6 @@ def sortMatrix(matrix: pd.DataFrame) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    logger = MetricsLogger(surrogateGraphs=True, infiniteBattles=False)
+    logger = MetricsLogger(surrogateGraphs=False, infiniteBattles=False)
     logger.graphAllExperiments()
     logger.graphVictoryPercentage()
