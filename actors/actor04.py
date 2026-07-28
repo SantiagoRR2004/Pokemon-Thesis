@@ -29,5 +29,4 @@ class ActorNetwork04(AbstractActor):
             nn.Dropout(0.25),
             nn.LeakyReLU(),
             nn.Linear(16, player.N_OUTPUTS),
-            nn.Softmax(dim=-1),  # Output layer with softmax activation
         )

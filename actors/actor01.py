@@ -8,5 +8,4 @@ class ActorNetwork01(AbstractActor):
         # Most basic actor network with 1 hidden layer
         return nn.Sequential(
             nn.Linear(player.getNumberOfInputs(), player.N_OUTPUTS),
-            nn.Softmax(dim=-1),  # Output layer with softmax activation
         )

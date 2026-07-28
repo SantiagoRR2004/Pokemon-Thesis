@@ -13,5 +13,4 @@ class ActorNetwork02(AbstractActor):
             nn.Dropout(0.25),
             nn.ReLU(),
             nn.Linear(64, player.N_OUTPUTS),
-            nn.Softmax(dim=-1),  # Output layer with softmax activation
         )
