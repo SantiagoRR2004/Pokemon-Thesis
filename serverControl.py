@@ -33,6 +33,9 @@ def endProcess(process: subprocess.Popen) -> None:
 
     createdPlayers.clear()
 
+    # Poll the process
+    process.poll()
+
     print("Server shut down successfully.", flush=True)
 
 
