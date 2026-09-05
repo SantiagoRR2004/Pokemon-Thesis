@@ -725,6 +725,9 @@ if __name__ == "__main__":
         playerClass=AIPlayer00,
         moveClass=Move00,
         pokemonClass=Pokemon00,
+        useRandom=True,
+        useMaxDamage=True,
+        useSelfPlay=False,
     )
 
     asyncio.run(t.main())

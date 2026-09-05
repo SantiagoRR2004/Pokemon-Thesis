@@ -164,6 +164,10 @@ class AbstractAIPlayer(Player, ABC):
             allOrders.append(self.create_order(move, terastallize=True))
             validOrders.append(move in battle.available_moves and bool(battle.can_tera))
 
+        # Fill with default moves if there are not enough moves
+        validOrders += [False] * (8 - len(validOrders))
+        allOrders += [self.choose_default_move()] * (8 - len(allOrders))
+
         # Then we add the switches
         for pokemon in battle.team.values():
             allOrders.append(self.create_order(pokemon))
