@@ -595,6 +595,7 @@ class Trainer:
                         self.player.log_probs[battle.battle_tag],
                         discountedRewardsTensor,
                         self.player.values[battle.battle_tag],
+                        strict=True,
                     ):
                         log_prob = log_prob.squeeze()
                         G = G.squeeze()
@@ -605,7 +606,9 @@ class Trainer:
                         actorLossBattle += -log_prob * advantage
 
                     for G, V in zip(
-                        discountedRewardsTensor, self.player.values[battle.battle_tag]
+                        discountedRewardsTensor,
+                        self.player.values[battle.battle_tag],
+                        strict=True,
                     ):
                         G = G.squeeze()
                         V = V.squeeze()
@@ -616,6 +619,7 @@ class Trainer:
                     for log_prob, G in zip(
                         self.player.log_probs[battle.battle_tag],
                         discountedRewardsTensor,
+                        strict=True,
                     ):
                         log_prob = log_prob.squeeze()
                         G = G.squeeze()

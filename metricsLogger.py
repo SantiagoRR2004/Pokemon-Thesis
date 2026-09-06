@@ -1880,7 +1880,9 @@ def sortLegend() -> None:
     handles, labels = plt.gca().get_legend_handles_labels()
 
     # Sort labels and handles by label name
-    sorted_handles_labels = sorted(zip(labels, handles), key=lambda x: x[0])
+    sorted_handles_labels = sorted(
+        zip(labels, handles, strict=True), key=lambda x: x[0]
+    )
     sorted_labels, sorted_handles = zip(*sorted_handles_labels)
 
     # Apply sorted legend

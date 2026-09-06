@@ -2,6 +2,7 @@ from poke_env.battle import AbstractBattle
 from poke_env.player.battle_order import SingleBattleOrder
 from poke_env.player.player import Player
 from pokemons import AbstractPokemon
+from collections import defaultdict
 from abc import ABC, abstractmethod
 import pokemonFeatureEncoder
 import torch.nn as nn
@@ -77,8 +78,9 @@ class AbstractAIPlayer(Player, ABC):
         Returns:
             - None
         """
-        self.log_probs = {}
-        self.values = {}
+        self.battleHistory = defaultdict(list)
+        self.log_probs = defaultdict(list)
+        self.values = defaultdict(list)
 
     def choose_move(self, battle: AbstractBattle) -> SingleBattleOrder:
         """
@@ -90,24 +92,18 @@ class AbstractAIPlayer(Player, ABC):
         Returns:
             SingleBattleOrder: The move to be executed
         """
+        mask, moves = self.translateOutputs(battle)
 
-        self.battle = battle
+        # No valid moves, the network should not be used
+        if not any(mask):
+            return self.choose_default_move()
+
+        self.battleHistory[battle.battle_tag].append(battle)
 
         inputs = torch.tensor(self.getInputs(battle), dtype=torch.float32)
 
         # Raw network outputs
         logits = self.neuralNetwork(inputs)
-
-        mask, moves = self.translateOutputs(battle)
-
-        if not any(mask):
-            log_prob = torch.tensor(0.0)
-            self.log_probs.setdefault(battle.battle_tag, []).append(log_prob)
-            if self.criticNetwork is not None:
-                self.values.setdefault(battle.battle_tag, []).append(
-                    self.criticNetwork(inputs)
-                )
-            return self.choose_default_move()
 
         # We apply the mask to the logits
         masked_logits = logits.clone()
@@ -120,12 +116,10 @@ class AbstractAIPlayer(Player, ABC):
         dist = torch.distributions.Categorical(probs)
         action = dist.sample()
         log_prob = dist.log_prob(action)
-        self.log_probs.setdefault(battle.battle_tag, []).append(log_prob)
+        self.log_probs[battle.battle_tag].append(log_prob)
 
         if self.criticNetwork is not None:
-            self.values.setdefault(battle.battle_tag, []).append(
-                self.criticNetwork(inputs)
-            )
+            self.values[battle.battle_tag].append(self.criticNetwork(inputs))
 
         return moves[action.item()]
 
