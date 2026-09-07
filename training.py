@@ -338,17 +338,24 @@ class Trainer:
 
         metricsLogger.saveData(**kwargs)
 
-    def calculateRewards(self, battle) -> list[float]:
+    def calculateRewards(self, battleHistory: list, battle) -> list[float]:
         """
         Calculate the rewards for each step in a battle.
 
         Args:
+            - battleHistory (list): The history of the battle.
             - battle: The battle object.
 
         Returns:
             - List of rewards for each step.
         """
-        return self.rewardsClass.calculateRewards(battle)
+        result = 0
+        if battle.won:
+            result = 1
+        elif battle.lost:
+            result = -1
+
+        return self.rewardsClass.calculateRewards(battleHistory, result)
 
     async def playBattles(self) -> None:
         """
@@ -561,13 +568,15 @@ class Trainer:
                 averageCriticRewardsEpoch = 0
 
             for battle in self.player.battles.values():
-                nSteps = battle.turn
+                nSteps = len(self.player.battleHistory[battle.battle_tag])
                 actorLossBattle = 0
                 if self.criticClass:
                     criticLossBattle = 0
 
                 # Reward sequence
-                rewards = self.calculateRewards(battle)
+                rewards = self.calculateRewards(
+                    self.player.battleHistory[battle.battle_tag], battle
+                )
 
                 # Compute discounted returns
                 discountedRewards = []

@@ -1,11 +1,11 @@
 from rewards.abstractRewards import AbstractRewardFunction
-from poke_env.battle import AbstractBattle
+from players.AbstractAIPlayer import RewardData
 
 
 class RewardFunction01(AbstractRewardFunction):
 
     @staticmethod
-    def calculateRewards(battle: AbstractBattle) -> list[float]:
+    def calculateRewards(battleHistory: list[RewardData], result: int) -> list[float]:
         """
         Calculate the rewards for each step in a battle.
 
@@ -13,13 +13,14 @@ class RewardFunction01(AbstractRewardFunction):
         and a final reward of +1000 for winning or -1000 for losing.
 
         Args:
-            - battle: The battle object.
+            - battleHistory (list[RewardData]): The history of the battle.
+            - result (int): The result of the battle (1 for win, -1 for loss, 0 for draw).
 
         Returns:
             - List of rewards for each step.
         """
-        nSteps = battle.turn
-        finalReward = 1000 if battle.won else -1000
+        nSteps = len(battleHistory)
+        finalReward = 1000 if result == 1 else -1000
 
         # Reward sequence
         rewards = [1] * (nSteps - 1) + [finalReward]

@@ -1,4 +1,4 @@
-from poke_env.battle import AbstractBattle
+from players.AbstractAIPlayer import RewardData
 from abc import ABC, abstractmethod
 
 
@@ -6,12 +6,13 @@ class AbstractRewardFunction(ABC):
 
     @staticmethod
     @abstractmethod
-    def calculateRewards(battle: AbstractBattle) -> list[float]:
+    def calculateRewards(battleHistory: list[RewardData], result: int) -> list[float]:
         """
         Calculate the rewards for each step in a battle.
 
         Args:
-            - battle: The battle object.
+            - battleHistory (list[RewardData]): The history of the battle.
+            - result (int): The result of the battle (1 for win, -1 for loss, 0 for draw).
 
         Returns:
             - List of rewards for each step.

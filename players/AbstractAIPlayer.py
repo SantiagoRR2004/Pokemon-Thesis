@@ -1,5 +1,5 @@
-from poke_env.battle import AbstractBattle
 from poke_env.player.battle_order import SingleBattleOrder
+from poke_env.battle import AbstractBattle
 from poke_env.player.player import Player
 from pokemons import AbstractPokemon
 from collections import defaultdict
@@ -7,6 +7,16 @@ from abc import ABC, abstractmethod
 import pokemonFeatureEncoder
 import torch.nn as nn
 import torch
+
+
+class RewardData:
+    def __init__(self, battle: AbstractBattle) -> None:
+        self.team_hp_fractions = [
+            pokemon.current_hp_fraction for pokemon in battle.team.values()
+        ]
+        self.opponent_hp_fractions = [
+            pokemon.current_hp_fraction for pokemon in battle.opponent_team.values()
+        ]
 
 
 class AbstractAIPlayer(Player, ABC):
@@ -98,7 +108,7 @@ class AbstractAIPlayer(Player, ABC):
         if not any(mask):
             return self.choose_default_move()
 
-        self.battleHistory[battle.battle_tag].append(battle)
+        self.battleHistory[battle.battle_tag].append(RewardData(battle))
 
         inputs = torch.tensor(self.getInputs(battle), dtype=torch.float32)
 
